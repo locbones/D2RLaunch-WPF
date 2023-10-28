@@ -150,15 +150,24 @@
     </DataTemplate>
 
     <Style x:Key="NavigationItemStyle" TargetType="syncfusion:NavigationItem">
+        <Setter Property="Cursor" Value="Hand"></Setter>
         <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="Firebrick" />
     </Style>
 
     <Style x:Key="NavigationItemOrangeStyle" TargetType="syncfusion:NavigationItem">
+        <Setter Property="Cursor" Value="Hand"></Setter>
         <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="#db7800" />
+    </Style>
+
+    <Style x:Key="NavigationItemGoldStyle" TargetType="syncfusion:NavigationItem">
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#c7b377" />
     </Style>
 
     <Style

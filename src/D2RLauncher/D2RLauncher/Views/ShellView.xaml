@@ -8,18 +8,19 @@
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:viewModels="clr-namespace:D2RLauncher.ViewModels"
     Title="{Binding Title}"
+    Width="1000"
+    Height="700"
+    MinWidth="700"
+    d:DataContext="{d:DesignInstance Type=viewModels:ShellViewModel,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="800"
+    d:DesignWidth="1000"
     ResizeMode="CanResizeWithGrip"
     SizeToContent="Manual"
     SnapsToDevicePixels="True"
     UseNativeChrome="True"
     WindowStartupLocation="CenterScreen"
-    d:DataContext="{d:DesignInstance Type=viewModels:ShellViewModel,IsDesignTimeCreatable=True}"
-    mc:Ignorable="d"
-    d:DesignHeight="700"
-    d:DesignWidth="1000"
-    MinWidth="700"
-    Height="700"
-    Width="1000">
+    mc:Ignorable="d">
 
     <Grid>
         <syncfusion:SfNavigationDrawer
@@ -35,25 +36,57 @@
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Home.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="{Binding Path=Options, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem
+                d:IsExpanded="True"
+                Header="{Binding Path=Options, Source={StaticResource Resources}}"
+                Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Options.png" />
                 </syncfusion:NavigationItem.Icon>
+                <syncfusion:NavigationItem Header="{Binding Path=ModOptions, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem
+                    Header="{Binding Path=Customizations, Source={StaticResource Resources}}"
+                    IsEnabled="{Binding CustomizationsEnabled}"
+                    Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=Rename, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=Stash, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="{Binding Path=Community, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem
+                d:IsExpanded="True"
+                Header="{Binding Path=Community, Source={StaticResource Resources}}"
+                Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Social.png" />
                 </syncfusion:NavigationItem.Icon>
+                <syncfusion:NavigationItem Header="{Binding Path=Discord, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem
+                    Header="{Binding Path=Wiki, Source={StaticResource Resources}}"
+                    IsEnabled="{Binding WikiEnabled}"
+                    Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=Patreon, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="{Binding Path=MyFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem
+                d:IsExpanded="True"
+                Header="{Binding Path=MyFiles, Source={StaticResource Resources}}"
+                Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Files.png" />
                 </syncfusion:NavigationItem.Icon>
+                <syncfusion:NavigationItem Header="{Binding Path=ModFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=SaveFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=LaunchFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=VaultFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="D2RModding" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem
+                d:IsExpanded="True"
+                Header="D2RModding"
+                Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Modding.png" />
                 </syncfusion:NavigationItem.Icon>
+                <syncfusion:NavigationItem Header="{Binding Path=D2RWebsite, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=Discord, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Header="{Binding Path=D2RYoutube, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
             <syncfusion:NavigationItem Header="{Binding Path=Vault, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
@@ -61,15 +94,17 @@
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
             <syncfusion:SfNavigationDrawer.FooterItems>
-                <syncfusion:NavigationItem Header="Bonesy" Style="{StaticResource NavigationItemOrangeStyle}" ItemType="Button">
+                <syncfusion:NavigationItem
+                    Header="Bonesy"
+                    ItemType="Button"
+                    Style="{StaticResource NavigationItemOrangeStyle}">
                     <syncfusion:NavigationItem.Icon>
                         <Image Source="pack://application:,,,/Resources/Icons/Icon_Patreon.png" />
                     </syncfusion:NavigationItem.Icon>
                 </syncfusion:NavigationItem>
             </syncfusion:SfNavigationDrawer.FooterItems>
             <syncfusion:SfNavigationDrawer.ContentView>
-                <UserControl Content="{Binding UserControl}"
-                             d:Background="{StaticResource ContentBackground}"/>
+                <UserControl d:Background="{StaticResource ContentBackground}" Content="{Binding UserControl}" />
             </syncfusion:SfNavigationDrawer.ContentView>
         </syncfusion:SfNavigationDrawer>
     </Grid>

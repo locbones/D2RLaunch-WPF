@@ -280,6 +280,11 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
     }
 
+    private async Task LoadModOptions()
+    {
+
+    }
+
     [UsedImplicitly]
     public async void OnModSelectionChanged()
     {

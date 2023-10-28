@@ -38,6 +38,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private string _title = "D2R Launcher";
     private string _gamePath;
     private bool _diabloInstallDetected;
+
+    private bool _customizationsEnabled;
+
+    private bool _wikiEnabled;
     //private Resources _resources;
 
     #endregion
@@ -59,6 +63,28 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     }
 
     #region properties
+
+    public bool CustomizationsEnabled
+    {
+        get => _customizationsEnabled;
+        set
+        {
+            if (value == _customizationsEnabled) return;
+            _customizationsEnabled = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool WikiEnabled
+    {
+        get => _wikiEnabled;
+        set
+        {
+            if (value == _wikiEnabled) return;
+            _wikiEnabled = value;
+            NotifyOfPropertyChange();
+        }
+    }
 
     public bool DiabloInstallDetected
     {

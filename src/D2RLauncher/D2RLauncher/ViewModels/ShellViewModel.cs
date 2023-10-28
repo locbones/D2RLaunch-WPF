@@ -22,6 +22,7 @@ using D2RLauncher.Models.Enums;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using Syncfusion.Licensing;
 using D2RLauncher.Culture;
 
@@ -37,10 +38,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private string _title = "D2R Launcher";
     private string _gamePath;
     private bool _diabloInstallDetected;
-    private ObservableCollection<KeyValuePair<string, eLanguage>> _languages = new ObservableCollection<KeyValuePair<string, eLanguage>>();
-    private KeyValuePair<string, eLanguage> _selectedTextLanguage;
-    private KeyValuePair<string, eLanguage> _selectedAppLanguage;
-    private KeyValuePair<string, eLanguage> _selectedAudioLanguage;
     //private Resources _resources;
 
     #endregion
@@ -59,64 +56,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     {
         _windowManager = windowManager;
         _logger.Error("Shell view model being created..");
-
-        HomeDrawerViewModel vm = new HomeDrawerViewModel(this, windowManager);
-        UserControl = new HomeDrawerView() { DataContext = vm };
     }
 
     #region properties
-
-    public KeyValuePair<string, eLanguage> SelectedTextLanguage
-    {
-        get => _selectedTextLanguage;
-        set
-        {
-            if (value.Equals(_selectedTextLanguage)) return;
-            _selectedTextLanguage = value;
-
-            NotifyOfPropertyChange();
-        }
-    }
-
-    public KeyValuePair<string, eLanguage> SelectedAppLanguage
-    {
-        get => _selectedAppLanguage;
-        set
-        {
-            if (value.Equals(_selectedAppLanguage)) return;
-            _selectedAppLanguage = value;
-
-            if (!string.IsNullOrEmpty(_selectedAppLanguage.Key))
-            {
-                CultureInfo culture = new CultureInfo(_selectedAppLanguage.Key.Split(' ')[1].Trim(new[] {'(', ')'})/*.Insert(2, "-")*/);
-                CultureResources.ChangeCulture(culture);
-            }
-            NotifyOfPropertyChange();
-        }
-    }
-
-    public KeyValuePair<string, eLanguage> SelectedAudioLanguage
-    {
-        get => _selectedAudioLanguage;
-        set
-        {
-            if (value.Equals(_selectedAudioLanguage)) return;
-            _selectedAudioLanguage = value;
-
-            NotifyOfPropertyChange();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eLanguage>> Languages
-    {
-        get => _languages;
-        set
-        {
-            if (Equals(value, _languages)) return;
-            _languages = value;
-            NotifyOfPropertyChange();
-        }
-    }
 
     public bool DiabloInstallDetected
     {
@@ -139,6 +81,14 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             NotifyOfPropertyChange();
         }
     }
+
+    public string BaseModsFolder => Path.Combine(GamePath, "Mods");
+
+    public string BaseSelectedModFolder => Path.Combine(BaseModsFolder, Settings.Default.SelectedMod);
+
+    public string SelectedModDataFolder => Path.Combine($"{BaseSelectedModFolder}.mpq", "data");
+
+    public string SelectedModInfoFilePath => Path.Combine($"{BaseSelectedModFolder}.mpq", "modinfo.json");
 
     public string Title
     {
@@ -167,14 +117,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     [UsedImplicitly]
     public async void OnLoaded(object args)
     {
-        eLanguage defaultLang = (eLanguage) Settings.Default.AppLanguage;
-        string defaultLangDisplayName = defaultLang.GetAttributeOfType<DisplayAttribute>().Name;
-        SelectedAppLanguage = SelectedAudioLanguage = SelectedTextLanguage = new KeyValuePair<string, eLanguage>(defaultLangDisplayName, defaultLang);
+        eLanguage appLanguage = ((eLanguage)Settings.Default.AppLanguage);
 
-        foreach (eLanguage language in Enum.GetValues<eLanguage>())
-        {
-            Languages.Add(new KeyValuePair<string, eLanguage>(language.GetAttributeOfType<DisplayAttribute>().Name, language));
-        }
+        CultureInfo culture = new CultureInfo(appLanguage.GetAttributeOfType<DisplayAttribute>().Name.Split(' ')[1].Trim(new[] { '(', ')' })/*.Insert(2, "-")*/);
+        CultureResources.ChangeCulture(culture);
 
         GamePath = await GetDiabloInstallPath();
 
@@ -185,11 +131,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
 
         DiabloInstallDetected = true;
-    }
 
-    private async Task TranslateNews()
-    {
-
+        HomeDrawerViewModel vm = new HomeDrawerViewModel(this, _windowManager);
+        await vm.Initialize();
+        UserControl = new HomeDrawerView() { DataContext = vm };
     }
 
     private async Task<string> GetDiabloInstallPath()

@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:viewModels="clr-namespace:D2RLauncher.ViewModels"
-    xmlns:cultures="clr-namespace:D2RLauncher.Culture"
     Title="{Binding Title}"
     ResizeMode="CanResizeWithGrip"
     SizeToContent="Manual"
@@ -21,13 +20,6 @@
     MinWidth="700"
     Height="700"
     Width="1000">
-
-    <!--<Window.Resources>
-        <ObjectDataProvider
-            x:Key="Resources"
-            MethodName="GetResourceInstance"
-            ObjectType="{x:Type cultures:CultureResources}" />
-    </Window.Resources>-->
 
     <Grid>
         <syncfusion:SfNavigationDrawer
@@ -43,17 +35,17 @@
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Home.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="Options" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem Header="{Binding Path=Options, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Options.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="Community" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem Header="{Binding Path=Community, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Social.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="My Files" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem Header="{Binding Path=MyFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Files.png" />
                 </syncfusion:NavigationItem.Icon>
@@ -63,15 +55,15 @@
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Modding.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="The Vault" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem Header="{Binding Path=Vault, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Vault.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
             <syncfusion:SfNavigationDrawer.FooterItems>
-                <syncfusion:NavigationItem Header="PlaceHolder" ItemType="Button">
+                <syncfusion:NavigationItem Header="Bonesy" Style="{StaticResource NavigationItemOrangeStyle}" ItemType="Button">
                     <syncfusion:NavigationItem.Icon>
-                        <Image Source="pack://application:,,,/KSAForms;component/Icons/Login-Icon.png" />
+                        <Image Source="pack://application:,,,/Resources/Icons/Icon_Patreon.png" />
                     </syncfusion:NavigationItem.Icon>
                 </syncfusion:NavigationItem>
             </syncfusion:SfNavigationDrawer.FooterItems>

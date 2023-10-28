@@ -12,6 +12,7 @@
     <None Remove="Resources\Icons\Icon_Home.png" />
     <None Remove="Resources\Icons\Icon_Modding.png" />
     <None Remove="Resources\Icons\Icon_Options.png" />
+    <None Remove="Resources\Icons\Icon_Patreon.png" />
     <None Remove="Resources\Icons\Icon_Settings.png" />
     <None Remove="Resources\Icons\Icon_Size.png" />
     <None Remove="Resources\Icons\Icon_Social.png" />
@@ -25,6 +26,7 @@
     <Resource Include="Resources\Icons\Icon_Home.png" />
     <Resource Include="Resources\Icons\Icon_Modding.png" />
     <Resource Include="Resources\Icons\Icon_Options.png" />
+    <Resource Include="Resources\Icons\Icon_Patreon.png" />
     <Resource Include="Resources\Icons\Icon_Settings.png" />
     <Resource Include="Resources\Icons\Icon_Size.png" />
     <Resource Include="Resources\Icons\Icon_Social.png" />

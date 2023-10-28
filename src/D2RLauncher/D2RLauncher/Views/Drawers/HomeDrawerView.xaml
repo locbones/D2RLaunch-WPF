@@ -2,6 +2,7 @@
     x:Class="D2RLauncher.Views.Drawers.HomeDrawerView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cm="http://caliburnmicro.com"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:drawers="clr-namespace:D2RLauncher.ViewModels.Drawers"
     xmlns:local="clr-namespace:D2RLauncher.Views.Drawers"
@@ -109,19 +110,19 @@
                 Grid.Column="0"
                 Background="#200708"
                 IconTemplate="{StaticResource AdditionIconTemplate}"
-                Label="Create A Mod"
+                Label="{Binding Path=Create, Source={StaticResource Resources}}"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
             <syncfusion:ButtonAdv
                 Grid.Column="1"
                 Background="#0d2905"
                 IconTemplate="{StaticResource RefreshIconTemplate}"
-                Label="Check for Mod Updates"
+                Label="{Binding Path=Update, Source={StaticResource Resources}}"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
             <syncfusion:ButtonAdv
                 Grid.Column="2"
                 Background="#200708"
                 IconTemplate="{StaticResource DownloadIconTemplate}"
-                Label="Download New Mod"
+                Label="{Binding Path=Download, Source={StaticResource Resources}}"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
         </Grid>
 
@@ -151,39 +152,43 @@
 
                 <Label
                     Grid.Row="0"
-                    Content="Text Language:"
+                    Content="{Binding Path=TextLang, Source={StaticResource Resources}}"
                     Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="1"
-                    ItemsSource="{Binding ShellViewModel.Languages}"
+                    cm:Message.Attach="[Event SelectionChanged] = [Action OnTextLanguageSelectionChanged];"
                     DisplayMemberPath="Key"
+                    ItemsSource="{Binding Languages}"
+                    SelectedItem="{Binding SelectedTextLanguage}"
                     SelectedValuePath="Value"
-                    SelectedItem="{Binding ShellViewModel.SelectedTextLanguage}"
                     Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Grid.Row="2"
-                    Content="Audio Language:"
+                    Content="{Binding Path=AudioLang, Source={StaticResource Resources}}"
                     Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="3"
-                    ItemsSource="{Binding ShellViewModel.Languages}"
+                    cm:Message.Attach="[Event SelectionChanged] = [Action OnAudioLanguageSelectionChanged];"
                     DisplayMemberPath="Key"
+                    ItemsSource="{Binding Languages}"
+                    SelectedItem="{Binding SelectedAudioLanguage}"
                     SelectedValuePath="Value"
-                    SelectedItem="{Binding ShellViewModel.SelectedAudioLanguage}"
                     Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Grid.Row="4"
-                    Content="App Language:"
+                    Content="{Binding Path=AppLang, Source={StaticResource Resources}}"
                     Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="5"
-                    ItemsSource="{Binding ShellViewModel.Languages}"
+                    cm:Message.Attach="[Event SelectionChanged] = [Action OnAppLanguageSelectionChanged];"
+                    Background="#00000000"
                     DisplayMemberPath="Key"
+                    ItemsSource="{Binding Languages}"
+                    SelectedItem="{Binding SelectedAppLanguage}"
                     SelectedValuePath="Value"
-                    SelectedItem="{Binding ShellViewModel.SelectedAppLanguage}"
-                    Style="{StaticResource ComboBoxStyle}" Background="#00000000" />
+                    Style="{StaticResource ComboBoxStyle}" />
             </Grid>
 
             <Grid
@@ -201,7 +206,7 @@
                     Grid.Row="0"
                     Background="#0d2905"
                     IconTemplate="{StaticResource PlayIconTemplate}"
-                    Label="Play Mod"
+                    Label="{Binding Path=Play, Source={StaticResource Resources}}"
                     Style="{StaticResource SfButtonAdvNormalStyle}" />
 
                 <StackPanel
@@ -217,10 +222,15 @@
 
                 <Label
                     Grid.Row="2"
-                    Content="Mod Choice:"
+                    Content="{Binding Path=ModChoice, Source={StaticResource Resources}}"
                     FontWeight="Bold"
                     Style="{StaticResource LabelHeaderStyle}" />
-                <ComboBox Grid.Row="3" Style="{StaticResource ComboBoxStyle}" />
+                <ComboBox
+                    Grid.Row="3"
+                    ItemsSource="{Binding InstalledMods}"
+                    SelectedItem="{Binding SelectedMod}"
+                    cm:Message.Attach="[Event SelectionChanged] = [Action OnModSelectionChanged];"
+                    Style="{StaticResource ComboBoxStyle}" />
 
             </Grid>
 
@@ -248,30 +258,30 @@
                     Style="{StaticResource SfButtonAdvSmallStyle}" />
                 <Label
                     Grid.Row="0"
-                    Content="Map Layouts:"
+                    Content="{Binding Path=Maps, Source={StaticResource Resources}}"
                     Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox Grid.Row="1" Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Grid.Row="2"
-                    Content="UI Theme:"
+                    Content="{Binding Path=UI, Source={StaticResource Resources}}"
                     Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox Grid.Row="3" Style="{StaticResource ComboBoxStyle}" />
 
                 <CheckBox
                     Grid.Row="4"
                     HorizontalAlignment="Left"
-                    Content="HDR Opacity Fix"
+                    Content="{Binding Path=HDR, Source={StaticResource Resources}}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <CheckBox
                     Grid.Row="5"
                     HorizontalAlignment="Left"
-                    Content="Map Regen"
+                    Content="{Binding Path=Regen, Source={StaticResource Resources}}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <CheckBox
                     Grid.Row="6"
                     HorizontalAlignment="Left"
-                    Content="Respec"
+                    Content="{Binding Path=Respec, Source={StaticResource Resources}}"
                     Style="{StaticResource CheckBoxStyle}" />
 
             </Grid>

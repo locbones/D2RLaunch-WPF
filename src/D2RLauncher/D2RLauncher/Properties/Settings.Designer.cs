@@ -34,5 +34,41 @@ namespace D2RLauncher.Properties {
                 this["AppLanguage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int TextLanguage {
+            get {
+                return ((int)(this["TextLanguage"]));
+            }
+            set {
+                this["TextLanguage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AudioLanguage {
+            get {
+                return ((int)(this["AudioLanguage"]));
+            }
+            set {
+                this["AudioLanguage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectedMod {
+            get {
+                return ((string)(this["SelectedMod"]));
+            }
+            set {
+                this["SelectedMod"] = value;
+            }
+        }
     }
 }

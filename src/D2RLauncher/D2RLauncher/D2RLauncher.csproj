@@ -1,0 +1,132 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Icons\Icon_Files.png" />
+    <None Remove="Resources\Icons\Icon_Home.png" />
+    <None Remove="Resources\Icons\Icon_Modding.png" />
+    <None Remove="Resources\Icons\Icon_Options.png" />
+    <None Remove="Resources\Icons\Icon_Settings.png" />
+    <None Remove="Resources\Icons\Icon_Size.png" />
+    <None Remove="Resources\Icons\Icon_Social.png" />
+    <None Remove="Resources\Icons\Icon_Speed.png" />
+    <None Remove="Resources\Icons\Icon_Time.png" />
+    <None Remove="Resources\Icons\Icon_Vault.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Icon_Files.png" />
+    <Resource Include="Resources\Icons\Icon_Home.png" />
+    <Resource Include="Resources\Icons\Icon_Modding.png" />
+    <Resource Include="Resources\Icons\Icon_Options.png" />
+    <Resource Include="Resources\Icons\Icon_Settings.png" />
+    <Resource Include="Resources\Icons\Icon_Size.png" />
+    <Resource Include="Resources\Icons\Icon_Social.png" />
+    <Resource Include="Resources\Icons\Icon_Speed.png" />
+    <Resource Include="Resources\Icons\Icon_Time.png" />
+    <Resource Include="Resources\Icons\Icon_Vault.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
+    <PackageReference Include="Caliburn.Micro.Core" Version="4.0.212" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Syncfusion.Licensing" Version="23.1.41" />
+    <PackageReference Include="Syncfusion.SfColorPalette.WPF" Version="23.1.41" />
+    <PackageReference Include="Syncfusion.SfNavigationDrawer.WPF" Version="23.1.41" />
+    <PackageReference Include="Syncfusion.SfProgressBar.WPF" Version="23.1.41" />
+    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="23.1.41" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="23.1.41" />
+    <PackageReference Include="Syncfusion.Themes.MaterialDark.WPF" Version="23.1.41" />
+    <PackageReference Include="Syncfusion.Tools.WPF" Version="23.1.41" />
+    <PackageReference Include="System.ComponentModel" Version="4.3.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Culture\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Culture\Resources.de.resx">
+      <LastGenOutput>Resources.de.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace></CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.da-DK.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace></CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.es-ES.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace></CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.es-MX.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.ja-JP.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.ko-KR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.pl.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.pt-BR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.en.resx">
+      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace></CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.zh-CN.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.zh-TW.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Culture\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="D2RLauncher.log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,84 @@
+﻿<syncfusion:ChromelessWindow
+    x:Class="D2RLauncher.Views.ShellView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cm="http://caliburnmicro.com"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:viewModels="clr-namespace:D2RLauncher.ViewModels"
+    xmlns:cultures="clr-namespace:D2RLauncher.Culture"
+    Title="{Binding Title}"
+    ResizeMode="CanResizeWithGrip"
+    SizeToContent="Manual"
+    SnapsToDevicePixels="True"
+    UseNativeChrome="True"
+    WindowStartupLocation="CenterScreen"
+    d:DataContext="{d:DesignInstance Type=viewModels:ShellViewModel,IsDesignTimeCreatable=True}"
+    mc:Ignorable="d"
+    d:DesignHeight="700"
+    d:DesignWidth="1000"
+    MinWidth="700"
+    Height="700"
+    Width="1000">
+
+    <!--<Window.Resources>
+        <ObjectDataProvider
+            x:Key="Resources"
+            MethodName="GetResourceInstance"
+            ObjectType="{x:Type cultures:CultureResources}" />
+    </Window.Resources>-->
+
+    <Grid>
+        <syncfusion:SfNavigationDrawer
+            x:Name="NavigationDrawer"
+            cm:Message.Attach="[Event Loaded] = [Action OnLoaded($eventArgs)]; [Event ItemClicked] = [Action OnItemClicked($eventArgs)]"
+            AutoChangeDisplayMode="True"
+            DisplayMode="Expanded"
+            ExpandedModeThresholdWidth="600"
+            ExpandedModeWidth="225">
+
+            <syncfusion:NavigationItem Header="{Binding Path=Home, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
+                <syncfusion:NavigationItem.Icon>
+                    <Image Source="pack://application:,,,/Resources/Icons/Icon_Home.png" />
+                </syncfusion:NavigationItem.Icon>
+            </syncfusion:NavigationItem>
+            <syncfusion:NavigationItem Header="Options" Style="{StaticResource NavigationItemStyle}">
+                <syncfusion:NavigationItem.Icon>
+                    <Image Source="pack://application:,,,/Resources/Icons/Icon_Options.png" />
+                </syncfusion:NavigationItem.Icon>
+            </syncfusion:NavigationItem>
+            <syncfusion:NavigationItem Header="Community" Style="{StaticResource NavigationItemStyle}">
+                <syncfusion:NavigationItem.Icon>
+                    <Image Source="pack://application:,,,/Resources/Icons/Icon_Social.png" />
+                </syncfusion:NavigationItem.Icon>
+            </syncfusion:NavigationItem>
+            <syncfusion:NavigationItem Header="My Files" Style="{StaticResource NavigationItemStyle}">
+                <syncfusion:NavigationItem.Icon>
+                    <Image Source="pack://application:,,,/Resources/Icons/Icon_Files.png" />
+                </syncfusion:NavigationItem.Icon>
+            </syncfusion:NavigationItem>
+            <syncfusion:NavigationItem Header="D2RModding" Style="{StaticResource NavigationItemStyle}">
+                <syncfusion:NavigationItem.Icon>
+                    <Image Source="pack://application:,,,/Resources/Icons/Icon_Modding.png" />
+                </syncfusion:NavigationItem.Icon>
+            </syncfusion:NavigationItem>
+            <syncfusion:NavigationItem Header="The Vault" Style="{StaticResource NavigationItemStyle}">
+                <syncfusion:NavigationItem.Icon>
+                    <Image Source="pack://application:,,,/Resources/Icons/Icon_Vault.png" />
+                </syncfusion:NavigationItem.Icon>
+            </syncfusion:NavigationItem>
+            <syncfusion:SfNavigationDrawer.FooterItems>
+                <syncfusion:NavigationItem Header="PlaceHolder" ItemType="Button">
+                    <syncfusion:NavigationItem.Icon>
+                        <Image Source="pack://application:,,,/KSAForms;component/Icons/Login-Icon.png" />
+                    </syncfusion:NavigationItem.Icon>
+                </syncfusion:NavigationItem>
+            </syncfusion:SfNavigationDrawer.FooterItems>
+            <syncfusion:SfNavigationDrawer.ContentView>
+                <UserControl Content="{Binding UserControl}"
+                             d:Background="{StaticResource ContentBackground}"/>
+            </syncfusion:SfNavigationDrawer.ContentView>
+        </syncfusion:SfNavigationDrawer>
+    </Grid>
+</syncfusion:ChromelessWindow>

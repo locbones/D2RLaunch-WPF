@@ -8,17 +8,171 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\DefaultUserSettings.json" />
+    <None Remove="Resources\DefaultUserSettings.txt" />
+    <None Remove="Resources\Fonts\0.otf" />
+    <None Remove="Resources\Fonts\0.png" />
+    <None Remove="Resources\Fonts\1.otf" />
+    <None Remove="Resources\Fonts\1.png" />
+    <None Remove="Resources\Fonts\10.otf" />
+    <None Remove="Resources\Fonts\10.png" />
+    <None Remove="Resources\Fonts\11.otf" />
+    <None Remove="Resources\Fonts\11.png" />
+    <None Remove="Resources\Fonts\2.otf" />
+    <None Remove="Resources\Fonts\2.png" />
+    <None Remove="Resources\Fonts\3.otf" />
+    <None Remove="Resources\Fonts\3.png" />
+    <None Remove="Resources\Fonts\4.otf" />
+    <None Remove="Resources\Fonts\4.png" />
+    <None Remove="Resources\Fonts\5.otf" />
+    <None Remove="Resources\Fonts\5.png" />
+    <None Remove="Resources\Fonts\6.otf" />
+    <None Remove="Resources\Fonts\6.png" />
+    <None Remove="Resources\Fonts\7.otf" />
+    <None Remove="Resources\Fonts\7.png" />
+    <None Remove="Resources\Fonts\8.otf" />
+    <None Remove="Resources\Fonts\8.png" />
+    <None Remove="Resources\Fonts\9.otf" />
+    <None Remove="Resources\Fonts\9.png" />
     <None Remove="Resources\Icons\Icon_Files.png" />
     <None Remove="Resources\Icons\Icon_Home.png" />
     <None Remove="Resources\Icons\Icon_Modding.png" />
     <None Remove="Resources\Icons\Icon_Options.png" />
     <None Remove="Resources\Icons\Icon_Patreon.png" />
+    <None Remove="Resources\Icons\Icon_Preview.png" />
     <None Remove="Resources\Icons\Icon_Settings.png" />
     <None Remove="Resources\Icons\Icon_Size.png" />
     <None Remove="Resources\Icons\Icon_Social.png" />
     <None Remove="Resources\Icons\Icon_Speed.png" />
     <None Remove="Resources\Icons\Icon_Time.png" />
     <None Remove="Resources\Icons\Icon_Vault.png" />
+    <None Remove="Resources\Images\D2RL_Logo.png" />
+    <None Remove="Resources\modinfo_blank.json" />
+    <None Remove="Resources\Options\D2RL_SkillIcons.zip" />
+    <None Remove="Resources\Options\HideHelmets\hide_helmets.json" />
+    <None Remove="Resources\Options\ItemIcons\ber_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\cham_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\dol_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\fal_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\gul_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\hel_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\io_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\ist_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\item-runes.json" />
+    <None Remove="Resources\Options\ItemIcons\jah_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\ko_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\lem_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\lo_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\lum_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\mal_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\ohm_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\pul_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\shael_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\sol_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\sur_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\um_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\vex_rune.json" />
+    <None Remove="Resources\Options\ItemIcons\zod_rune.json" />
+    <None Remove="Resources\Options\MercIcons\act2hire.json" />
+    <None Remove="Resources\Options\MercIcons\act3hire.json" />
+    <None Remove="Resources\Options\MercIcons\act5hire1.json" />
+    <None Remove="Resources\Options\MercIcons\MercName.particles" />
+    <None Remove="Resources\Options\MercIcons\MercName1a.texture" />
+    <None Remove="Resources\Options\MercIcons\MercName1b.texture" />
+    <None Remove="Resources\Options\MercIcons\MercName2a.texture" />
+    <None Remove="Resources\Options\MercIcons\MercName2b.texture" />
+    <None Remove="Resources\Options\MercIcons\roguehire.json" />
+    <None Remove="Resources\Options\MonsterStats.dll" />
+    <None Remove="Resources\Options\MonsterStats\HB_A.lowend.sprite" />
+    <None Remove="Resources\Options\MonsterStats\HB_A.sprite" />
+    <None Remove="Resources\Options\MonsterStats\HB_L.lowend.sprite" />
+    <None Remove="Resources\Options\MonsterStats\HB_L.sprite" />
+    <None Remove="Resources\Options\MonsterStats\HB_M.lowend.sprite" />
+    <None Remove="Resources\Options\MonsterStats\HB_M.sprite" />
+    <None Remove="Resources\Options\MonsterStats\HB_R.lowend.sprite" />
+    <None Remove="Resources\Options\MonsterStats\HB_R.sprite" />
+    <None Remove="Resources\Options\MonsterStats\hudmonsterhealthhd.json" />
+    <None Remove="Resources\Options\PersonalizedTabs\stash_rmd" />
+    <None Remove="Resources\Options\PersonalizedTabs\stash_vnp" />
+    <None Remove="Resources\SharedStashHardCoreV2.d2i" />
+    <None Remove="Resources\SharedStashSoftCoreV2.d2i" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DefaultUserSettings.json" />
+    <EmbeddedResource Include="Resources\Fonts\0.otf" />
+    <EmbeddedResource Include="Resources\Fonts\1.otf" />
+    <EmbeddedResource Include="Resources\Fonts\1.png" />
+    <EmbeddedResource Include="Resources\Fonts\10.otf" />
+    <EmbeddedResource Include="Resources\Fonts\10.png" />
+    <EmbeddedResource Include="Resources\Fonts\11.otf" />
+    <EmbeddedResource Include="Resources\Fonts\11.png" />
+    <EmbeddedResource Include="Resources\Fonts\2.otf" />
+    <EmbeddedResource Include="Resources\Fonts\2.png" />
+    <EmbeddedResource Include="Resources\Fonts\3.otf" />
+    <EmbeddedResource Include="Resources\Fonts\3.png" />
+    <EmbeddedResource Include="Resources\Fonts\4.otf" />
+    <EmbeddedResource Include="Resources\Fonts\4.png" />
+    <EmbeddedResource Include="Resources\Fonts\5.otf" />
+    <EmbeddedResource Include="Resources\Fonts\5.png" />
+    <EmbeddedResource Include="Resources\Fonts\6.otf" />
+    <EmbeddedResource Include="Resources\Fonts\6.png" />
+    <EmbeddedResource Include="Resources\Fonts\7.otf" />
+    <EmbeddedResource Include="Resources\Fonts\7.png" />
+    <EmbeddedResource Include="Resources\Fonts\8.otf" />
+    <EmbeddedResource Include="Resources\Fonts\8.png" />
+    <EmbeddedResource Include="Resources\Fonts\9.otf" />
+    <EmbeddedResource Include="Resources\Fonts\9.png" />
+    <EmbeddedResource Include="Resources\Fonts\0.png" />
+    <EmbeddedResource Include="Resources\modinfo_blank.json" />
+    <EmbeddedResource Include="Resources\Options\D2RL_SkillIcons.zip" />
+    <EmbeddedResource Include="Resources\Options\HideHelmets\hide_helmets.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\ber_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\cham_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\dol_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\fal_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\gul_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\hel_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\io_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\ist_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\item-runes.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\jah_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\ko_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\lem_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\lo_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\lum_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\mal_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\ohm_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\pul_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\shael_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\sol_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\sur_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\um_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\vex_rune.json" />
+    <EmbeddedResource Include="Resources\Options\ItemIcons\zod_rune.json" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\act2hire.json" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\act3hire.json" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\act5hire1.json" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\MercName.particles" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\MercName1a.texture" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\MercName1b.texture" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\MercName2a.texture" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\MercName2b.texture" />
+    <EmbeddedResource Include="Resources\Options\MercIcons\roguehire.json" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_A.lowend.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_A.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_L.lowend.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_L.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_M.lowend.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_M.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_R.lowend.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\HB_R.sprite" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\hudmonsterhealthhd.json" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\MonsterStats.dll" />
+    <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_rmd" />
+    <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_vnp" />
+    <EmbeddedResource Include="Resources\SharedStashHardCoreV2.d2i" />
+    <EmbeddedResource Include="Resources\SharedStashSoftCoreV2.d2i" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,20 +181,25 @@
     <Resource Include="Resources\Icons\Icon_Modding.png" />
     <Resource Include="Resources\Icons\Icon_Options.png" />
     <Resource Include="Resources\Icons\Icon_Patreon.png" />
+    <Resource Include="Resources\Icons\Icon_Preview.png" />
     <Resource Include="Resources\Icons\Icon_Settings.png" />
     <Resource Include="Resources\Icons\Icon_Size.png" />
     <Resource Include="Resources\Icons\Icon_Social.png" />
     <Resource Include="Resources\Icons\Icon_Speed.png" />
     <Resource Include="Resources\Icons\Icon_Time.png" />
     <Resource Include="Resources\Icons\Icon_Vault.png" />
+    <Resource Include="Resources\Images\D2RL_Logo.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
     <PackageReference Include="Caliburn.Micro.Core" Version="4.0.212" />
+    <PackageReference Include="Google.Apis" Version="1.64.0" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.64.0.3148" />
     <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Syncfusion.Licensing" Version="23.1.41" />
     <PackageReference Include="Syncfusion.SfColorPalette.WPF" Version="23.1.41" />
     <PackageReference Include="Syncfusion.SfNavigationDrawer.WPF" Version="23.1.41" />
@@ -51,6 +210,12 @@
     <PackageReference Include="Syncfusion.Tools.WPF" Version="23.1.41" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CASCLib.NET">
+      <HintPath>..\..\Shared\CASCLib.NET.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

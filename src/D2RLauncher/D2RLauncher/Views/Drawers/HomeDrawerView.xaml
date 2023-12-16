@@ -50,12 +50,13 @@
                     <Border.BorderBrush>
                         <SolidColorBrush Opacity="0.5" Color="Silver" />
                     </Border.BorderBrush>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <TextBlock
                             Margin="5"
                             VerticalAlignment="Top"
-                            Style="{StaticResource TextBlockStyle}"
-                            Text="{Binding ModDescription}" />
+                            Style="{StaticResource TextBlockStyleGold}"
+                            Text="{Binding ModDescription}"
+                            TextWrapping="WrapWithOverflow" />
                     </ScrollViewer>
 
                 </Border>
@@ -88,18 +89,19 @@
                     <Border.BorderBrush>
                         <SolidColorBrush Opacity="0.5" Color="Silver" />
                     </Border.BorderBrush>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <TextBlock
                             Margin="5"
                             VerticalAlignment="Top"
-                            Style="{StaticResource TextBlockStyle}"
-                            Text="{Binding LauncherDescription}" />
+                            Style="{StaticResource TextBlockStyleGold}"
+                            Text="{Binding LauncherDescription}"
+                            TextWrapping="WrapWithOverflow" />
                     </ScrollViewer>
                 </Border>
             </Grid>
         </UniformGrid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" IsEnabled="{Binding CheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="2*" />
@@ -108,25 +110,28 @@
 
             <syncfusion:ButtonAdv
                 Grid.Column="0"
+                cm:Message.Attach="[Event Click] = [Action OnCreateMod];"
                 Background="#200708"
                 IconTemplate="{StaticResource AdditionIconTemplate}"
                 Label="{Binding Path=Create, Source={StaticResource Resources}}"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
             <syncfusion:ButtonAdv
                 Grid.Column="1"
+                cm:Message.Attach="[Event Click] = [Action OnCheckForUpdates];"
                 Background="#0d2905"
                 IconTemplate="{StaticResource RefreshIconTemplate}"
                 Label="{Binding Path=Update, Source={StaticResource Resources}}"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
             <syncfusion:ButtonAdv
                 Grid.Column="2"
+                cm:Message.Attach="[Event Click] = [Action OnDownloadMod];"
                 Background="#200708"
                 IconTemplate="{StaticResource DownloadIconTemplate}"
                 Label="{Binding Path=Download, Source={StaticResource Resources}}"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" IsEnabled="{Binding CheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="2*" />
@@ -159,7 +164,7 @@
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnTextLanguageSelectionChanged];"
                     DisplayMemberPath="Key"
                     ItemsSource="{Binding Languages}"
-                    SelectedItem="{Binding SelectedTextLanguage}"
+                    SelectedIndex="{Binding ShellViewModel.UserSettings.TextLanguage}"
                     SelectedValuePath="Value"
                     Style="{StaticResource ComboBoxStyle}" />
 
@@ -172,7 +177,7 @@
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnAudioLanguageSelectionChanged];"
                     DisplayMemberPath="Key"
                     ItemsSource="{Binding Languages}"
-                    SelectedItem="{Binding SelectedAudioLanguage}"
+                    SelectedIndex="{Binding ShellViewModel.UserSettings.AudioLanguage}"
                     SelectedValuePath="Value"
                     Style="{StaticResource ComboBoxStyle}" />
 
@@ -204,6 +209,7 @@
 
                 <syncfusion:ButtonAdv
                     Grid.Row="0"
+                    cm:Message.Attach="[Event Click] = [Action OnPlayMod];"
                     Background="#0d2905"
                     IconTemplate="{StaticResource PlayIconTemplate}"
                     Label="{Binding Path=Play, Source={StaticResource Resources}}"
@@ -213,7 +219,11 @@
                     Grid.Row="1"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Content="Use -direct -txt" Style="{StaticResource CheckBoxStyle}" />
+                    <CheckBox
+                        cm:Message.Attach="[Event Checked] = [Action OnDirectTxtChecked];"
+                        Content="Use -direct -txt"
+                        IsChecked="{Binding ShellViewModel.UserSettings.DirectTxt}"
+                        Style="{StaticResource CheckBoxStyle}" />
                     <syncfusion:ButtonAdv
                         Background="Transparent"
                         IconTemplate="{StaticResource SettingsIconTemplate}"
@@ -227,9 +237,9 @@
                     Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="3"
+                    cm:Message.Attach="[Event SelectionChanged] = [Action OnModSelectionChanged];"
                     ItemsSource="{Binding InstalledMods}"
                     SelectedItem="{Binding SelectedMod}"
-                    cm:Message.Attach="[Event SelectionChanged] = [Action OnModSelectionChanged];"
                     Style="{StaticResource ComboBoxStyle}" />
 
             </Grid>
@@ -253,6 +263,7 @@
                     Width="36"
                     Height="36"
                     HorizontalAlignment="Left"
+                    cm:Message.Attach="[Event Click] = [Action OnMapsHelp];"
                     Background="Transparent"
                     IconTemplate="{StaticResource QuestionMarkIconTemplate}"
                     Style="{StaticResource SfButtonAdvSmallStyle}" />
@@ -260,34 +271,56 @@
                     Grid.Row="0"
                     Content="{Binding Path=Maps, Source={StaticResource Resources}}"
                     Style="{StaticResource LabelHeaderStyle}" />
-                <ComboBox Grid.Row="1" Style="{StaticResource ComboBoxStyle}" />
+                <ComboBox
+                    Grid.Row="1"
+                    cm:Message.Attach="[Event SelectionChanged] = [Action OnMapLayoutSelectionChanged];"
+                    DisplayMemberPath="Key"
+                    ItemsSource="{Binding MapLayouts}"
+                    SelectedIndex="{Binding ShellViewModel.UserSettings.MapLayout}"
+                    SelectedValuePath="Value"
+                    Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Grid.Row="2"
                     Content="{Binding Path=UI, Source={StaticResource Resources}}"
                     Style="{StaticResource LabelHeaderStyle}" />
-                <ComboBox Grid.Row="3" Style="{StaticResource ComboBoxStyle}" />
+                <ComboBox
+                    Grid.Row="3"
+                    IsEnabled="{Binding UiThemeEnabled}"
+                    cm:Message.Attach="[Event SelectionChanged] = [Action OnUIThemeSelectionChanged];"
+                    DisplayMemberPath="Key"
+                    ItemsSource="{Binding UiThemes}"
+                    SelectedIndex="{Binding ShellViewModel.UserSettings.UiTheme}"
+                    SelectedValuePath="Value"
+                    Style="{StaticResource ComboBoxStyle}" />
 
                 <CheckBox
                     Grid.Row="4"
                     HorizontalAlignment="Left"
                     Content="{Binding Path=HDR, Source={StaticResource Resources}}"
+                    IsChecked="{Binding ShellViewModel.UserSettings.HdrFix}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <CheckBox
                     Grid.Row="5"
                     HorizontalAlignment="Left"
                     Content="{Binding Path=Regen, Source={StaticResource Resources}}"
+                    IsChecked="{Binding ShellViewModel.UserSettings.ResetMaps}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <CheckBox
                     Grid.Row="6"
                     HorizontalAlignment="Left"
                     Content="{Binding Path=Respec, Source={StaticResource Resources}}"
+                    IsChecked="{Binding ShellViewModel.UserSettings.InfiniteRespec}"
                     Style="{StaticResource CheckBoxStyle}" />
 
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="3" Margin="5">
+        <Grid
+            Grid.Row="3"
+            Margin="5"
+            d:Visibility="Visible"
+            Visibility="{Binding CheckingForUpdates, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -298,15 +331,33 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <syncfusion:SfLinearProgressBar
+            <Label
                 Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
+                Content="{Binding ProgressStatus}"
+                Style="{StaticResource LabelHeaderStyle}" />
+
+            <syncfusion:SfLinearProgressBar
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Height="25"
                 d:Progress="70"
-                IsIndeterminate="False"
-                Progress="50"
+                IsIndeterminate="{Binding ProgressBarIsIndeterminate}"
+                Progress="{Binding DownloadProgress}"
                 Style="{StaticResource SfLinearProgressBarStyle}" />
-            <StackPanel
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{Binding DownloadProgressString}"
+                Foreground="DodgerBlue" />
+
+            <!--<StackPanel
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="5"
@@ -343,7 +394,7 @@
                     Height="26"
                     Source="pack://application:,,,/Resources/Icons/Icon_Size.png" />
                 <Label d:Content="63 MB/636 MB (70%)" Style="{StaticResource LabelNormalGoldStyle}" />
-            </StackPanel>
+            </StackPanel>-->
         </Grid>
     </Grid>
 </UserControl>

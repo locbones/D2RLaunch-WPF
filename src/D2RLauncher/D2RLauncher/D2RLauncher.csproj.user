@@ -7,7 +7,16 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\Dialogs\CASCExtractor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Dialogs\DownloadNewModView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Drawers\HomeDrawerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Drawers\QoLOptionsDrawerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\ShellView.xaml.cs">
@@ -23,7 +32,16 @@
     <Page Update="Styling.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\Dialogs\CASCExtractor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Dialogs\DownloadNewModView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Drawers\HomeDrawerView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Drawers\QoLOptionsDrawerView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ShellView.xaml">

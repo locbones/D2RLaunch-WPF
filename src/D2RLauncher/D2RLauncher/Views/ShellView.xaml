@@ -29,72 +29,96 @@
             AutoChangeDisplayMode="True"
             DisplayMode="Expanded"
             ExpandedModeThresholdWidth="600"
-            ExpandedModeWidth="225">
+            ExpandedModeWidth="245"
+            IndentationWidth="0"
+            IsToggleButtonVisible="False">
 
-            <syncfusion:NavigationItem Header="{Binding Path=Home, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:SfNavigationDrawer.ToggleButtonContentTemplate >
+                <DataTemplate>
+                    <Image DataContext="{Binding RelativeSource={RelativeSource AncestorType=syncfusion:SfNavigationDrawer}, Path=DataContext}" d:Source="pack://application:,,,/Resources/Images/D2RL_Logo.png"  Source="{Binding ModLogo}" />
+                </DataTemplate>
+            </syncfusion:SfNavigationDrawer.ToggleButtonContentTemplate>
+
+            <syncfusion:NavigationItem
+                Tag="Home"
+                Header="{Binding Path=Home, Source={StaticResource Resources}}"
+                IsEnabled="{Binding DiabloInstallDetected}"
+                Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Home.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
             <syncfusion:NavigationItem
+                Tag="Options"
                 d:IsExpanded="True"
                 Header="{Binding Path=Options, Source={StaticResource Resources}}"
+                IsEnabled="{Binding DiabloInstallDetected}"
                 Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Options.png" />
                 </syncfusion:NavigationItem.Icon>
-                <syncfusion:NavigationItem Header="{Binding Path=ModOptions, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="QoL Options" Header="{Binding Path=ModOptions, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
                 <syncfusion:NavigationItem
+                    Tag="Customizations"
                     Header="{Binding Path=Customizations, Source={StaticResource Resources}}"
                     IsEnabled="{Binding CustomizationsEnabled}"
                     Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=Rename, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=Stash, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Rename Character" Header="{Binding Path=Rename, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Fix Stash" Header="{Binding Path=Stash, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
             <syncfusion:NavigationItem
-                d:IsExpanded="True"
+                Tag="Community"
                 Header="{Binding Path=Community, Source={StaticResource Resources}}"
+                IsEnabled="{Binding DiabloInstallDetected}"
                 Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Social.png" />
                 </syncfusion:NavigationItem.Icon>
-                <syncfusion:NavigationItem Header="{Binding Path=Discord, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Discord" Header="{Binding Path=Discord, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
                 <syncfusion:NavigationItem
+                    Tag="Wiki"
                     Header="{Binding Path=Wiki, Source={StaticResource Resources}}"
                     IsEnabled="{Binding WikiEnabled}"
                     Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=Patreon, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Patreon" Header="{Binding Path=Patreon, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
             <syncfusion:NavigationItem
-                d:IsExpanded="True"
+                Tag="My Files"
                 Header="{Binding Path=MyFiles, Source={StaticResource Resources}}"
+                IsEnabled="{Binding DiabloInstallDetected}"
                 Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Files.png" />
                 </syncfusion:NavigationItem.Icon>
-                <syncfusion:NavigationItem Header="{Binding Path=ModFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=SaveFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=LaunchFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=VaultFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Mod Files" Header="{Binding Path=ModFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Save Files" Header="{Binding Path=SaveFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Launch Files" Header="{Binding Path=LaunchFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Vault Files" Header="{Binding Path=VaultFiles, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
             <syncfusion:NavigationItem
-                d:IsExpanded="True"
+                Tag="D2RModding"
                 Header="D2RModding"
+                IsEnabled="{Binding DiabloInstallDetected}"
                 Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Modding.png" />
                 </syncfusion:NavigationItem.Icon>
-                <syncfusion:NavigationItem Header="{Binding Path=D2RWebsite, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=Discord, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
-                <syncfusion:NavigationItem Header="{Binding Path=D2RYoutube, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="D2RWebsite" Header="{Binding Path=D2RWebsite, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="Discord" Header="{Binding Path=Discord, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
+                <syncfusion:NavigationItem Tag="D2RYoutube" Header="{Binding Path=D2RYoutube, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemGoldStyle}" />
             </syncfusion:NavigationItem>
-            <syncfusion:NavigationItem Header="{Binding Path=Vault, Source={StaticResource Resources}}" Style="{StaticResource NavigationItemStyle}">
+            <syncfusion:NavigationItem
+                Tag="The Vault"
+                Header="{Binding Path=Vault, Source={StaticResource Resources}}"
+                IsEnabled="{Binding DiabloInstallDetected}"
+                Style="{StaticResource NavigationItemStyle}">
                 <syncfusion:NavigationItem.Icon>
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Vault.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
             <syncfusion:SfNavigationDrawer.FooterItems>
                 <syncfusion:NavigationItem
+                    Tag="Bonesy"
                     Header="Bonesy"
                     ItemType="Button"
                     Style="{StaticResource NavigationItemOrangeStyle}">

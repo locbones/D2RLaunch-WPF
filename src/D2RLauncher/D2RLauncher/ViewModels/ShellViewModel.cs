@@ -52,6 +52,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private bool _skillIconPackEnabled;
     private bool _skillBuffIconsEnabled;
     private bool _showItemLevelsEnabled;
+    private bool _superTelekinesisEnabled;
 
     #endregion
 
@@ -93,6 +94,17 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             if (Equals(value, _modInfo)) return;
             _modInfo = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool SuperTelekinesisEnabled
+    {
+        get => _superTelekinesisEnabled;
+        set
+        {
+            if (value == _superTelekinesisEnabled) return;
+            _superTelekinesisEnabled = value;
             NotifyOfPropertyChange();
         }
     }

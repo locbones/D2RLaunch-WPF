@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -15,6 +16,7 @@ using Caliburn.Micro;
 using D2RLauncher.Models;
 using D2RLauncher.Models.Enums;
 using D2RLauncher.Properties;
+using D2RLauncher.ViewModels.Dialogs;
 using JetBrains.Annotations;
 using Syncfusion.Licensing;
 
@@ -24,7 +26,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 {
     #region members
 
-    private int _selectedFont;
     private IWindowManager _windowManager;
     private bool _showFontPreview;
     private ImageSource _fontImage;
@@ -985,65 +986,186 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
                 case nameof(ShellViewModel.UserSettings.SuperTelekinesis):
                 {
                     eEnabledDisabled superTelekinesis = (eEnabledDisabled)ShellViewModel.UserSettings.SuperTelekinesis;
-                    //if (ShellViewModel.ModInfo.Name != "ReMoDDeD")
-                    //{
-                    //    switch (superTelekinesis)
-                    //    {
-                    //        case eEnabledDisabled.Disabled:
-                    //        {
-                    //            RemoveSuperTKSkill();
-                    //                    break;
-                    //        }
-                    //        case eEnabledDisabled.Enabled:
-                    //        {
-                    //            string charStatsPath = Path.Combine(Settings.Default.gamePath, "Mods", Settings.Default.modName, Settings.Default.modName + ".mpq/data/global/excel/charstats.txt");
-                    //            string itemTypesPath = Path.Combine(Settings.Default.gamePath, "Mods", Settings.Default.modName, Settings.Default.modName + ".mpq/data/global/excel/itemtypes.txt");
 
-                    //            if (File.Exists(charStatsPath) && File.Exists(itemTypesPath))
-                    //            {
-                    //                string[] charStatsLines = File.ReadAllLines(charStatsPath);
-                    //                string[] itemTypesLines = File.ReadAllLines(itemTypesPath);
+                    switch (superTelekinesis)
+                    {
+                        case eEnabledDisabled.Disabled:
+                        {
+                            RemoveSuperTkSkill();
+                            break;
+                        }
+                        case eEnabledDisabled.Enabled:
+                        {
+                            string charStatsPath = Path.Combine(Path.Combine(ShellViewModel.SelectedModDataFolder,"global/excel/charstats.txt"));
+                            string itemTypesPath = Path.Combine(Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/itemtypes.txt"));
 
-                    //                for (int i = 0; i < charStatsLines.Length; i++)
-                    //                {
-                    //                    string line = charStatsLines[i];
-                    //                    string[] splitContent = line.Split('\t');
+                            if (File.Exists(charStatsPath) && File.Exists(itemTypesPath))
+                            {
+                                string[] charStatsLines = await File.ReadAllLinesAsync(charStatsPath);
+                                string[] itemTypesLines = await File.ReadAllLinesAsync(itemTypesPath);
 
-                    //                    if (i > 0 && i != 6)
-                    //                    {
-                    //                        splitContent[34] = "SuperTK";
-                    //                        charStatsLines[i] = string.Join("\t", splitContent);
-                    //                    }
-                    //                }
+                                for (int i = 0; i < charStatsLines.Length; i++)
+                                {
+                                    string line = charStatsLines[i];
+                                    string[] splitContent = line.Split('\t');
 
-                    //                for (int i = 0; i < itemTypesLines.Length; i++)
-                    //                {
-                    //                    string line = itemTypesLines[i];
-                    //                    string[] splitContent = line.Split('\t');
+                                    if (i > 0 && i != 6)
+                                    {
+                                        splitContent[34] = "SuperTK";
+                                        charStatsLines[i] = string.Join("\t", splitContent);
+                                    }
+                                }
 
-                    //                    if (i == 14 || i == 21 || i == 60 || i == 76) splitContent[3] = "poti";
-                    //                    if (i == 46 || i == 51) splitContent[2] = "gold";
+                                for (int i = 0; i < itemTypesLines.Length; i++)
+                                {
+                                    string line = itemTypesLines[i];
+                                    string[] splitContent = line.Split('\t');
 
-                    //                    itemTypesLines[i] = string.Join("\t", splitContent);
-                    //                }
+                                    if (i == 14 || i == 21 || i == 60 || i == 76) splitContent[3] = "poti";
+                                    if (i == 46 || i == 51) splitContent[2] = "gold";
 
-                    //                // Write the modified content back to the files
-                    //                File.WriteAllLines(charStatsPath, charStatsLines);
-                    //                File.WriteAllLines(itemTypesPath, itemTypesLines);
-                    //            }
-                    //            CreateSuperTKSkill();
-                    //            break;
-                    //        }
-                    //    }
-                    //}
+                                    itemTypesLines[i] = string.Join("\t", splitContent);
+                                }
+
+                                // Write the modified content back to the files
+                                File.WriteAllLines(charStatsPath, charStatsLines);
+                                File.WriteAllLines(itemTypesPath, itemTypesLines);
+                            }
+                            CreateSuperTKSkill();
+                            break;
+                        }
+                    }
                     break;
                 }
                 case nameof(ShellViewModel.UserSettings.RunewordSorting):
                 {
+                    eRunewordSorting runewordSorting = (eRunewordSorting)ShellViewModel.UserSettings.RunewordSorting;
+
+                    string abRunewordJsonFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort/runewords-ab.json");
+                    string itRunewordJsonFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort/runewords-it.json");
+                    string lvRunewordJsonFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort//runewords-lv.json");
+
+                    string abHelpPandelHdJsonFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort/helppanelhd-ab.json");
+                    string itHelpPandelHdJsonFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort/helppanelhd-it.json");
+                    string lvHelpPandelHdJsonFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort/helppanelhd-lv.json");
+
+                    string helpPandelHdJsonFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/helppanelhd.json");
+
+                    switch (runewordSorting)
+                    {
+                        case eRunewordSorting.ByName:
+                        {
+                            if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
+                            {
+                                File.Copy(abHelpPandelHdJsonFilePath, helpPandelHdJsonFilePath, true);
+                                File.Copy(abRunewordJsonFilePath, Path.Combine(ShellViewModel.SelectedModDataFolder, $"global/ui/layouts/cuberecipes{6}panelhd.json"), true);
+                            }
+                            else
+                            {
+                                File.Copy(abRunewordJsonFilePath, Path.Combine(ShellViewModel.SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json"), true);
+                            }
+
+                            break;
+                        }
+                        case eRunewordSorting.ByItemtype:
+                        {
+                            if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
+                            {
+                                File.Copy(itHelpPandelHdJsonFilePath, helpPandelHdJsonFilePath, true);
+                                File.Copy(itRunewordJsonFilePath, Path.Combine(ShellViewModel.SelectedModDataFolder, $"global/ui/layouts/cuberecipes{6}panelhd.json"), true);
+                            }
+                            else
+                            {
+                                File.Copy(itRunewordJsonFilePath, Path.Combine(ShellViewModel.SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json"), true);
+                            }
+
+                            break;
+                        }
+                        case eRunewordSorting.ByReqLevel:
+                        {
+                            if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
+                            {
+                                File.Copy(lvHelpPandelHdJsonFilePath, helpPandelHdJsonFilePath, true);
+                                File.Copy(lvRunewordJsonFilePath, Path.Combine(ShellViewModel.SelectedModDataFolder, $"global/ui/layouts/cuberecipes{6}panelhd.json"), true);
+                            }
+                            else
+                            {
+                                File.Copy(lvRunewordJsonFilePath, Path.Combine(ShellViewModel.SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json"), true);
+                            }
+
+                            break;
+                        }
+                    }
                     break;
                 }
                 case nameof(ShellViewModel.UserSettings.HudDesign):
                 {
+                    eHudDesign hudDesign = (eHudDesign) ShellViewModel.UserSettings.HudDesign;
+
+
+                    string mergedHudDirectory = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Merged HUD");
+                    string layoutFolder = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts");
+                    string hudPanelhdJsonFilePath = Path.Combine(layoutFolder, "hudpanelhd.json");
+                    string skillSelecthdJsonFilePath = Path.Combine(layoutFolder, "skillselecthd.json");
+                    string controllerDirectory = Path.Combine(layoutFolder, "controller");
+
+                    if (Directory.Exists(mergedHudDirectory))
+                    {
+
+                        if (!File.Exists(layoutFolder))
+                        {
+                            Directory.CreateDirectory(layoutFolder);
+                        }
+
+                        switch (hudDesign)
+                        {
+                            case eHudDesign.Standard:
+                            {
+                                if (File.Exists(hudPanelhdJsonFilePath))
+                                {
+                                    File.Delete(hudPanelhdJsonFilePath);
+
+                                    if ((eUiThemes) ShellViewModel.UserSettings.UiTheme == eUiThemes.Standard)
+                                    {
+
+                                        File.Copy(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath);
+                                    }
+                                    else
+                                    {
+                                        File.Copy(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/UI Theme/remodded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath);
+                                    }
+
+                                    // Update skillselecthd.json if it exists
+                                    if (File.Exists(skillSelecthdJsonFilePath))
+                                    {
+                                        string skillSelect = await File.ReadAllTextAsync(skillSelecthdJsonFilePath);
+                                        await File.WriteAllTextAsync(skillSelecthdJsonFilePath, skillSelect.Replace("\"centerMirrorGapWidth\": 846,", "\"centerMirrorGapWidth\": 146,"));
+                                    }
+                                }
+                                break;
+                            }
+                            case eHudDesign.Merged:
+                            {
+                                if (!Directory.Exists(controllerDirectory))
+                                {
+                                    Directory.CreateDirectory(controllerDirectory);
+                                }
+                                File.Copy(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Merged HUD/hudpanelhd-merged.json"), hudPanelhdJsonFilePath, true);
+                                File.Copy(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Merged HUD/Controller/hudpanelhd-merged_controller.json"), hudPanelhdJsonFilePath, true);
+
+                                // Update skillselecthd.json if it exists
+                                if (!File.Exists(skillSelecthdJsonFilePath))
+                                {
+                                    File.Create(skillSelecthdJsonFilePath).Close();
+                                    await File.WriteAllBytesAsync(skillSelecthdJsonFilePath, await Helper.GetResourceByteArray("Options.MergedHUD.skillselecthd.json"));
+                                }
+                                string skillSelect = File.ReadAllText(skillSelecthdJsonFilePath);
+                                await File.WriteAllTextAsync(skillSelecthdJsonFilePath, skillSelect.Replace("\"centerMirrorGapWidth\": 146,", "\"centerMirrorGapWidth\": 846,"));
+                                break;
+                            }
+                        }
+                    }
+                    //TODO: Add warning.
                     break;
                 }
             }
@@ -1053,50 +1175,43 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     [UsedImplicitly]
     public async void OnHudDesignDisplayPreview()
     {
-        //TODO: Create Merc Identifier Dialog Form7
-        //Image imageToDisplay = Resources.Preview_HUD;
+        await ShowPreviewImage("Preview_HUD.png", "HUD Preview");
     }
 
     [UsedImplicitly]
     public async void OnSuperTelekinesisPreview()
     {
-        //TODO: Create Merc Identifier Dialog Form7
-        //Image imageToDisplay = Resources.Preview_SuperTK;
+        await ShowPreviewImage("Preview_SuperTK.gif", "Super Telekinesis Preview");
     }
 
     [UsedImplicitly]
     public async void OnItemDisplayPreview()
     {
-        //TODO: Create Merc Identifier Dialog Form7
-        //Image imageToDisplay = Resources.Preview_ItemIcons;
+        await ShowPreviewImage("Preview_ItemIcons.png", "Item Icons Preview");
     }
 
     [UsedImplicitly]
     public async void OnMonsterStatsDisplayPreview()
     {
-        //TODO: Create Merc Identifier Dialog Form7
-        //Image imageToDisplay = Resources.Preview_MonsterStats;
+        await ShowPreviewImage("Preview_MonsterStats.gif", "Monster Stats Preview");
     }
 
     [UsedImplicitly]
     public async void OnRuneDisplayPreview()
     {
-        //TODO: Create Merc Identifier Dialog Form7
-        //Image imageToDisplay = Resources.Preview_RuneDisplay;
+        await ShowPreviewImage("Preview_RuneDisplay.gif", "Rune Display Preview");
     }
 
     [UsedImplicitly]
     public async void OnMercIdentifierPreview()
     {
-        //TODO: Create Merc Identifier Dialog Form7
-        //Image imageToDisplay = Resources.Preview_MercIcon;
+        await ShowPreviewImage("Preview_MercIcon.png", "Merc Icons Preview");
     }
 
     [UsedImplicitly]
     public async void OnSkillIconPreview()
     {
-        //TODO: Create Skill Icons Dialog Form7
-        //Image imageToDisplay = Resources.Preview_SkillIcons;
+        await ShowPreviewImage("Preview_SkillIcons.gif", "Skill Icons Preview");
     }
 
     [UsedImplicitly]
@@ -1263,6 +1378,199 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         itemRunes = itemRunes.Replace("\"Jah Rune\"", "\"Ⅾ Jahÿc0\"").Replace("\"Cham Rune\"", "\"Ⅿ Chamÿc0\"").Replace("\"Zod Rune\"", "\"ⅰ Zodÿc0\"");
 
         File.WriteAllText(itemRuneJsonFilePath, itemRunes);
+    }
+
+    private void RemoveSuperTkSkill()
+    {
+        string skillTextPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/skills.txt");
+
+        if (File.Exists(skillTextPath))
+        {
+            string originalSkillTextPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Originals/skills-original.txt");
+
+            //Remove SuperTK from charstats and itemtypes
+            if (File.Exists(originalSkillTextPath))
+            {
+                File.Copy(originalSkillTextPath, skillTextPath, true);
+            }
+
+            string charStatsPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/charstats.txt");
+            string itemTypesPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/itemtypes.txt");
+
+            if (File.Exists(charStatsPath) && File.Exists(itemTypesPath))
+            {
+                string[] charStatsLines = File.ReadAllLines(charStatsPath);
+                string[] itemTypesLines = File.ReadAllLines(itemTypesPath);
+
+                for (int i = 0; i < charStatsLines.Length; i++)
+                {
+                    string line = charStatsLines[i];
+                    string[] splitContent = line.Split('\t');
+
+                    if (i > 0 && i != 6)
+                    {
+                        splitContent[34] = "";
+                        charStatsLines[i] = string.Join("\t", splitContent);
+                    }
+                }
+
+                for (int i = 0; i < itemTypesLines.Length; i++)
+                {
+                    string line = itemTypesLines[i];
+                    string[] splitContent = line.Split('\t');
+
+                    if (i == 14 || i == 21 || i == 60 || i == 76)
+                        splitContent[3] = "";
+                    if (i == 46 || i == 51)
+                        splitContent[2] = "";
+
+                    itemTypesLines[i] = string.Join("\t", splitContent);
+                }
+
+                // Write the modified content back to the files
+                File.WriteAllLines(charStatsPath, charStatsLines);
+                File.WriteAllLines(itemTypesPath, itemTypesLines);
+            }
+
+            //Remove SuperTK from skills
+            bool superTKExists = false;
+            List<string> lines = new List<string>();
+
+            //Check the last entry in file for the SuperTK skill; if it exists, flag it
+            using (StreamReader reader = new StreamReader(skillTextPath))
+            {
+                while (reader.ReadLine() is { } line)
+                {
+                    string[] columns = line.Split('\t');
+                    if (columns.Length > 0 && columns[0] == "SuperTK")
+                        superTKExists = true;
+                    else
+                        lines.Add(line);
+                }
+            }
+
+            //Check for flag and write the modified content back to the file
+            if (superTKExists)
+            {
+                using StreamWriter writer = new StreamWriter(skillTextPath, false);
+
+                foreach (string line in lines)
+                {
+                    writer.WriteLine(line);
+                }
+            }
+        }
+
+    }
+
+    private void CreateSuperTKSkill()
+    {
+        string skillTextPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/skills.txt");
+        string itemTypesTextPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/itemtypes.txt");
+        string charStatsPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/charstats.txt");
+        string originalSkillTextPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Originals/skills-original.txt");
+        string originalsDirectoryPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Originals");
+
+        //Create needed folders and files
+        if (!File.Exists(itemTypesTextPath))
+        {
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\itemtypes.txt", ShellViewModel.BaseModsFolder, "data:data", "data");
+        }
+        if (!File.Exists(charStatsPath))
+        {
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\charstats.txt", ShellViewModel.BaseModsFolder, "data:data", "data");
+        }
+        if (!Directory.Exists(originalsDirectoryPath))
+        {
+            Directory.CreateDirectory(originalsDirectoryPath);
+        }
+        if (!File.Exists(skillTextPath))
+        {
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\skills.txt", ShellViewModel.BaseModsFolder, "data:data", "data");
+        }
+        File.Copy(skillTextPath, originalSkillTextPath, true);
+
+        //Check to see if we already added the skill previously
+        bool superTKExists = false;
+        using (StreamReader reader = new StreamReader(skillTextPath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] columns = line.Split('\t');
+                if (columns.Length > 0 && columns[0] == "SuperTK")
+                {
+                    superTKExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!superTKExists)
+        {
+            //Skill doesn't exist yet; let's create it
+            int tkKSkill = 44; //ID of TK Skill
+            string[] lines = File.ReadAllLines(skillTextPath);
+            int lineCount = 0; //track ID we added skill to
+
+            // Check if the specified line number is valid
+            if (tkKSkill < lines.Length)
+            {
+                string lineToCopy = lines[tkKSkill];
+                lineCount = lines.Length;
+                Array.Resize(ref lines, lineCount + 1);
+                lines[lineCount] = lineToCopy;
+                File.WriteAllLines(skillTextPath, lines);
+            }
+
+            //TK has been cloned now; let's edit it
+            string[] linesS = File.ReadAllLines(skillTextPath);
+            string outstr = "";
+            string sep = "\t";
+            int index = 0;
+
+            foreach (string line in linesS)
+            {
+                string[] splitContent = line.Split(sep.ToCharArray());
+
+                if (index == lineCount)
+                {
+                    splitContent[0] = "SuperTK"; //Change Skill Name
+                    splitContent[1] = (lineCount - 2).ToString(); //Update Comment ID
+                    splitContent[2] = ""; //Remove sorceress-type skill
+                    splitContent[189] = ""; //Remove mana requirement
+                    splitContent[214] = "50"; //Increase Range
+                    splitContent[216] = "0"; //Remove Knockback Chance
+                    splitContent[244] = "13"; //Remove Knockback Layer
+                    for (int i = 261; i <= 273; i++)
+                    {
+                        splitContent[i] = "";
+                    }
+
+                    outstr += String.Join("\t", splitContent) + "\n";
+                }
+                else
+                {
+                    outstr += line + "\n";
+                }
+                index += 1;
+            }
+            File.WriteAllText(skillTextPath, outstr);
+        }
+    }
+
+    private async Task ShowPreviewImage(string imageName, string title)
+    {
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        {
+            
+        }
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }

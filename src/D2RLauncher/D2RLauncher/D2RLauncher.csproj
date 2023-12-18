@@ -82,6 +82,10 @@
     <None Remove="Resources\Options\MercIcons\MercName2a.texture" />
     <None Remove="Resources\Options\MercIcons\MercName2b.texture" />
     <None Remove="Resources\Options\MercIcons\roguehire.json" />
+    <None Remove="Resources\Options\MergedHUD\hudpanelhd-m.json" />
+    <None Remove="Resources\Options\MergedHUD\hudpanelhd-mc.json" />
+    <None Remove="Resources\Options\MergedHUD\hudpanelhd-n.json" />
+    <None Remove="Resources\Options\MergedHUD\skillselecthd.json" />
     <None Remove="Resources\Options\MonsterStats.dll" />
     <None Remove="Resources\Options\MonsterStats\HB_A.lowend.sprite" />
     <None Remove="Resources\Options\MonsterStats\HB_A.sprite" />
@@ -94,6 +98,14 @@
     <None Remove="Resources\Options\MonsterStats\hudmonsterhealthhd.json" />
     <None Remove="Resources\Options\PersonalizedTabs\stash_rmd" />
     <None Remove="Resources\Options\PersonalizedTabs\stash_vnp" />
+    <None Remove="Resources\Preview\Preview_HUD.png" />
+    <None Remove="Resources\Preview\Preview_ItemIcons.png" />
+    <None Remove="Resources\Preview\Preview_MercIcon.png" />
+    <None Remove="Resources\Preview\Preview_MonsterStats.gif" />
+    <None Remove="Resources\Preview\Preview_RuneDisplay.gif" />
+    <None Remove="Resources\Preview\Preview_SinIcons.gif" />
+    <None Remove="Resources\Preview\Preview_SkillIcons.gif" />
+    <None Remove="Resources\Preview\Preview_SuperTK.gif" />
     <None Remove="Resources\SharedStashHardCoreV2.d2i" />
     <None Remove="Resources\SharedStashSoftCoreV2.d2i" />
   </ItemGroup>
@@ -159,6 +171,10 @@
     <EmbeddedResource Include="Resources\Options\MercIcons\MercName2a.texture" />
     <EmbeddedResource Include="Resources\Options\MercIcons\MercName2b.texture" />
     <EmbeddedResource Include="Resources\Options\MercIcons\roguehire.json" />
+    <EmbeddedResource Include="Resources\Options\MergedHUD\hudpanelhd-m.json" />
+    <EmbeddedResource Include="Resources\Options\MergedHUD\hudpanelhd-mc.json" />
+    <EmbeddedResource Include="Resources\Options\MergedHUD\hudpanelhd-n.json" />
+    <EmbeddedResource Include="Resources\Options\MergedHUD\skillselecthd.json" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\HB_A.lowend.sprite" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\HB_A.sprite" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\HB_L.lowend.sprite" />
@@ -171,6 +187,14 @@
     <EmbeddedResource Include="Resources\Options\MonsterStats\MonsterStats.dll" />
     <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_rmd" />
     <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_vnp" />
+    <Resource Include="Resources\Preview\Preview_HUD.png" />
+    <Resource Include="Resources\Preview\Preview_ItemIcons.png" />
+    <Resource Include="Resources\Preview\Preview_MercIcon.png" />
+    <Resource Include="Resources\Preview\Preview_MonsterStats.gif" />
+    <Resource Include="Resources\Preview\Preview_RuneDisplay.gif" />
+    <Resource Include="Resources\Preview\Preview_SinIcons.gif" />
+    <Resource Include="Resources\Preview\Preview_SkillIcons.gif" />
+    <Resource Include="Resources\Preview\Preview_SuperTK.gif" />
     <EmbeddedResource Include="Resources\SharedStashHardCoreV2.d2i" />
     <EmbeddedResource Include="Resources\SharedStashSoftCoreV2.d2i" />
   </ItemGroup>
@@ -210,6 +234,7 @@
     <PackageReference Include="Syncfusion.Tools.WPF" Version="23.1.41" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>

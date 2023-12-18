@@ -2,5 +2,3 @@
 src/D2RLauncher/D2RLauncher/obj
 src/D2RLauncher/D2RLauncher/bin
 src/D2RLauncher/D2RLauncher.sln.DotSettings.user
-*.DotSettings
-*.user

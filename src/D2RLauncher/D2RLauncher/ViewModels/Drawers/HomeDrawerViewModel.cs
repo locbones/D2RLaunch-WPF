@@ -63,10 +63,9 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     private ObservableCollection<KeyValuePair<string, eUiThemes>> _uiThemes = new ObservableCollection<KeyValuePair<string, eUiThemes>>();
     private DispatcherTimer _monsterStatsDispatcherTimer;
     private bool _uiThemeEnabled;
+    
 
     #endregion
-
-    //TODO Implement Auto-Backup Timer
 
     public HomeDrawerViewModel()
     {
@@ -91,6 +90,8 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     #region properties
 
     public ShellViewModel ShellViewModel { get; }
+
+    
 
     public bool UiThemeEnabled
     {
@@ -450,6 +451,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     ShellViewModel.WikiEnabled = false;
                     ShellViewModel.UserSettings.UiTheme = 1;
 
+                    ShellViewModel.SuperTelekinesisEnabled = false;
                     ShellViewModel.SkillBuffIconsEnabled = false;
                     ShellViewModel.SkillIconPackEnabled = false;
                     ShellViewModel.ShowItemLevelsEnabled = true;

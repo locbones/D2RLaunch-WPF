@@ -17,6 +17,7 @@ using D2RLauncher.Models;
 using D2RLauncher.Models.Enums;
 using D2RLauncher.Properties;
 using D2RLauncher.ViewModels.Dialogs;
+using D2RLauncher.Views.Dialogs;
 using JetBrains.Annotations;
 using Syncfusion.Licensing;
 
@@ -1217,14 +1218,31 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     [UsedImplicitly]
     public async void OnSkillBuffIconsSettings()
     {
-        //TODO: Create Skill Buff Icons Dialog Form9
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        BuffIconSettingsViewModel vm = new BuffIconSettingsViewModel(ShellViewModel);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        {
+
+        }
     }
 
     [UsedImplicitly]
     public async void OnStashTabsSettings()
     {
-        //TODO: Create Stash Tab Dialog Form2
-        // Settings.Default.stashTabs
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        StashTabSettingsViewModel vm = new StashTabSettingsViewModel(ShellViewModel);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        {
+
+        }
     }
 
     [UsedImplicitly]
@@ -1243,11 +1261,18 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     }
 
     [UsedImplicitly]
-    public async void OnRestore()
+    public async void OnRestoreBackup()
     {
-        //TODO: Need to implement a new dialog that shows a full list of characters that can be restored
-        //TODO: Would be nice to also be able to display simple information such as level and class etc etc.
-        MessageBox.Show("Not implemented yet! Must be done manually!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        RestoreBackupViewModel vm = new RestoreBackupViewModel(ShellViewModel);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        {
+
+        }
     }
 
     [UsedImplicitly]

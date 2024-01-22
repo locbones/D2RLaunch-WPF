@@ -30,6 +30,7 @@ public class UserSettings : INotifyPropertyChanged
     private int _font;
     private int _superTelekinesis;
     private int _runeDisplay;
+    private string _buffIconTemplate;
 
     #endregion
 
@@ -338,6 +339,17 @@ public class UserSettings : INotifyPropertyChanged
         {
             if (value == _runeDisplay) return;
             _runeDisplay = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string BuffIconTemplate
+    {
+        get => _buffIconTemplate;
+        set
+        {
+            if (value == _buffIconTemplate) return;
+            _buffIconTemplate = value;
             OnPropertyChanged();
         }
     }

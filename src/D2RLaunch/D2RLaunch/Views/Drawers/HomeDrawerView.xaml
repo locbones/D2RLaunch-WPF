@@ -39,7 +39,6 @@
                     <Label
                         HorizontalContentAlignment="Center"
                         Content="{Binding ModTitle}"
-                        FontFamily="Arial"
                         Style="{StaticResource LabelNormalStyle}" />
                 </Border>
 
@@ -55,7 +54,6 @@
                         <TextBlock
                             Margin="5"
                             VerticalAlignment="Top"
-                            FontFamily="Arial"
                             Style="{StaticResource TextBlockStyleGold}"
                             Text="{Binding ModDescription}"
                             TextWrapping="WrapWithOverflow" />

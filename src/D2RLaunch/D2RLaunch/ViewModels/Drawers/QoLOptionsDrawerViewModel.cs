@@ -315,7 +315,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
         if (result.passed)
         {
-            MessageBox.Show($"{result.characterName} along with stash has been backed up successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"{result.characterName} and your Shared Stash has been backed up successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         else
         {

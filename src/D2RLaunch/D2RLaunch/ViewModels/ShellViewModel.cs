@@ -1529,7 +1529,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 Directory.CreateDirectory(mostRecentCharacterBackupFolder);
             }
 
-            File.Copy(mostRecentCharacterFile.FullName, Path.Combine(mostRecentCharacterBackupFolder, mostRecentCharacterFile.Name), true);
+            File.Copy(mostRecentCharacterFile.FullName, Path.Combine(mostRecentCharacterBackupFolder, mostRecentCharacterName + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2s"), true);
 
             //Backup Stash
             string mostRecentStashFile = Path.Combine(SaveFilesFilePath, "SharedStashSoftCoreV2.d2i");
@@ -1538,7 +1538,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             {
                 Directory.CreateDirectory(stashBackupFolder);
             }
-            File.Copy(mostRecentStashFile, Path.Combine(stashBackupFolder, "SharedStashSoftCoreV2.d2i"), true);
+            File.Copy(mostRecentStashFile, Path.Combine(stashBackupFolder, "SharedStashSoftCoreV2" + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2i"), true);
         }
         catch (Exception ex)
         {
@@ -1921,6 +1921,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
                     if (!string.IsNullOrEmpty(ModInfo.Wiki))
                     {
+                        
                         ProcessStartInfo psi = new ProcessStartInfo(ModInfo.Wiki);
                         psi.UseShellExecute = true;
                         Process.Start(psi);
@@ -1939,13 +1940,14 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
                     if (!string.IsNullOrEmpty(ModInfo.Patreon))
                     {
+                        MessageBox.Show(ModInfo.Patreon.ToString());
                         ProcessStartInfo psi = new ProcessStartInfo(ModInfo.Patreon);
                         psi.UseShellExecute = true;
                         Process.Start(psi);
                     }
                     else
                     {
-                        MessageBox.Show(Helper.GetCultureString("NoWiki"));
+                        MessageBox.Show(Helper.GetCultureString("NoPatreon"));
                     }
 
                     break;
@@ -1988,7 +1990,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
                     else
                     {
-                        modPath = BaseSelectedModFolder;
+                        modPath = SaveFilesFilePath;
                     }
 
                     if (Directory.Exists(modPath))

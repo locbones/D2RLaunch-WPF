@@ -390,7 +390,7 @@
     <comment>Mod files are current...no update needed!</comment>
   </data>
   <data name="ModUpdateRdy" xml:space="preserve">
-    <value>MOD 有可用更新！\n\n是否需要在更新之前备份您的原先 MOD？</value>
+    <value>Mod 更新可用！\n\n您想在更新之前备份此 Mod 吗？</value>
     <comment>Mod Update Available!\n\nWould you like to make a backup of your mod folder before updating?</comment>
   </data>
   <data name="MonsterStatsDisplay" xml:space="preserve">

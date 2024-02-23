@@ -241,6 +241,24 @@ namespace D2RLaunch.Models
 
                         modInfo.MonsterStatsDisplay = value.ToUpperInvariant() == "ENABLED";
                     }
+                    else if (line.Contains("Discord"))
+                    {
+                        string value = line.Replace("Discord: ", "");
+
+                        modInfo.Discord = value;
+                    }
+                    else if (line.Contains("Wiki"))
+                    {
+                        string value = line.Replace("Wiki: ", "");
+
+                        modInfo.Wiki = value;
+                    }
+                    else if (line.Contains("Patreon"))
+                    {
+                        string value = line.Replace("Patreon: ","");
+
+                        modInfo.Patreon = value;
+                    }
                 }
 
                 return modInfo;

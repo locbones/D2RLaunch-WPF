@@ -159,7 +159,7 @@
             <syncfusion:SfNavigationDrawer.FooterItems>
                 <syncfusion:NavigationItem
                     HorizontalAlignment="Center"
-                    Header="Patreon"
+                    Header="Bonesy"
                     ItemType="Button"
                     Style="{StaticResource NavigationItemOrangeStyle}"
                     Tag="Patreon">

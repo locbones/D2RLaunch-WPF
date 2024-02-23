@@ -446,7 +446,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
                 {
                     UiThemeEnabled = false;
-                    ShellViewModel.WikiEnabled = false;
+                    ShellViewModel.WikiEnabled = true;
                     ShellViewModel.UserSettings.UiTheme = 1;
 
                     ShellViewModel.ShowItemLevelsEnabled = false;

@@ -342,7 +342,7 @@
     <comment>Show Item Levels</comment>
   </data>
   <data name="LauncherUpdateRdy" xml:space="preserve">
-    <value>D2R Launcher 有可用更新！</value>
+    <value>D2RLaunch 有可用更新！</value>
     <comment>Launcher Update Available!</comment>
   </data>
   <data name="LaunchFiles" xml:space="preserve">

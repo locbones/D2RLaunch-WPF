@@ -45,7 +45,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private ILog _logger = LogManager.GetLogger(typeof(ShellViewModel));
     private UserControl _userControl;
     private IWindowManager _windowManager;
-    private string _title = "D2R Launch";
+    private string _title = "D2RLaunch";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -68,7 +68,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         if (Execute.InDesignMode)
         {
             ModLogo = "pack://application:,,,/Resources/Images/D2RL_Logo.png";
-            Title = "D2R Launcher";
+            Title = "D2RLaunch";
             DiabloInstallDetected = true;
             HomeDrawerViewModel vm = new HomeDrawerViewModel();
             UserControl = new HomeDrawerView() {DataContext = vm};

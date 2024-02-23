@@ -312,7 +312,7 @@
     <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_vnp" />
     <Resource Include="Resources\BuffIcons\Images\BuffIconPreview.png" />
     <Resource Include="Resources\Fonts\formal436bt.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\StashSettingsBackground.png" />
     <Resource Include="Resources\Preview\Preview_HUD.png" />

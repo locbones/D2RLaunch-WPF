@@ -3,3 +3,6 @@ src/D2RLauncher/D2RLauncher/obj
 src/D2RLauncher/D2RLauncher/bin
 src/D2RLauncher/D2RLauncher.sln.DotSettings.user
 *.user
+src/D2RLaunch/D2RLaunch/obj
+src/D2RLaunch/D2RLaunch/bin
+src/D2RLaunch/.vs

@@ -2070,7 +2070,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 }
             case "D2RYOUTUBE":
                 {
-                    ProcessStartInfo psi = new ProcessStartInfo("https://d2rmodding.com") { UseShellExecute = true };
+                    ProcessStartInfo psi = new ProcessStartInfo("https://www.youtube.com/@locbones1") { UseShellExecute = true };
                     Process.Start(psi);
                     break;
                 }

@@ -61,7 +61,7 @@
                             ItemsSource="{Binding Fonts}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.Font}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" />
+                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnUseFont];"
                             Background="#0d2905"
@@ -115,7 +115,7 @@
                             ItemsSource="{Binding BackupsSettings}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.AutoBackups}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" />
+                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnBackup];"
                             Background="#0d2905"
@@ -145,7 +145,7 @@
                             ItemsSource="{Binding EnabledDisabledOptions}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.PersonalizedStashTabs}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" />
+                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
                             Background="#0d2905"
@@ -171,7 +171,7 @@
                             ItemsSource="{Binding EnabledDisabledOptions}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.BuffIcons}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" />
+                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnSkillBuffIconsSettings];"
                             Background="#0d2905"
@@ -207,7 +207,7 @@
                                 ItemsSource="{Binding SkillIconPacks}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.SkillIcons}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
 
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center">
@@ -234,7 +234,7 @@
                                 ItemsSource="{Binding MercIdentifiers}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.MercIcons}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center">
@@ -252,7 +252,7 @@
                                 ItemsSource="{Binding EnabledDisabledOptions}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.ItemIlvls}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
@@ -278,7 +278,7 @@
                                 ItemsSource="{Binding EnabledDisabledOptions}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.RuneDisplay}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center">
@@ -295,7 +295,7 @@
                                 ItemsSource="{Binding EnabledDisabledOptions}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.HideHelmets}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
@@ -321,7 +321,7 @@
                                 ItemsSource="{Binding MonsterStats}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.MonsterStatsDisplay}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center">
@@ -348,7 +348,7 @@
                                 ItemsSource="{Binding ItemDisplays}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.ItemIcons}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
@@ -375,7 +375,7 @@
                                 ItemsSource="{Binding EnabledDisabledOptions}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.SuperTelekinesis}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
                     </UniformGrid>
 
@@ -405,7 +405,7 @@
                                 ItemsSource="{Binding RunewordSorting}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.RunewordSorting}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
@@ -431,7 +431,7 @@
                                 ItemsSource="{Binding HudDesigns}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.HudDesign}"
                                 SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" />
+                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
                     </UniformGrid>
                 </Grid>

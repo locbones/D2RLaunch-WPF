@@ -31,6 +31,7 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Timers;
+using Syncfusion.Windows.Tools.Controls;
 
 namespace D2RLaunch.ViewModels.Drawers;
 
@@ -1323,6 +1324,17 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
             await InitializeMods();
         }
+    }
+
+    [UsedImplicitly]
+    public async void OnCASCSettings()
+    {
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        CASCExtractorViewModel vm = new CASCExtractorViewModel(ShellViewModel);
+        await _windowManager.ShowDialogAsync(vm, null, options);
     }
 
     [UsedImplicitly]

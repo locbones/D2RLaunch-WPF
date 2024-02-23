@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:dialogs="clr-namespace:D2RLaunch.ViewModels.Dialogs"
-    Width="500"
+    Width="550"
     Height="360"
     d:DataContext="{d:DesignInstance Type=dialogs:CASCExtractorViewModel,
                                      IsDesignTimeCreatable=True}"

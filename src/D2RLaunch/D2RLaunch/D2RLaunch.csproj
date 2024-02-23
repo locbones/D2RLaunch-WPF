@@ -95,6 +95,7 @@
     <None Remove="Resources\Fonts\8.png" />
     <None Remove="Resources\Fonts\9.otf" />
     <None Remove="Resources\Fonts\9.png" />
+    <None Remove="Resources\Fonts\formal436bt.ttf" />
     <None Remove="Resources\Icons\Icon_Files.png" />
     <None Remove="Resources\Icons\Icon_Home.png" />
     <None Remove="Resources\Icons\Icon_Modding.png" />
@@ -310,6 +311,9 @@
     <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_rmd" />
     <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_vnp" />
     <Resource Include="Resources\BuffIcons\Images\BuffIconPreview.png" />
+    <Resource Include="Resources\Fonts\formal436bt.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\StashSettingsBackground.png" />
     <Resource Include="Resources\Preview\Preview_HUD.png" />
     <Resource Include="Resources\Preview\Preview_ItemIcons.png" />

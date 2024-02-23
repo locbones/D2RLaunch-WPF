@@ -44,6 +44,7 @@ public class CASCExtractorViewModel : Screen
     public CASCExtractorViewModel(ShellViewModel shellViewModel)
     {
         ShellViewModel = shellViewModel;
+        DisplayName = "CASC Extractor";
 
         DriveInfo driveInfo = new(Path.GetPathRoot(ShellViewModel.GamePath));
 

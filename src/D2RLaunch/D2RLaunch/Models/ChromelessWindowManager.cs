@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -30,12 +31,20 @@ public class ChromelessWindowManager : WindowManager
 
             SfSkinManager.SetVisualStyle(window, VisualStyles.MaterialDark);
             SfSkinManager.ApplyStylesOnApplication = true;
+
+            MaterialDarkThemeSettings settings = new MaterialDarkThemeSettings();
+            settings.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Resources/Fonts/#Formal436 BT");
+            SfSkinManager.RegisterThemeSettings("MaterialDark", settings);
         }
         else
         {
-            window = new ChromelessWindow {Content = view, SizeToContent = SizeToContent.WidthAndHeight, UseNativeChrome = true};
+            window = new ChromelessWindow { Content = view, SizeToContent = SizeToContent.WidthAndHeight, UseNativeChrome = true };
 
             SfSkinManager.SetTheme(window, new Theme("MaterialDark"));
+
+            MaterialDarkThemeSettings settings = new MaterialDarkThemeSettings();
+            settings.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Resources/Fonts/#Formal436 BT");
+            SfSkinManager.RegisterThemeSettings("MaterialDark", settings);
 
             window.SetValue(View.IsGeneratedProperty, true);
 

@@ -46,6 +46,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
+    private string appVersion = "2.0";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -242,7 +243,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
     public string Title
     {
-        get => _title;
+        get => _title + " v" + appVersion;
         set
         {
             if (value == _title) return;
@@ -1759,6 +1760,92 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
+    private async Task CheckForLauncherUpdates()
+    {
+        WebClient webClient = new WebClient();
+
+        if (!File.Exists(@"..\MyVersions_Temp.txt"))
+        {
+            string primaryLink = "https://drive.google.com/uc?export=download&id=1AW5tOJVpSkWdrXYdjllyPyU3Cpdd-SMV";
+            string backupLink = "https://d2filesdrop.s3.us-east-2.amazonaws.com/MyVersions.txt";
+
+            try
+            {
+                webClient.DownloadFile(primaryLink, @"..\MyVersions_Temp.txt");
+            }
+            catch (WebException ex)
+            {
+                if (ex.Response is HttpWebResponse response && ((int)response.StatusCode == 429 || (int)response.StatusCode == 500))
+                {
+                    try
+                    {
+                        webClient.DownloadFile(backupLink, @"..\MyVersions_Temp.txt");
+                    }
+                    catch (WebException)
+                    {
+                        MessageBox.Show("Backup download link for MyVersions_Temp.txt failed.", "Download Error");
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("An error occurred during the download: " + ex.Message, "Download Error");
+                    return;
+                }
+            }
+        }
+
+        string[] newVersions = File.ReadAllLines(@"..\MyVersions_Temp.txt");
+        //string LVersion = Directory.GetFiles(@"..\Stasher", "*.xyz").FirstOrDefault()?.Replace(@"..\Stasher\", "").Replace(".xyz", "");
+
+        if (newVersions[0] != appVersion && (newVersions[0].Length <= 5))
+        {
+            string primaryLink2 = "https://www.dl.dropboxusercontent.com/scl/fi/m1e8kg5oh334qln8u7i39/D2R_Updater.zip?rlkey=e7o34dut4efpx648x8bq196s8&dl=0";
+            string backupLink2 = "https://d2filesdrop.s3.us-east-2.amazonaws.com/D2R_Updater.zip";
+
+            try
+            {
+                webClient.DownloadFile(primaryLink2, @"..\UpdateU.zip");
+            }
+            catch (WebException ex)
+            {
+                if (ex.Response is HttpWebResponse response && ((int)response.StatusCode == 429 || (int)response.StatusCode == 500))
+                {
+                    try
+                    {
+                        webClient.DownloadFile(backupLink2, @"..\UpdateU.zip");
+                    }
+                    catch (WebException)
+                    {
+                        MessageBox.Show("Backup download link 2 failed.", "Download Error");
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("An error occurred during the download: " + ex.Message, "Download Error");
+                    return;
+                }
+            }
+
+            Directory.Delete(@"..\Updater\", true);
+            Directory.CreateDirectory(@"..\Updater\");
+            ZipFile.ExtractToDirectory(@"..\UpdateU.zip", @"..\Updater\");
+            File.Delete(@"..\UpdateU.zip");
+
+            File.Create(@"..\Launcher\lnu.txt").Close();
+            MessageBox.Show("There is a new version of D2RLaunch available!\n\nCurrent Launcher Version: " + appVersion + "\nNew Launcher Version: " + newVersions[0] + "\n\nPlease click OK to begin the update process", "Launcher Update Available!");
+            Process.Start(@"..\Updater\RMDUpdater.exe");
+            this.TryCloseAsync();
+        }
+        else if (File.Exists("lnu.txt"))
+        {
+            File.Delete("lnu.txt");
+        }
+
+        File.Delete(@"..\MyVersions_Temp.txt");
+    }
+
     private async Task CheckForVaultUpdates()
     {
         WebClient webClient = new WebClient();
@@ -2126,5 +2213,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         HomeDrawerViewModel vm = new HomeDrawerViewModel(this, _windowManager);
         await vm.Initialize();
         UserControl = new HomeDrawerView() { DataContext = vm };
+
+        //CheckForLauncherUpdates();
     }
 }

@@ -1836,7 +1836,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             File.Create(@"..\Launcher\lnu.txt").Close();
             MessageBox.Show("There is a new version of D2RLaunch available!\n\nCurrent Launcher Version: " + appVersion + "\nNew Launcher Version: " + newVersions[0] + "\n\nPlease click OK to begin the update process", "Launcher Update Available!");
             Process.Start(@"..\Updater\RMDUpdater.exe");
-            this.TryCloseAsync();
+            await TryCloseAsync();
         }
         else if (File.Exists("lnu.txt"))
         {

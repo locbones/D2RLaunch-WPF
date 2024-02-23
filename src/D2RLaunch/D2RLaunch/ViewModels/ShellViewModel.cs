@@ -2027,7 +2027,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
                     if (!string.IsNullOrEmpty(ModInfo.Patreon))
                     {
-                        MessageBox.Show(ModInfo.Patreon.ToString());
                         ProcessStartInfo psi = new ProcessStartInfo(ModInfo.Patreon);
                         psi.UseShellExecute = true;
                         Process.Start(psi);

@@ -172,18 +172,18 @@
     </DataTemplate>
 
     <Style x:Key="NavigationItemStyle" TargetType="syncfusion:NavigationItem">
-        <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
+        <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="Firebrick" />
     </Style>
     <Style x:Key="NavigationItemOrangeStyle" TargetType="syncfusion:NavigationItem">
-        <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
+        <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="#db7800" />
     </Style>
     <Style x:Key="NavigationItemGoldStyle" TargetType="syncfusion:NavigationItem">
 
-        <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
+        <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Foreground" Value="#c7b377" />
         <Style.Triggers>
@@ -320,7 +320,7 @@
         <Setter Property="Margin" Value="5" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    
+
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Syncfusion.Themes.MaterialDark.WPF;component/Common/Common.xaml" />

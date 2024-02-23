@@ -39,7 +39,8 @@
                     <Label
                         HorizontalContentAlignment="Center"
                         Content="{Binding ModTitle}"
-                        Style="{StaticResource LabelNormalStyle}" FontFamily="Arial" />
+                        FontFamily="Arial"
+                        Style="{StaticResource LabelNormalStyle}" />
                 </Border>
 
                 <Border
@@ -54,9 +55,10 @@
                         <TextBlock
                             Margin="5"
                             VerticalAlignment="Top"
+                            FontFamily="Arial"
                             Style="{StaticResource TextBlockStyleGold}"
                             Text="{Binding ModDescription}"
-                            TextWrapping="WrapWithOverflow" FontFamily="Arial" />
+                            TextWrapping="WrapWithOverflow" />
                     </ScrollViewer>
 
                 </Border>
@@ -78,7 +80,7 @@
                     <Label
                         HorizontalContentAlignment="Center"
                         Content="{Binding LauncherTitle}"
-                        Style="{StaticResource LabelNormalStyle}" FontFamily="Formal436 BT" />
+                        Style="{StaticResource LabelNormalStyle}" />
                 </Border>
 
                 <Border
@@ -95,7 +97,7 @@
                             VerticalAlignment="Top"
                             Style="{StaticResource TextBlockStyleGold}"
                             Text="{Binding LauncherDescription}"
-                            TextWrapping="WrapWithOverflow" FontFamily="Formal436 BT" />
+                            TextWrapping="WrapWithOverflow" />
                     </ScrollViewer>
                 </Border>
             </Grid>
@@ -114,21 +116,21 @@
                 Background="#200708"
                 IconTemplate="{StaticResource AdditionIconTemplate}"
                 Label="{Binding Path=Create, Source={StaticResource Resources}}"
-                Style="{StaticResource SfButtonAdvNormalStyle}" FontFamily="Formal436 BT" />
+                Style="{StaticResource SfButtonAdvNormalStyle}" />
             <syncfusion:ButtonAdv
                 Grid.Column="1"
                 cm:Message.Attach="[Event Click] = [Action OnCheckForUpdates];"
                 Background="#0d2905"
                 IconTemplate="{StaticResource RefreshIconTemplate}"
                 Label="{Binding Path=Update, Source={StaticResource Resources}}"
-                Style="{StaticResource SfButtonAdvNormalStyle}" FontFamily="Formal436 BT" />
+                Style="{StaticResource SfButtonAdvNormalStyle}" />
             <syncfusion:ButtonAdv
                 Grid.Column="2"
                 cm:Message.Attach="[Event Click] = [Action OnDownloadMod];"
                 Background="#200708"
                 IconTemplate="{StaticResource DownloadIconTemplate}"
                 Label="{Binding Path=Download, Source={StaticResource Resources}}"
-                Style="{StaticResource SfButtonAdvNormalStyle}" FontFamily="Formal436 BT" />
+                Style="{StaticResource SfButtonAdvNormalStyle}" />
         </Grid>
 
         <Grid Grid.Row="2" IsEnabled="{Binding CheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}">
@@ -158,33 +160,35 @@
                 <Label
                     Grid.Row="0"
                     Content="{Binding Path=TextLang, Source={StaticResource Resources}}"
-                    Style="{StaticResource LabelHeaderStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="1"
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnTextLanguageSelectionChanged];"
+                    Background="#FF313030"
                     DisplayMemberPath="Key"
                     ItemsSource="{Binding Languages}"
                     SelectedIndex="{Binding ShellViewModel.UserSettings.TextLanguage}"
                     SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxStyle}" Background="#FF313030" FontFamily="Formal436 BT" />
+                    Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Grid.Row="2"
                     Content="{Binding Path=AudioLang, Source={StaticResource Resources}}"
-                    Style="{StaticResource LabelHeaderStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="3"
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnAudioLanguageSelectionChanged];"
+                    Background="#FF313030"
                     DisplayMemberPath="Key"
                     ItemsSource="{Binding Languages}"
                     SelectedIndex="{Binding ShellViewModel.UserSettings.AudioLanguage}"
                     SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxStyle}" Background="#FF313030" FontFamily="Formal436 BT" />
+                    Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Grid.Row="4"
                     Content="{Binding Path=AppLang, Source={StaticResource Resources}}"
-                    Style="{StaticResource LabelHeaderStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="5"
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnAppLanguageSelectionChanged];"
@@ -193,7 +197,7 @@
                     ItemsSource="{Binding Languages}"
                     SelectedItem="{Binding SelectedAppLanguage}"
                     SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource ComboBoxStyle}" />
             </Grid>
 
             <Grid
@@ -213,7 +217,7 @@
                     Background="#0d2905"
                     IconTemplate="{StaticResource PlayIconTemplate}"
                     Label="{Binding Path=Play, Source={StaticResource Resources}}"
-                    Style="{StaticResource SfButtonAdvNormalStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource SfButtonAdvNormalStyle}" />
 
                 <StackPanel
                     Grid.Row="1"
@@ -223,10 +227,10 @@
                         cm:Message.Attach="[Event Checked] = [Action OnDirectTxtChecked];"
                         Content="Use -direct -txt"
                         IsChecked="{Binding ShellViewModel.UserSettings.DirectTxt}"
-                        Style="{StaticResource CheckBoxStyle}" FontFamily="Formal436 BT" />
+                        Style="{StaticResource CheckBoxStyle}" />
                     <syncfusion:ButtonAdv
-                        Background="Transparent"
                         cm:Message.Attach="[Event Click] = [Action OnCASCSettings];"
+                        Background="Transparent"
                         IconTemplate="{StaticResource SettingsIconTemplate}"
                         Style="{StaticResource SfButtonAdvSmallStyle}" />
                 </StackPanel>
@@ -235,13 +239,14 @@
                     Grid.Row="2"
                     Content="{Binding Path=ModChoice, Source={StaticResource Resources}}"
                     FontWeight="Bold"
-                    Style="{StaticResource LabelHeaderStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="3"
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnModSelectionChanged];"
+                    Background="#FF313030"
                     ItemsSource="{Binding InstalledMods}"
                     SelectedItem="{Binding SelectedMod}"
-                    Style="{StaticResource ComboBoxStyle}" Background="#FF313030" FontFamily="Formal436 BT" />
+                    Style="{StaticResource ComboBoxStyle}" />
 
             </Grid>
 
@@ -271,48 +276,52 @@
                 <Label
                     Grid.Row="0"
                     Content="{Binding Path=Maps, Source={StaticResource Resources}}"
-                    Style="{StaticResource LabelHeaderStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="1"
+                    VerticalAlignment="Center"
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnMapLayoutSelectionChanged];"
+                    Background="#FF313030"
+                    BorderThickness="1,1,1,1"
                     DisplayMemberPath="Key"
                     ItemsSource="{Binding MapLayouts}"
                     SelectedIndex="{Binding ShellViewModel.UserSettings.MapLayout}"
                     SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxStyle}" BorderThickness="1,1,1,1" Background="#FF313030" VerticalAlignment="Center" FontFamily="Formal436 BT" />
+                    Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Grid.Row="2"
                     Content="{Binding Path=UI, Source={StaticResource Resources}}"
-                    Style="{StaticResource LabelHeaderStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     Grid.Row="3"
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnUIThemeSelectionChanged];"
+                    Background="#FF313030"
                     DisplayMemberPath="Key"
                     IsEnabled="{Binding UiThemeEnabled}"
                     ItemsSource="{Binding UiThemes}"
                     SelectedIndex="{Binding ShellViewModel.UserSettings.UiTheme}"
                     SelectedValuePath="Value"
-                    Style="{StaticResource ComboBoxStyle}" Background="#FF313030" FontFamily="Formal436 BT" />
+                    Style="{StaticResource ComboBoxStyle}" />
 
                 <CheckBox
                     Grid.Row="4"
                     HorizontalAlignment="Left"
                     Content="{Binding Path=HDR, Source={StaticResource Resources}}"
                     IsChecked="{Binding ShellViewModel.UserSettings.HdrFix}"
-                    Style="{StaticResource CheckBoxStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource CheckBoxStyle}" />
                 <CheckBox
                     Grid.Row="5"
                     HorizontalAlignment="Left"
                     Content="{Binding Path=Regen, Source={StaticResource Resources}}"
                     IsChecked="{Binding ShellViewModel.UserSettings.ResetMaps}"
-                    Style="{StaticResource CheckBoxStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource CheckBoxStyle}" />
                 <CheckBox
                     Grid.Row="6"
                     HorizontalAlignment="Left"
                     Content="{Binding Path=Respec, Source={StaticResource Resources}}"
                     IsChecked="{Binding ShellViewModel.UserSettings.InfiniteRespec}"
-                    Style="{StaticResource CheckBoxStyle}" FontFamily="Formal436 BT" />
+                    Style="{StaticResource CheckBoxStyle}" />
 
             </Grid>
         </Grid>
@@ -337,7 +346,7 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
                 Content="{Binding ProgressStatus}"
-                Style="{StaticResource LabelHeaderStyle}" FontFamily="Formal436 BT" />
+                Style="{StaticResource LabelHeaderStyle}" />
 
             <syncfusion:SfLinearProgressBar
                 Grid.Row="1"

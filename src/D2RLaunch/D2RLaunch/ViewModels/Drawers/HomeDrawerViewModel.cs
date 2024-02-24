@@ -804,11 +804,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         MessageBox.Show("These options let you force specific map layouts so you can roll that 'perfect' map anytime you want. Details explained below:\n\nTower: The tower entrance is on the same screen as your waypoint.\n\nCatacombs: Levels 3 and 4 are less than 3 screens away\n\nAncient Tunnels: Entrance is 1 screen away from your waypoint\n\nLower Kurast: Very favorable super chest pattern near your waypoint\n\nDurance of Hate: Level 3 entrance is one teleport away from waypoint.\n\nHellforge: Forge is at closest spawn to your waypoint\n\nWorldstone Keep: Level 3 and 4 are right next to each other\n\nI'm a Cheater: Almost all entrances are absurdly close with a perfect LK pattern by the waypoint. You're basically just cheating now.\n\n\nNOTE: Lower Kurast and I'm a Cheater options are only available on Vanilla++.");
     }
 
-    [UsedImplicitly]
-    public async void OnCascHelp()
-    {
-        MessageBox.Show("Please be advised that this method is NOT recommended for most users, unless you are aware of the following info:\n\nAuto-Backups will not work: This mode forces the game to use your retail save location, and the launcher will not perform backups of this folder for safety/liability reasons. I don't want to be responsible for ruining your retail progress. This means you will need to manually move/backup your save files to this location yourself.\n\nRetail game may fail to launch: As you now have modded save files in your retail location; if attempting to play online, the game may crash as it tries to load what it thinks are corrupted characters. It is also recommend to keep a golder for your retail and mod saves so you can swap as needed.\n\nIf this sounds like too much hassle; I don't blame you...this mode was never truly designed for modding convenience.");
-    }
 
     [UsedImplicitly]
     public async void OnPlayMod()

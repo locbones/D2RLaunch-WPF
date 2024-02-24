@@ -2193,7 +2193,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         CultureInfo culture = new CultureInfo(appLanguage.GetAttributeOfType<DisplayAttribute>().Name.Split(' ')[1].Trim(new[] { '(', ')' })/*.Insert(2, "-")*/);
         CultureResources.ChangeCulture(culture);
 
-        if (Settings.Default.InstallPath != null)
+        if (!string.IsNullOrEmpty(Settings.Default.InstallPath))
             GamePath = Settings.Default.InstallPath;
         else
         {

@@ -261,7 +261,6 @@
         <Setter Property="FontSize" Value="15" />
         <Setter Property="Foreground" Value="Firebrick" />
     </Style>
-
     <Style x:Key="NavigationItemStyle" TargetType="syncfusion:NavigationItem">
         <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />
         <Setter Property="FontSize" Value="14" />

@@ -64,6 +64,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private bool _superTelekinesisEnabled;
     private bool _itemIconDisplayEnabled;
     private bool _launcherHasUpdate;
+    private string _launcherUpdateString = "Launcher Update Available!";
     private const string TAB_BYTE_CODE = "55AA55AA0000000061000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
 
     #endregion
@@ -87,6 +88,20 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     }
 
     #region properties
+
+    public string LauncherUpdateString
+    {
+        get => _launcherUpdateString;
+        set
+        {
+            if (value == _launcherUpdateString)
+            {
+                return;
+            }
+            _launcherUpdateString = value;
+            NotifyOfPropertyChange();
+        }
+    }
 
     public bool LauncherHasUpdate
     {
@@ -1819,8 +1834,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         if (newVersions[0] != appVersion && (newVersions[0].Length <= 5))
         {
+            LauncherUpdateString = $"Launcher Update Available! ({newVersions[0]})";
             LauncherHasUpdate = true;
-          
         }
 
         File.Delete(@"..\MyVersions_Temp.txt");
@@ -2213,6 +2228,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         await vm.Initialize();
         UserControl = new HomeDrawerView() { DataContext = vm };
 
-        await CheckForLauncherUpdates();
+        await Task.Run(CheckForLauncherUpdates);
     }
 }

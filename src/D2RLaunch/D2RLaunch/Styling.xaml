@@ -107,7 +107,30 @@
                 </Path>
             </Grid>
         </Viewbox>
+    </DataTemplate>
 
+    <DataTemplate x:Key="SubtractionIconTemplate">
+        <Viewbox>
+            <Grid>
+                <Path
+                    Width="46"
+                    Height="46"
+                    Margin="0,0,0,0"
+                    Data="M0,0L32,0 32,5.3 0,5.3z"
+                    Fill="#c7b377"
+                    RenderTransformOrigin="0.5,0.5"
+                    Stretch="Uniform">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <TransformGroup.Children>
+                                <RotateTransform Angle="0" />
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </TransformGroup.Children>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Grid>
+        </Viewbox>
     </DataTemplate>
     <DataTemplate x:Key="RefreshIconTemplate">
         <Viewbox>
@@ -220,6 +243,25 @@
 
     </DataTemplate>
 
+    <Storyboard x:Key="FlashAnimation">
+        <DoubleAnimation
+            AutoReverse="True"
+            RepeatBehavior="Forever"
+            Storyboard.TargetProperty="Opacity"
+            From="1"
+            To=".2"
+            Duration="0:0:0.9" />
+    </Storyboard>
+
+    <Style
+        x:Key="RedTextBlockStyle"
+        BasedOn="{StaticResource WPFTextBlockStyle}"
+        TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="Firebrick" />
+    </Style>
+
     <Style x:Key="NavigationItemStyle" TargetType="syncfusion:NavigationItem">
         <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />
         <Setter Property="FontSize" Value="14" />
@@ -232,7 +274,7 @@
                             <ContentControl
                                 Width="16"
                                 Height="16"
-                                ContentTemplate="{StaticResource ArrowHeadDownTemplate}" />
+                                ContentTemplate="{StaticResource SubtractionIconTemplate}" />
                         </DataTemplate>
                     </Setter.Value>
                 </Setter>
@@ -244,7 +286,7 @@
                             <ContentControl
                                 Width="16"
                                 Height="16"
-                                ContentTemplate="{StaticResource ArrowHeadUpTemplate}" />
+                                ContentTemplate="{StaticResource AdditionIconTemplate}" />
                         </DataTemplate>
                     </Setter.Value>
                 </Setter>

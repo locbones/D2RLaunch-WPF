@@ -153,6 +153,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Label
@@ -196,6 +197,25 @@
                     SelectedItem="{Binding SelectedAppLanguage}"
                     SelectedValuePath="Value"
                     Style="{StaticResource ComboBoxStyle}" />
+
+                <Label
+                    Grid.Row="6"
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding ShellViewModel.LauncherHasUpdate, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    >
+                    <TextBlock
+                        cm:Message.Attach="[Event MouseLeftButtonDown] = [Action OnUpdateLauncher];"
+                        Cursor="Hand"
+                        Style="{StaticResource RedTextBlockStyle}"
+                        Text="Launcher Update Available!"
+                        TextDecorations="Underline">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource FlashAnimation}" />
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                </Label>
             </Grid>
 
             <Grid

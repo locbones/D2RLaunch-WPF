@@ -12,6 +12,55 @@
         MethodName="GetResourceInstance"
         ObjectType="{x:Type cultures:CultureResources}" />
 
+    <DataTemplate x:Key="ArrowHeadDownTemplate">
+        <Viewbox>
+            <Grid>
+                <Path
+                    Width="46"
+                    Height="46"
+                    Margin="0,0,0,0"
+                    Data="M30.587915,0L31.995998,1.4199842 15.949964,17.351 0,1.4979873 1.4099131,0.078979151 15.949964,14.53102z"
+                    Fill="Firebrick"
+                    RenderTransformOrigin="0.5,0.5"
+                    Stretch="Uniform">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <TransformGroup.Children>
+                                <RotateTransform Angle="0" />
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </TransformGroup.Children>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Grid>
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ArrowHeadUpTemplate">
+        <Viewbox>
+            <Grid>
+                <Path
+                    Width="46"
+                    Height="46"
+                    Margin="0,0,0,0"
+                    Data="M30.587915,0L31.995998,1.4199842 15.949964,17.351 0,1.4979873 1.4099131,0.078979151 15.949964,14.53102z"
+                    Fill="Firebrick"
+                    RenderTransformOrigin="0.5,0.5"
+                    Stretch="Uniform">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <TransformGroup.Children>
+                                <RotateTransform Angle="0" />
+                                <ScaleTransform ScaleX="1" ScaleY="-1" />
+                            </TransformGroup.Children>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Grid>
+        </Viewbox>
+
+    </DataTemplate>
+
     <DataTemplate x:Key="ExportIconTemplate">
         <Viewbox>
             <Grid>
@@ -175,6 +224,32 @@
         <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="Firebrick" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsExpanded, RelativeSource={RelativeSource Self}}" Value="True">
+                <Setter Property="ExpanderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <ContentControl
+                                Width="16"
+                                Height="16"
+                                ContentTemplate="{StaticResource ArrowHeadDownTemplate}" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=IsExpanded, RelativeSource={RelativeSource Self}}" Value="False">
+                <Setter Property="ExpanderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <ContentControl
+                                Width="16"
+                                Height="16"
+                                ContentTemplate="{StaticResource ArrowHeadUpTemplate}" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="NavigationItemOrangeStyle" TargetType="syncfusion:NavigationItem">
         <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />

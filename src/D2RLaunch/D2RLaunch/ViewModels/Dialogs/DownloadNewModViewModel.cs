@@ -210,11 +210,13 @@ public class DownloadNewModViewModel : Screen
     [UsedImplicitly]
     public async void OnInstallMod()
     {
+        /*
         if (SelectedMod.Key == null || SelectedMod.Value == null)
         {
             MessageBox.Show("Please select a mod to install.", "No Mod Selected!", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
+        */
 
         ModDownloadLink = ModDownloadLink.TrimEnd();
 

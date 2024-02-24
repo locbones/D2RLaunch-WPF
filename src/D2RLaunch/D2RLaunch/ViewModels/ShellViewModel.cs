@@ -408,7 +408,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
                     else
                     {
-                        File.Copy(abRunewordJsonFilePath, Path.Combine(SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json"), true);
+                        if (File.Exists(Path.Combine(SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json")))
+                            File.Copy(abRunewordJsonFilePath, Path.Combine(SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json"), true);
                     }
 
                     break;
@@ -781,41 +782,45 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, BaseModsFolder, "data:data", "data");
                     }
 
-                    string runeStrings = await File.ReadAllTextAsync(runeStringJsonFile);
-                    runeStrings = runeStrings.Replace("\"⅐ Elÿc0\"", "\"El Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅑ Eldÿc0\"", "\"Eld Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅒ Tirÿc0\"", "\"Tir Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅓ Nefÿc0\"", "\"Nef Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅔ Ethÿc0\"", "\"Eth Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅕ Ithÿc0\"", "\"Ith Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅖ Talÿc0\"", "\"Tal Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅗ Ralÿc0\"", "\"Ral Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅘ Ortÿc0\"", "\"Ort Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅙ Thulÿc0\"", "\"Thul Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅚ Amnÿc0\"", "\"Amn Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅛ Solÿc0\"", "\"Sol Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅜ Shaelÿc0\"", "\"Shael Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅝ Dolÿc0\"", "\"Dol Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅞ Helÿc0\"", "\"Hel Rune\"");
-                    runeStrings = runeStrings.Replace("\"⅟ Ioÿc0\"", "\"Io Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅰ Lumÿc0\"", "\"Lum Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅱ Koÿc0\"", "\"Ko Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅲ Falÿc0\"", "\"Fal Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅳ Lemÿc0\"", "\"Lem Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅴ Pulÿc0\"", "\"Pul Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅵ Umÿc0\"", "\"Um Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅶ Malÿc0\"", "\"Mal Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅷ Istÿc0\"", "\"Ist Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅸ Gulÿc0\"", "\"Gul Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅹ Vexÿc0\"", "\"Vex Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅺ Ohmÿc0\"", "\"Ohm Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅻ Loÿc0\"", "\"Lo Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅼ Surÿc0\"", "\"Sur Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅽ Berÿc0\"", "\"Ber Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅾ Jahÿc0\"", "\"Jah Rune\"");
-                    runeStrings = runeStrings.Replace("\"Ⅿ Chamÿc0\"", "\"Cham Rune\"");
-                    runeStrings = runeStrings.Replace("\"ⅰ Zodÿc0\"", "\"Zod Rune\"");
-                    await File.WriteAllTextAsync(runeStringJsonFile, runeStrings);
+                    if (File.Exists(runeStringJsonFile))
+                    {
+                        string runeStrings = await File.ReadAllTextAsync(runeStringJsonFile);
+                        runeStrings = runeStrings.Replace("\"⅐ Elÿc0\"", "\"El Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅑ Eldÿc0\"", "\"Eld Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅒ Tirÿc0\"", "\"Tir Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅓ Nefÿc0\"", "\"Nef Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅔ Ethÿc0\"", "\"Eth Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅕ Ithÿc0\"", "\"Ith Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅖ Talÿc0\"", "\"Tal Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅗ Ralÿc0\"", "\"Ral Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅘ Ortÿc0\"", "\"Ort Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅙ Thulÿc0\"", "\"Thul Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅚ Amnÿc0\"", "\"Amn Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅛ Solÿc0\"", "\"Sol Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅜ Shaelÿc0\"", "\"Shael Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅝ Dolÿc0\"", "\"Dol Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅞ Helÿc0\"", "\"Hel Rune\"");
+                        runeStrings = runeStrings.Replace("\"⅟ Ioÿc0\"", "\"Io Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅰ Lumÿc0\"", "\"Lum Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅱ Koÿc0\"", "\"Ko Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅲ Falÿc0\"", "\"Fal Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅳ Lemÿc0\"", "\"Lem Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅴ Pulÿc0\"", "\"Pul Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅵ Umÿc0\"", "\"Um Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅶ Malÿc0\"", "\"Mal Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅷ Istÿc0\"", "\"Ist Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅸ Gulÿc0\"", "\"Gul Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅹ Vexÿc0\"", "\"Vex Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅺ Ohmÿc0\"", "\"Ohm Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅻ Loÿc0\"", "\"Lo Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅼ Surÿc0\"", "\"Sur Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅽ Berÿc0\"", "\"Ber Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅾ Jahÿc0\"", "\"Jah Rune\"");
+                        runeStrings = runeStrings.Replace("\"Ⅿ Chamÿc0\"", "\"Cham Rune\"");
+                        runeStrings = runeStrings.Replace("\"ⅰ Zodÿc0\"", "\"Zod Rune\"");
+                        await File.WriteAllTextAsync(runeStringJsonFile, runeStrings);
+                    }
+                    
                     break;
                 }
             case eEnabledDisabled.Enabled:
@@ -947,31 +952,41 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         string[] files = new string[] { "armor.txt", "misc.txt", "weapons.txt" };
 
-        if (!Directory.Exists(excelPath))
-        {
-            Directory.CreateDirectory(excelPath);
-        }
-        if (!File.Exists(armorTxtPath))
-        {
-            File.Create(armorTxtPath).Close();
-            Helper.ExtractFileFromCasc(GamePath, cascArmorTxtFileName, SelectedModDataFolder, "data:data", "data");
-        }
-        if (!File.Exists(weaponsTxtPath))
-        {
-            File.Create(weaponsTxtPath).Close();
-            Helper.ExtractFileFromCasc(GamePath, cascWeaponsTxtFileName, SelectedModDataFolder, "data:data", "data");
-        }
-        if (!File.Exists(miscTxtPath))
-        {
-            File.Create(miscTxtPath).Close();
-            Helper.ExtractFileFromCasc(GamePath, cascMiscTxtFileName, SelectedModDataFolder, "data:data", "data");
-        }
+        
 
         //search the defined files
         foreach (string file in files)
         {
+            
+
             string filePath = Path.Combine(excelPath, file);
+            if (!File.Exists(filePath)) continue;
+            
             string[] lines = await File.ReadAllLinesAsync(filePath);
+            if (lines.Length == 0) continue;
+
+            if (!Directory.Exists(excelPath))
+            {
+                Directory.CreateDirectory(excelPath);
+            }
+            if (!File.Exists(armorTxtPath))
+            {
+                File.Create(armorTxtPath).Close();
+                Helper.ExtractFileFromCasc(GamePath, cascArmorTxtFileName, SelectedModDataFolder, "data:data", "data");
+            }
+            if (!File.Exists(weaponsTxtPath))
+            {
+                File.Create(weaponsTxtPath).Close();
+                Helper.ExtractFileFromCasc(GamePath, cascWeaponsTxtFileName, SelectedModDataFolder, "data:data", "data");
+            }
+            if (!File.Exists(miscTxtPath))
+            {
+                File.Create(miscTxtPath).Close();
+                Helper.ExtractFileFromCasc(GamePath, cascMiscTxtFileName, SelectedModDataFolder, "data:data", "data");
+            }
+
+
+
             string[] headers = lines[0].Split('\t'); //split by tab-delimited format
             int showLevelIndex = Array.IndexOf(headers, "ShowLevel"); //make an array from the 'ShowLevel' entries
 

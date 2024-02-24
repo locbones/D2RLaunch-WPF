@@ -208,7 +208,7 @@
                         Cursor="Hand"
                         Style="{StaticResource RedTextBlockStyle}"
                         Text="Launcher Update Available!"
-                        TextDecorations="Underline">
+                        TextDecorations="Underline" Margin="0,10,0,0">
                         <TextBlock.Triggers>
                             <EventTrigger RoutedEvent="Loaded">
                                 <BeginStoryboard Storyboard="{StaticResource FlashAnimation}" />

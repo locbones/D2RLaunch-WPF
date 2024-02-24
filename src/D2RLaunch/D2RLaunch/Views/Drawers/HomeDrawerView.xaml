@@ -209,7 +209,7 @@
                         cm:Message.Attach="[Event MouseLeftButtonDown] = [Action OnUpdateLauncher];"
                         Cursor="Hand"
                         Style="{StaticResource RedTextBlockStyle}"
-                        d:Text="Launcher Update Available! (2.2.2)"
+                        d:Text="D2RLaunch Update Ready! (2.2.2)"
                         Text="{Binding ShellViewModel.LauncherUpdateString}"
                         TextDecorations="Underline">
                         <TextBlock.Triggers>

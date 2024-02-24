@@ -35,6 +35,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
 using System.Net;
+using System.Resources;
+using WinForms = System.Windows.Forms;
 
 namespace D2RLaunch.ViewModels;
 
@@ -2191,13 +2193,33 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         CultureInfo culture = new CultureInfo(appLanguage.GetAttributeOfType<DisplayAttribute>().Name.Split(' ')[1].Trim(new[] { '(', ')' })/*.Insert(2, "-")*/);
         CultureResources.ChangeCulture(culture);
 
-        GamePath = await GetDiabloInstallPath();
-
+        if (Settings.Default.InstallPath != null)
+            GamePath = Settings.Default.InstallPath;
+        else
+        {
+            GamePath = await GetDiabloInstallPath();
+            Settings.Default.InstallPath = GamePath;
+        }
+        
         if (string.IsNullOrEmpty(GamePath))
         {
             DiabloInstallDetected = false;
-            MessageBox.Show("Diablo II Resurrected install could not be found!\nPlease be sure to have a legitimate copy of Diablo II Resurrected installed and restart the application!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
+            MessageBoxResult result = MessageBox.Show("Would you like to manually specify your install loation?\nThis tool is intended for legitimate copies of the game only!", "D2R Install could not be found!", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            if (result == MessageBoxResult.Yes)
+            {
+                WinForms.FolderBrowserDialog openFileDlg = new WinForms.FolderBrowserDialog();
+                openFileDlg.InitialDirectory = GamePath;
+                openFileDlg.ShowDialog();
+                GamePath = openFileDlg.SelectedPath;
+                Settings.Default.InstallPath = GamePath;
+                DiabloInstallDetected = true;
+            }
+            else
+            {
+            }
+            //MessageBox.Show("Diablo II Resurrected install could not be found!\nPlease be sure to have a legitimate copy of Diablo II Resurrected installed and restart the application!", "Error", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            //return;
+            Settings.Default.Save();
         }
 
         DiabloInstallDetected = true;

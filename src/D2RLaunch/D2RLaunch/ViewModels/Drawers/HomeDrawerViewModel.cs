@@ -805,6 +805,12 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     }
 
     [UsedImplicitly]
+    public async void OnCascHelp()
+    {
+        MessageBox.Show("Please be advised that this method is NOT recommended for most users, unless you are aware of the following info:\n\nAuto-Backups will not work: This mode forces the game to use your retail save location, and the launcher will not perform backups of this folder for safety/liability reasons. I don't want to be responsible for ruining your retail progress. This means you will need to manually move/backup your save files to this location yourself.\n\nRetail game may fail to launch: As you now have modded save files in your retail location; if attempting to play online, the game may crash as it tries to load what it thinks are corrupted characters. It is also recommend to keep a golder for your retail and mod saves so you can swap as needed.\n\nIf this sounds like too much hassle; I don't blame you...this mode was never truly designed for modding convenience.");
+    }
+
+    [UsedImplicitly]
     public async void OnPlayMod()
     {
         if (ShellViewModel.ModInfo == null)

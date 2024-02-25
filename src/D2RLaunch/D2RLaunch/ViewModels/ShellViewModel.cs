@@ -512,7 +512,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             case eItemDisplay.NoIcons:
                 {
-                    ItemIconsHide(itemNameJsonFilePath, itemNameOriginalJsonFilePath);
+                    ItemIconsHide(itemNameOriginalJsonFilePath, itemNameJsonFilePath);
                     RuneIconsHide(itemRuneJsonFilePath);
                     break;
                 }
@@ -578,7 +578,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-runes.json", SelectedModDataFolder, "data:data");
                     }
 
-                    ItemIconsHide(itemNameJsonFilePath, itemNameOriginalJsonFilePath);
+                    ItemIconsHide(itemNameOriginalJsonFilePath, itemNameJsonFilePath);
                     RuneIconsShow(itemRuneJsonFilePath);
                     break;
                 }

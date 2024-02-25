@@ -195,7 +195,7 @@ public class DownloadNewModViewModel : Screen
                 return;
             }
 
-            Mods.Add(new KeyValuePair<string, string>("Custom", ""));
+            //Mods.Add(new KeyValuePair<string, string>("Custom", ""));
 
             for (int i = 0; i < dValues.Count; i++)
             {
@@ -349,11 +349,13 @@ public class DownloadNewModViewModel : Screen
 
             MessageBox.Show($"{modName} has been installed!", "Mod Installed!", MessageBoxButton.OK, MessageBoxImage.None);
 
+            /*
             //We installed a custom mod from a direct link. 
             if (string.IsNullOrEmpty(SelectedMod.Key) || SelectedMod.Key == "Custom")
             {
                 SelectedMod = new KeyValuePair<string, string>(modName, "Custom");
             }
+            */
 
             await TryCloseAsync(true);
         }

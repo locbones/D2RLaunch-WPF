@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -7,6 +9,8 @@ using Caliburn.Micro;
 using Syncfusion.SfSkinManager;
 using Syncfusion.Themes.MaterialDark.WPF;
 using Syncfusion.Windows.Shared;
+using Color = System.Drawing.Color;
+using FontFamily = System.Windows.Media.FontFamily;
 
 namespace D2RLaunch.Models;
 
@@ -34,6 +38,7 @@ public class ChromelessWindowManager : WindowManager
 
             MaterialDarkThemeSettings settings = new MaterialDarkThemeSettings();
             settings.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Resources/Fonts/#Formal436 BT");
+            settings.PrimaryBackground = new SolidColorBrush(Colors.Firebrick);
             SfSkinManager.RegisterThemeSettings("MaterialDark", settings);
         }
         else
@@ -44,6 +49,7 @@ public class ChromelessWindowManager : WindowManager
 
             MaterialDarkThemeSettings settings = new MaterialDarkThemeSettings();
             settings.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Resources/Fonts/#Formal436 BT");
+            settings.PrimaryBackground = new SolidColorBrush(Colors.Firebrick);
             SfSkinManager.RegisterThemeSettings("MaterialDark", settings);
 
             window.SetValue(View.IsGeneratedProperty, true);

@@ -458,6 +458,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             }
             case eEnabledDisabled.Enabled:
             {
+                    CreateSuperTKSkill();
                 string charStatsPath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/charstats.txt"));
                 string itemTypesPath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemtypes.txt"));
 
@@ -493,7 +494,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     File.WriteAllLines(charStatsPath, charStatsLines);
                     File.WriteAllLines(itemTypesPath, itemTypesLines);
                 }
-                CreateSuperTKSkill();
+                
                 break;
             }
         }
@@ -517,6 +518,20 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 }
             case eItemDisplay.ItemRuneIcons:
                 {
+                    if (!Directory.Exists(SelectedModDataFolder + "hd/ui/fonts"))
+                    {
+                        string fontsFolder = Path.Combine(SelectedModDataFolder, "hd/ui/fonts");
+                        byte[] font = await Helper.GetResourceByteArray($"Fonts.{UserSettings.Font}.otf");
+
+                        if (!Directory.Exists(fontsFolder))
+                        {
+                            Directory.CreateDirectory(fontsFolder);
+                            File.Create(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf")).Close();
+                        }
+
+                        await File.WriteAllBytesAsync(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf"), font);
+                    }
+
                     if (!File.Exists(itemNameJsonFilePath))
                     {
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-names.json", SelectedModDataFolder, "data:data");

@@ -429,6 +429,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 UiComboBoxEnabled = ShellViewModel.ModInfo.UIThemes && (ShellViewModel.ModInfo.Name == "Vanilla++" || ShellViewModel.ModInfo.Name == "ReMoDDeD");
                 ShellViewModel.CustomizationsEnabled = ShellViewModel.ModInfo.Customizations;
 
+                //Disable RW Sort+Merged HUD if author enabled without providing template files
+                if (!Directory.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Merged HUD")))
+                    ShellViewModel.ModInfo.HudDisplay = false;
+
+                if (!Directory.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort")))
+                    ShellViewModel.ModInfo.RunewordSorting = false;
+
                 string logoPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "D2Rlaunch/Logo.png");
                 if (File.Exists(logoPath))
                 {

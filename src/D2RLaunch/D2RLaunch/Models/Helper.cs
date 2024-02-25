@@ -307,7 +307,7 @@ namespace D2RLaunch.Models
             return null;
         }
 
-        public static void ExtractFileFromCasc(string cascStoragePath, string specifiedFileName, string dest, string oldDataName, string newDataName)
+        public static void ExtractFileFromCasc(string cascStoragePath, string specifiedFileName, string dest, string oldDataName)
         {
             using CASCStorage storage = new CASCStorage(cascStoragePath);
             foreach (CASCFileInfo file in storage.Files)
@@ -322,7 +322,7 @@ namespace D2RLaunch.Models
                 System.Diagnostics.Debug.WriteLine(file.FileName);
 
                 // Replace the data:data separator with data/data
-                string modifiedFileName = file.FileName.Replace(oldDataName, newDataName);
+                string modifiedFileName = file.FileName.Replace($"{oldDataName}\\", "");
 
                 // Create the full path for the extracted file
                 string extractedFilePath = Path.Combine(dest, modifiedFileName);

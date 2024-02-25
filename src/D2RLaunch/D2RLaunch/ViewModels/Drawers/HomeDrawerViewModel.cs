@@ -64,7 +64,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     private ObservableCollection<KeyValuePair<string, eMapLayouts>> _mapLayouts = new ObservableCollection<KeyValuePair<string, eMapLayouts>>();
     private ObservableCollection<KeyValuePair<string, eUiThemes>> _uiThemes = new ObservableCollection<KeyValuePair<string, eUiThemes>>();
     private DispatcherTimer _monsterStatsDispatcherTimer;
-    private bool _uiThemeEnabled;
+    private bool _uiThemeEnabled = true;
     
 
     #endregion
@@ -460,11 +460,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
                 else
                 {
-                    UiThemeEnabled = true;
-                    ShellViewModel.WikiEnabled = true;
 
-                    ShellViewModel.SkillBuffIconsEnabled = true;
-                    ShellViewModel.SkillIconPackEnabled = true;
                 }
 
                 //await ApplyUiTheme();
@@ -576,11 +572,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             _logger.Error(ex);
             return null;
         }
-    }
-
-    private async Task LoadModOptions()
-    {
-
     }
 
     private string GetD2RArgs()

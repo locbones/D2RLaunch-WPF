@@ -49,19 +49,19 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.0.1";
+    private string appVersion = "2.0.2";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
-    private bool _wikiEnabled;
+    private bool _wikiEnabled = true;
     private ModInfo _modInfo;
     private UserSettings _userSettings;
     private string _modLogo = "pack://application:,,,/Resources/Images/D2RL_Logo.png";
     private DispatcherTimer _autoBackupDispatcherTimer;
-    private bool _skillIconPackEnabled;
-    private bool _skillBuffIconsEnabled;
-    private bool _showItemLevelsEnabled;
-    private bool _superTelekinesisEnabled;
+    private bool _skillIconPackEnabled = true;
+    private bool _skillBuffIconsEnabled = true;
+    private bool _showItemLevelsEnabled = true;
+    private bool _superTelekinesisEnabled = true;
     private bool _itemIconDisplayEnabled;
     private bool _launcherHasUpdate;
     private string _launcherUpdateString = "D2RLaunch Update Ready!";
@@ -519,12 +519,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 {
                     if (!File.Exists(itemNameJsonFilePath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-names.json", SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-names.json", SelectedModDataFolder, "data:data");
                     }
 
                     if (!File.Exists(itemRuneJsonFilePath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-runes.json", SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-runes.json", SelectedModDataFolder, "data:data");
                     }
 
                     string namesFile = await File.ReadAllTextAsync(itemNameJsonFilePath);
@@ -542,7 +542,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 {
                     if (!File.Exists(itemNameJsonFilePath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-names.json", SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-names.json", SelectedModDataFolder, "data:data");
                     }
 
                     string namesFile = await File.ReadAllTextAsync(itemNameJsonFilePath);
@@ -560,7 +560,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 {
                     if (!File.Exists(itemRuneJsonFilePath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-runes.json", SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-runes.json", SelectedModDataFolder, "data:data");
                     }
 
                     ItemIconsHide(itemNameJsonFilePath, itemNameOriginalJsonFilePath);
@@ -779,7 +779,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
                     if (!File.Exists(runeStringJsonFile))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, SelectedModDataFolder, "data:data");
                     }
 
                     if (File.Exists(runeStringJsonFile))
@@ -891,7 +891,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     //Replace rune string contents to display icons
                     if (!File.Exists(runeStringJsonFile))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, SelectedModDataFolder, "data:data");
                     }
 
                     string runeStrings = await File.ReadAllTextAsync(runeStringJsonFile);
@@ -967,6 +967,26 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 //search the defined files
                 foreach (string file in files)
                 {
+                    if (!Directory.Exists(excelPath))
+                    {
+                        Directory.CreateDirectory(excelPath);
+                    }
+                    if (!File.Exists(armorTxtPath))
+                    {
+                        File.Create(armorTxtPath).Close();
+                        Helper.ExtractFileFromCasc(GamePath, cascArmorTxtFileName, SelectedModDataFolder, "data:data");
+                    }
+                    if (!File.Exists(weaponsTxtPath))
+                    {
+                        File.Create(weaponsTxtPath).Close();
+                        Helper.ExtractFileFromCasc(GamePath, cascWeaponsTxtFileName, SelectedModDataFolder, "data:data");
+                    }
+                    if (!File.Exists(miscTxtPath))
+                    {
+                        File.Create(miscTxtPath).Close();
+                        Helper.ExtractFileFromCasc(GamePath, cascMiscTxtFileName, SelectedModDataFolder, "data:data");
+                    }
+
                     string filePath = Path.Combine(excelPath, file);
 
                     if (!File.Exists(filePath))
@@ -979,26 +999,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     if (lines.Length == 0)
                     {
                         continue;
-                    }
-
-                    if (!Directory.Exists(excelPath))
-                    {
-                        Directory.CreateDirectory(excelPath);
-                    }
-                    if (!File.Exists(armorTxtPath))
-                    {
-                        File.Create(armorTxtPath).Close();
-                        Helper.ExtractFileFromCasc(GamePath, cascArmorTxtFileName, SelectedModDataFolder, "data:data", "data");
-                    }
-                    if (!File.Exists(weaponsTxtPath))
-                    {
-                        File.Create(weaponsTxtPath).Close();
-                        Helper.ExtractFileFromCasc(GamePath, cascWeaponsTxtFileName, SelectedModDataFolder, "data:data", "data");
-                    }
-                    if (!File.Exists(miscTxtPath))
-                    {
-                        File.Create(miscTxtPath).Close();
-                        Helper.ExtractFileFromCasc(GamePath, cascMiscTxtFileName, SelectedModDataFolder, "data:data", "data");
                     }
 
 
@@ -1165,12 +1165,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 {
                     if (!File.Exists(profileHdJsonPath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, cascProfileHdJsonFileName, SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, cascProfileHdJsonFileName, SelectedModDataFolder, "data:data");
                     }
 
                     if (!File.Exists(skillsTreePanelHdJsonPath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, cascSkillsTreePanelHdJsonFileName, SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, cascSkillsTreePanelHdJsonFileName, SelectedModDataFolder, "data:data");
                     }
 
                     if (File.Exists(profileHdJsonPath))
@@ -1204,12 +1204,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 {
                     if (!File.Exists(profileHdJsonPath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, cascProfileHdJsonFileName, SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, cascProfileHdJsonFileName, SelectedModDataFolder, "data:data");
                     }
 
                     if (!File.Exists(skillsTreePanelHdJsonPath))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, cascSkillsTreePanelHdJsonFileName, SelectedModDataFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, cascSkillsTreePanelHdJsonFileName, SelectedModDataFolder, "data:data");
                     }
 
                     if (File.Exists(profileHdJsonPath))
@@ -1443,11 +1443,11 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         //Create needed folders and files
         if (!File.Exists(itemTypesTextPath))
         {
-            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\itemtypes.txt", SelectedModDataFolder, "data:data", "data");
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\itemtypes.txt", SelectedModDataFolder, "data:data");
         }
         if (!File.Exists(charStatsPath))
         {
-            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\charstats.txt", SelectedModDataFolder, "data:data", "data");
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\charstats.txt", SelectedModDataFolder, "data:data");
         }
         if (!Directory.Exists(originalsDirectoryPath))
         {
@@ -1455,7 +1455,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
         if (!File.Exists(skillTextPath))
         {
-            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\skills.txt", SelectedModDataFolder, "data:data", "data");
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\skills.txt", SelectedModDataFolder, "data:data");
         }
         File.Copy(skillTextPath, originalSkillTextPath, true);
 

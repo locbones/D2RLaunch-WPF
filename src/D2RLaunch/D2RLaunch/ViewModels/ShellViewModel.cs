@@ -779,7 +779,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
                     if (!File.Exists(runeStringJsonFile))
                     {
-                        Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, BaseModsFolder, "data:data", "data");
+                        Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, SelectedModDataFolder, "data:data", "data");
                     }
 
                     if (File.Exists(runeStringJsonFile))
@@ -952,57 +952,76 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         string[] files = new string[] { "armor.txt", "misc.txt", "weapons.txt" };
 
-        
 
-        //search the defined files
-        foreach (string file in files)
+        eEnabledDisabled itemLvls = (eEnabledDisabled)UserSettings.ItemIlvls;
+
+        switch (itemLvls)
         {
-            
-
-            string filePath = Path.Combine(excelPath, file);
-            if (!File.Exists(filePath)) continue;
-            
-            string[] lines = await File.ReadAllLinesAsync(filePath);
-            if (lines.Length == 0) continue;
-
-            if (!Directory.Exists(excelPath))
+            case eEnabledDisabled.Disabled:
             {
-                Directory.CreateDirectory(excelPath);
+                //TODO: This needs to undo the show itemlevels functionality.
+                break;
             }
-            if (!File.Exists(armorTxtPath))
+            case eEnabledDisabled.Enabled:
             {
-                File.Create(armorTxtPath).Close();
-                Helper.ExtractFileFromCasc(GamePath, cascArmorTxtFileName, SelectedModDataFolder, "data:data", "data");
-            }
-            if (!File.Exists(weaponsTxtPath))
-            {
-                File.Create(weaponsTxtPath).Close();
-                Helper.ExtractFileFromCasc(GamePath, cascWeaponsTxtFileName, SelectedModDataFolder, "data:data", "data");
-            }
-            if (!File.Exists(miscTxtPath))
-            {
-                File.Create(miscTxtPath).Close();
-                Helper.ExtractFileFromCasc(GamePath, cascMiscTxtFileName, SelectedModDataFolder, "data:data", "data");
-            }
-
-
-
-            string[] headers = lines[0].Split('\t'); //split by tab-delimited format
-            int showLevelIndex = Array.IndexOf(headers, "ShowLevel"); //make an array from the 'ShowLevel' entries
-
-            //search through 'ShowLevel' entries further
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string[] columns = lines[i].Split('\t');
-                //check if entries match the dropdown index of 0 or 1
-                if (columns.Length > showLevelIndex && columns[showLevelIndex] != UserSettings.ItemIlvls.ToString())
+                //search the defined files
+                foreach (string file in files)
                 {
-                    columns[showLevelIndex] = UserSettings.ItemIlvls.ToString();
-                    lines[i] = string.Join("\t", columns); //replace the 0 or 1 values as dropdown indicates
+                    string filePath = Path.Combine(excelPath, file);
+
+                    if (!File.Exists(filePath))
+                    {
+                        continue;
+                    }
+
+                    string[] lines = await File.ReadAllLinesAsync(filePath);
+
+                    if (lines.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    if (!Directory.Exists(excelPath))
+                    {
+                        Directory.CreateDirectory(excelPath);
+                    }
+                    if (!File.Exists(armorTxtPath))
+                    {
+                        File.Create(armorTxtPath).Close();
+                        Helper.ExtractFileFromCasc(GamePath, cascArmorTxtFileName, SelectedModDataFolder, "data:data", "data");
+                    }
+                    if (!File.Exists(weaponsTxtPath))
+                    {
+                        File.Create(weaponsTxtPath).Close();
+                        Helper.ExtractFileFromCasc(GamePath, cascWeaponsTxtFileName, SelectedModDataFolder, "data:data", "data");
+                    }
+                    if (!File.Exists(miscTxtPath))
+                    {
+                        File.Create(miscTxtPath).Close();
+                        Helper.ExtractFileFromCasc(GamePath, cascMiscTxtFileName, SelectedModDataFolder, "data:data", "data");
+                    }
+
+
+
+                    string[] headers = lines[0].Split('\t'); //split by tab-delimited format
+                    int showLevelIndex = Array.IndexOf(headers, "ShowLevel"); //make an array from the 'ShowLevel' entries
+
+                    //search through 'ShowLevel' entries further
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        string[] columns = lines[i].Split('\t');
+                        //check if entries match the dropdown index of 0 or 1
+                        if (columns.Length > showLevelIndex && columns[showLevelIndex] != UserSettings.ItemIlvls.ToString())
+                        {
+                            columns[showLevelIndex] = UserSettings.ItemIlvls.ToString();
+                            lines[i] = string.Join("\t", columns); //replace the 0 or 1 values as dropdown indicates
+                        }
+                    }
+                    //We done boys
+                    File.WriteAllLines(filePath, lines);
                 }
+                break;
             }
-            //We done boys
-            File.WriteAllLines(filePath, lines);
         }
     }
 
@@ -1257,7 +1276,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
     private void RuneIconsHide(string itemRuneJsonFilePath)
     {
-
         if (File.Exists(itemRuneJsonFilePath))
         {
             string itemRunes = File.ReadAllText(itemRuneJsonFilePath);
@@ -1425,11 +1443,11 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         //Create needed folders and files
         if (!File.Exists(itemTypesTextPath))
         {
-            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\itemtypes.txt", BaseModsFolder, "data:data", "data");
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\itemtypes.txt", SelectedModDataFolder, "data:data", "data");
         }
         if (!File.Exists(charStatsPath))
         {
-            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\charstats.txt", BaseModsFolder, "data:data", "data");
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\charstats.txt", SelectedModDataFolder, "data:data", "data");
         }
         if (!Directory.Exists(originalsDirectoryPath))
         {
@@ -1437,7 +1455,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
         if (!File.Exists(skillTextPath))
         {
-            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\skills.txt", BaseModsFolder, "data:data", "data");
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\skills.txt", SelectedModDataFolder, "data:data", "data");
         }
         File.Copy(skillTextPath, originalSkillTextPath, true);
 

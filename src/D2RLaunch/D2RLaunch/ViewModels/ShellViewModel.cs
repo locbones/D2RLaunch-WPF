@@ -311,9 +311,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         await ConfigureSuperTelekinesis();
         await ConfigureRunewordSorting();
         await ConfigureHudDesign();
-    }
+    } //Apply User-Defined QoL Options
 
-    private async Task ConfigureHudDesign() //Merged HUD - QoL
+    private async Task ConfigureHudDesign() //Merged HUD
     {
         eHudDesign hudDesign = (eHudDesign)UserSettings.HudDesign;
 
@@ -376,7 +376,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         //TODO: Add warning.
     }
 
-    private async Task ConfigureRunewordSorting()
+    private async Task ConfigureRunewordSorting() //Runeword Sorting
     {
         eRunewordSorting runewordSorting = (eRunewordSorting)UserSettings.RunewordSorting;
 
@@ -434,7 +434,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureSuperTelekinesis()
+    private async Task ConfigureSuperTelekinesis() //Super TelekinesisL
     {
         eEnabledDisabled superTelekinesis = (eEnabledDisabled)UserSettings.SuperTelekinesis;
 
@@ -489,7 +489,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureItemIcons()
+    private async Task ConfigureItemIcons() //Item Display (Item/Rune Icons)
     {
         eItemDisplay itemDisplay = (eItemDisplay)UserSettings.ItemIcons;
 
@@ -562,7 +562,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureMonsterStatsDisplay()
+    private async Task ConfigureMonsterStatsDisplay() //Advanced Monster Stats
     {
         eMonsterStats monsterStatsDisplay = (eMonsterStats)UserSettings.MonsterStatsDisplay;
 
@@ -649,7 +649,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureHideHelmets()
+    private async Task ConfigureHideHelmets() //Hide Helmets
     {
         eEnabledDisabled helmetDisplay = (eEnabledDisabled)UserSettings.HideHelmets;
 
@@ -711,7 +711,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureRuneDisplay()
+    private async Task ConfigureRuneDisplay() //Rune Display (Special Rune Visuals)
     {
         eEnabledDisabled runeDisplay = (eEnabledDisabled)UserSettings.RuneDisplay;
 
@@ -897,7 +897,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureItemILvls()
+    private async Task ConfigureItemILvls() //Show Item Levels
     {
         if (ModInfo.Name == "ReMoDDeD")
             return;
@@ -979,7 +979,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureMercIcons()
+    private async Task ConfigureMercIcons() //Merc Icons
     {
         eMercIdentifier mercIdentifier = (eMercIdentifier)UserSettings.MercIcons;
 
@@ -1052,7 +1052,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureSkillIcons()
+    private async Task ConfigureSkillIcons() //Skill Icon Packs
     {
         eSkillIconPack skillIconPack = (eSkillIconPack)UserSettings.SkillIcons;
 
@@ -1178,7 +1178,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureBuffIcons()
+    private async Task ConfigureBuffIcons() //Buff Icons
     {
         string buffIconsParticlesPath = Path.Combine(SelectedModDataFolder, "D2RLaunch/Buff Icons/Particles");
         string buffIconsParticlesDisabledPath = Path.Combine(SelectedModDataFolder, "D2RLaunch/Buff Icons/Particles (Disabled)");
@@ -1195,9 +1195,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private void ItemIconsHide(string itemNameOriginalJsonFilePath, string itemNameJsonFilePath)
+    private void ItemIconsHide(string itemNameOriginalJsonFilePath, string itemNameJsonFilePath) //Used in ConfigureItemIcons()
     {
-
         if (File.Exists(itemNameOriginalJsonFilePath))
         {
             string namesFile = File.ReadAllText(itemNameOriginalJsonFilePath);
@@ -1205,7 +1204,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private void RuneIconsHide(string itemRuneJsonFilePath)
+    private void RuneIconsHide(string itemRuneJsonFilePath) //Used in ConfigureItemIcons()
     {
         if (File.Exists(itemRuneJsonFilePath))
         {
@@ -1227,7 +1226,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private void ItemIconsShow(string itemNameOriginalJsonFilePath)
+    private void ItemIconsShow(string itemNameOriginalJsonFilePath) //Used in ConfigureItemIcons()
     {
         string itemNames = File.ReadAllText(itemNameOriginalJsonFilePath);
 
@@ -1260,7 +1259,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         File.WriteAllText(itemNameOriginalJsonFilePath, itemNames);
     }
 
-    private void RuneIconsShow(string itemRuneJsonFilePath)
+    private void RuneIconsShow(string itemRuneJsonFilePath) //Used in ConfigureItemIcons()
     {
         string itemRunes = File.ReadAllText(itemRuneJsonFilePath);
 
@@ -1280,7 +1279,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         File.WriteAllText(itemRuneJsonFilePath, itemRunes);
     }
 
-    private void RemoveSuperTkSkill()
+    private void RemoveSuperTkSkill() //Used in ConfigureSuperTelekinesis()
     {
         string skillTextPath = Path.Combine(SelectedModDataFolder, "global/excel/skills.txt");
 
@@ -1305,6 +1304,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     string line = charStatsLines[i];
                     string[] splitContent = line.Split('\t');
 
+                    //Write blank entries to remove SuperTK Skill reference
                     if (i > 0 && i != 6)
                     {
                         splitContent[34] = "";
@@ -1314,6 +1314,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                 for (int i = 0; i < itemTypesLines.Length; i++)
                 {
+                    //Write blank entries to remove Equiv2 itemtype modifiers
                     string line = itemTypesLines[i];
                     string[] splitContent = line.Split('\t');
 
@@ -1448,9 +1449,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             }
             File.WriteAllText(skillTextPath, outstr);
         }
-    }
+    } //Used in ConfigureSuperTelekinesis()
 
-    public async Task StartAutoBackup()
+    public async Task StartAutoBackup() //Determine Auto-Backups status and enable timer
     {
         if (UserSettings == null)
         {
@@ -1471,6 +1472,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                                                await BackupRecentCharacter();
                                            };
 
+        //Auto-Backup Timer Intervals
         switch ((eBackup)UserSettings.AutoBackups)
         {
             case eBackup.FiveMinutes:
@@ -1498,7 +1500,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         _autoBackupDispatcherTimer.Start();
     }
 
-    public async Task<(string characterName, bool passed)> BackupRecentCharacter()
+    public async Task<(string characterName, bool passed)> BackupRecentCharacter() //Backup character at interval specified from StartAutoBackup()
     {
         string mostRecentCharacterName;
         try
@@ -1535,10 +1537,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         return (mostRecentCharacterName, true);
     }
 
-    private async Task<string> GetDiabloInstallPath()
+    private async Task<string> GetDiabloInstallPath() //Attempt to find D2R Install Path as defined by Blizzard
     {
+        //Check Primary Blizzard path location entry
         RegistryKey gameKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Diablo II Resurrected");
-
         string installLocation = gameKey?.GetValue("InstallLocation")?.ToString();
 
         if (installLocation != null)
@@ -1546,6 +1548,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             return installLocation;
         }
 
+        //Perform an exhaustive search of D2R.exe in Secondary Blizzard path location entry
         using RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);
         using RegistryKey regKey = baseKey.OpenSubKey(@"System\GameConfigStore\Children");
 
@@ -1571,6 +1574,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 results.Add(exeFullPath);
         }
 
+        //Either use parsed result as GamePath or inform user of multiple installs found; possible game migration issue
         switch (results.Count)
         {
             case 1:
@@ -1582,8 +1586,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         return null;
     }
 
-    public void DisableBNetConnection()
+    public void DisableBNetConnection() //Safety measure to avoid accidental online connections
     {
+        //Set Battle.Net registry entries to localhost while launcher is open
         RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"Software\Blizzard Entertainment\Battle.net\Launch Options\BNA", true) ?? throw new Exception("Failed to find registry key");
         key.SetValue("CONNECTION_STRING_CN", "127.0.0.1");
         key.SetValue("CONNECTION_STRING_CXX", "127.0.0.1");
@@ -1603,7 +1608,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             await File.WriteAllTextAsync(SelectedUserSettingsFilePath, JsonConvert.SerializeObject(UserSettings).Replace($"{Settings.Default.SelectedMod}.mpq/", ""));
     }
 
-    private async Task RenameCharacter()
+    private async Task RenameCharacter() //Function used to change in-game character name
     {
         //TODO: This does not account for character that have been backed up. This should also have its own dedicated dialog
         OpenFileDialog ofd = new OpenFileDialog();
@@ -1617,6 +1622,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             sfd.DefaultExt = ".d2s";
         };
 
+        //Extract raw byte data from specified save file
         ofd.ShowDialog();
         string fileSource = Path.GetFileNameWithoutExtension(ofd.FileName);
         byte[] ba = Encoding.Default.GetBytes(fileSource);
@@ -1629,6 +1635,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             sfd.ShowDialog();
             await File.WriteAllBytesAsync(sfd.FileName, bytes);
 
+            //Define and string replace byte code for save file (ugly solution)
             string fileSource2 = Path.GetFileNameWithoutExtension(sfd.FileName);
             byte[] ba2 = Encoding.Default.GetBytes(fileSource2);
             string hexString = BitConverter.ToString(ba).Replace("-", string.Empty);
@@ -1643,8 +1650,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     hexString = hexString + String.Concat(Enumerable.Repeat("00", fileSource2.Length - fileSource.Length));
             }
 
-            MessageBox.Show(hexString);
-
+            //Write and convert byte array to byte data back to save file
             string bitString = BitConverter.ToString(bytes).Replace("-", string.Empty).Replace(hexString, hexString2);
             await File.WriteAllBytesAsync(sfd.FileName, Helper.StringToByteArray(bitString));
 
@@ -1665,21 +1671,20 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private void FixChecksum(byte[] bytes)
+    private void FixChecksum(byte[] bytes) //Used in RenameCharacter()
     {
+        //Update save file checksum data to match edited content
         new byte[4].CopyTo(bytes, 0xc);
-
         int checksum = 0;
 
         for (int i = 0; i < bytes.Length; i++)
         {
             checksum = bytes[i] + (checksum * 2) + (checksum < 0 ? 1 : 0);
         }
-
         BitConverter.GetBytes(checksum).CopyTo(bytes, 0xc);
     }
 
-    private async Task FixStash()
+    private async Task FixStash() //If automatic stash tab unlocking failed, manually edit file
     {
         string modPath;
         string hexString = String.Concat(Enumerable.Repeat(TAB_BYTE_CODE, 4));
@@ -1690,12 +1695,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         else
             modPath = BaseSelectedModFolder;
 
-        if (!File.Exists(modPath + "/SharedStashSoftCoreV2.d2i"))
+        if (!File.Exists(modPath + "/SharedStashSoftCoreV2.d2i")) //If file doesn't exist; just give player a fully unlocked copy
         {
             Helper.CreateFileIfNotExists(modPath + "/SharedStashSoftCoreV2.d2i", await Helper.GetResourceByteArray("SharedStashSoftCoreV2.d2i"));
             MessageBox.Show("Softcore Stash unlocked!\nYou now have 7 shared tabs in-game");
         }
-        else
+        else //File already exists; let's edit the byte code to preserve items in stash
         {
             byte[] data = await File.ReadAllBytesAsync(modPath + "/SharedStashSoftCoreV2.d2i"); //read file
             string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
@@ -1708,6 +1713,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             }
         }
 
+        //Repeat for hardcore players
         if (!File.Exists(modPath + "/SharedStashHardCoreV2.d2i"))
         {
             File.WriteAllBytes(modPath + "/SharedStashHardCoreV2.d2i", await Helper.GetResourceByteArray("SharedStashHardCoreV2.d2i"));
@@ -1727,10 +1733,11 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task CheckForLauncherUpdates()
+    private async Task CheckForLauncherUpdates() //Performed after loading to check for D2RLaunch upgrades
     {
         WebClient webClient = new();
 
+        //Download the most recent version info file to compare values
         if (!File.Exists(@"..\MyVersions_Temp.txt"))
         {
             string primaryLink = "https://drive.google.com/uc?export=download&id=1AW5tOJVpSkWdrXYdjllyPyU3Cpdd-SMV";
@@ -1763,9 +1770,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             }
         }
 
+        //Read downloaded file and parse entries for comparison
         string[] newVersions = await File.ReadAllLinesAsync(@"..\MyVersions_Temp.txt");
-        //string LVersion = Directory.GetFiles(@"..\Stasher", "*.xyz").FirstOrDefault()?.Replace(@"..\Stasher\", "").Replace(".xyz", "");
 
+        //If parsed entry does not match appVersion member value, display Update Ready Notification
         if (newVersions[0] != appVersion && (newVersions[0].Length <= 5))
         {
             LauncherUpdateString = $"D2RLaunch Update Ready! ({newVersions[0]})";
@@ -1775,7 +1783,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         File.Delete(@"..\MyVersions_Temp.txt");
     }
 
-    private async Task CheckForVaultUpdates()
+    private async Task CheckForVaultUpdates() //Automatically performed when player has clicked Vault button - same structure as launcher update
     {
         WebClient webClient = new WebClient();
 
@@ -1866,14 +1874,14 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     }
 
     [UsedImplicitly]
-    public async void OnUpdateLauncher()
+    public async void OnUpdateLauncher() //User has decided to update D2RLaunch; prep external updater program for update
     {
         WebClient webClient = new();
 
         if (File.Exists("lnu.txt"))
-        {
             File.Delete("lnu.txt");
-        }
+
+        //Force download of the latest updater program
         string primaryLink2 = "https://www.dl.dropboxusercontent.com/scl/fi/m1e8kg5oh334qln8u7i39/D2R_Updater.zip?rlkey=e7o34dut4efpx648x8bq196s8&dl=0";
         string backupLink2 = "https://d2filesdrop.s3.us-east-2.amazonaws.com/D2R_Updater.zip";
 
@@ -1905,6 +1913,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             }
         }
 
+        //Download complete, remove old files and extract new ones
         if (Directory.Exists(@"..\Updater\"))
             Directory.Delete(@"..\Updater\", true);
 
@@ -1914,9 +1923,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         if (File.Exists(@"..\UpdateU.zip"))
             File.Delete(@"..\UpdateU.zip");
 
-        File.Create(@"..\Launcher\lnu.txt").Close();
+        //Updater has finished extraction, create dummy .txt file to inform updater program of launcher update
+        File.Create(@"..\Launcher\lnu.txt").Close(); //lnu = Launcher Needs Update
         Process.Start(@"..\Updater\RMDUpdater.exe");
-
         await TryCloseAsync();
 
         if (File.Exists(@"..\MyVersions_Temp.txt"))
@@ -1924,7 +1933,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     }
 
     [UsedImplicitly]
-    public async void OnItemClicked(NavigationItemClickedEventArgs args)
+    public async void OnItemClicked(NavigationItemClickedEventArgs args) //Side Menu Controls
     {
 
         switch (((string)args.Item.Tag).ToUpperInvariant())
@@ -2139,7 +2148,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     }
 
     [UsedImplicitly]
-    public async void OnLoaded(object args)
+    public async void OnLoaded(object args) //Functions to perform after UI has been loaded
     {
         eLanguage appLanguage = ((eLanguage)Settings.Default.AppLanguage);
 

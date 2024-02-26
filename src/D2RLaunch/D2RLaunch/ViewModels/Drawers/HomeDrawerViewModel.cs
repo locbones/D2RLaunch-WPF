@@ -529,17 +529,33 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             string launcherTitle = Regex.Replace(ShellViewModel.ModInfo.NewsTitle.Trim().Replace("\"", ""), pattern, "||");
             string launcherDescription = Regex.Replace(ShellViewModel.ModInfo.NewsDescription.Trim().Replace("\"", ""), pattern, "||");
 
-            ModTitle = await TranslateGoogleAsync(modTitle);
-            ModDescription = await TranslateGoogleAsync(modDescription.Replace("|| ", ".").Replace(@"\u0026", ". "));
-            LauncherTitle = await TranslateGoogleAsync(launcherTitle);
-            LauncherDescription = await TranslateGoogleAsync(launcherDescription.Replace("|| ", ".").Replace(@"\u0026", ". "));
+            try
+            {
+                ModTitle = await TranslateGoogleAsync(modTitle);
+                ModDescription = await TranslateGoogleAsync(modDescription.Replace("|| ", ".").Replace(@"\u0026", ". "));
+                LauncherTitle = await TranslateGoogleAsync(launcherTitle);
+                LauncherDescription = await TranslateGoogleAsync(launcherDescription.Replace("|| ", ".").Replace(@"\u0026", ". "));
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Failed to translate test with google translate.");
+                _logger.Error(ex);
+            }
         }
         else
         {
-            ModTitle = await TranslateGoogleAsync(ModTitle);
-            ModDescription = await TranslateGoogleAsync(ModDescription);
-            LauncherTitle = await TranslateGoogleAsync(LauncherTitle);
-            LauncherDescription = await TranslateGoogleAsync(LauncherDescription);
+            try
+            {
+                ModTitle = await TranslateGoogleAsync(ModTitle);
+                ModDescription = await TranslateGoogleAsync(ModDescription);
+                LauncherTitle = await TranslateGoogleAsync(LauncherTitle);
+                LauncherDescription = await TranslateGoogleAsync(LauncherDescription);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Failed to translate test with google translate.");
+                _logger.Error(ex);
+            }
         }
 
     }

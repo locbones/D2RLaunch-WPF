@@ -23,6 +23,7 @@
             <ComboBox
                 ItemsSource="{Binding Characters}"
                 SelectedValue="{Binding SelectedCharacter}"
+                cm:Message.Attach="[Event SelectionChanged] = [Action OnRestoreBackupSelection];"
                 Style="{StaticResource ComboBoxStyle}" />
         </StackPanel>
 

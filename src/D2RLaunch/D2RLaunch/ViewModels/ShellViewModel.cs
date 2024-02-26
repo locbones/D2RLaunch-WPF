@@ -49,7 +49,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.0.2";
+    private string appVersion = "2.0.3";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -583,7 +583,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     break;
                 }
         }
-
     }
 
     private async Task ConfigureMonsterStatsDisplay()
@@ -1980,6 +1979,68 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     }
 
     [UsedImplicitly]
+    public async void OnUpdateLauncher()
+    {
+        WebClient webClient = new();
+
+        if (File.Exists("lnu.txt"))
+        {
+            File.Delete("lnu.txt");
+        }
+        string primaryLink2 = "https://www.dl.dropboxusercontent.com/scl/fi/m1e8kg5oh334qln8u7i39/D2R_Updater.zip?rlkey=e7o34dut4efpx648x8bq196s8&dl=0";
+        string backupLink2 = "https://d2filesdrop.s3.us-east-2.amazonaws.com/D2R_Updater.zip";
+
+        try
+        {
+            webClient.DownloadFile(primaryLink2, @"..\UpdateU.zip");
+        }
+        catch (WebException ex)
+        {
+            if (ex.Response is HttpWebResponse response && ((int)response.StatusCode == 429 || (int)response.StatusCode == 500))
+            {
+                try
+                {
+                    webClient.DownloadFile(backupLink2, @"..\UpdateU.zip");
+                }
+                catch (WebException)
+                {
+                    _logger.Error("Backup download link 2 failed.");
+                    MessageBox.Show("Backup download link 2 failed.", "Download error.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    return;
+                }
+            }
+            else
+            {
+                _logger.Error(ex.Message);
+                _logger.Error("An error occurred during the download: ");
+                MessageBox.Show("An error occurred during the download:", "Download error.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                return;
+            }
+        }
+        if (Directory.Exists(@"..\Updater\"))
+        {
+            Directory.Delete(@"..\Updater\", true);
+        }
+        Directory.CreateDirectory(@"..\Updater\");
+        ZipFile.ExtractToDirectory(@"..\UpdateU.zip", @"..\Updater\");
+
+        if (File.Exists(@"..\UpdateU.zip"))
+        {
+            File.Delete(@"..\UpdateU.zip");
+        }
+
+        File.Create(@"..\Launcher\lnu.txt").Close();
+        Process.Start(@"..\Updater\RMDUpdater.exe");
+
+        await TryCloseAsync();
+
+        if (File.Exists(@"..\MyVersions_Temp.txt"))
+        {
+            File.Delete(@"..\MyVersions_Temp.txt");
+        }
+    }
+
+    [UsedImplicitly]
     public async void OnItemClicked(NavigationItemClickedEventArgs args)
     {
 
@@ -2001,7 +2062,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 }
             case "CUSTOMIZATIONS":
                 {
-                    //TODO: Implement Customizations
+                    CustomizationsDrawerViewModel vm = new CustomizationsDrawerViewModel(this);
+                    UserControl = new CustomizationsDrawerView() { DataContext = vm };
                     break;
                 }
             case "RENAME CHARACTER":

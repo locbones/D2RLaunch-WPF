@@ -40,6 +40,7 @@ public class ChromelessWindowManager : WindowManager
             settings.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Resources/Fonts/#Formal436 BT");
             settings.PrimaryBackground = new SolidColorBrush(Colors.Firebrick);
             SfSkinManager.RegisterThemeSettings("MaterialDark", settings);
+
         }
         else
         {
@@ -55,6 +56,7 @@ public class ChromelessWindowManager : WindowManager
             window.SetValue(View.IsGeneratedProperty, true);
 
             Window owner = InferOwnerOf(window);
+
             if (owner != null)
             {
                 window.WindowStartupLocation = WindowStartupLocation.CenterOwner;

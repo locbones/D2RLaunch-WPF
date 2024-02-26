@@ -54,8 +54,7 @@
                         HorizontalAlignment="Center"
                         Columns="3">
                         <ComboBox
-                            Width="150
-                            "
+                            Width="150"
                             Height="40"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnUsePreview];"
                             DisplayMemberPath="Key"
@@ -110,8 +109,7 @@
                         HorizontalAlignment="Center"
                         Columns="3">
                         <ComboBox
-                            Width="150
-                            "
+                            Width="150"
                             Height="40"
                             DisplayMemberPath="Key"
                             ItemsSource="{Binding BackupsSettings}"
@@ -426,10 +424,11 @@
                                     IconTemplate="{StaticResource PreviewIconTemplate}"
                                     Style="{StaticResource SfButtonAdvSmallStyle}" />
                             </StackPanel>
-                            <ComboBox IsEnabled="{Binding ShellViewModel.ModInfo.HudDisplay}"
+                            <ComboBox
                                 Width="125"
                                 Height="40"
                                 DisplayMemberPath="Key"
+                                IsEnabled="{Binding ShellViewModel.ModInfo.HudDisplay}"
                                 ItemsSource="{Binding HudDesigns}"
                                 SelectedIndex="{Binding ShellViewModel.UserSettings.HudDesign}"
                                 SelectedValuePath="Value"

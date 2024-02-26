@@ -257,9 +257,9 @@
         x:Key="RedTextBlockStyle"
         BasedOn="{StaticResource WPFTextBlockStyle}"
         TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
         <Setter Property="FontSize" Value="15" />
         <Setter Property="Foreground" Value="Firebrick" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
     <Style x:Key="NavigationItemStyle" TargetType="syncfusion:NavigationItem">
         <Setter Property="FontFamily" Value="pack://application:,,,/Resources/Fonts/#Formal436 BT" />
@@ -332,7 +332,7 @@
         x:Key="LabelNormalGoldStyle"
         BasedOn="{StaticResource WPFLabelStyle}"
         TargetType="Label">
-        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="Foreground" Value="#c7b377" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="5,5,5,0" />

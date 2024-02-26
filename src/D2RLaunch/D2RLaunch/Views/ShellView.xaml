@@ -8,9 +8,9 @@
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:viewModels="clr-namespace:D2RLaunch.ViewModels"
     Title="{Binding Title}"
-    Width="1300"
+    Width="900"
     Height="700"
-    MinWidth="1300"
+    MinWidth="900"
     d:DataContext="{d:DesignInstance Type=viewModels:ShellViewModel,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="800"
@@ -158,6 +158,32 @@
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
             <syncfusion:SfNavigationDrawer.FooterItems>
+                <syncfusion:NavigationItem>
+                    <syncfusion:NavigationItem.Template>
+                        <ControlTemplate>
+                            <Label
+                                Grid.Row="6"
+                                Margin="0,10,0,0"
+                                HorizontalAlignment="Center"
+                                d:Visibility="Visible"
+                                Visibility="{Binding LauncherHasUpdate, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock
+                                    cm:Message.Attach="[Event MouseLeftButtonDown] = [Action OnUpdateLauncher];"
+                                    d:Text="D2RLaunch Update Ready! (9.9.9)"
+                                    Cursor="Hand"
+                                    Style="{StaticResource RedTextBlockStyle}"
+                                    Text="{Binding LauncherUpdateString}"
+                                    TextDecorations="Underline">
+                                    <TextBlock.Triggers>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard Storyboard="{StaticResource FlashAnimation}" />
+                                        </EventTrigger>
+                                    </TextBlock.Triggers>
+                                </TextBlock>
+                            </Label>
+                        </ControlTemplate>
+                    </syncfusion:NavigationItem.Template>
+                </syncfusion:NavigationItem>
                 <syncfusion:NavigationItem
                     HorizontalAlignment="Center"
                     Header="Bonesy"

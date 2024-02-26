@@ -1,5 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using D2RLaunch.ViewModels.Drawers;
 
 namespace D2RLaunch.Models;
 
@@ -31,6 +34,8 @@ public class UserSettings : INotifyPropertyChanged
     private int _superTelekinesis;
     private int _runeDisplay;
     private string _buffIconTemplate;
+    private int _selectedMonsterItemDrops = 0;
+    private Dictionary<string, DifficultyCustomizations> _difficultyCustomizations;
 
     #endregion
 
@@ -350,6 +355,34 @@ public class UserSettings : INotifyPropertyChanged
         {
             if (value == _buffIconTemplate) return;
             _buffIconTemplate = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int SelectedMonsterItemDrops
+    {
+        get => _selectedMonsterItemDrops;
+        set
+        {
+            if (value == _selectedMonsterItemDrops)
+            {
+                return;
+            }
+            _selectedMonsterItemDrops = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Dictionary<string, DifficultyCustomizations> DifficultyCustomizations
+    {
+        get => _difficultyCustomizations;
+        set
+        {
+            if (Equals(value, _difficultyCustomizations))
+            {
+                return;
+            }
+            _difficultyCustomizations = value;
             OnPropertyChanged();
         }
     }

@@ -798,68 +798,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     }
 
     [UsedImplicitly]
-    public async void OnUpdateLauncher()
-    {
-        WebClient webClient = new();
-
-        if (File.Exists("lnu.txt"))
-        {
-            File.Delete("lnu.txt");
-        }
-        string primaryLink2 = "https://www.dl.dropboxusercontent.com/scl/fi/m1e8kg5oh334qln8u7i39/D2R_Updater.zip?rlkey=e7o34dut4efpx648x8bq196s8&dl=0";
-        string backupLink2 = "https://d2filesdrop.s3.us-east-2.amazonaws.com/D2R_Updater.zip";
-
-        try
-        {
-            webClient.DownloadFile(primaryLink2, @"..\UpdateU.zip");
-        }
-        catch (WebException ex)
-        {
-            if (ex.Response is HttpWebResponse response && ((int)response.StatusCode == 429 || (int)response.StatusCode == 500))
-            {
-                try
-                {
-                    webClient.DownloadFile(backupLink2, @"..\UpdateU.zip");
-                }
-                catch (WebException)
-                {
-                    _logger.Error("Backup download link 2 failed.");
-                    MessageBox.Show("Backup download link 2 failed.", "Download error.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
-                    return;
-                }
-            }
-            else
-            {
-                _logger.Error(ex.Message);
-                _logger.Error("An error occurred during the download: ");
-                MessageBox.Show("An error occurred during the download:", "Download error.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
-                return;
-            }
-        }
-        if (Directory.Exists(@"..\Updater\"))
-        {
-            Directory.Delete(@"..\Updater\", true);
-        }
-        Directory.CreateDirectory(@"..\Updater\");
-        ZipFile.ExtractToDirectory(@"..\UpdateU.zip", @"..\Updater\");
-
-        if (File.Exists(@"..\UpdateU.zip"))
-        {
-            File.Delete(@"..\UpdateU.zip");
-        }
-
-        File.Create(@"..\Launcher\lnu.txt").Close();
-        Process.Start(@"..\Updater\RMDUpdater.exe");
-
-        await ShellViewModel.TryCloseAsync();
-
-        if (File.Exists(@"..\MyVersions_Temp.txt"))
-        {
-            File.Delete(@"..\MyVersions_Temp.txt");
-        }
-    }
-
-    [UsedImplicitly]
     public async void OnMapsHelp()
     {
         MessageBox.Show("These options let you force specific map layouts so you can roll that 'perfect' map anytime you want. Details explained below:\n\nTower: The tower entrance is on the same screen as your waypoint.\n\nCatacombs: Levels 3 and 4 are less than 3 screens away\n\nAncient Tunnels: Entrance is 1 screen away from your waypoint\n\nLower Kurast: Very favorable super chest pattern near your waypoint\n\nDurance of Hate: Level 3 entrance is one teleport away from waypoint.\n\nHellforge: Forge is at closest spawn to your waypoint\n\nWorldstone Keep: Level 3 and 4 are right next to each other\n\nI'm a Cheater: Almost all entrances are absurdly close with a perfect LK pattern by the waypoint. You're basically just cheating now.\n\n\nNOTE: Lower Kurast and I'm a Cheater options are only available on Vanilla++.");

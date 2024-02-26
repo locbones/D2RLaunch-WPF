@@ -661,39 +661,34 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     {
         string profileHdJsonPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/_profilehd.json");
 
-        if (File.Exists(profileHdJsonPath))
-        {
-            try
-            {
-                string backgroundColorNormal = "\"backgroundColor\": [ 0, 0, 0, 0.75 ],";
-                string backgroundColorFix = "\"backgroundColor\": [ 0, 0, 0, 0.95 ],";
-                string inGameBackgroundColorNormal = "\"inGameBackgroundColor\": [ 0, 0, 0, 0.6 ],";
-                string inGameBackgroundColorFix = "\"inGameBackgroundColor\": [ 0, 0, 0, 0.95 ],";
-                string fileContent = File.ReadAllText(profileHdJsonPath);
+        if (!File.Exists(profileHdJsonPath))
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\ui\layouts\_profilehd.json", ShellViewModel.SelectedModDataFolder, "data:data");
 
-                if (ShellViewModel.UserSettings.HdrFix)
-                {
-                    fileContent = fileContent.Replace(backgroundColorNormal, backgroundColorFix);
-                    fileContent = fileContent.Replace(inGameBackgroundColorNormal, inGameBackgroundColorFix);
-                    await File.WriteAllTextAsync(profileHdJsonPath, fileContent);
-                }
-                else
-                {
-                    fileContent = fileContent.Replace(backgroundColorFix, backgroundColorNormal);
-                    fileContent = fileContent.Replace(inGameBackgroundColorFix, inGameBackgroundColorNormal);
-                    await File.WriteAllTextAsync(profileHdJsonPath, fileContent);
-                }
-            }
-            catch (Exception ex)
+        try
+        {
+            string backgroundColorNormal = "\"backgroundColor\": [ 0, 0, 0, 0.75 ],";
+            string backgroundColorFix = "\"backgroundColor\": [ 0, 0, 0, 0.95 ],";
+            string inGameBackgroundColorNormal = "\"inGameBackgroundColor\": [ 0, 0, 0, 0.6 ],";
+            string inGameBackgroundColorFix = "\"inGameBackgroundColor\": [ 0, 0, 0, 0.95 ],";
+            string fileContent = File.ReadAllText(profileHdJsonPath);
+
+            if (ShellViewModel.UserSettings.HdrFix)
             {
-                _logger.Error(ex);
-                MessageBox.Show(ex.Message);
+                fileContent = fileContent.Replace(backgroundColorNormal, backgroundColorFix);
+                fileContent = fileContent.Replace(inGameBackgroundColorNormal, inGameBackgroundColorFix);
+                await File.WriteAllTextAsync(profileHdJsonPath, fileContent);
+            }
+            else
+            {
+                fileContent = fileContent.Replace(backgroundColorFix, backgroundColorNormal);
+                fileContent = fileContent.Replace(inGameBackgroundColorFix, inGameBackgroundColorNormal);
+                await File.WriteAllTextAsync(profileHdJsonPath, fileContent);
             }
         }
-        else
+        catch (Exception ex)
         {
-            MessageBox.Show("Unable to locate _profilehd.json file", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            ShellViewModel.UserSettings.HdrFix = false;
+            _logger.Error(ex);
+            MessageBox.Show(ex.Message);
         }
     }
 

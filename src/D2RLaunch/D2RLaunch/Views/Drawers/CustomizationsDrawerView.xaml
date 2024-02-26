@@ -133,7 +133,7 @@
                             Background="#FF313030"
                             DisplayMemberPath="Key"
                             ItemsSource="{Binding GroupSizes}"
-                            SelectedIndex="{Binding SelectedDifficulty.SelectedGroupSize}"
+                            SelectedIndex="{Binding ShellViewModel.UserSettings.SelectedGroupSize}"
                             SelectedValuePath="Value"
                             Style="{StaticResource ComboBoxStyle}" />
                     </StackPanel>

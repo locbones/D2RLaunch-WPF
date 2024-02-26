@@ -137,8 +137,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actOneString = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -152,8 +150,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actTwoString = value;
-                OnPropertyChanged();
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -169,8 +165,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actThreeString = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -184,8 +178,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actFourString = value;
-                OnPropertyChanged();
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -201,8 +193,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actFiveString = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -216,7 +206,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _championPacks = value;
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -232,7 +221,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _groupSizes = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -246,7 +234,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _expRates = value;
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -832,8 +819,8 @@ namespace D2RLaunch.ViewModels.Drawers
                     {
                         if (splitContent[25] != "")
                         {
-                            splitContent[25] = (int.Parse(splitContent[25]) + ShellViewModel.UserSettings.SelectedMonsterItemDrops).ToString();
-                            splitContent[26] = (int.Parse(splitContent[26]) + ShellViewModel.UserSettings.SelectedMonsterItemDrops).ToString();
+                            splitContent[25] = (int.Parse(splitContent[25]) + ShellViewModel.UserSettings.SelectedGroupSize).ToString();
+                            splitContent[26] = (int.Parse(splitContent[26]) + ShellViewModel.UserSettings.SelectedGroupSize).ToString();
                         }
                         if (splitContent[162] != "" && splitContent[175] != "" && splitContent[188] != "")
                         {
@@ -861,7 +848,6 @@ namespace D2RLaunch.ViewModels.Drawers
         #region members
         private int _selectedChampionPack = 0;
         private int _selectedExpRate = 0;
-        private int _selectedGroupSize = 0;
         private int _selectedShortenedLevel = 0;
 
         private int _actOneDensity;
@@ -928,24 +914,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _selectedChampionPack = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
-            }
-        }
-
-        public int SelectedGroupSize
-        {
-            get => _selectedGroupSize;
-            set
-            {
-                if (value == _selectedGroupSize)
-                {
-                    return;
-                }
-                _selectedGroupSize = value;
-                OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -959,8 +927,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _selectedExpRate = value;
-                OnPropertyChanged();
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -976,8 +942,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actOneMultiplierString = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -991,8 +955,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actTwoMultiplierString = value;
-                OnPropertyChanged();
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -1008,8 +970,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actThreeMultiplierString = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -1024,8 +984,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actFourMultiplierString = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -1039,8 +997,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actFiveMultiplierString = value;
-                OnPropertyChanged();
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -1126,7 +1082,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actOneDensity = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -1140,7 +1095,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actTwoDensity = value;
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -1156,7 +1110,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actThreeDensity = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -1170,7 +1123,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actFourDensity = value;
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -1186,7 +1138,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actFiveDensity = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -1200,7 +1151,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actOneSpawnChance = value;
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -1216,7 +1166,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actTwoSpawnChance = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -1230,7 +1179,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actThreeSpawnChance = value;
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }
@@ -1246,7 +1194,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
                 _actFourSpawnChance = value;
                 OnPropertyChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -1260,7 +1207,6 @@ namespace D2RLaunch.ViewModels.Drawers
                     return;
                 }
                 _actFiveSpawnChance = value;
-                OnPropertyChanged();
                 OnPropertyChanged();
             }
         }

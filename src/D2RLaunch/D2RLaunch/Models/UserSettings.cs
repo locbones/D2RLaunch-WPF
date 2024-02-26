@@ -35,6 +35,7 @@ public class UserSettings : INotifyPropertyChanged
     private int _runeDisplay;
     private string _buffIconTemplate;
     private int _selectedMonsterItemDrops = 0;
+    private int _selectedGroupSize = 0;
     private Dictionary<string, DifficultyCustomizations> _difficultyCustomizations;
 
     #endregion
@@ -369,6 +370,20 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _selectedMonsterItemDrops = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int SelectedGroupSize
+    {
+        get => _selectedGroupSize;
+        set
+        {
+            if (value == _selectedGroupSize)
+            {
+                return;
+            }
+            _selectedGroupSize = value;
             OnPropertyChanged();
         }
     }

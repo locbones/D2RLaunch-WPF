@@ -629,11 +629,11 @@ namespace D2RLaunch.ViewModels.Drawers
             {
                 File.Copy(_globalLevelsTxtPath, _customizationLevelsTxtPath);
             }
-            if (!File.Exists(_globalMonStatsTxtPath))
+            if (!File.Exists(_customizationMonStatsTxtPath))
             {
                 File.Copy(_globalMonStatsTxtPath, _customizationMonStatsTxtPath);
             }
-            if (!File.Exists(_globalTreasureClassExTxtPath))
+            if (!File.Exists(_customizationsTreasureClassExTxtPath))
             {
                 File.Copy(_globalTreasureClassExTxtPath, _customizationsTreasureClassExTxtPath);
             }

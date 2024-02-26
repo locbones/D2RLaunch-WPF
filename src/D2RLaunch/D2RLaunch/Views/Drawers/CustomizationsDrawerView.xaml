@@ -197,7 +197,7 @@
                                 FontSize="18"
                                 Style="{StaticResource LabelNormalGoldStyle}" />
                             <Label
-                                Margin="0,0,0,2"
+                                Margin="5,0,0,2"
                                 Padding="0"
                                 VerticalAlignment="Bottom"
                                 Content="{Binding SelectedDifficulty.ActOneMultiplierString}"
@@ -214,7 +214,7 @@
                                 <Label Content="{Binding Path=Density, Source={StaticResource Resources}}" Foreground="Green" />
                                 <Label
                                     Content="{Binding SelectedDifficulty.ActOneDensity}"
-                                    ContentStringFormat="{}{0}%"
+                                    ContentStringFormat="{}{0}"
                                     Foreground="Green" />
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -264,7 +264,7 @@
                                 FontSize="18"
                                 Style="{StaticResource LabelNormalGoldStyle}" />
                             <Label
-                                Margin="0,0,0,2"
+                                Margin="5,0,0,2"
                                 Padding="0"
                                 VerticalAlignment="Bottom"
                                 Content="{Binding SelectedDifficulty.ActTwoMultiplierString}"
@@ -281,7 +281,7 @@
                                 <Label Content="{Binding Path=Density, Source={StaticResource Resources}}" Foreground="Green" />
                                 <Label
                                     Content="{Binding SelectedDifficulty.ActTwoDensity}"
-                                    ContentStringFormat="{}{0}%"
+                                    ContentStringFormat="{}{0}"
                                     Foreground="Green" />
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -331,7 +331,7 @@
                                 FontSize="18"
                                 Style="{StaticResource LabelNormalGoldStyle}" />
                             <Label
-                                Margin="0,0,0,2"
+                                Margin="5,0,0,2"
                                 Padding="0"
                                 VerticalAlignment="Bottom"
                                 Content="{Binding SelectedDifficulty.ActThreeMultiplierString}"
@@ -348,7 +348,7 @@
                                 <Label Content="{Binding Path=Density, Source={StaticResource Resources}}" Foreground="Green" />
                                 <Label
                                     Content="{Binding SelectedDifficulty.ActThreeDensity}"
-                                    ContentStringFormat="{}{0}%"
+                                    ContentStringFormat="{}{0}"
                                     Foreground="Green" />
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -398,7 +398,7 @@
                                 FontSize="18"
                                 Style="{StaticResource LabelNormalGoldStyle}" />
                             <Label
-                                Margin="0,0,0,2"
+                                Margin="5,0,0,2"
                                 Padding="0"
                                 VerticalAlignment="Bottom"
                                 Content="{Binding SelectedDifficulty.ActFourMultiplierString}"
@@ -415,7 +415,7 @@
                                 <Label Content="{Binding Path=Density, Source={StaticResource Resources}}" Foreground="Green" />
                                 <Label
                                     Content="{Binding SelectedDifficulty.ActFourDensity}"
-                                    ContentStringFormat="{}{0}%"
+                                    ContentStringFormat="{}{0}"
                                     Foreground="Green" />
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -467,7 +467,7 @@
                             FontSize="18"
                             Style="{StaticResource LabelNormalGoldStyle}" />
                         <Label
-                            Margin="0,0,0,2"
+                            Margin="5,0,0,2"
                             Padding="0"
                             VerticalAlignment="Bottom"
                             Content="{Binding SelectedDifficulty.ActFiveMultiplierString}"
@@ -484,7 +484,7 @@
                             <Label Content="{Binding Path=Density, Source={StaticResource Resources}}" Foreground="Green" />
                             <Label
                                 Content="{Binding SelectedDifficulty.ActFiveDensity}"
-                                ContentStringFormat="{}{0}%"
+                                ContentStringFormat="{}{0}"
                                 Foreground="Green" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

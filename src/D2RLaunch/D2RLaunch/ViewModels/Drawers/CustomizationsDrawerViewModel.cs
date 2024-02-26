@@ -338,18 +338,8 @@ namespace D2RLaunch.ViewModels.Drawers
         {
             if (Directory.Exists(_customizationsPath))
             {
-                if (File.Exists(_globalTreasureClassExTxtPath))
-                {
-                    if (File.Exists(_customizationsTreasureClassExTxtPath))
-                    {
-                        File.Delete(_customizationsTreasureClassExTxtPath);
-                    }
-                    File.Copy(_globalTreasureClassExTxtPath, _customizationsTreasureClassExTxtPath);
-                }
-                else
-                {
+                if (!File.Exists(_globalTreasureClassExTxtPath))
                     Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\treasureclassex.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-                }
 
                 string[] lines = await File.ReadAllLinesAsync(_customizationsTreasureClassExTxtPath);
                 string contents = "";

@@ -500,9 +500,7 @@ namespace D2RLaunch.ViewModels.Drawers
             }
 
             if ((Convert.ToDouble(densityAverage) / 1000.0) < 10.0)
-            {
                 return (densityAverage, Math.Round(Convert.ToDouble(densityAverage) / 1000, 1));
-            }
 
             return (10000, 10.0);
         }
@@ -586,34 +584,21 @@ namespace D2RLaunch.ViewModels.Drawers
             }
 
             if (!Directory.Exists(_customizationsPath))
-            {
                 Directory.CreateDirectory(_customizationsPath);
-            }
 
             if (!File.Exists(_globalLevelsTxtPath))
-            {
                 Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\levels.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-            }
             if (!File.Exists(_globalMonStatsTxtPath))
-            {
                 Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\monstats.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-            }
             if (!File.Exists(_globalTreasureClassExTxtPath))
-            {
                 Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\treasureclassex.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-            }
+
             if (!File.Exists(_customizationLevelsTxtPath))
-            {
                 File.Copy(_globalLevelsTxtPath, _customizationLevelsTxtPath);
-            }
             if (!File.Exists(_customizationMonStatsTxtPath))
-            {
                 File.Copy(_globalMonStatsTxtPath, _customizationMonStatsTxtPath);
-            }
             if (!File.Exists(_customizationsTreasureClassExTxtPath))
-            {
                 File.Copy(_globalTreasureClassExTxtPath, _customizationsTreasureClassExTxtPath);
-            }
 
         }
 

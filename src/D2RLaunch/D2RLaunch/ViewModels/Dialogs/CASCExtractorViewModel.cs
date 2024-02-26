@@ -221,9 +221,7 @@ public class CASCExtractorViewModel : Screen
         {
             // Check if the file path contains "locales" or "binaries," or if it doesn't have an extension; skip it if any condition is true
             if (file.FileName.Contains("locales") || file.FileName.Contains("binaries") || !Path.HasExtension(file.FileName))
-            {
                 continue;
-            }
 
             // Replace the data:data separator with data/data
             string modifiedFileName = file.FileName.Replace("data:data", "Data");
@@ -234,9 +232,7 @@ public class CASCExtractorViewModel : Screen
             // Create the directory if it doesn't exist
             string extractedFileDirectory = Path.GetDirectoryName(extractedFilePath);
             if (!Directory.Exists(extractedFileDirectory))
-            {
                 Directory.CreateDirectory(extractedFileDirectory);
-            }
 
             // Open the file for reading from CASC
             await using (CASCFileStream reader = storage.OpenFile(file.FileName))
@@ -295,9 +291,7 @@ public class CASCExtractorViewModel : Screen
             if (Directory.Exists(sourceDirectory))
             {
                 if (!Directory.Exists(destinationDirectory))
-                {
                     Directory.CreateDirectory(destinationDirectory);
-                }
 
                 string[] files = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
 

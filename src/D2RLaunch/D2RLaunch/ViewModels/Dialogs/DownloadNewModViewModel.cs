@@ -290,9 +290,7 @@ public class DownloadNewModViewModel : Screen
             string modName = string.Empty;
 
             if (tempModDir != null)
-            {
                 modName = tempModDir.Replace(".mpq", "");
-            }
             else
             {
                 MessageBox.Show("Mod download was unsuccessful", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -303,9 +301,7 @@ public class DownloadNewModViewModel : Screen
 
             //Delete current Mod folder if it exists
             if (Directory.Exists(modInstallPath))
-            {
                 Directory.Delete(modInstallPath, true);
-            }
 
             ProgressStatus = "Installing mod...";
 
@@ -316,32 +312,22 @@ public class DownloadNewModViewModel : Screen
 
             string versionPath = Path.Combine(modInstallPath, "version.txt");
             if (!File.Exists(versionPath))
-            {
                 File.Create(versionPath).Close();
-            }
 
             string tempModInfoPath = Path.Combine(tempModDirPath, "modinfo.json");
 
             ModInfo modInfo = await Helper.ParseModInfo(tempModInfoPath);
 
             if (modInfo != null)
-            {
                 await File.WriteAllTextAsync(versionPath, modInfo.ModVersion);
-            }
             else
-            {
                 MessageBox.Show("Could not parse ModInfo.json!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
 
             //Always clean up temp files.
             if (File.Exists(tempFile))
-            {
                 File.Delete(tempFile);
-            }
             if (Directory.Exists(tempExtractedModFolderPath))
-            {
                 Directory.Delete(tempExtractedModFolderPath, true);
-            }
             ProgressStatus = "Installing Complete!";
 
             MessageBox.Show($"{modName} has been installed!", "Mod Installed!", MessageBoxButton.OK, MessageBoxImage.None);
@@ -349,9 +335,7 @@ public class DownloadNewModViewModel : Screen
             
             //We installed a custom mod from a direct link. 
             if (string.IsNullOrEmpty(SelectedMod.Key))
-            {
                 SelectedMod = new KeyValuePair<string, string>(modName, "DirectDownload");
-            }
 
             await TryCloseAsync(true);
         }
@@ -362,13 +346,9 @@ public class DownloadNewModViewModel : Screen
 
             //Always clean up temp files.
             if (File.Exists(tempFile))
-            {
                 File.Delete(tempFile);
-            }
             if (Directory.Exists(tempExtractedModFolderPath))
-            {
                 Directory.Delete(tempExtractedModFolderPath, true);
-            }
 
             await TryCloseAsync(false);
         }
@@ -378,8 +358,6 @@ public class DownloadNewModViewModel : Screen
     public async void OnModInstallSelectionChanged()
     {
         if (!string.IsNullOrEmpty(SelectedMod.Value))
-        {
             ModDownloadLink = SelectedMod.Value;
-        }
     }
 }

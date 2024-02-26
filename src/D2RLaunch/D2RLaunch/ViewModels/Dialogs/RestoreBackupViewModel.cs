@@ -84,14 +84,10 @@ namespace D2RLaunch.ViewModels.Dialogs
             string stashPath = Path.Combine(ShellViewModel.BackupFolder, "Stash");
 
             if (Directory.Exists(characterPath))
-            {
                 File.Copy(Path.Combine(characterPath, $"{SelectedCharacter}.d2s"), Path.Combine(ShellViewModel.SaveFilesFilePath, $"{SelectedCharacter}.d2s"), true);
-            }
 
             if (Directory.Exists(stashPath))
-            {
                 File.Copy(Path.Combine(stashPath, "SharedStashSoftCoreV2.d2i"), Path.Combine(ShellViewModel.SaveFilesFilePath, "SharedStashSoftCoreV2.d2i"), true);
-            }
 
             MessageBox.Show($"{SelectedCharacter} Restored!", "Restore Complete", MessageBoxButton.OK, MessageBoxImage.Information);
         }

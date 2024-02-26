@@ -304,7 +304,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
         if (await _windowManager.ShowDialogAsync(vm, null, options))
         {
-
         }
     }
 
@@ -314,13 +313,9 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         (string characterName, bool passed) result = await ShellViewModel.BackupRecentCharacter();
 
         if (result.passed)
-        {
             MessageBox.Show($"{result.characterName} and your Shared Stash has been backed up successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
         else
-        {
             MessageBox.Show("Failed to backup character!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
     }
 
     [UsedImplicitly]
@@ -334,7 +329,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
         if (await _windowManager.ShowDialogAsync(vm, null, options))
         {
-
         }
     }
 
@@ -362,9 +356,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     public async void OnUsePreview()
     {
         if (ShowFontPreview)
-        {
             await UpdateFontPreview();
-        }
     }
 
     private async Task UpdateFontPreview()
@@ -391,8 +383,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
 
         if (await _windowManager.ShowDialogAsync(vm, null, options))
-        {
-            
+        {  
         }
     }
 

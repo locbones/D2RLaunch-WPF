@@ -421,9 +421,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 await Translate();
 
                 if (ShellViewModel.ModInfo == null)
-                {
                     return;
-                }
 
                 MapsComboBoxEnabled = ShellViewModel.ModInfo.MapLayouts;
                 UiComboBoxEnabled = ShellViewModel.ModInfo.UIThemes && (ShellViewModel.ModInfo.Name == "Vanilla++" || ShellViewModel.ModInfo.Name == "ReMoDDeD");
@@ -444,9 +442,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     ShellViewModel.ModLogo = tempPath;
                 }
                 else
-                {
                     ShellViewModel.ModLogo = "pack://application:,,,/Resources/Images/D2RL_Logo.png";
-                }
 
                 await LoadUserSettings();
 
@@ -467,7 +463,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
                 else
                 {
-
                 }
 
                 //await ApplyUiTheme();
@@ -483,9 +478,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             if (!File.Exists(ShellViewModel.SelectedUserSettingsFilePath))
             {
                 if (!File.Exists(ShellViewModel.OldSelectedUserSettingsFilePath))
-                {
                     ShellViewModel.UserSettings = await Helper.GetDefaultUserSettings();
-                }
                 else
                 {
                     string[] oldUserSettings = await File.ReadAllLinesAsync(ShellViewModel.OldSelectedUserSettingsFilePath);
@@ -493,19 +486,14 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             }
             else
-            {
-                ShellViewModel.UserSettings = JsonConvert.DeserializeObject<UserSettings>(await File.ReadAllTextAsync(ShellViewModel.SelectedUserSettingsFilePath));
-                
-            }
+                ShellViewModel.UserSettings = JsonConvert.DeserializeObject<UserSettings>(await File.ReadAllTextAsync(ShellViewModel.SelectedUserSettingsFilePath));  
         }
         else //Unprotected
         {
             if (!File.Exists(ShellViewModel.SelectedUserSettingsFilePath.Replace($"{Settings.Default.SelectedMod}.mpq/", "")))
             {
                 if (!File.Exists(ShellViewModel.OldSelectedUserSettingsFilePath.Replace($"{Settings.Default.SelectedMod}.mpq/", "")))
-                {
                     ShellViewModel.UserSettings = await Helper.GetDefaultUserSettings();
-                }
                 else
                 {
                     string[] oldUserSettings = await File.ReadAllLinesAsync(ShellViewModel.OldSelectedUserSettingsFilePath.Replace($"{Settings.Default.SelectedMod}.mpq/", ""));
@@ -513,9 +501,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             }
             else
-            {
                 ShellViewModel.UserSettings = JsonConvert.DeserializeObject<UserSettings>(await File.ReadAllTextAsync(ShellViewModel.SelectedUserSettingsFilePath.Replace($"{Settings.Default.SelectedMod}.mpq/", "")));
-            }
         }
 
         //TODO: Should the autoback up timer be configured here?
@@ -591,13 +577,9 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         if (ShellViewModel.UserSettings.DirectTxt)
         {
             if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
-            {
                 args = $"-direct{regenArg}{respecArg}{mapLayoutArg}";
-            }
             else
-            {
                 args = $"-direct -txt{regenArg}{respecArg}{mapLayoutArg}";
-            }
         }
         else
         {
@@ -609,24 +591,16 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 int txtFileCount = Directory.GetFiles(excelDir, "*.txt").Length;
 
                 if (binFileCount >= 83 && txtFileCount >= 10)
-                {
                     args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-                }
 
                 if (binFileCount >= 83 && txtFileCount < 10)
-                {
                     args = $"-mod {ShellViewModel.ModInfo.Name}";
-                }
 
                 if (binFileCount < 83 && txtFileCount >= 1)
-                {
                     args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-                }
             }
             else
-            {
                 args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-            }
 
             args = $"{args}{regenArg}{respecArg}{mapLayoutArg}";
         }
@@ -732,13 +706,9 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         string uiExpandedPath = Path.Combine(ShellViewModel.SelectedModDataFolder, @"D2RLaunch/UI Theme/Expanded/ui");
 
         if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
-        {
             await File.WriteAllBytesAsync(Path.Combine(layoutPath, "bankexpansionlayouthd.json"), await Helper.GetResourceByteArray("Options.PersonalizedTabs.stash_rmd"));
-        }
         if (ShellViewModel.ModInfo.Name == "Vanilla++")
-        {
             await File.WriteAllBytesAsync(Path.Combine(layoutPath, "bankexpansionlayouthd.json"), await Helper.GetResourceByteArray("Options.PersonalizedTabs.stash_vnp"));
-        }
 
         if (Directory.Exists(layoutRemoddedPath) || Directory.Exists(layoutExpandedPath))
         {
@@ -782,17 +752,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         {
             if (File.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, @"D2RLaunch/UI Theme/bankexpansionlayouthd.json")))
             {
-
                 File.Delete(Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/bankexpansionlayouthd.json"));
                 File.Copy(Path.Combine(ShellViewModel.SelectedModDataFolder, @"D2RLaunch/UI Theme/bankexpansionlayouthd.json"), Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/bankexpansionlayouthd.json"));
-
             }
             else
             {
                 if ((ePersonalizedStashTabs)ShellViewModel.UserSettings.PersonalizedStashTabs == ePersonalizedStashTabs.Enabled)
-
                     File.Copy(Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/bankexpansionlayouthd.json"), Path.Combine(ShellViewModel.SelectedModDataFolder, @"D2RLaunch/UI Theme/bankexpansionlayouthd.json"));
-
             }
         }
     }
@@ -818,22 +784,15 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         if (ShellViewModel.ModInfo != null)
         {
             string hexString = String.Concat(Enumerable.Repeat(TAB_BYTE_CODE, 4));
-
             string d2rSavePath = string.Empty;
 
             if (ShellViewModel.ModInfo.SavePath == "\"../\"")
-            {
                 d2rSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\Diablo II Resurrected");
-            }
             else
-            {
                 d2rSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\Mods\{ShellViewModel.ModInfo.Name}");
-            }
 
             if (!Directory.Exists(d2rSavePath))
-            {
                 Directory.CreateDirectory(d2rSavePath);
-            }
 
             string sharedStashSoftCorePath = Path.Combine(d2rSavePath, "SharedStashSoftCoreV2.d2i");
             string sharedStashHardCorePath = Path.Combine(d2rSavePath, "SharedStashHardCoreV2.d2i");
@@ -850,9 +809,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 byte[] data = await File.ReadAllBytesAsync(sharedStashSoftCorePath);
                 string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
                 if (Regex.Matches(bitString, "4A4D0000").Count == 3)
-                {
                     await File.WriteAllBytesAsync(sharedStashSoftCorePath, Helper.StringToByteArray(bitString + hexString));
-                }
             }
 
             //Repeat for the hardcore stash
@@ -866,9 +823,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 byte[] data = await File.ReadAllBytesAsync(sharedStashHardCorePath); //read file
                 string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
                 if (Regex.Matches(bitString, "4A4D0000").Count == 3)
-                {
                     await File.WriteAllBytesAsync(sharedStashHardCorePath, Helper.StringToByteArray(bitString + hexString));
-                }
             }
         }
 
@@ -879,10 +834,10 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             case 2:
                 {
                     string stasherEntityFrameworkPath = Path.Combine(ShellViewModel.StasherPath, "EntityFramework.pdb");
+
                     if (File.Exists(stasherEntityFrameworkPath))
-                    {
                         File.Delete(stasherEntityFrameworkPath);
-                    }
+
                     File.Create(stasherEntityFrameworkPath).Close();
                     await File.WriteAllBytesAsync(stasherEntityFrameworkPath, await Helper.GetResourceByteArray("Options.MonsterStats.MonsterStats.dll"));
 
@@ -923,21 +878,16 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     public async void OnUIThemeSelectionChanged()
     {
         if (ShellViewModel.ModInfo == null)
-        {
             return;
-        }
 
         await ApplyUiTheme();
-
     }
 
     [UsedImplicitly]
     public async void OnMapLayoutSelectionChanged()
     {
         if ((eMapLayouts) ShellViewModel.UserSettings.MapLayout != eMapLayouts.Default)
-        {
             MessageBox.Show("WARNING: These options are meant for a fun experience or two, but will feel like cheating. Use at your own risk.\nIf you would like to proceed, please read these instructions:\n\nStep 1: Start the game with your selected layout\nStep 2: Once loaded into the game with your character fully, EXIT the game.\nStep 3: After exiting the game, you should see your layout dropdown on launcher changed back to Default. This is normal; Start the game again.\n\nIf you do not exit the game after changing your map layout...you will be stuck with a small drop pool of deterministic outcomes.\nThis does not need to be done every game; only if you change map layouts the normal ways; such as changing difficulty.");
-        }
     }
 
     [UsedImplicitly]
@@ -1151,9 +1101,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     {
                         string backupPath = Path.Combine(ShellViewModel.BaseModsFolder, $"{Settings.Default.SelectedMod}(Backup-{ShellViewModel.ModInfo.ModVersion.Replace(".","-")})");
                         if (Directory.Exists(backupPath))
-                        {
                             Directory.Delete(backupPath, true);
-                        }
 
                         await Task.Run(async () => { await Helper.CloneDirectory(ShellViewModel.BaseSelectedModFolder, backupPath); });
                     }
@@ -1199,9 +1147,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                                             };
 
                 if (File.Exists(tempUpdatePath))
-                {
                     File.Delete(tempUpdatePath);
-                }
 
                 // Create a file stream to store the downloaded data.
                 // This really can be any type of writeable stream.
@@ -1220,9 +1166,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 string tempExtractedModFolderPath = Path.Combine(tempPath, "UpdateDownload");
 
                 if (Directory.Exists(tempExtractedModFolderPath))
-                {
                     Directory.Delete(tempExtractedModFolderPath, true);
-                }
 
                 await Task.Run(() =>
                                {
@@ -1237,19 +1181,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 string[] userSettings = null;
 
                 if (File.Exists(ShellViewModel.SelectedUserSettingsFilePath))
-                {
                     userSettings = await File.ReadAllLinesAsync(ShellViewModel.SelectedUserSettingsFilePath);
-                }
                 else if (File.Exists(ShellViewModel.SelectedUserSettingsFilePath.Replace($"{Settings.Default.SelectedMod}.mpq/", "")))
-                {
                     userSettings = await File.ReadAllLinesAsync(ShellViewModel.SelectedUserSettingsFilePath.Replace($"{Settings.Default.SelectedMod}.mpq/", ""));
-                }
 
                 //Delete current Mod folder if it exists
                 if (Directory.Exists(modInstallPath))
-                {
                     Directory.Delete(modInstallPath, true);
-                }
 
                 //Clone mod into base mods folder.
                 await Task.Run(async () => { await Helper.CloneDirectory(tempParentDir, modInstallPath); });
@@ -1262,22 +1200,16 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                 string versionPath = Path.Combine(modInstallPath, "version.txt");
                 if (!File.Exists(versionPath))
-                {
                     File.Create(versionPath).Close();
-                }
 
                 tempModInfoPath = Path.Combine(tempModDirPath, "modinfo.json");
 
                 ModInfo modInfo = await Helper.ParseModInfo(tempModInfoPath);
 
                 if (modInfo != null)
-                {
                     await File.WriteAllTextAsync(versionPath, modInfo.ModVersion);
-                }
                 else
-                {
                     MessageBox.Show("Could not parse ModInfo.json!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
 
                 File.Delete(tempUpdatePath);
                 Directory.Delete(tempExtractedModFolderPath, true);
@@ -1346,16 +1278,12 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             if (!Directory.Exists(Path.Combine(ShellViewModel.BaseModsFolder, "MyCustomMod/MyCustomMod.mpq/data/global")))
             {
                 Directory.CreateDirectory(Path.Combine(ShellViewModel.BaseModsFolder, "MyCustomMod/MyCustomMod.mpq/data/global"));
-                
                 await File.WriteAllBytesAsync(Path.Combine(ShellViewModel.BaseModsFolder, "MyCustomMod/MyCustomMod.mpq/modinfo.json"), await Helper.GetResourceByteArray("modinfo_blank.json"));
-
                 Settings.Default.SelectedMod = "MyCustomMod";
                 await InitializeMods();
             }
             else
-            {
                 MessageBox.Show("A custom mod has already been created!", "Error", MessageBoxButton.OK);
-            }
         }
     }
 
@@ -1373,8 +1301,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 CASCExtractorViewModel vm = new CASCExtractorViewModel(ShellViewModel);
 
                 if (await _windowManager.ShowDialogAsync(vm, null, options))
-                {
-                   
+                {   
                 }
 
                 if (!Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/global")) || !Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/hd")) ||

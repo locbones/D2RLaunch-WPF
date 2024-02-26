@@ -313,7 +313,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         await ConfigureHudDesign();
     }
 
-    private async Task ConfigureHudDesign()
+    private async Task ConfigureHudDesign() //Merged HUD - QoL
     {
         eHudDesign hudDesign = (eHudDesign)UserSettings.HudDesign;
 
@@ -329,9 +329,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
 
             if (!File.Exists(layoutFolder))
-            {
                 Directory.CreateDirectory(layoutFolder);
-            }
 
             switch (hudDesign)
             {
@@ -342,13 +340,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                             File.Delete(hudPanelhdJsonFilePath);
 
                             if ((eUiThemes)UserSettings.UiTheme == eUiThemes.Standard)
-                            {
                                 File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath);
-                            }
                             else
-                            {
                                 File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/remodded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath);
-                            }
 
                             // Update skillselecthd.json if it exists
                             if (File.Exists(skillSelecthdJsonFilePath))
@@ -362,9 +356,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 case eHudDesign.Merged:
                     {
                         if (!Directory.Exists(controllerDirectory))
-                        {
                             Directory.CreateDirectory(controllerDirectory);
-                        }
+
                         File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/hudpanelhd-merged.json"), hudPanelhdJsonFilePath, true);
                         File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/Controller/hudpanelhd-merged_controller.json"), controllerhudPanelhdJsonFilePath, true);
 
@@ -422,9 +415,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         File.Copy(itRunewordJsonFilePath, Path.Combine(SelectedModDataFolder, $"global/ui/layouts/cuberecipes{6}panelhd.json"), true);
                     }
                     else
-                    {
                         File.Copy(itRunewordJsonFilePath, Path.Combine(SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json"), true);
-                    }
 
                     break;
                 }
@@ -436,9 +427,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         File.Copy(lvRunewordJsonFilePath, Path.Combine(SelectedModDataFolder, $"global/ui/layouts/cuberecipes{6}panelhd.json"), true);
                     }
                     else
-                    {
                         File.Copy(lvRunewordJsonFilePath, Path.Combine(SelectedModDataFolder, $"global/ui/layouts/cuberecipes{5}panelhd.json"), true);
-                    }
 
                     break;
                 }
@@ -533,21 +522,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     }
 
                     if (!File.Exists(itemNameJsonFilePath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-names.json", SelectedModDataFolder, "data:data");
-                    }
 
                     if (!File.Exists(itemRuneJsonFilePath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-runes.json", SelectedModDataFolder, "data:data");
-                    }
 
                     string namesFile = await File.ReadAllTextAsync(itemNameJsonFilePath);
 
                     if (namesFile.Contains("Chipped Emerald"))
-                    {
                         await File.WriteAllTextAsync(itemNameOriginalJsonFilePath, namesFile);
-                    }
 
                     ItemIconsShow(itemNameJsonFilePath);
                     RuneIconsShow(itemRuneJsonFilePath);
@@ -556,16 +539,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eItemDisplay.ItemIconsOnly:
                 {
                     if (!File.Exists(itemNameJsonFilePath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-names.json", SelectedModDataFolder, "data:data");
-                    }
 
                     string namesFile = await File.ReadAllTextAsync(itemNameJsonFilePath);
 
                     if (namesFile.Contains("Chipped Emerald"))
-                    {
                         await File.WriteAllTextAsync(itemNameOriginalJsonFilePath, namesFile);
-                    }
 
                     ItemIconsShow(itemNameJsonFilePath);
                     RuneIconsHide(itemRuneJsonFilePath);
@@ -574,9 +553,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eItemDisplay.RuneIconsOnly:
                 {
                     if (!File.Exists(itemRuneJsonFilePath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-runes.json", SelectedModDataFolder, "data:data");
-                    }
 
                     ItemIconsHide(itemNameOriginalJsonFilePath, itemNameJsonFilePath);
                     RuneIconsShow(itemRuneJsonFilePath);
@@ -595,19 +572,13 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         string monsterStatsPath = Path.Combine(SelectedModDataFolder, "D2RLaunch/Monster Stats");
 
         if (!Directory.Exists(uiLayoutsPath))
-        {
             Directory.CreateDirectory(uiLayoutsPath);
-        }
 
         if (!Directory.Exists(monsterStatsPath))
-        {
             Directory.CreateDirectory(monsterStatsPath);
-        }
 
         if (!File.Exists(hudMonsterHealthHdJsonFilePath))
-        {
             await File.WriteAllBytesAsync(hudMonsterHealthHdJsonFilePath, await Helper.GetResourceByteArray("Options.MonsterStats.hudmonsterhealthhd.json"));
-        }
 
         switch (monsterStatsDisplay)
         {
@@ -701,17 +672,13 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     foreach (string filename in allHelmetFiles1)
                     {
                         if (File.Exists(filename))
-                        {
                             File.Delete(filename);
-                        }
                     }
 
                     foreach (string filename in allHelmetFiles2)
                     {
                         if (File.Exists(filename))
-                        {
                             File.Delete(filename);
-                        }
                     }
                     break;
                 }
@@ -719,21 +686,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 {
                     //Create directories if they don't exist
                     if (!Directory.Exists(helmetBaseDir1))
-                    {
                         Directory.CreateDirectory(helmetBaseDir1);
-                    }
                     if (!Directory.Exists(helmetBaseDir2))
-                    {
                         Directory.CreateDirectory(helmetBaseDir2);
-                    }
 
                     //Loop through both arrays to create files
                     foreach (string filename in allHelmetFiles1)
                     {
                         if (File.Exists(filename))
-                        {
                             File.Delete(filename);
-                        }
                         File.Create(filename).Close();
                         await File.WriteAllBytesAsync(filename, await Helper.GetResourceByteArray("Options.HideHelmets.hide_helmets.json"));
                     }
@@ -741,9 +702,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     foreach (string filename in allHelmetFiles2)
                     {
                         if (File.Exists(filename))
-                        {
                             File.Delete(filename);
-                        }
                         File.Create(filename).Close();
                         await File.WriteAllBytesAsync(filename, await Helper.GetResourceByteArray("Options.HideHelmets.hide_helmets.json"));
                     }
@@ -772,9 +731,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eEnabledDisabled.Disabled:
                 {
                     if (!Directory.Exists(runePath))
-                    {
                         Directory.CreateDirectory(runePath);
-                    }
 
                     fileNames = Directory.GetFiles(runePath, "*.json");
 
@@ -788,13 +745,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                     //Replace rune string contents to display names
                     if (!Directory.Exists(runeStringPath))
-                    {
                         Directory.CreateDirectory(runeStringPath);
-                    }
                     if (!File.Exists(runeStringJsonFile))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, SelectedModDataFolder, "data:data");
-                    }
 
                     if (File.Exists(runeStringJsonFile))
                     {
@@ -843,9 +796,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     string[] runeFiles2 = { "mal_rune.json", "ist_rune.json", "gul_rune.json", "vex_rune.json", "ohm_rune.json", "lo_rune.json", "sur_rune.json", "ber_rune.json", "jah_rune.json", "cham_rune.json", "zod_rune.json" };
 
                     if (!Directory.Exists(runePath))
-                    {
                         Directory.CreateDirectory(runePath);
-                    }
 
                     //Assign overlay1 to mid runes
                     foreach (string fileName in runeFiles1)
@@ -904,9 +855,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                     //Replace rune string contents to display icons
                     if (!File.Exists(runeStringJsonFile))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, cascItemRuneJsonFileName, SelectedModDataFolder, "data:data");
-                    }
 
                     string runeStrings = await File.ReadAllTextAsync(runeStringJsonFile);
                     runeStrings = runeStrings.Replace("\"El Rune\"", "\"⅐ Elÿc0\"");
@@ -951,9 +900,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private async Task ConfigureItemILvls()
     {
         if (ModInfo.Name == "ReMoDDeD")
-        {
             return;
-        }
 
         string excelPath = Path.Combine(SelectedModDataFolder, "global/excel");
         string armorTxtPath = Path.Combine(excelPath, "armor.txt");
@@ -982,9 +929,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 foreach (string file in files)
                 {
                     if (!Directory.Exists(excelPath))
-                    {
                         Directory.CreateDirectory(excelPath);
-                    }
+
                     if (!File.Exists(armorTxtPath))
                     {
                         File.Create(armorTxtPath).Close();
@@ -1004,18 +950,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     string filePath = Path.Combine(excelPath, file);
 
                     if (!File.Exists(filePath))
-                    {
                         continue;
-                    }
 
                     string[] lines = await File.ReadAllLinesAsync(filePath);
 
                     if (lines.Length == 0)
-                    {
                         continue;
-                    }
-
-
 
                     string[] headers = lines[0].Split('\t'); //split by tab-delimited format
                     int showLevelIndex = Array.IndexOf(headers, "ShowLevel"); //make an array from the 'ShowLevel' entries
@@ -1076,17 +1016,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eMercIdentifier.Enabled:
                 {
                     if (!Directory.Exists(enemyPath))
-                    {
                         Directory.CreateDirectory(enemyPath);
-                    }
                     if (!Directory.Exists(texturesPath))
-                    {
                         Directory.CreateDirectory(texturesPath);
-                    }
                     if (!Directory.Exists(particlesPath))
-                    {
                         Directory.CreateDirectory(particlesPath);
-                    }
+
                     await File.WriteAllBytesAsync(rogueHireJsonPath, await Helper.GetResourceByteArray("Options.MercIcons.roguehire.json"));
                     await File.WriteAllBytesAsync(act2HireJsonPath, await Helper.GetResourceByteArray("Options.MercIcons.act2hire.json"));
                     await File.WriteAllBytesAsync(act3HireJsonPath, await Helper.GetResourceByteArray("Options.MercIcons.act3hire.json"));
@@ -1099,17 +1034,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eMercIdentifier.EnabledMini:
                 {
                     if (!Directory.Exists(enemyPath))
-                    {
                         Directory.CreateDirectory(enemyPath);
-                    }
                     if (!Directory.Exists(texturesPath))
-                    {
                         Directory.CreateDirectory(texturesPath);
-                    }
                     if (!Directory.Exists(particlesPath))
-                    {
                         Directory.CreateDirectory(particlesPath);
-                    }
+
                     await File.WriteAllBytesAsync(rogueHireJsonPath, await Helper.GetResourceByteArray("Options.MercIcons.roguehire.json"));
                     await File.WriteAllBytesAsync(act2HireJsonPath, await Helper.GetResourceByteArray("Options.MercIcons.act2hire.json"));
                     await File.WriteAllBytesAsync(act3HireJsonPath, await Helper.GetResourceByteArray("Options.MercIcons.act3hire.json"));
@@ -1178,14 +1108,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eSkillIconPack.ReMoDDeD:
                 {
                     if (!File.Exists(profileHdJsonPath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, cascProfileHdJsonFileName, SelectedModDataFolder, "data:data");
-                    }
 
                     if (!File.Exists(skillsTreePanelHdJsonPath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, cascSkillsTreePanelHdJsonFileName, SelectedModDataFolder, "data:data");
-                    }
 
                     if (File.Exists(profileHdJsonPath))
                     {
@@ -1217,14 +1143,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eSkillIconPack.Dize:
                 {
                     if (!File.Exists(profileHdJsonPath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, cascProfileHdJsonFileName, SelectedModDataFolder, "data:data");
-                    }
 
                     if (!File.Exists(skillsTreePanelHdJsonPath))
-                    {
                         Helper.ExtractFileFromCasc(GamePath, cascSkillsTreePanelHdJsonFileName, SelectedModDataFolder, "data:data");
-                    }
 
                     if (File.Exists(profileHdJsonPath))
                     {
@@ -1264,17 +1186,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         if ((eEnabledDisabled)UserSettings.BuffIcons == eEnabledDisabled.Disabled)
         {
             if (Directory.Exists(buffIconsParticlesPath))
-            {
                 Directory.Move(buffIconsParticlesPath, buffIconsParticlesDisabledPath);
-            }
         }
         if ((eEnabledDisabled)UserSettings.BuffIcons == eEnabledDisabled.Enabled)
         {
             if (Directory.Exists(buffIconsParticlesDisabledPath))
-            {
                 Directory.Move(buffIconsParticlesDisabledPath, buffIconsParticlesPath);
-            }
-
         }
     }
 
@@ -1373,9 +1290,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             //Remove SuperTK from charstats and itemtypes
             if (File.Exists(originalSkillTextPath))
-            {
                 File.Copy(originalSkillTextPath, skillTextPath, true);
-            }
 
             string charStatsPath = Path.Combine(SelectedModDataFolder, "global/excel/charstats.txt");
             string itemTypesPath = Path.Combine(SelectedModDataFolder, "global/excel/itemtypes.txt");
@@ -1456,21 +1371,14 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         //Create needed folders and files
         if (!File.Exists(itemTypesTextPath))
-        {
             Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\itemtypes.txt", SelectedModDataFolder, "data:data");
-        }
         if (!File.Exists(charStatsPath))
-        {
             Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\charstats.txt", SelectedModDataFolder, "data:data");
-        }
         if (!Directory.Exists(originalsDirectoryPath))
-        {
             Directory.CreateDirectory(originalsDirectoryPath);
-        }
         if (!File.Exists(skillTextPath))
-        {
             Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\skills.txt", SelectedModDataFolder, "data:data");
-        }
+
         File.Copy(skillTextPath, originalSkillTextPath, true);
 
         //Check to see if we already added the skill previously
@@ -1596,9 +1504,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         try
         {
             if (!Directory.Exists(BackupFolder))
-            {
                 Directory.CreateDirectory(BackupFolder);
-            }
 
             //Backup Character
             FileInfo mostRecentCharacterFile = new DirectoryInfo(SaveFilesFilePath).GetFiles("*.d2s").MaxBy(o => o.LastWriteTime);
@@ -1606,19 +1512,17 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             string mostRecentCharacterBackupFolder = Path.Combine(BackupFolder, mostRecentCharacterName);
             if (!Directory.Exists(mostRecentCharacterBackupFolder))
-            {
                 Directory.CreateDirectory(mostRecentCharacterBackupFolder);
-            }
 
             File.Copy(mostRecentCharacterFile.FullName, Path.Combine(mostRecentCharacterBackupFolder, mostRecentCharacterName + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2s"), true);
 
             //Backup Stash
             string mostRecentStashFile = Path.Combine(SaveFilesFilePath, "SharedStashSoftCoreV2.d2i");
             string stashBackupFolder = Path.Combine(BackupFolder, "Stash");
+
             if (!Directory.Exists(stashBackupFolder))
-            {
                 Directory.CreateDirectory(stashBackupFolder);
-            }
+
             File.Copy(mostRecentStashFile, Path.Combine(stashBackupFolder, "SharedStashSoftCoreV2" + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2i"), true);
         }
         catch (Exception ex)
@@ -1646,9 +1550,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         using RegistryKey regKey = baseKey.OpenSubKey(@"System\GameConfigStore\Children");
 
         if (regKey == null)
-        {
             return null;
-        }
 
         string[] subKeyNames = regKey.GetSubKeyNames();
         List<string> results = new();
@@ -1658,21 +1560,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             using RegistryKey subKey = regKey.OpenSubKey(subKeyName);
 
             if (subKey == null)
-            {
                 continue;
-            }
 
             string exeFullPath = subKey.GetValue("MatchedExeFullPath")?.ToString();
 
             if (string.IsNullOrEmpty(exeFullPath))
-            {
                 continue;
-            }
 
             if (exeFullPath.Contains("D2R.exe"))
-            {
                 results.Add(exeFullPath);
-            }
         }
 
         switch (results.Count)
@@ -1701,15 +1597,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     {
         //Protected
         if (Directory.Exists(SelectedModDataFolder))
-        {
             await File.WriteAllTextAsync(SelectedUserSettingsFilePath, JsonConvert.SerializeObject(UserSettings));
-           
-        }
         //Unprotected
         else
-        {
             await File.WriteAllTextAsync(SelectedUserSettingsFilePath, JsonConvert.SerializeObject(UserSettings).Replace($"{Settings.Default.SelectedMod}.mpq/", ""));
-        }
     }
 
     private async Task RenameCharacter()
@@ -1795,13 +1686,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         //Check for Default Save Path
         if (ModInfo.SavePath.Contains("\"../\""))
-        {
             modPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Saved Games\Diablo II Resurrected\";
-        }
         else
-        {
             modPath = BaseSelectedModFolder;
-        }
 
         if (!File.Exists(modPath + "/SharedStashSoftCoreV2.d2i"))
         {
@@ -2017,17 +1904,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 return;
             }
         }
+
         if (Directory.Exists(@"..\Updater\"))
-        {
             Directory.Delete(@"..\Updater\", true);
-        }
+
         Directory.CreateDirectory(@"..\Updater\");
         ZipFile.ExtractToDirectory(@"..\UpdateU.zip", @"..\Updater\");
 
         if (File.Exists(@"..\UpdateU.zip"))
-        {
             File.Delete(@"..\UpdateU.zip");
-        }
 
         File.Create(@"..\Launcher\lnu.txt").Close();
         Process.Start(@"..\Updater\RMDUpdater.exe");
@@ -2035,9 +1920,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         await TryCloseAsync();
 
         if (File.Exists(@"..\MyVersions_Temp.txt"))
-        {
             File.Delete(@"..\MyVersions_Temp.txt");
-        }
     }
 
     [UsedImplicitly]
@@ -2069,9 +1952,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case "RENAME CHARACTER":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
 
                     await RenameCharacter();
                     break;
@@ -2079,9 +1960,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case "FIX STASH":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
+
                     //TODO: Would prolly be a good idea to show some type of loading/working indication
                     await FixStash();
                     break;
@@ -2089,9 +1969,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case "COMMUNITY DISCORD":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
 
                     if (!string.IsNullOrEmpty(ModInfo.Discord))
                     {
@@ -2100,17 +1978,13 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Process.Start(psi);
                     }
                     else
-                    {
                         MessageBox.Show(Helper.GetCultureString("NoDiscord"));
-                    }
                     break;
                 }
             case "WIKI":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
                     if (!string.IsNullOrEmpty(ModInfo.Wiki))
                     {
                         
@@ -2119,17 +1993,13 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Process.Start(psi);
                     }
                     else
-                    {
                         MessageBox.Show(Helper.GetCultureString("NoWiki"));
-                    }
                     break;
                 }
             case "COMMUNITY PATREON":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
                     if (!string.IsNullOrEmpty(ModInfo.Patreon))
                     {
                         ProcessStartInfo psi = new ProcessStartInfo(ModInfo.Patreon);
@@ -2137,18 +2007,14 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Process.Start(psi);
                     }
                     else
-                    {
                         MessageBox.Show(Helper.GetCultureString("NoPatreon"));
-                    }
 
                     break;
                 }
             case "MOD FILES":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
 
                     if (Directory.Exists(SelectedModDataFolder))
                     {
@@ -2160,29 +2026,21 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Process.Start(startInfo);
                     }
                     else
-                    {
                         MessageBox.Show($"{SelectedModDataFolder} Directory does not exist!");
-                    }
                     break;
                 }
             case "SAVE FILES":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
 
                     string modPath;
 
                     //Check for Default Save Path
                     if (ModInfo.SavePath.Contains("\"../\""))
-                    {
                         modPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Saved Games\Diablo II Resurrected\";
-                    }
                     else
-                    {
                         modPath = SaveFilesFilePath;
-                    }
 
                     if (Directory.Exists(modPath))
                     {
@@ -2201,9 +2059,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case "LAUNCH FILES":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
 
                     string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "D2RLaunch");
                     if (Directory.Exists(folderPath))
@@ -2216,18 +2072,14 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Process.Start(startInfo);
                     }
                     else
-                    {
                         MessageBox.Show($"{folderPath} Directory does not exist!");
-                    }
 
                     break;
                 }
             case "VAULT FILES":
                 {
                     if (ModInfo == null || UserSettings == null)
-                    {
                         break;
-                    }
 
                     //Open Vault Config Folder
                     string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\rcm";
@@ -2241,9 +2093,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         Process.Start(startInfo);
                     }
                     else
-                    {
                         MessageBox.Show($"{folderPath} Directory does not exist!");
-                    }
 
                     break;
                 }
@@ -2328,9 +2178,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         DiabloInstallDetected = true;
 
         if (!Directory.Exists(BaseModsFolder))
-        {
             Directory.CreateDirectory(BaseModsFolder);
-        }
 
         DisableBNetConnection();
 

@@ -129,16 +129,13 @@ namespace D2RLaunch.ViewModels.Dialogs
             if (Directory.Exists(remoddedThemePath))
             {
                 if (File.Exists(remoddedBankExpansionLayoutHdJsonPath))
-                {
                     File.Delete(remoddedBankExpansionLayoutHdJsonPath);
-                }
 
                 File.Copy(bankExpansionLayoutHdJsonPath, remoddedBankExpansionLayoutHdJsonPath);
 
                 if (File.Exists(remoddedBankExpansionLayoutHdJsonExpandedPath))
-                {
                     File.Delete(remoddedBankExpansionLayoutHdJsonExpandedPath);
-                }
+
                 File.Copy(bankExpansionLayoutHdJsonPath, remoddedBankExpansionLayoutHdJsonExpandedPath);
             }
 
@@ -152,10 +149,10 @@ namespace D2RLaunch.ViewModels.Dialogs
         private string ReplaceFirst(string original, string oldValue, string newValue)
         {
             int index = original.IndexOf(oldValue);
+
             if (index == -1)
-            {
                 return original; // Not found, return the original string
-            }
+
             string result = original.Remove(index, oldValue.Length).Insert(index, newValue);
             return result;
         }

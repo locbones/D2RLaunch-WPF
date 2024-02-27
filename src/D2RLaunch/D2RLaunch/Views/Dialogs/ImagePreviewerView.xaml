@@ -17,6 +17,6 @@
             Margin="5"
             d:Source="pack://application:,,,/Resources/Preview/Preview_HUD.png"
             DataContext="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=DataContext}"
-            gif:ImageBehavior.AnimatedSource="{Binding ImagePath}" />
+            gif:ImageBehavior.AnimatedSource="{Binding ImagePath}" Stretch="Fill" />
     </Grid>
 </Window>

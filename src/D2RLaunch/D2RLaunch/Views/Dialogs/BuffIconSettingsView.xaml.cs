@@ -1,28 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace D2RLaunch.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for BuffIconSettingsView.xaml
+    /// Window Owner Centering logic for BuffIconSettingsView.xaml
     /// </summary>
     public partial class BuffIconSettingsView : Window
     {
         public BuffIconSettingsView()
         {
             InitializeComponent();
+            Loaded += BuffIconSettingsView_Loaded;
+        }
+
+        private void BuffIconSettingsView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Verify owner window and then center this window relative to it
+            if (Owner != null)
+            {
+                Left = Owner.Left + (Owner.Width - Width) / 2;
+                Top = Owner.Top + (Owner.Height - Height) / 2;
+            }
         }
     }
 }

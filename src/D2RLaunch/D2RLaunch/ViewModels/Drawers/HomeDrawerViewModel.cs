@@ -1266,7 +1266,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     {
         dynamic options = new ExpandoObject();
         options.ResizeMode = ResizeMode.NoResize;
-        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        options.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
         DownloadNewModViewModel vm = new DownloadNewModViewModel(ShellViewModel);
 

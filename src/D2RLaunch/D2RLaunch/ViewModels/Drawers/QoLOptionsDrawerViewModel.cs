@@ -378,7 +378,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     {
         dynamic options = new ExpandoObject();
         options.ResizeMode = ResizeMode.NoResize;
-        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        options.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
         ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
 

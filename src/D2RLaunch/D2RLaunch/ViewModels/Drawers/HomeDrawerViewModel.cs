@@ -33,6 +33,7 @@ using System.Diagnostics;
 using System.Timers;
 using Syncfusion.Windows.Tools.Controls;
 using System.Net;
+using Syncfusion.Windows.Shared;
 
 namespace D2RLaunch.ViewModels.Drawers;
 
@@ -512,6 +513,16 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     {
         if (ShellViewModel.ModInfo != null)
         {
+            if (string.IsNullOrEmpty(ShellViewModel.ModInfo.ModTitle))
+            {
+                ModTitle = "No News Found!";
+                ModDescription = "The mod author has not specified any news messages for this mod";
+                LauncherTitle = "Add D2RLaunch Support";
+                LauncherDescription = "Unlock one-click mod updates, additional QoL controls, live news display and more. It's as easy as editing a single already included file to add D2RLaunch support to your mod. Visit the D2RModding Discord for more info.";
+
+                return;
+            }
+                
             if (SelectedAppLanguage.Value == eLanguage.English)
             {
                 ModTitle = ShellViewModel.ModInfo.ModTitle.Trim().Replace("\"", "");

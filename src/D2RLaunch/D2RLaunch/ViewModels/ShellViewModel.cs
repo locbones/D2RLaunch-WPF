@@ -1503,24 +1503,41 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     public async Task<(string characterName, bool passed)> BackupRecentCharacter() //Backup character at interval specified from StartAutoBackup()
     {
         string mostRecentCharacterName;
+        string ActualSaveFilePath;
+        string ActualBackupFolder;
         try
         {
-            if (!Directory.Exists(BackupFolder))
-                Directory.CreateDirectory(BackupFolder);
+            //Determine if the mod is using a mod folder or retail folder for backups by verifying the directories first
+            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\Mods\{Settings.Default.SelectedMod}")))
+            {
+                //The save directory doesn't exist; this mod is using retail location - set default pathing info
+                ActualSaveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\");
+                ActualBackupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\Backups");
+
+                //Create Backups folder if it doesn't exist yet
+                if (!Directory.Exists(BackupFolder))
+                    Directory.CreateDirectory(ActualBackupFolder);
+            }
+            else
+            {
+                //The save directory exists; this mod is using mod folder locations - proceed normally
+                ActualSaveFilePath = SaveFilesFilePath;
+                ActualBackupFolder = BackupFolder;
+            }
 
             //Backup Character
-            FileInfo mostRecentCharacterFile = new DirectoryInfo(SaveFilesFilePath).GetFiles("*.d2s").MaxBy(o => o.LastWriteTime);
+            FileInfo mostRecentCharacterFile = new DirectoryInfo(ActualSaveFilePath).GetFiles("*.d2s").MaxBy(o => o.LastWriteTime);
             mostRecentCharacterName = Path.GetFileNameWithoutExtension(mostRecentCharacterFile.ToString());
 
-            string mostRecentCharacterBackupFolder = Path.Combine(BackupFolder, mostRecentCharacterName);
+            string mostRecentCharacterBackupFolder = Path.Combine(ActualBackupFolder, mostRecentCharacterName);
             if (!Directory.Exists(mostRecentCharacterBackupFolder))
                 Directory.CreateDirectory(mostRecentCharacterBackupFolder);
 
             File.Copy(mostRecentCharacterFile.FullName, Path.Combine(mostRecentCharacterBackupFolder, mostRecentCharacterName + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2s"), true);
 
             //Backup Stash
-            string mostRecentStashFile = Path.Combine(SaveFilesFilePath, "SharedStashSoftCoreV2.d2i");
-            string stashBackupFolder = Path.Combine(BackupFolder, "Stash");
+            string mostRecentStashFile = Path.Combine(ActualSaveFilePath, "SharedStashSoftCoreV2.d2i");
+            string stashBackupFolder = Path.Combine(ActualBackupFolder, "Stash");
 
             if (!Directory.Exists(stashBackupFolder))
                 Directory.CreateDirectory(stashBackupFolder);

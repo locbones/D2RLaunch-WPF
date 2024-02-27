@@ -18,7 +18,7 @@ namespace D2RLaunch.Views.Dialogs
     /// <summary>
     /// Interaction logic for DownloadNewModView.xaml
     /// </summary>
-    public partial class DownloadNewModView
+    public partial class DownloadNewModView : Window
     {
         public DownloadNewModView()
         {

@@ -18,7 +18,7 @@ namespace D2RLaunch.Views.Dialogs
     /// <summary>
     /// Interaction logic for StashTabSettingsView.xaml
     /// </summary>
-    public partial class StashTabSettingsView : UserControl
+    public partial class StashTabSettingsView : Window
     {
         public StashTabSettingsView()
         {

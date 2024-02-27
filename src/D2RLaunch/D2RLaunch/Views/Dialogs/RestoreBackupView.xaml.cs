@@ -18,7 +18,7 @@ namespace D2RLaunch.Views.Dialogs
     /// <summary>
     /// Interaction logic for RestoreBackupView.xaml
     /// </summary>
-    public partial class RestoreBackupView : UserControl
+    public partial class RestoreBackupView : Window
     {
         public RestoreBackupView()
         {

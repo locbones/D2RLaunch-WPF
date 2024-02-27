@@ -18,7 +18,7 @@ namespace D2RLaunch.Views.Dialogs
     /// <summary>
     /// Interaction logic for BuffIconSettingsView.xaml
     /// </summary>
-    public partial class BuffIconSettingsView : UserControl
+    public partial class BuffIconSettingsView : Window
     {
         public BuffIconSettingsView()
         {

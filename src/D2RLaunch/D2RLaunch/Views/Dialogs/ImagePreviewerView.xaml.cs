@@ -18,7 +18,7 @@ namespace D2RLaunch.Views.Dialogs
     /// <summary>
     /// Interaction logic for ImagePreviewerView.xaml
     /// </summary>
-    public partial class ImagePreviewerView : UserControl
+    public partial class ImagePreviewerView : Window
     {
         public ImagePreviewerView()
         {

@@ -18,7 +18,7 @@ namespace D2RLaunch.Views.Dialogs
     /// <summary>
     /// Interaction logic for CASCExtractorView.xaml
     /// </summary>
-    public partial class CASCExtractorView : UserControl
+    public partial class CASCExtractorView : Window
     {
         public CASCExtractorView()
         {

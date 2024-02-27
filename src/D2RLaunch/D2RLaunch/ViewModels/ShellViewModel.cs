@@ -1513,10 +1513,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 //The save directory doesn't exist; this mod is using retail location - set default pathing info
                 ActualSaveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\");
                 ActualBackupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\Backups");
-
-                //Create Backups folder if it doesn't exist yet
-                if (!Directory.Exists(BackupFolder))
-                    Directory.CreateDirectory(ActualBackupFolder);
             }
             else
             {
@@ -1524,6 +1520,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 ActualSaveFilePath = SaveFilesFilePath;
                 ActualBackupFolder = BackupFolder;
             }
+
+            //Create backup folder if it doesn't exist yet
+            if (!Directory.Exists(BackupFolder))
+                Directory.CreateDirectory(ActualBackupFolder);
 
             //Backup Character
             FileInfo mostRecentCharacterFile = new DirectoryInfo(ActualSaveFilePath).GetFiles("*.d2s").MaxBy(o => o.LastWriteTime);

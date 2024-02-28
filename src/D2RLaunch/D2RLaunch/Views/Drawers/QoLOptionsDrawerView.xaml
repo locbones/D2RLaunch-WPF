@@ -96,6 +96,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label
@@ -155,12 +156,43 @@
 
                     <Label
                         Grid.Row="4"
-                        Content="Skill Buff Icons"
+                        Content="{Binding Path=Expanded, Source={StaticResource Resources}}"
                         FontWeight="Bold"
                         Foreground="Goldenrod"
                         Style="{StaticResource LabelHeaderStyle}" />
                     <UniformGrid
                         Grid.Row="5"
+                        HorizontalAlignment="Center"
+                        Columns="4">
+                        <Button
+                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
+                            Background="#660901"
+                            Content="{Binding Path=ExpandedInventory, Source={StaticResource Resources}}"
+                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
+                        <Button
+                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
+                            Background="#0d2905"
+                            Content="{Binding Path=ExpandedStash, Source={StaticResource Resources}}"
+                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
+                        <Button
+                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
+                            Background="#0d2905"
+                            Content="{Binding Path=ExpandedCube, Source={StaticResource Resources}}"
+                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
+                        <Button
+                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
+                            Background="#0d2905"
+                            Content="{Binding Path=ExpandedMerc, Source={StaticResource Resources}}"
+                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
+                    </UniformGrid>
+                    <Label
+                        Grid.Row="6"
+                        Content="Skill Buff Icons"
+                        FontWeight="Bold"
+                        Foreground="Goldenrod"
+                        Style="{StaticResource LabelHeaderStyle}" />
+                    <UniformGrid
+                        Grid.Row="7"
                         HorizontalAlignment="Center"
                         Columns="2">
                         <ComboBox
@@ -181,7 +213,7 @@
                     </UniformGrid>
 
                     <UniformGrid
-                        Grid.Row="7"
+                        Grid.Row="8"
                         HorizontalAlignment="Center"
                         Columns="2">
                         <StackPanel HorizontalAlignment="Center">

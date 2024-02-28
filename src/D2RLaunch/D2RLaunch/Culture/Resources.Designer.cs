@@ -1257,5 +1257,60 @@ namespace D2RLaunch.Properties
                 return ResourceManager.GetString("Wiki", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wiki.
+        /// </summary>
+        public static string ExpandedInventory
+        {
+            get
+            {
+                return ResourceManager.GetString("ExpandedInventory", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wiki.
+        /// </summary>
+        public static string ExpandedStash
+        {
+            get
+            {
+                return ResourceManager.GetString("ExpandedStash", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wiki.
+        /// </summary>
+        public static string ExpandedCube
+        {
+            get
+            {
+                return ResourceManager.GetString("ExpandedCube", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wiki.
+        /// </summary>
+        public static string ExpandedMerc
+        {
+            get
+            {
+                return ResourceManager.GetString("ExpandedMerc", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Wiki.
+        /// </summary>
+        public static string Expanded
+        {
+            get
+            {
+                return ResourceManager.GetString("Expanded", resourceCulture);
+            }
+        }
     }
 }

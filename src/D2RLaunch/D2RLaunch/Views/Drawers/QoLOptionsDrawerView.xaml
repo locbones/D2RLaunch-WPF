@@ -164,26 +164,30 @@
                         Grid.Row="5"
                         HorizontalAlignment="Center"
                         Columns="4">
-                        <Button
-                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
-                            Background="#660901"
-                            Content="{Binding Path=ExpandedInventory, Source={StaticResource Resources}}"
-                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
-                        <Button
-                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
+                        <ToggleButton
+                            cm:Message.Attach="[Event Click] = [Action OnExpanded_Inventory];"
                             Background="#0d2905"
-                            Content="{Binding Path=ExpandedStash, Source={StaticResource Resources}}"
-                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
-                        <Button
-                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
+                            Content="Inventory"
+                            IsChecked="{Binding ShellViewModel.UserSettings.ExpandedInventory}"
+                            Style="{StaticResource ToggleButtonStyle}" />
+                        <ToggleButton
+                            cm:Message.Attach="[Event Click] = [Action OnExpanded_Stash];"
                             Background="#0d2905"
-                            Content="{Binding Path=ExpandedCube, Source={StaticResource Resources}}"
-                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
-                        <Button
-                            cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
+                            Content="Stash"
+                            IsChecked="{Binding ShellViewModel.UserSettings.ExpandedStash}"
+                            Style="{StaticResource ToggleButtonStyle}" />
+                        <ToggleButton
+                            cm:Message.Attach="[Event Click] = [Action OnExpanded_Cube];"
                             Background="#0d2905"
-                            Content="{Binding Path=ExpandedMerc, Source={StaticResource Resources}}"
-                            Style="{StaticResource ButtonStyle}" Padding="5,5,5,5" />
+                            Content="Cube"
+                            IsChecked="{Binding ShellViewModel.UserSettings.ExpandedCube}"
+                            Style="{StaticResource ToggleButtonStyle}" />
+                        <ToggleButton
+                            cm:Message.Attach="[Event Click] = [Action OnExpanded_Merc];"
+                            Background="#0d2905"
+                            Content="Merc"
+                            IsChecked="{Binding ShellViewModel.UserSettings.ExpandedMerc}"
+                            Style="{StaticResource ToggleButtonStyle}" />
                     </UniformGrid>
                     <Label
                         Grid.Row="6"

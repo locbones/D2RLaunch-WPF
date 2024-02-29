@@ -37,6 +37,10 @@ public class UserSettings : INotifyPropertyChanged
     private int _selectedMonsterItemDrops = 0;
     private int _selectedGroupSize = 0;
     private Dictionary<string, DifficultyCustomizations> _difficultyCustomizations;
+    private bool _ExpandedInventory;
+    private bool _ExpandedStash;
+    private bool _ExpandedCube;
+    private bool _ExpandedMerc;
 
     #endregion
 
@@ -398,6 +402,62 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _difficultyCustomizations = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool ExpandedInventory
+    {
+        get => _ExpandedInventory;
+        set
+        {
+            if (value == _ExpandedInventory)
+            {
+                return;
+            }
+            _ExpandedInventory = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool ExpandedStash
+    {
+        get => _ExpandedStash;
+        set
+        {
+            if (value == _ExpandedStash)
+            {
+                return;
+            }
+            _ExpandedStash = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool ExpandedCube
+    {
+        get => _ExpandedCube;
+        set
+        {
+            if (value == _ExpandedCube)
+            {
+                return;
+            }
+            _ExpandedCube = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool ExpandedMerc
+    {
+        get => _ExpandedMerc;
+        set
+        {
+            if (value == _ExpandedMerc)
+            {
+                return;
+            }
+            _ExpandedMerc = value;
             OnPropertyChanged();
         }
     }

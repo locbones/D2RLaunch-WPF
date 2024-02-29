@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -306,6 +308,325 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         {
         }
     }
+
+    public async void CreateExpandedDirs()
+    {
+        //Create needed directories if they don't exist
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "global/ui/layouts"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "global/ui/layouts");
+
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "hd/global/ui/panel"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "hd/global/ui/panel");
+
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "hd/global/ui/controller/panel"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "hd/global/ui/controller/panel");
+
+        /*
+        //Copy source files to mod directories
+        if (Directory.Exists(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/layouts/"))
+            File.Copy(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/layouts/", ShellViewModel.SelectedModDataFolder + "global/ui/layouts/", true);
+
+        if (Directory.Exists(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panel/"))
+            File.Copy(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panel/", ShellViewModel.SelectedModDataFolder + "hd/global/ui/panel/", true);
+
+        if (Directory.Exists(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panelc/"))
+            File.Copy(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panelc/", ShellViewModel.SelectedModDataFolder + "hd/global/ui/panelc/", true);
+        */
+    }
+
+    [UsedImplicitly]
+    public async void OnExpanded_Inventory()
+    {
+        CreateExpandedDirs();
+
+        string inventoryFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
+
+        // Create needed folders and files
+        if (!File.Exists(inventoryFilePath))
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\inventory.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+
+        // Read lines from the inventory file
+        string[] lines = File.ReadAllLines(inventoryFilePath);
+
+        // Iterate through lines to edit values
+        for (int index = 0; index < lines.Length; index++)
+        {
+            string line = lines[index];
+            string[] splitContent = line.Split('\t');
+
+            // Locate Class Rows
+            if (index == 1 || index == 2 || index == 3 || index == 4 || index == 5 || index == 14 || index == 15 || index == 16 || index == 17 || index == 18 || index == 19 || index == 20 || index == 28 || index == 29)
+            {
+                if (!ShellViewModel.UserSettings.ExpandedInventory)
+                {
+                    splitContent[5] = "10"; // Edit XGrid
+                    splitContent[6] = "8";  // Edit YGrid
+                    lines[index] = String.Join("\t", splitContent);
+                }
+                else
+                {
+                    splitContent[5] = "10"; // Edit XGrid
+                    splitContent[6] = "4";  // Edit YGrid
+                    lines[index] = String.Join("\t", splitContent);
+                }
+            }
+        }
+
+        // Write modified lines back to the file
+        File.WriteAllLines(inventoryFilePath, lines);
+    }
+
+    [UsedImplicitly]
+    public async void OnExpanded_Stash()
+    {
+        CreateExpandedDirs();
+
+        string StashFile = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
+
+        //Create needed folders and files
+        if (!File.Exists(StashFile))
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\inventory.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+
+        //Defin tab seperators, input file, index counter, etc
+        string[] lines = File.ReadAllLines(StashFile);
+        string outstr = "";
+        string sep = "\t";
+        int index = 0;
+
+        //Iterate through file to edit values
+        foreach (string line in lines)
+        {
+            string[] splitContent = line.Split(sep.ToCharArray());
+
+            //Locate Class Rows
+            if (index == 9 || index == 12 || index == 24 || index == 26)
+            {
+                if (!ShellViewModel.UserSettings.ExpandedStash)
+                {
+                    splitContent[5] = "16"; //Edit XGrid
+                    splitContent[6] = "13"; //Edit YGrid
+                    outstr += String.Join("\t", splitContent) + "\n";
+                }
+                else
+                {
+                    splitContent[5] = "10"; //Edit XGrid
+                    splitContent[6] = "10"; //Edit YGrid
+                    outstr += String.Join("\t", splitContent) + "\n";
+                }
+            }
+            else
+                outstr += line + "\n";
+            index += 1;
+        }
+        File.WriteAllText(StashFile, outstr);
+    }
+
+    [UsedImplicitly]
+    public async void OnExpanded_Cube()
+    {
+        CreateExpandedDirs();
+
+        string CubeFile = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
+
+        //Create needed folders and files
+        if (!File.Exists(CubeFile))
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\inventory.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+
+        //Defin tab seperators, input file, index counter, etc
+        string[] lines = File.ReadAllLines(CubeFile);
+        string outstr = "";
+        string sep = "\t";
+        int index = 0;
+
+        //Iterate through file to edit values
+        foreach (string line in lines)
+        {
+            string[] splitContent = line.Split(sep.ToCharArray());
+
+            //Locate Class Rows
+            if (index == 10 || index == 25)
+            {
+                if (!ShellViewModel.UserSettings.ExpandedCube)
+                {
+                    splitContent[5] = "16"; //Edit XGrid
+                    splitContent[6] = "13"; //Edit YGrid
+                    outstr += String.Join("\t", splitContent) + "\n";
+                }
+                else
+                {
+                    splitContent[5] = "3"; //Edit XGrid
+                    splitContent[6] = "4"; //Edit YGrid
+                    outstr += String.Join("\t", splitContent) + "\n";
+                }
+            }
+            else
+                outstr += line + "\n";
+            index += 1;
+        }
+        File.WriteAllText(CubeFile, outstr);
+    }
+
+    public async Task ExpandedItemTypesEdit()
+    {
+        string itemTypesFile = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/itemtypes.txt");
+
+        if (!File.Exists(itemTypesFile))
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\itemtypes.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+
+        //Check to see if we already added the skill previously
+        bool mercEquipExists = false;
+        using (StreamReader reader = new StreamReader(itemTypesFile))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] columns = line.Split('\t');
+                if (columns.Length > 0 && columns[0] == "Merc Equipment")
+                {
+                    mercEquipExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!mercEquipExists && !ShellViewModel.UserSettings.ExpandedMerc)
+        {
+            //Let's clone the helm itemtype
+            int mercID = 38; //ID of Helm
+            string[] lines = File.ReadAllLines(itemTypesFile);
+            int lineCount = lines.Length;
+
+            //Expand the table by 1 row and clone the helm entry to it
+            if (mercID < lineCount)
+            {
+                string lineToCopy = lines[mercID];
+                Array.Resize(ref lines, lineCount + 1);
+                lines[lineCount] = lineToCopy;
+                lineCount++;
+                File.WriteAllLines(itemTypesFile, lines);
+            }
+
+            //Helm has been cloned now; let's edit it
+            string sep = "\t";
+            StringBuilder sb = new StringBuilder();
+            int index = 0;
+
+            foreach (string line in lines)
+            {
+                string[] splitContent = line.Split(sep.ToCharArray());
+
+                if (index == lineCount - 1)
+                {
+                    splitContent[0] = "Merc Equipment"; //Update Clone Name
+                    splitContent[3] = "merc"; //Assign Clone Itemtype 
+                }
+                else if (index == 11 || index == 13 || index == 16 || index == 17 || index == 20)
+                    splitContent[3] = "merc"; //Add new itemtype to Rings, Amulets, Gloves, Belts and Boots
+                else if (index == 38)
+                {
+                    splitContent[1] = "merc"; //Re-Classify helms as new itemtype
+                    splitContent[2] = ""; //Remove Equiv2 Entry
+                }
+
+                //Fill in non-matching rows
+                sb.AppendLine(string.Join("\t", splitContent));
+                index++;
+            }
+            File.WriteAllText(itemTypesFile, sb.ToString());
+        }
+        else if (mercEquipExists && ShellViewModel.UserSettings.ExpandedMerc)
+        {
+            string[] lines = File.ReadAllLines(itemTypesFile);
+            int lineCount = lines.Length;
+
+            //Reduce the table by 1 row and re-write it
+            if (lineCount > 0)
+            {
+                Array.Resize(ref lines, lineCount - 1);
+                File.WriteAllLines(itemTypesFile, lines);
+                lineCount--;
+            }
+
+            //Let's undo our previous expanded merc edits
+            string sep = "\t";
+            StringBuilder sb = new StringBuilder();
+            int index = 0;
+
+            foreach (string line in lines)
+            {
+                string[] splitContent = line.Split(sep.ToCharArray());
+
+                if (index == 11 || index == 13 || index == 16 || index == 17 || index == 20)
+                    splitContent[3] = ""; //Remove new itemtype to Rings, Amulets, Gloves, Belts and Boots
+                else if (index == 38)
+                {
+                    splitContent[1] = "helm"; //Return to helm type
+                    splitContent[2] = "armo"; //Return to armor type
+                }
+
+                //Fill in non-matching rows
+                sb.AppendLine(string.Join("\t", splitContent));
+                index++;
+            }
+            File.WriteAllText(itemTypesFile, sb.ToString());
+        }
+    }
+
+
+    [UsedImplicitly]
+    public async Task OnExpanded_Merc()
+    {
+        CreateExpandedDirs();
+        string mercFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
+
+        //Create needed folders and files
+        if (!File.Exists(mercFilePath))
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\inventory.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+
+        //Define tab separators
+        string sep = "\t";
+        StringBuilder sb = new StringBuilder();
+
+        //Clone Amazon and Amazon 2 Entry
+        string[] lines = File.ReadAllLines(mercFilePath);
+        string lineToCopy = lines[1];
+        string lineToCopy2 = lines[16];
+        if (!ShellViewModel.UserSettings.ExpandedMerc)
+        {
+            lines[13] = lineToCopy;
+            lines[27] = lineToCopy2;
+        }
+
+        //Update Name Entries and ItemTypes.txt Edit
+        int index = 0;
+        foreach (string line in lines)
+        {
+            string[] splitContent = line.Split(sep.ToCharArray());
+
+            if (!ShellViewModel.UserSettings.ExpandedMerc)
+            {
+                if (index == 13)
+                    splitContent[0] = "Hireling";
+                else if (index == 27)
+                    splitContent[0] = "Hireling2";
+            }
+            else
+            {
+                if (index == 13 || index == 27)
+                {
+                    for (int i = 1; i <= 10; i++)
+                        splitContent[i] = "-1";
+                }
+            }
+            sb.AppendLine(string.Join("\t", splitContent));
+            index++;
+        }
+        File.WriteAllText(mercFilePath, sb.ToString());
+
+        //Begin ItemTypes.txt Edit
+        await ExpandedItemTypesEdit();
+    }
+
 
     [UsedImplicitly]
     public async void OnBackup()

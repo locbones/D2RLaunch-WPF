@@ -539,7 +539,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadriccube"; // Path of the source directory
         string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/horadriccube"; // Path of the destination directory
 
-        if (!ShellViewModel.UserSettings.ExpandedStash)
+        if (!ShellViewModel.UserSettings.ExpandedCube)
         {
             try
             {
@@ -624,7 +624,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hirelinginventory"; // Path of the source directory
         string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/hirelinginventory"; // Path of the destination directory
 
-        if (!ShellViewModel.UserSettings.ExpandedStash)
+        if (!ShellViewModel.UserSettings.ExpandedMerc)
         {
             try
             {

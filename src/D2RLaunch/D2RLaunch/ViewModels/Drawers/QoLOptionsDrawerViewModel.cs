@@ -8,10 +8,12 @@ using System.Dynamic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
@@ -312,14 +314,14 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     public async void CreateExpandedDirs()
     {
         //Create needed directories if they don't exist
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "global/ui/layouts"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "global/ui/layouts");
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts");
 
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "hd/global/ui/panel"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "hd/global/ui/panel");
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel");
 
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "hd/global/ui/controller/panel"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "hd/global/ui/controller/panel");
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel");
 
         /*
         //Copy source files to mod directories
@@ -338,6 +340,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     public async void OnExpanded_Inventory()
     {
         CreateExpandedDirs();
+        DownloadExpandedZip();
 
         string inventoryFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
 
@@ -374,12 +377,45 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
         // Write modified lines back to the file
         File.WriteAllLines(inventoryFilePath, lines);
+
+        //Write Json and Sprite Assets
+        string KBMDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/inventory"; // Path of the source directory
+        string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/inventory"; // Path of the destination directory
+        string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/inventorypanel"; // Path of the source directory
+        string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/inventorypanel"; // Path of the destination directory
+
+        if (!ShellViewModel.UserSettings.ExpandedInventory)
+        {
+            try
+            {
+                CopyDirectory(KBMDir, KBMDestDir);
+                CopyDirectory(ContDir, ContDestDir);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryoriginallayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryoriginallayouthd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryexpansionlayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryexpansionlayouthd.json", true);
+        }
+        else
+        {
+            if (Directory.Exists(KBMDestDir))
+            {
+                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryoriginallayouthd.json");
+                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryexpansionlayouthd.json");
+                Directory.Delete(ContDestDir, true);
+                Directory.Delete(KBMDestDir, true);
+            } 
+        }
+        
     }
 
     [UsedImplicitly]
     public async void OnExpanded_Stash()
     {
         CreateExpandedDirs();
+        DownloadExpandedZip();
 
         string StashFile = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
 
@@ -419,12 +455,44 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             index += 1;
         }
         File.WriteAllText(StashFile, outstr);
+
+        //Write Json and Sprite Assets
+        string KBMDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/stash"; // Path of the source directory
+        string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/stash"; // Path of the destination directory
+        string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/stashc"; // Path of the source directory
+        string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/stash"; // Path of the destination directory
+
+        if (!ShellViewModel.UserSettings.ExpandedStash)
+        {
+            try
+            {
+                CopyDirectory(KBMDir, KBMDestDir);
+                CopyDirectory(ContDir, ContDestDir);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankoriginallayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankoriginallayouthd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankexpansionlayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankexpansionlayouthd.json", true);
+        }
+        else
+        {
+            if (Directory.Exists(KBMDestDir))
+            {
+                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankoriginallayouthd.json");
+                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankexpansionlayouthd.json");
+                Directory.Delete(ContDestDir, true);
+                Directory.Delete(KBMDestDir, true);
+            }
+        }
     }
 
     [UsedImplicitly]
     public async void OnExpanded_Cube()
     {
         CreateExpandedDirs();
+        DownloadExpandedZip();
 
         string CubeFile = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
 
@@ -464,6 +532,201 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             index += 1;
         }
         File.WriteAllText(CubeFile, outstr);
+
+        //Write Json and Sprite Assets
+        string KBMDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadric_cube"; // Path of the source directory
+        string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/horadric_cube"; // Path of the destination directory
+        string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadriccube"; // Path of the source directory
+        string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/horadriccube"; // Path of the destination directory
+
+        if (!ShellViewModel.UserSettings.ExpandedStash)
+        {
+            try
+            {
+                CopyDirectory(KBMDir, KBMDestDir);
+                CopyDirectory(ContDir, ContDestDir);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadriccubelayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/horadriccubelayouthd.json", true);
+        }
+        else
+        {
+            if (Directory.Exists(KBMDestDir))
+            {
+                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/horadriccubelayouthd.json");
+                Directory.Delete(ContDestDir, true);
+                Directory.Delete(KBMDestDir, true);
+            }
+        }
+    }
+
+    [UsedImplicitly]
+    public async Task OnExpanded_Merc()
+    {
+        CreateExpandedDirs();
+        DownloadExpandedZip();
+
+        string mercFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
+
+        //Create needed folders and files
+        if (!File.Exists(mercFilePath))
+            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\inventory.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+
+        //Define tab separators
+        string sep = "\t";
+        StringBuilder sb = new StringBuilder();
+
+        //Clone Amazon and Amazon 2 Entry
+        string[] lines = File.ReadAllLines(mercFilePath);
+        string lineToCopy = lines[1];
+        string lineToCopy2 = lines[16];
+        if (!ShellViewModel.UserSettings.ExpandedMerc)
+        {
+            lines[13] = lineToCopy;
+            lines[27] = lineToCopy2;
+        }
+
+        //Update Name Entries and ItemTypes.txt Edit
+        int index = 0;
+        foreach (string line in lines)
+        {
+            string[] splitContent = line.Split(sep.ToCharArray());
+
+            if (!ShellViewModel.UserSettings.ExpandedMerc)
+            {
+                if (index == 13)
+                    splitContent[0] = "Hireling";
+                else if (index == 27)
+                    splitContent[0] = "Hireling2";
+            }
+            else
+            {
+                if (index == 13 || index == 27)
+                {
+                    for (int i = 1; i <= 10; i++)
+                        splitContent[i] = "-1";
+                }
+            }
+            sb.AppendLine(string.Join("\t", splitContent));
+            index++;
+        }
+        File.WriteAllText(mercFilePath, sb.ToString());
+
+        //Begin ItemTypes.txt Edit
+        await ExpandedItemTypesEdit();
+
+        //Write Json and Sprite Assets
+        string KBMDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hireling"; // Path of the source directory
+        string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/hireling"; // Path of the destination directory
+        string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hirelinginventory"; // Path of the source directory
+        string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/hirelinginventory"; // Path of the destination directory
+
+        if (!ShellViewModel.UserSettings.ExpandedStash)
+        {
+            try
+            {
+                CopyDirectory(KBMDir, KBMDestDir);
+                CopyDirectory(ContDir, ContDestDir);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hirelinginventorypanelhd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hirelinginventorypanelhd.json", true);
+        }
+        else
+        {
+            if (Directory.Exists(KBMDestDir))
+            {
+                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hirelinginventorypanelhd.json");
+                Directory.Delete(ContDestDir, true);
+                Directory.Delete(KBMDestDir, true);
+            }
+        }
+    }
+
+
+    [UsedImplicitly]
+    public async void OnBackup()
+    {
+        (string characterName, bool passed) result = await ShellViewModel.BackupRecentCharacter();
+
+        if (result.passed)
+            MessageBox.Show($"{result.characterName} and your Shared Stash has been backed up successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        else
+            MessageBox.Show("Failed to backup character!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+
+    [UsedImplicitly]
+    public async void OnRestoreBackup()
+    {
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        RestoreBackupViewModel vm = new RestoreBackupViewModel(ShellViewModel);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        {
+        }
+    }
+
+    [UsedImplicitly]
+    public async void OnUseFont()
+    {
+        string fontsFolder = Path.Combine(ShellViewModel.SelectedModDataFolder, "hd/ui/fonts");
+
+
+        byte[] font = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.otf");
+
+        if (!Directory.Exists(fontsFolder))
+        {
+            Directory.CreateDirectory(fontsFolder);
+            File.Create(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf")).Close();
+        }
+
+        await File.WriteAllBytesAsync(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf"), font);
+
+
+        MessageBox.Show($"Font \"{((eFont)ShellViewModel.UserSettings.Font).GetAttributeOfType<DisplayAttribute>().Name}\" Loaded!");
+    }
+
+    [UsedImplicitly]
+    public async void OnUsePreview()
+    {
+        if (ShowFontPreview)
+            await UpdateFontPreview();
+    }
+
+    private async Task UpdateFontPreview()
+    {
+       await Execute.OnUIThreadAsync(async () =>
+                                     {
+                                         BitmapImage biImg = new BitmapImage();
+                                         byte[] image = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.png");
+                                         MemoryStream ms = new MemoryStream(image);
+                                         biImg.BeginInit();
+                                         biImg.StreamSource = ms;
+                                         biImg.EndInit();
+                                         FontImage = biImg;
+                                     });
+
+    }
+
+    private async Task ShowPreviewImage(string imageName, string title)
+    {
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+        ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        {  
+        }
     }
 
     public async Task ExpandedItemTypesEdit()
@@ -572,139 +835,66 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         }
     }
 
-
-    [UsedImplicitly]
-    public async Task OnExpanded_Merc()
+    static void CopyDirectory(string sourceDir, string destinationDir)
     {
-        CreateExpandedDirs();
-        string mercFilePath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/inventory.txt");
+        if (!Directory.Exists(destinationDir))
+            Directory.CreateDirectory(destinationDir);
 
-        //Create needed folders and files
-        if (!File.Exists(mercFilePath))
-            Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\inventory.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-
-        //Define tab separators
-        string sep = "\t";
-        StringBuilder sb = new StringBuilder();
-
-        //Clone Amazon and Amazon 2 Entry
-        string[] lines = File.ReadAllLines(mercFilePath);
-        string lineToCopy = lines[1];
-        string lineToCopy2 = lines[16];
-        if (!ShellViewModel.UserSettings.ExpandedMerc)
+        // Copy each file into the new directory
+        foreach (string file in Directory.GetFiles(sourceDir))
         {
-            lines[13] = lineToCopy;
-            lines[27] = lineToCopy2;
+            string fileName = Path.GetFileName(file);
+            string destinationFile = Path.Combine(destinationDir, fileName);
+            File.Copy(file, destinationFile);
         }
 
-        //Update Name Entries and ItemTypes.txt Edit
-        int index = 0;
-        foreach (string line in lines)
+        // Recursively copy each subdirectory
+        foreach (string subDir in Directory.GetDirectories(sourceDir))
         {
-            string[] splitContent = line.Split(sep.ToCharArray());
+            string subDirName = Path.GetFileName(subDir);
+            string destinationSubDir = Path.Combine(destinationDir, subDirName);
+            CopyDirectory(subDir, destinationSubDir);
+        }
+    }
 
-            if (!ShellViewModel.UserSettings.ExpandedMerc)
+    public async void DownloadExpandedZip()
+    {
+        string url = "https://drive.google.com/uc?export=download&id=11W5rbVwZCB6TkU8O1YNkj9iQ0xCi0Jxg"; // URL of the file to download
+        string savePath = "Expanded.zip"; // Path where the file will be saved
+        string extractPath = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/"; // Path to extract the contents
+
+        if (!Directory.Exists(extractPath))
+        {
+            MessageBox.Show("Needed files are missing!\nThese files will now be downloaded in the background.\nExpanded Storage options will be available once complete.");
+            using (WebClient client = new WebClient())
             {
-                if (index == 13)
-                    splitContent[0] = "Hireling";
-                else if (index == 27)
-                    splitContent[0] = "Hireling2";
-            }
-            else
-            {
-                if (index == 13 || index == 27)
+                client.DownloadFileCompleted += (sender, e) =>
                 {
-                    for (int i = 1; i <= 10; i++)
-                        splitContent[i] = "-1";
+                    try
+                    {
+                        if (e.Error == null)
+                        {
+                            ZipFile.ExtractToDirectory(savePath, extractPath);
+                            MessageBox.Show("Expanded Storage setup successfully!");
+                        }
+                        else
+                            MessageBox.Show($"An error occurred during download: {e.Error.Message}");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred: {ex.Message}");
+                    }
+                };
+
+                try
+                {
+                    client.DownloadFileAsync(new Uri(url), savePath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}");
                 }
             }
-            sb.AppendLine(string.Join("\t", splitContent));
-            index++;
-        }
-        File.WriteAllText(mercFilePath, sb.ToString());
-
-        //Begin ItemTypes.txt Edit
-        await ExpandedItemTypesEdit();
-    }
-
-
-    [UsedImplicitly]
-    public async void OnBackup()
-    {
-        (string characterName, bool passed) result = await ShellViewModel.BackupRecentCharacter();
-
-        if (result.passed)
-            MessageBox.Show($"{result.characterName} and your Shared Stash has been backed up successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        else
-            MessageBox.Show("Failed to backup character!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-    }
-
-    [UsedImplicitly]
-    public async void OnRestoreBackup()
-    {
-        dynamic options = new ExpandoObject();
-        options.ResizeMode = ResizeMode.NoResize;
-        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-        RestoreBackupViewModel vm = new RestoreBackupViewModel(ShellViewModel);
-
-        if (await _windowManager.ShowDialogAsync(vm, null, options))
-        {
-        }
-    }
-
-    [UsedImplicitly]
-    public async void OnUseFont()
-    {
-        string fontsFolder = Path.Combine(ShellViewModel.SelectedModDataFolder, "hd/ui/fonts");
-
-
-        byte[] font = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.otf");
-
-        if (!Directory.Exists(fontsFolder))
-        {
-            Directory.CreateDirectory(fontsFolder);
-            File.Create(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf")).Close();
-        }
-
-        await File.WriteAllBytesAsync(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf"), font);
-
-
-        MessageBox.Show($"Font \"{((eFont)ShellViewModel.UserSettings.Font).GetAttributeOfType<DisplayAttribute>().Name}\" Loaded!");
-    }
-
-    [UsedImplicitly]
-    public async void OnUsePreview()
-    {
-        if (ShowFontPreview)
-            await UpdateFontPreview();
-    }
-
-    private async Task UpdateFontPreview()
-    {
-       await Execute.OnUIThreadAsync(async () =>
-                                     {
-                                         BitmapImage biImg = new BitmapImage();
-                                         byte[] image = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.png");
-                                         MemoryStream ms = new MemoryStream(image);
-                                         biImg.BeginInit();
-                                         biImg.StreamSource = ms;
-                                         biImg.EndInit();
-                                         FontImage = biImg;
-                                     });
-
-    }
-
-    private async Task ShowPreviewImage(string imageName, string title)
-    {
-        dynamic options = new ExpandoObject();
-        options.ResizeMode = ResizeMode.NoResize;
-        options.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-        ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
-
-        if (await _windowManager.ShowDialogAsync(vm, null, options))
-        {  
         }
     }
 

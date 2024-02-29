@@ -311,31 +311,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         }
     }
 
-    public async void CreateExpandedDirs()
-    {
-        //Create needed directories if they don't exist
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts");
-
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel");
-
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel");
-
-        /*
-        //Copy source files to mod directories
-        if (Directory.Exists(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/layouts/"))
-            File.Copy(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/layouts/", ShellViewModel.SelectedModDataFolder + "global/ui/layouts/", true);
-
-        if (Directory.Exists(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panel/"))
-            File.Copy(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panel/", ShellViewModel.SelectedModDataFolder + "hd/global/ui/panel/", true);
-
-        if (Directory.Exists(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panelc/"))
-            File.Copy(ShellViewModel.SelectedModDataFolder + "D2RLaunch/Expanded/panelc/", ShellViewModel.SelectedModDataFolder + "hd/global/ui/panelc/", true);
-        */
-    }
-
     [UsedImplicitly]
     public async void OnExpanded_Inventory()
     {
@@ -408,7 +383,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
                 Directory.Delete(KBMDestDir, true);
             } 
         }
-        
     }
 
     [UsedImplicitly]
@@ -865,37 +839,52 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
         if (!Directory.Exists(extractPath))
         {
-            MessageBox.Show("Needed files are missing!\nThese files will now be downloaded in the background.\nExpanded Storage options will be available once complete.");
-            using (WebClient client = new WebClient())
+            if (MessageBox.Show("You don't have the required files for this feature!\nWould you like to download and extract them now?\n\n(It will download in the background and display when it's complete)", "Missing Files!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                client.DownloadFileCompleted += (sender, e) =>
+                using (WebClient client = new WebClient())
                 {
+                    client.DownloadFileCompleted += (sender, e) =>
+                    {
+                        try
+                        {
+                            if (e.Error == null)
+                            {
+                                ZipFile.ExtractToDirectory(savePath, extractPath);
+                                MessageBox.Show("Expanded Storage setup successfully!\nYou may now toggle your desired options.");
+                            }
+                            else
+                                MessageBox.Show($"An error occurred during download: {e.Error.Message}");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An error occurred: {ex.Message}");
+                        }
+                    };
+
                     try
                     {
-                        if (e.Error == null)
-                        {
-                            ZipFile.ExtractToDirectory(savePath, extractPath);
-                            MessageBox.Show("Expanded Storage setup successfully!");
-                        }
-                        else
-                            MessageBox.Show($"An error occurred during download: {e.Error.Message}");
+                        client.DownloadFileAsync(new Uri(url), savePath);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show($"An error occurred: {ex.Message}");
                     }
-                };
-
-                try
-                {
-                    client.DownloadFileAsync(new Uri(url), savePath);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"An error occurred: {ex.Message}");
                 }
             }
         }
+    }
+
+    public async void CreateExpandedDirs()
+    {
+        //Create needed directories if they don't exist
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts");
+
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel");
+
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/controller"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/controller");
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }

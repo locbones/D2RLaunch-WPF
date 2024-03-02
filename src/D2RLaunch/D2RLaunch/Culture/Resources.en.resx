@@ -194,7 +194,7 @@
     <comment>Champion Packs:</comment>
   </data>
   <data name="ColorDye" xml:space="preserve">
-    <value>Color Dyes</value>
+    <value>Item Color Dyes</value>
     <comment>Color Dyes</comment>
   </data>
   <data name="Community" xml:space="preserve">

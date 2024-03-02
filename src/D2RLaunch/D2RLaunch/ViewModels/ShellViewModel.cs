@@ -66,7 +66,11 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private bool _launcherHasUpdate;
     private string _launcherUpdateString = "D2RLaunch Update Ready!";
     private const string TAB_BYTE_CODE = "55AA55AA0000000061000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
-    private bool _ColorDyeEnabled = true;
+    private bool _ColorDyesEnabled = true;
+    private bool _ExpandedInventoryEnabled = true;
+    private bool _ExpandedStashEnabled = true;
+    private bool _ExpandedCubeEnabled = true;
+    private bool _ExpandedMercEnabled = true;
 
     #endregion
 
@@ -158,17 +162,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             if (value == _superTelekinesisEnabled) return;
             _superTelekinesisEnabled = value;
-            NotifyOfPropertyChange();
-        }
-    }
-
-    public bool ColorDyeEnabled
-    {
-        get => _ColorDyeEnabled;
-        set
-        {
-            if (value == _ColorDyeEnabled) return;
-            _ColorDyeEnabled = value;
             NotifyOfPropertyChange();
         }
     }
@@ -303,6 +296,61 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         set
         {
             _userControl = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool ExpandedInventoryEnabled
+    {
+        get => _ExpandedInventoryEnabled;
+        set
+        {
+            if (value == _ExpandedInventoryEnabled) return;
+            _ExpandedInventoryEnabled = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool ExpandedStashEnabled
+    {
+        get => _ExpandedStashEnabled;
+        set
+        {
+            if (value == _ExpandedStashEnabled) return;
+            _ExpandedStashEnabled = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool ExpandedCubeEnabled
+    {
+        get => _ExpandedCubeEnabled;
+        set
+        {
+            if (value == _ExpandedCubeEnabled) return;
+            _ExpandedCubeEnabled = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool ExpandedMercEnabled
+    {
+        get => _ExpandedMercEnabled;
+        set
+        {
+            if (value == _ExpandedMercEnabled) return;
+            _ExpandedMercEnabled = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool ColorDyesEnabled
+    {
+        get => _ColorDyesEnabled;
+        set
+        {
+            if (value == _ColorDyesEnabled) return;
+            _ColorDyesEnabled = value;
             NotifyOfPropertyChange();
         }
     }
@@ -502,7 +550,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
-    private async Task ConfigureColorDyes() //Super TelekinesisL
+    private async Task ConfigureColorDyes() //Enable or Disable Color Dye System
     {
         eEnabledDisabled ColorDyes = (eEnabledDisabled)UserSettings.ColorDye;
 
@@ -510,7 +558,78 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             case eEnabledDisabled.Disabled:
                 {
-                    //RemoveSuperTkSkill();
+                    string filePath = "";
+                    string searchString = "";
+                    int rowsToDelete = 0;
+
+                    if (File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost.txt"))))
+                    {
+                        filePath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost.txt"));
+                        searchString = "ColorDye_White";
+                        rowsToDelete = 8; 
+                        RemoveColorDyes(filePath, searchString, rowsToDelete);
+                    }
+
+                    if (File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/properties.txt"))))
+                    {
+                        filePath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/properties.txt"));
+                        searchString = "CD_White";
+                        rowsToDelete = 8;
+                        RemoveColorDyes(filePath, searchString, rowsToDelete);
+                    }
+
+                    if (File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/states.txt"))))
+                    {
+                        filePath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/states.txt"));
+                        searchString = "Weapon_White";
+                        rowsToDelete = 28;
+                        RemoveColorDyes(filePath, searchString, rowsToDelete);
+                    }
+
+                    if (File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/cubemain.txt"))))
+                    {
+                        filePath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/cubemain.txt"));
+                        searchString = "Weapon - Normal -> White";
+                        rowsToDelete = 224;
+                        RemoveColorDyes(filePath, searchString, rowsToDelete);
+                    }
+
+
+                    try
+                    {
+                        string stringPath = Path.Combine(Path.Combine(SelectedModDataFolder, "local/lng/strings/item-modifiers.json"));
+
+                        if (!File.Exists(stringPath))
+                        {
+                            Console.WriteLine("File does not exist. No entries to remove.");
+                            return;
+                        }
+
+                        List<Entry> entries;
+
+                        using (StreamReader file = File.OpenText(stringPath))
+                        {
+                            JsonSerializer serializer = new JsonSerializer();
+                            entries = (List<Entry>)serializer.Deserialize(file, typeof(List<Entry>));
+                        }
+
+                        // Remove entries with specified IDs
+                        int[] idsToRemove = { 48000, 48001, 48002, 48003, 48004, 48005, 48006 };
+                        entries.RemoveAll(entry => idsToRemove.Contains(entry.id));
+
+                        using (StreamWriter file = File.CreateText(stringPath))
+                        {
+                            JsonSerializer serializer = new JsonSerializer();
+                            serializer.Serialize(file, entries);
+                        }
+
+                        Console.WriteLine("Entries removed successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("An error occurred: " + ex.Message);
+                    }
+
                     break;
                 }
             case eEnabledDisabled.Enabled:
@@ -542,6 +661,11 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             int LegacysaveAddIndex = -1;
             int saveBitsIndex = -1;
             int saveAddIndex = -1;
+            int descpriorityIndex = -1;
+            int descfuncIndex = -1;
+            int descvalIndex = -1;
+            int descstr1Index = -1;
+            int descstr2Index = -1;
             int eolIndex = -1;
 
             // Read existing content and determine column indices
@@ -564,10 +688,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         LegacysaveAddIndex = Array.IndexOf(columns, "1.09-Save Add");
                         saveBitsIndex = Array.IndexOf(columns, "Save Bits");
                         saveAddIndex = Array.IndexOf(columns, "Save Add");
+                        descpriorityIndex = Array.IndexOf(columns, "descpriority");
+                        descfuncIndex = Array.IndexOf(columns, "descfunc");
+                        descvalIndex = Array.IndexOf(columns, "descval");
+                        descstr1Index = Array.IndexOf(columns, "descstrpos");
+                        descstr2Index = Array.IndexOf(columns, "descstrneg");
                         eolIndex = Array.IndexOf(columns, "*eol");
 
                         // Verify if all indices are found
-                        if (statIndex == -1 || idIndex == -1 || sendBitsIndex == -1 || LegacysaveBitsIndex == -1 || LegacysaveAddIndex == -1 || saveBitsIndex == -1 || saveAddIndex == -1 || eolIndex == -1)
+                        if (statIndex == -1 || idIndex == -1 || sendBitsIndex == -1 || LegacysaveBitsIndex == -1 || LegacysaveAddIndex == -1 || saveBitsIndex == -1 || saveAddIndex == -1 || descpriorityIndex == -1 || descfuncIndex == -1 || descvalIndex == -1 || descstr1Index == -1 || descstr2Index == -1 || eolIndex == -1)
                         {
                             throw new Exception("One or more columns not found in the header row.");
                         }
@@ -593,7 +722,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             for (int i = 0; i < 8; i++)
             {
                 // Create an empty row
-                string[] newRow = new string[Math.Max(statIndex, Math.Max(idIndex, Math.Max(sendBitsIndex, Math.Max(saveBitsIndex, Math.Max(saveAddIndex, eolIndex))))) + 1];
+                string[] newRow = new string[Math.Max(statIndex, Math.Max(idIndex, Math.Max(sendBitsIndex, Math.Max(saveBitsIndex, Math.Max(saveAddIndex, Math.Max(descpriorityIndex, Math.Max(descfuncIndex, Math.Max(descvalIndex, Math.Max(descstr1Index, Math.Max(descstr2Index, eolIndex)))))))))) + 1];
                 // Fill with empty strings
                 Array.Fill(newRow, "");
                 // Add this empty row to the dataRows list
@@ -605,6 +734,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             // Fill in specified columns for the new rows
             string[] colorDyes = { "ColorDye_White", "ColorDye_Black", "ColorDye_Red", "ColorDye_Green", "ColorDye_Blue", "ColorDye_Yellow", "ColorDye_Purple" };
+            string[] iscStrings = { "ModCDWhite", "ModCDBlack", "ModCDRed", "ModCDGreen", "ModCDBlue", "ModCDYellow", "ModCDPurple" };
             for (int i = 0; i < 7; i++)
             {
                 dataRows[i][statIndex] = colorDyes[i];
@@ -614,6 +744,11 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 dataRows[i][LegacysaveAddIndex] = "1";
                 dataRows[i][saveBitsIndex] = "2";
                 dataRows[i][saveAddIndex] = "1";
+                dataRows[i][descpriorityIndex] = "999";
+                dataRows[i][descfuncIndex] = "3";
+                dataRows[i][descvalIndex] = "0";
+                dataRows[i][descstr1Index] = iscStrings[i];
+                dataRows[i][descstr2Index] = iscStrings[i];
                 dataRows[i][eolIndex] = "0";
             }
 
@@ -644,6 +779,168 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         catch (Exception ex)
         {
             MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+
+        try
+        {
+            // Read existing JSON file
+            string filePath = Path.Combine(Path.Combine(SelectedModDataFolder, "local/lng/strings/item-modifiers.json"));
+
+            if (!File.Exists(filePath))
+                Helper.ExtractFileFromCasc(GamePath, @"data:data\local\lng\strings\item-modifiers.json", SelectedModDataFolder, "data:data");
+
+            List<Entry> entries;
+
+            using (StreamReader file = File.OpenText(filePath))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                entries = (List<Entry>)serializer.Deserialize(file, typeof(List<Entry>));
+            }
+
+            // Add new entries for color dye strings
+            entries.Add(new Entry
+            {
+                id = 48000,
+                Key = "ModCDWhite",
+                deDE = "ÿc4Farbe gefärbt: ÿc0Weiß",
+                enUS = "ÿc4Color Dyed: ÿc0White",
+                esES = "ÿc4Color teñido: ÿc0Blanco",
+                esMX = "ÿc4Color teñido: ÿc0Blanco",
+                frFR = "ÿc4Couleur teint : ÿc0Blanc",
+                itIT = "ÿc4Colore tinto: ÿc0Bianco",
+                jaJP = "ÿc4カラー染色: ÿc0ホワイト",
+                koKR = "ÿc4색상 염색: ÿc0White",
+                plPL = "ÿc4Color Barwiony: ÿc0Biały",
+                ptBR = "ÿc4Cor tingida: ÿc0Branco",
+                ruRU = "ÿc4Окрашенный цвет: ÿc0Белый",
+                zhCN = "ÿc4Color 染色：ÿc0White",
+                zhTW = "ÿc4Color 染色：ÿc0White"
+            });
+
+            entries.Add(new Entry
+            {
+                id = 48001,
+                Key = "ModCDBlack",
+                deDE = "ÿc4Farbe gefärbt: ÿc5Schwarz",
+                enUS = "ÿc4Color Dyed: ÿc5Black",
+                esES = "ÿc4Color teñido: ÿc5Negro",
+                esMX = "ÿc4Color teñido: ÿc5Negro",
+                frFR = "ÿc4Couleur teint : ÿc5Noir",
+                itIT = "ÿc4Colore tinto: ÿc5Nero",
+                jaJP = "ÿc4カラー染色: ÿc5ブラック",
+                koKR = "ÿc4색상 염색: ÿc5Black",
+                plPL = "ÿc4Color Barwiony: ÿc5Black",
+                ptBR = "ÿc4Cor tingida: ÿc5Preto",
+                ruRU = "ÿc4Окрашенный цвет: ÿc5Черный",
+                zhCN = "ÿc4Color 染色：ÿc5Black",
+                zhTW = "ÿc4Color 染色：ÿc5Black"
+            });
+
+            entries.Add(new Entry
+            {
+                id = 48002,
+                Key = "ModCDRed",
+                deDE = "ÿc4Farbe gefärbt: ÿc7Rot",
+                enUS = "ÿc4Color Dyed: ÿc7Red",
+                esES = "ÿc4Color teñido: ÿc7Rojo",
+                esMX = "ÿc4Color teñido: ÿc7Rojo",
+                frFR = "ÿc4Color Teint : ÿc7Red",
+                itIT = "ÿc4Colore tinto: ÿc7Rosso",
+                jaJP = "ÿc4色染め: ÿc7レッド",
+                koKR = "ÿc4색상 염색: ÿc7Red",
+                plPL = "ÿc4Color Barwiony: ÿc7Red",
+                ptBR = "ÿc4Cor tingida: ÿc7Vermelho",
+                ruRU = "Окрашенный цвет ÿc4: ÿc7Red",
+                zhCN = "ÿc4Color 染色：ÿc7Red",
+                zhTW = "ÿc4Color 染色：ÿc7Red"
+            });
+
+            entries.Add(new Entry
+            {
+                id = 48003,
+                Key = "ModCDGreen",
+                deDE = "ÿc4Farbe gefärbt: ÿc2Grün",
+                enUS = "ÿc4Color Dyed: ÿc2Green",
+                esES = "ÿc4Color teñido: ÿc2Verde",
+                esMX = "ÿc4Color teñido: ÿc2Verde",
+                frFR = "ÿc4Color Teint : ÿc2Green",
+                itIT = "ÿc4Colore tinto: ÿc2Verde",
+                jaJP = "ÿc4色染め: ÿc2グリーン",
+                koKR = "ÿc4Color 염색: ÿc2Green",
+                plPL = "ÿc4Color Barwiony: ÿc2Green",
+                ptBR = "ÿc4Cor tingida: ÿc2Verde",
+                ruRU = "ÿc4Окрашенный цвет: ÿc2Зеленый",
+                zhCN = "ÿc4Color 染色：ÿc2Green",
+                zhTW = "ÿc4Color 染色：ÿc2Green"
+            });
+
+            entries.Add(new Entry
+            {
+                id = 48004,
+                Key = "ModCDBlue",
+                deDE = "ÿc4Farbe gefärbt: ÿc3Blau",
+                enUS = "ÿc4Color Dyed: ÿc3Blue",
+                esES = "ÿc4Color teñido: ÿc3Azul",
+                esMX = "ÿc4Color teñido: ÿc3Azul",
+                frFR = "ÿc4Color Teint : ÿc3Blue",
+                itIT = "ÿc4Colore tinto: ÿc3Blu",
+                jaJP = "ÿc4カラー染色: ÿc3ブルー",
+                koKR = "ÿc4Color 염색: ÿc3Blue",
+                plPL = "ÿc4Color Barwiony: ÿc3Blue",
+                ptBR = "ÿc4Cor tingida: ÿc3Azul",
+                ruRU = "ÿc4Окрашенный цвет: ÿc3Blue",
+                zhCN = "ÿc4Color 染色：ÿc3Blue",
+                zhTW = "ÿc4Color 染色：ÿc3Blue"
+            });
+
+            entries.Add(new Entry
+            {
+                id = 48005,
+                Key = "ModCDYellow",
+                deDE = "ÿc4Farbe gefärbt: ÿc9Gelb",
+                enUS = "ÿc4Color Dyed: ÿc9Yellow",
+                esES = "ÿc4Color teñido: ÿc9Amarillo",
+                esMX = "ÿc4Color teñido: ÿc9Amarillo",
+                frFR = "ÿc4Couleur teinte : ÿc9Jaune",
+                itIT = "ÿc4Colore tinto: ÿc9Giallo",
+                jaJP = "ÿc4色染め：ÿc9イエロー",
+                koKR = "ÿc4색상 염색: ÿc9Yellow",
+                plPL = "ÿc4Color Barwiony: ÿc9Yellow",
+                ptBR = "ÿc4Cor tingida: ÿc9Amarelo",
+                ruRU = "ÿc4Окрашенный цвет: ÿc9Желтый",
+                zhCN = "ÿc4颜色染色：ÿc9黄色",
+                zhTW = "ÿc4顏色染色：ÿc9黃色"
+            });
+
+            entries.Add(new Entry
+            {
+                id = 48006,
+                Key = "ModCDPurple",
+                deDE = "ÿc4Farbe gefärbt: ÿc;Lila",
+                enUS = "ÿc4Color Dyed: ÿc;Purple",
+                esES = "ÿc4Color teñido: ÿc;Púrpura",
+                esMX = "ÿc4Color teñido: ÿc;Púrpura",
+                frFR = "ÿc4Color Teint : ÿc ; Violet",
+                itIT = "ÿc4Colore tinto: ÿc;Viola",
+                jaJP = "ÿc4カラー染色: ÿc;パープル",
+                koKR = "ÿc4색상 염색: ÿc; 보라색",
+                plPL = "ÿc4Color Barwiony: ÿc;Fioletowy",
+                ptBR = "ÿc4Cor tingida: ÿc;Roxo",
+                ruRU = "ÿc4Окрашенный цвет: ÿc;Фиолетовый",
+                zhCN = "ÿc4颜色染色：ÿc；紫色",
+                zhTW = "ÿc4顏色染色：ÿc；紫色"
+            });
+
+            // Write the new color dye entries back to the JSON file
+            using (StreamWriter file = File.CreateText(filePath))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, entries);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
 
@@ -1355,6 +1652,46 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
 
         return result2;
+    }
+
+    private void RemoveColorDyes(string filePath, string searchString, int rowsToDelete)
+    {
+        try
+        {
+            string[] lines = File.ReadAllLines(filePath);
+
+            // Initialize variables to keep track of deletion process
+            bool foundSearchString = false;
+            int deleteCounter = 0;
+            int totalDeleted = 0;
+
+            // Create a new list to store lines to keep
+            var linesToKeep = lines.Where(line =>
+            {
+                if (foundSearchString && deleteCounter < rowsToDelete)
+                {
+                    deleteCounter++;
+                    totalDeleted++;
+                    return false; // Exclude this line
+                }
+                else if (line.StartsWith(searchString))
+                {
+                    foundSearchString = true;
+                    deleteCounter = 0; // Reset delete counter for each match
+                    totalDeleted++;
+                    return false; // Exclude this line
+                }
+                return true; // Include this line
+            }).ToList();
+
+            // Rewrite the file if any lines were deleted
+            if (totalDeleted > 0)
+                File.WriteAllLines(filePath, linesToKeep);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("An error occurred: " + ex.Message);
+        }
     }
 
     private async Task ConfigureItemIcons() //Item Display (Item/Rune Icons)
@@ -3085,5 +3422,24 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         UserControl = new HomeDrawerView() { DataContext = vm };
 
         await Task.Run(CheckForLauncherUpdates);
+    }
+
+    public class Entry
+    {
+        public int id { get; set; }
+        public string Key { get; set; }
+        public string deDE { get; set; }
+        public string enUS { get; set; }
+        public string esES { get; set; }
+        public string esMX { get; set; }
+        public string frFR { get; set; }
+        public string itIT { get; set; }
+        public string jaJP { get; set; }
+        public string koKR { get; set; }
+        public string plPL { get; set; }
+        public string ptBR { get; set; }
+        public string ruRU { get; set; }
+        public string zhCN { get; set; }
+        public string zhTW { get; set; }
     }
 }

@@ -461,6 +461,11 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     ShellViewModel.SkillIconPackEnabled = false;
                     ShellViewModel.ItemIconDisplayEnabled = false;
                     ShellViewModel.UserSettings.ItemIlvls = 1;
+                    ShellViewModel.ExpandedInventoryEnabled = false;
+                    ShellViewModel.ExpandedStashEnabled = false;
+                    ShellViewModel.ExpandedCubeEnabled = false;
+                    ShellViewModel.ExpandedMercEnabled = false;
+                    ShellViewModel.ColorDyesEnabled = false;
                 }
                 else
                 {

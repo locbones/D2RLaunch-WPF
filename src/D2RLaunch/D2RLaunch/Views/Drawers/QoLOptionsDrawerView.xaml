@@ -413,8 +413,35 @@
                                 SelectedValuePath="Value"
                                 Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
+                        <StackPanel HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <Label
+                            Margin="0,5,0,0"
+                            Content="{Binding Path=ColorDye, Source={StaticResource Resources}}"
+                            FontWeight="Bold"
+                            Foreground="Goldenrod"
+                            Style="{StaticResource LabelHeaderStyle}" />
+                                <syncfusion:ButtonAdv
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            cm:Message.Attach="[Event Click] = [Action OnColorDyePreview];"
+                            Background="Transparent"
+                            IconTemplate="{StaticResource PreviewIconTemplate}"
+                            Style="{StaticResource SfButtonAdvSmallStyle}" />
+                            </StackPanel>
+                            <ComboBox
+                        Width="125"
+                        Height="40"
+                        DisplayMemberPath="Key"
+                        IsEnabled="{Binding ShellViewModel.ColorDyeEnabled}"
+                        ItemsSource="{Binding EnabledDisabledOptions}"
+                        SelectedIndex="{Binding ShellViewModel.UserSettings.ColorDye}"
+                        SelectedValuePath="Value"
+                        Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
+                        </StackPanel>
                     </UniformGrid>
-
+                    
                     <Label
                         Grid.Row="9"
                         Content="{Binding Path=AuthorFiles, Source={StaticResource Resources}}"

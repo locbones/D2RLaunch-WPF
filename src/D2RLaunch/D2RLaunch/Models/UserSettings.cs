@@ -41,6 +41,8 @@ public class UserSettings : INotifyPropertyChanged
     private bool _ExpandedStash;
     private bool _ExpandedCube;
     private bool _ExpandedMerc;
+    private bool _MonHPBar;
+    private int _colorDye;
 
     #endregion
 
@@ -342,6 +344,17 @@ public class UserSettings : INotifyPropertyChanged
         }
     }
 
+    public int ColorDye
+    {
+        get => _colorDye;
+        set
+        {
+            if (value == _colorDye) return;
+            _colorDye = value;
+            OnPropertyChanged();
+        }
+    }
+
     public int RuneDisplay
     {
         get => _runeDisplay;
@@ -458,6 +471,20 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _ExpandedMerc = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool MonHPBar
+    {
+        get => _MonHPBar;
+        set
+        {
+            if (value == _MonHPBar)
+            {
+                return;
+            }
+            _MonHPBar = value;
             OnPropertyChanged();
         }
     }

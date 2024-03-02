@@ -1059,7 +1059,18 @@ namespace D2RLaunch.Properties
                 return ResourceManager.GetString("SuperTK", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Super Telekinesis.
+        /// </summary>
+        public static string ColorDye
+        {
+            get
+            {
+                return ResourceManager.GetString("ColorDye", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Superuniques Always Drop.
         /// </summary>

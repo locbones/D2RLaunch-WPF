@@ -253,6 +253,12 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     }
 
     [UsedImplicitly]
+    public async void OnColorDyePreview()
+    {
+        await ShowPreviewImage("Preview_SuperTK.gif", "Color Dyes Preview");
+    }
+
+    [UsedImplicitly]
     public async void OnItemDisplayPreview()
     {
         await ShowPreviewImage("Preview_ItemIcons.png", "Item Icons Preview");

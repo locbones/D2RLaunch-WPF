@@ -315,6 +315,12 @@
                             IsChecked="{Binding ShellViewModel.UserSettings.HdrFix}"
                             Style="{StaticResource CheckBoxStyle}" />
                         <CheckBox
+                            Grid.Row="4"
+                            HorizontalAlignment="Right"
+                            Content="Dynamic HP Bar"
+                            IsChecked="{Binding ShellViewModel.UserSettings.MonHPBar}"
+                            Style="{StaticResource CheckBoxStyle}" Visibility="Hidden" />
+                        <CheckBox
                             Grid.Row="5"
                             HorizontalAlignment="Left"
                             Content="{Binding Path=Regen, Source={StaticResource Resources}}"

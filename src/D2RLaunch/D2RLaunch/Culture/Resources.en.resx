@@ -193,6 +193,10 @@
     <value>Champion Packs</value>
     <comment>Champion Packs:</comment>
   </data>
+  <data name="ColorDye" xml:space="preserve">
+    <value>Color Dyes</value>
+    <comment>Color Dyes</comment>
+  </data>
   <data name="Community" xml:space="preserve">
     <value>Community</value>
     <comment>Community</comment>

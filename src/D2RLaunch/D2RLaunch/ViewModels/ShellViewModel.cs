@@ -66,6 +66,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private bool _launcherHasUpdate;
     private string _launcherUpdateString = "D2RLaunch Update Ready!";
     private const string TAB_BYTE_CODE = "55AA55AA0000000061000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
+    private bool _ColorDyeEnabled = true;
 
     #endregion
 
@@ -157,6 +158,17 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             if (value == _superTelekinesisEnabled) return;
             _superTelekinesisEnabled = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    public bool ColorDyeEnabled
+    {
+        get => _ColorDyeEnabled;
+        set
+        {
+            if (value == _ColorDyeEnabled) return;
+            _ColorDyeEnabled = value;
             NotifyOfPropertyChange();
         }
     }
@@ -311,6 +323,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         await ConfigureSuperTelekinesis();
         await ConfigureRunewordSorting();
         await ConfigureHudDesign();
+        await ConfigureColorDyes();
     } //Apply User-Defined QoL Options
 
     private async Task ConfigureHudDesign() //Merged HUD
@@ -487,6 +500,861 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 break;
             }
         }
+    }
+
+    private async Task ConfigureColorDyes() //Super TelekinesisL
+    {
+        eEnabledDisabled ColorDyes = (eEnabledDisabled)UserSettings.ColorDye;
+
+        switch (ColorDyes)
+        {
+            case eEnabledDisabled.Disabled:
+                {
+                    //RemoveSuperTkSkill();
+                    break;
+                }
+            case eEnabledDisabled.Enabled:
+                {
+                    await DyesISC();
+                    await DyesProp();
+                    await DyesState();
+                    await DyesCube();
+                    break;
+                }
+        }
+    }
+
+
+    private async Task DyesISC()
+    {
+        string iscPath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost.txt"));
+        string iscPath2 = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost2.txt"));
+
+        if (!File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost.txt"))))
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\itemstatcost.txt", SelectedModDataFolder, "data:data");
+
+        try
+        {
+            int statIndex = -1;
+            int idIndex = -1;
+            int sendBitsIndex = -1;
+            int LegacysaveBitsIndex = -1;
+            int LegacysaveAddIndex = -1;
+            int saveBitsIndex = -1;
+            int saveAddIndex = -1;
+            int eolIndex = -1;
+
+            // Read existing content and determine column indices
+            List<string> lines = new List<string>();
+            List<string[]> dataRows = new List<string[]>();
+            using (StreamReader reader = new StreamReader(iscPath))
+            {
+                string line;
+                bool isFirstRow = true;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (isFirstRow)
+                    {
+                        // Parse the header row to get column indices
+                        string[] columns = line.Split('\t');
+                        statIndex = Array.IndexOf(columns, "Stat");
+                        idIndex = Array.IndexOf(columns, "*ID");
+                        sendBitsIndex = Array.IndexOf(columns, "Send Bits");
+                        LegacysaveBitsIndex = Array.IndexOf(columns, "1.09-Save Bits");
+                        LegacysaveAddIndex = Array.IndexOf(columns, "1.09-Save Add");
+                        saveBitsIndex = Array.IndexOf(columns, "Save Bits");
+                        saveAddIndex = Array.IndexOf(columns, "Save Add");
+                        eolIndex = Array.IndexOf(columns, "*eol");
+
+                        // Verify if all indices are found
+                        if (statIndex == -1 || idIndex == -1 || sendBitsIndex == -1 || LegacysaveBitsIndex == -1 || LegacysaveAddIndex == -1 || saveBitsIndex == -1 || saveAddIndex == -1 || eolIndex == -1)
+                        {
+                            throw new Exception("One or more columns not found in the header row.");
+                        }
+
+                        isFirstRow = false;
+                        // Store the header row
+                        lines.Add(line);
+                    }
+                    else
+                    {
+                        // Check if "ColorDye_White" already exists in the "Stat" column
+                        string[] columns = line.Split('\t');
+                        if (statIndex != -1 && columns.Length > statIndex && columns[statIndex] == "ColorDye_White")
+                            return; // Exit the method as no modifications are needed
+
+                        // Store existing rows for later
+                        lines.Add(line);
+                    }
+                }
+            }
+
+            // Add 8 new empty rows
+            for (int i = 0; i < 8; i++)
+            {
+                // Create an empty row
+                string[] newRow = new string[Math.Max(statIndex, Math.Max(idIndex, Math.Max(sendBitsIndex, Math.Max(saveBitsIndex, Math.Max(saveAddIndex, eolIndex))))) + 1];
+                // Fill with empty strings
+                Array.Fill(newRow, "");
+                // Add this empty row to the dataRows list
+                dataRows.Add(newRow);
+            }
+
+            // Get the total number of rows in the file
+            int totalRowCount = lines.Count - 1; // Excluding the header row
+
+            // Fill in specified columns for the new rows
+            string[] colorDyes = { "ColorDye_White", "ColorDye_Black", "ColorDye_Red", "ColorDye_Green", "ColorDye_Blue", "ColorDye_Yellow", "ColorDye_Purple" };
+            for (int i = 0; i < 7; i++)
+            {
+                dataRows[i][statIndex] = colorDyes[i];
+                dataRows[i][idIndex] = ((totalRowCount - 1) + i + 1).ToString(); // Assigning unique row numbers
+                dataRows[i][sendBitsIndex] = "2";
+                dataRows[i][LegacysaveBitsIndex] = "2";
+                dataRows[i][LegacysaveAddIndex] = "1";
+                dataRows[i][saveBitsIndex] = "2";
+                dataRows[i][saveAddIndex] = "1";
+                dataRows[i][eolIndex] = "0";
+            }
+
+            // Fill in specified columns for the 8th row
+            dataRows[7][statIndex] = "ColorDye_Tracker";
+            dataRows[7][idIndex] = (totalRowCount + 7).ToString(); // Assigning unique row number
+            dataRows[7][sendBitsIndex] = "4";
+            dataRows[7][LegacysaveBitsIndex] = "4";
+            dataRows[7][LegacysaveAddIndex] = "7";
+            dataRows[7][saveBitsIndex] = "4";
+            dataRows[7][saveAddIndex] = "7";
+            dataRows[7][eolIndex] = "0";
+
+            // Write back to the file
+            using (StreamWriter writer = new StreamWriter(iscPath, append: false))
+            {
+                foreach (var line in lines)
+                {
+                    writer.WriteLine(line);
+                }
+                // Append the new rows to the file
+                foreach (var row in dataRows)
+                {
+                    writer.WriteLine(string.Join("\t", row));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+    }
+
+    private async Task DyesProp()
+    {
+        string propPath = Path.Combine(SelectedModDataFolder, "global/excel/properties.txt");
+        string propPath2 = Path.Combine(SelectedModDataFolder, "global/excel/properties2.txt");
+
+        if (!File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/properties.txt"))))
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\properties.txt", SelectedModDataFolder, "data:data");
+
+        try
+        {
+            // Initialize column indices
+            int codeIndex = -1, enabledIndex = -1, funcIndex = -1, statIndex = -1, eolIndex = -1;
+
+            // Read existing content and determine column indices
+            List<string> lines = new List<string>();
+            List<string[]> dataRows = new List<string[]>();
+            using (StreamReader reader = new StreamReader(propPath))
+            {
+                string line;
+                bool isFirstRow = true;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (isFirstRow)
+                    {
+                        // Parse the header row to get column indices
+                        string[] columns = line.Split('\t');
+                        codeIndex = Array.IndexOf(columns, "code");
+                        enabledIndex = Array.IndexOf(columns, "*Enabled");
+                        funcIndex = Array.IndexOf(columns, "func1");
+                        statIndex = Array.IndexOf(columns, "stat1");
+                        eolIndex = Array.IndexOf(columns, "*eol");
+
+                        // Verify if all indices are found
+                        if (codeIndex == -1 || enabledIndex == -1 || funcIndex == -1 || statIndex == -1 || eolIndex == -1)
+                        {
+                            throw new Exception("One or more columns not found in the header row.");
+                        }
+
+                        isFirstRow = false;
+                        lines.Add(line); // Store the header row
+                    }
+                    else
+                    {
+                        // Check if "CD_White" already exists in the "stat1" column
+                        string[] columns = line.Split('\t');
+                        if (codeIndex != -1 && columns.Length > codeIndex && columns[codeIndex] == "CD_White")
+                            return;
+
+                        lines.Add(line); // Store existing rows for later
+                    }
+                }
+            }
+
+            // Add 8 new empty rows
+            for (int i = 0; i < 8; i++)
+            {
+                string[] newRow = new string[Math.Max(codeIndex, Math.Max(enabledIndex, Math.Max(funcIndex, Math.Max(statIndex, eolIndex)))) + 1];
+                Array.Fill(newRow, "");
+                dataRows.Add(newRow);
+            }
+
+            // Fill in specified columns for the new rows
+            string[] colorDyes = { "CD_White", "CD_Black", "CD_Red", "CD_Green", "CD_Blue", "CD_Yellow", "CD_Purple", "CD_Tracker" };
+            string[] colorDyesStats = { "ColorDye_White", "ColorDye_Black", "ColorDye_Red", "ColorDye_Green", "ColorDye_Blue", "ColorDye_Yellow", "ColorDye_Purple", "ColorDye_Tracker" };
+            for (int i = 0; i < 8; i++)
+            {
+                dataRows[i][codeIndex] = colorDyes[i];
+                dataRows[i][enabledIndex] = "1";
+                dataRows[i][funcIndex] = "1";
+                dataRows[i][statIndex] = colorDyesStats[i];
+                dataRows[i][eolIndex] = "0";
+            }
+
+            // Write back to the file
+            using (StreamWriter writer = new StreamWriter(propPath, append: false))
+            {
+                foreach (var line in lines)
+                    writer.WriteLine(line);
+
+                foreach (var row in dataRows)
+                    writer.WriteLine(string.Join("\t", row));
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+    }
+
+    private async Task DyesState()
+    {
+        string statePath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/states.txt"));
+        string statePath2 = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/states2.txt"));
+
+        if (!File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/states.txt"))))
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\states.txt", SelectedModDataFolder, "data:data");
+
+        try
+        {
+            int stateIndex = -1;
+            int idIndex = -1;
+            int itemtypeIndex = -1;
+            int itemtransIndex = -1;
+            int eolIndex = -1;
+
+            // Read existing content and determine column indices
+            List<string> lines = new List<string>();
+            List<string[]> dataRows = new List<string[]>();
+            using (StreamReader reader = new StreamReader(statePath))
+            {
+                string line;
+                bool isFirstRow = true;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (isFirstRow)
+                    {
+                        // Parse the header row to get column indices
+                        string[] columns = line.Split('\t');
+                        stateIndex = Array.IndexOf(columns, "state");
+                        idIndex = Array.IndexOf(columns, "*ID");
+                        itemtypeIndex = Array.IndexOf(columns, "itemtype");
+                        itemtransIndex = Array.IndexOf(columns, "itemtrans");
+                        eolIndex = Array.IndexOf(columns, "*eol");
+
+                        // Verify if all indices are found
+                        if (stateIndex == -1 || idIndex == -1 || itemtypeIndex == -1 || itemtransIndex == -1 || eolIndex == -1)
+                        {
+                            throw new Exception("One or more columns not found in the header row.");
+                        }
+
+                        isFirstRow = false;
+                        // Store the header row
+                        lines.Add(line);
+                    }
+                    else
+                    {
+                        // Check if "ColorDye_White" already exists in the "Stat" column
+                        string[] columns = line.Split('\t');
+                        if (stateIndex != -1 && columns.Length > stateIndex && columns[stateIndex] == "Weapon_White")
+                            return; // Exit the method as no modifications are needed
+
+                        // Store existing rows for later
+                        lines.Add(line);
+                    }
+                }
+            }
+
+            // Add 8 new empty rows
+            for (int i = 0; i < 28; i++)
+            {
+                // Create an empty row
+                string[] newRow = new string[Math.Max(stateIndex, Math.Max(idIndex, Math.Max(itemtypeIndex, Math.Max(itemtransIndex,eolIndex)))) + 1];
+                // Fill with empty strings
+                Array.Fill(newRow, "");
+                // Add this empty row to the dataRows list
+                dataRows.Add(newRow);
+            }
+
+            // Get the total number of rows in the file
+            int totalRowCount = lines.Count - 1; // Excluding the header row
+
+            // Fill in specified columns for the new rows
+            string[] colorDyesW = { "Weapon_White", "Weapon_Black", "Weapon_Red", "Weapon_Green", "Weapon_Blue", "Weapon_Yellow", "Weapon_Purple" };
+            string[] colorDyesA = { "Torso_White", "Torso_Black", "Torso_Red", "Torso_Green", "Torso_Blue", "Torso_Yellow", "Torso_Purple" };
+            string[] colorDyesH = { "Helm_White", "Helm_Black", "Helm_Red", "Helm_Green", "Helm_Blue", "Helm_Yellow", "Helm_Purple" };
+            string[] colorDyesS = { "Shield_White", "Shield_Black", "Shield_Red", "Shield_Green", "Shield_Blue", "Shield_Yellow", "Shield_Purple" };
+            string[] colorDyesCode = { "bwht", "blac", "cred", "cgrn", "cblu", "lyel", "lpur" };
+
+            // Filling for weapon rows (7 rows)
+            for (int i = 0; i < 7; i++)
+            {
+                dataRows[i][stateIndex] = colorDyesW[i];
+                dataRows[i][idIndex] = ((totalRowCount - 1) + i + 1).ToString(); // Assigning unique row numbers
+                dataRows[i][itemtypeIndex] = "weap";
+                dataRows[i][itemtransIndex] = colorDyesCode[i];
+                dataRows[i][eolIndex] = "0";
+            }
+
+            // Filling for tors rows (7 rows starting from index 7)
+            for (int i = 7; i < 14; i++)
+            {
+                dataRows[i][stateIndex] = colorDyesA[i - 7];
+                dataRows[i][idIndex] = ((totalRowCount - 1) + i + 1).ToString(); // Assigning unique row numbers
+                dataRows[i][itemtypeIndex] = "tors";
+                dataRows[i][itemtransIndex] = colorDyesCode[i - 7];
+                dataRows[i][eolIndex] = "0";
+            }
+
+            // Filling for helm rows (7 rows starting from index 14)
+            for (int i = 14; i < 21; i++)
+            {
+                dataRows[i][stateIndex] = colorDyesH[i - 14];
+                dataRows[i][idIndex] = ((totalRowCount - 1) + i + 1).ToString(); // Assigning unique row numbers
+                dataRows[i][itemtypeIndex] = "helm";
+                dataRows[i][itemtransIndex] = colorDyesCode[i - 14];
+                dataRows[i][eolIndex] = "0";
+            }
+
+            // Filling for shld rows (7 rows starting from index 21)
+            for (int i = 21; i < 28; i++)
+            {
+                dataRows[i][stateIndex] = colorDyesS[i - 21];
+                dataRows[i][idIndex] = ((totalRowCount - 1) + i + 1).ToString(); // Assigning unique row numbers
+                dataRows[i][itemtypeIndex] = "shld";
+                dataRows[i][itemtransIndex] = colorDyesCode[i - 21];
+                dataRows[i][eolIndex] = "0";
+            }
+
+
+
+            // Write back to the file
+            using (StreamWriter writer = new StreamWriter(statePath, append: false))
+            {
+                foreach (var line in lines)
+                {
+                    writer.WriteLine(line);
+                }
+                // Append the new rows to the file
+                foreach (var row in dataRows)
+                {
+                    writer.WriteLine(string.Join("\t", row));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+    }
+
+    private async Task DyesCube()
+    {
+
+        string cubePath = Path.Combine(SelectedModDataFolder, "global/excel/cubemain.txt");
+        string cubePath2 = Path.Combine(SelectedModDataFolder, "global/excel/cubemain2.txt");
+
+        if (!File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/cubemain.txt"))))
+            Helper.ExtractFileFromCasc(GamePath, @"data:data\global\excel\cubemain.txt", SelectedModDataFolder, "data:data");
+
+        try
+        {
+            // Define column indices
+            int descriptionIndex = -1, enabledIndex = -1, opIndex = -1, paramIndex = -1, valueIndex = -1,
+                inputsIndex = -1, input1Index = -1, input2Index = -1, outputIndex = -1, mod1Index = -1,
+                mod1minIndex = -1, mod1maxIndex = -1, mod2Index = -1, mod2paramIndex = -1, mod2minIndex = -1, mod2maxIndex = -1,
+                mod3Index = -1, mod3minIndex = -1, mod3maxIndex = -1, mod4Index = -1, mod4minIndex = -1,
+                mod4maxIndex = -1, mod5Index = -1, mod5paramIndex = -1, mod5minIndex = -1, mod5maxIndex = -1, eolIndex = -1;
+
+            // Read existing content and determine column indices
+            List<string> lines = new List<string>();
+            List<string[]> dataRows = new List<string[]>();
+
+            using (StreamReader reader = new StreamReader(cubePath))
+            {
+                string line;
+                bool isFirstRow = true;
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (isFirstRow)
+                    {
+                        string[] columns = line.Split('\t');
+                        descriptionIndex = Array.IndexOf(columns, "description");
+                        enabledIndex = Array.IndexOf(columns, "enabled");
+                        opIndex = Array.IndexOf(columns, "op");
+                        paramIndex = Array.IndexOf(columns, "param");
+                        valueIndex = Array.IndexOf(columns, "value");
+                        inputsIndex = Array.IndexOf(columns, "numinputs");
+                        input1Index = Array.IndexOf(columns, "input 1");
+                        input2Index = Array.IndexOf(columns, "input 2");
+                        outputIndex = Array.IndexOf(columns, "output");
+                        mod1Index = Array.IndexOf(columns, "mod 1");
+                        mod1minIndex = Array.IndexOf(columns, "mod 1 min");
+                        mod1maxIndex = Array.IndexOf(columns, "mod 1 max");
+                        mod2Index = Array.IndexOf(columns, "mod 2");
+                        mod2paramIndex = Array.IndexOf(columns, "mod 2 param");
+                        mod2minIndex = Array.IndexOf(columns, "mod 2 min");
+                        mod2maxIndex = Array.IndexOf(columns, "mod 2 max");
+                        mod3Index = Array.IndexOf(columns, "mod 3");
+                        mod3minIndex = Array.IndexOf(columns, "mod 3 min");
+                        mod3maxIndex = Array.IndexOf(columns, "mod 3 max");
+                        mod4Index = Array.IndexOf(columns, "mod 4");
+                        mod4minIndex = Array.IndexOf(columns, "mod 4 min");
+                        mod4maxIndex = Array.IndexOf(columns, "mod 4 max");
+                        mod5Index = Array.IndexOf(columns, "mod 5");
+                        mod5paramIndex = Array.IndexOf(columns, "mod 5 param");
+                        mod5minIndex = Array.IndexOf(columns, "mod 5 min");
+                        mod5maxIndex = Array.IndexOf(columns, "mod 5 max");
+                        eolIndex = Array.IndexOf(columns, "*eol");
+
+                        if (descriptionIndex == -1 || enabledIndex == -1 || opIndex == -1 || paramIndex == -1 ||
+                            valueIndex == -1 || inputsIndex == -1 || input1Index == -1 || input2Index == -1 ||
+                            outputIndex == -1 || mod1Index == -1 || mod1minIndex == -1 || mod1maxIndex == -1 ||
+                            mod2Index == -1 || mod2paramIndex == -1 || mod2minIndex == -1 || mod2maxIndex == -1 || mod3Index == -1 ||
+                            mod3minIndex == -1 || mod3maxIndex == -1 || mod4Index == -1 || mod4minIndex == -1 ||
+                            mod4maxIndex == -1 || mod5Index == -1 || mod2paramIndex == -1 || mod5minIndex == -1 || mod5maxIndex == -1 ||
+                            eolIndex == -1)
+                        {
+                            throw new Exception("One or more columns not found in the header row.");
+                        }
+
+                        isFirstRow = false;
+                        lines.Add(line); // Store the header row
+                    }
+                    else
+                    {
+                        string[] columns = line.Split('\t');
+                        if (descriptionIndex != -1 && columns.Length > descriptionIndex && columns[descriptionIndex] == "Weapon - Normal -> White")
+                            return; // Exit the method as no modifications are needed
+
+                        lines.Add(line); // Store existing rows for later
+                    }
+                }
+            }
+
+            string filePath = Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost.txt");
+            string searchTerm = "ColorDye_Tracker";
+            string filePath2 = Path.Combine(SelectedModDataFolder, "global/excel/states.txt");
+            string searchTerm2 = "Weapon_White";
+
+            int result = SearchItemID(filePath, searchTerm);
+            int result2 = SearchStateID(filePath2, searchTerm2);
+
+            // Define the colors and their corresponding codes
+            string[] colors0 = { "White", "Black", "Red", "Green", "Blue", "Yellow", "Purple" };
+            string[] colors1 = { "Black", "Red", "Green", "Blue", "Yellow", "Purple", "Normal" };
+            string[] colors2 = { "Red", "Green", "Blue", "Yellow", "Purple", "White", "Normal" };
+            string[] colors3 = { "Green", "Blue", "Yellow", "Purple", "White", "Black", "Normal"};
+            string[] colors4 = { "Blue", "Yellow", "Purple", "White", "Black", "Red", "Normal" };
+            string[] colors5 = { "Yellow", "Purple", "White", "Black", "Red", "Green", "Normal", };
+            string[] colors6 = { "Purple", "White", "Black", "Red", "Green", "Blue", "Normal" };
+            string[] colors7 = { "White", "Black", "Red", "Green", "Blue", "Yellow", "Normal" };
+            string[] gems0 = { "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "gpy,qty=3", "gpv,qty=3" };
+            string[] gems1 = { "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "gpy,qty=3", "gpv,qty=3", "yps,qty=3" };
+            string[] gems2 = { "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "gpy,qty=3", "gpv,qty=3", "gpw,qty=3", "yps,qty=3" };
+            string[] gems3 = { "gpg,qty=3", "gpb,qty=3", "gpy,qty=3", "gpv,qty=3", "gpw,qty=3", "skz,qty=3", "yps,qty=3" };
+            string[] gems4 = { "gpy,qty=3", "gpv,qty=3", "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "yps,qty=3" };
+            string[] gems5 = { "gpv,qty=3", "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "yps,qty=3" };
+            string[] gems6 = { "gpv,qty=3", "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "yps,qty=3" };
+            string[] value = { "1", "2", "3", "4", "5", "6", "7" };
+            string[] trackerValue0 = { "1", "2", "3", "4", "5", "6", "7" };
+            string[] trackerValue1 = { "1", "2", "3", "4", "5", "6", "-1" };
+            string[] trackerValue2 = { "1", "2", "3", "4", "5", "-1", "-2" };
+            string[] trackerValue3 = { "1", "2", "3", "4", "-2", "-1", "-3" };
+            string[] trackerValue4 = { "1", "2", "3", "-3", "-2", "-1", "-4" };
+            string[] trackerValue5 = { "1", "2", "-4", "-3", "-2", "-1", "-5" };
+            string[] trackerValue6 = { "1", "-5", "-4", "-3", "-2", "-1", "-6" };
+            string[] trackerValue7 = { "-6", "-5", "-4", "-3", "-2", "-1", "-7" };
+            int[] stateValue0 = { result2, result2 + 1, result2 + 2, result2 + 3, result2 + 4, result2 + 5, result2 + 6 };
+            int[] stateValue1 = { result2 + 1, result2 + 2, result2 + 3, result2 + 4, result2 + 5, result2 + 6, result2 };
+            int[] stateValue2 = { result2 + 2, result2 + 3, result2 + 4, result2 + 5, result2 + 6, result2, result2 + 1 };
+            int[] stateValue3 = { result2 + 3, result2 + 4, result2 + 5, result2 + 6, result2, result2 + 1, result2 + 2 };
+            int[] stateValue4 = { result2 + 4, result2 + 5, result2 + 6, result2, result2 + 1, result2 + 2, result2 + 3 };
+            int[] stateValue5 = { result2 + 5, result2 + 6, result2, result2 + 1, result2 + 2, result2 + 3, result2 + 4 };
+            int[] stateValue6 = { result2 + 6, result2, result2 + 1, result2 + 2, result2 + 3, result2 + 4, result2 + 5 };
+            string[] colorDyeProps0 = { "CD_White", "CD_Black", "CD_Red", "CD_Green", "CD_Blue", "CD_Yellow", "CD_Purple" };
+            string[] colorDyeProps1 = { "CD_Black", "CD_Red", "CD_Green", "CD_Blue", "CD_Yellow", "CD_Purple", "CD_White" };
+            string[] colorDyeProps2 = { "CD_Red", "CD_Green", "CD_Blue", "CD_Yellow", "CD_Purple", "CD_White", "CD_Black" };
+            string[] colorDyeProps3 = { "CD_Green", "CD_Blue", "CD_Yellow", "CD_Purple", "CD_White", "CD_Black", "CD_Red" };
+            string[] colorDyeProps4 = { "CD_Blue", "CD_Yellow", "CD_Purple", "CD_White", "CD_Black", "CD_Red", "CD_Green" };
+            string[] colorDyeProps5 = { "CD_Yellow", "CD_Purple", "CD_White", "CD_Black", "CD_Red", "CD_Green", "CD_Blue" };
+            string[] colorDyeProps6 = { "CD_Purple", "CD_White", "CD_Black", "CD_Red", "CD_Green", "CD_Blue", "CD_Yellow" };
+
+            // Define the item types
+            string[] itemTypesCode = { "weap", "tors", "helm", "shld" };
+            string[] colors = null;
+            string[] gems = null;
+            string[] colorDyeProps = null;
+            string colorDyePropsR = "";
+            int iscValue = 0;
+            int[] stateValue = null;
+            int stateRValue = 0;
+            string[] trackerValue = null;
+
+
+            // Add new rows for each item type
+            for (int i = 0; i < 32; i++)
+            {
+                
+                if (i == 0 || i == 8 || i == 16 || i == 24)
+                {
+                    colors = colors0;
+                    gems = gems0;
+                    colorDyeProps = colorDyeProps0;
+                    colorDyePropsR = "";
+                    iscValue = result;
+                    stateValue = stateValue0;
+                    trackerValue = trackerValue0;
+                }
+                else if (i == 1 || i == 9 || i == 17 || i == 25)
+                {
+                    colors = colors1;
+                    gems = gems1;
+                    colorDyeProps = colorDyeProps1;
+                    colorDyePropsR = "CD_White";
+                    iscValue = result + 1;
+                    stateValue = stateValue1;
+                    stateRValue = result2;
+                    trackerValue = trackerValue1;
+                }
+                else if (i == 2 || i == 10 || i == 18 || i == 26)
+                {
+                    colors = colors2;
+                    gems = gems2;
+                    colorDyeProps = colorDyeProps2;
+                    colorDyePropsR = "CD_Black";
+                    iscValue = result + 2;
+                    stateValue = stateValue2;
+                    stateRValue = result2 + 1;
+                    trackerValue = trackerValue2;
+                }
+                else if (i == 3 || i == 11 || i == 19 || i == 27)
+                {
+                    colors = colors3;
+                    gems = gems3;
+                    colorDyeProps = colorDyeProps3;
+                    colorDyePropsR = "CD_Red";
+                    iscValue = result + 3;
+                    stateValue = stateValue3;
+                    stateRValue = result2 + 2;
+                    trackerValue = trackerValue3;
+                }
+                else if (i == 4 || i == 12 || i == 20 || i == 28)
+                {
+                    colors = colors4;
+                    gems = gems4;
+                    colorDyeProps = colorDyeProps4;
+                    colorDyePropsR = "CD_Green";
+                    iscValue = result + 4;
+                    stateValue = stateValue4;
+                    stateRValue = result2 + 3;
+                    trackerValue = trackerValue4;
+                }
+                else if (i == 5 || i == 13 || i == 21 || i == 29)
+                {
+                    colors = colors5;
+                    gems = gems5;
+                    colorDyeProps = colorDyeProps5;
+                    colorDyePropsR = "CD_Blue";
+                    iscValue = result + 5;
+                    stateValue = stateValue5;
+                    stateRValue = result2 + 4;
+                    trackerValue = trackerValue5;
+                }
+                else if (i == 6 || i == 14 || i == 22 || i == 30)
+                {
+                    colors = colors6;
+                    gems = gems6;
+                    colorDyeProps = colorDyeProps6;
+                    colorDyePropsR = "CD_Yellow";
+                    iscValue = result + 6;
+                    stateValue = stateValue6;
+                    stateRValue = result2 + 5;
+                    trackerValue = trackerValue6;
+                }
+                else if (i == 7 || i == 15 || i == 23 || i == 31)
+                {
+                    colors = colors7;
+                    gems = gems0;
+                    colorDyeProps = colorDyeProps0;
+                    colorDyePropsR = "CD_Purple";
+                    iscValue = result + 7;
+                    stateValue = stateValue0;
+                    stateRValue = result2 + 6;
+                    trackerValue = trackerValue7;
+                }
+                else
+                {
+                    // Handle the case where i is out of range
+                }
+
+                for (int j = 0; j < colors.Length; j++)
+                {
+                    int maxIndex = Math.Max(descriptionIndex, Math.Max(enabledIndex, Math.Max(opIndex, Math.Max(paramIndex, Math.Max(valueIndex,
+                        Math.Max(inputsIndex, Math.Max(input1Index, Math.Max(input2Index, Math.Max(outputIndex,
+                        Math.Max(mod1Index, Math.Max(mod1minIndex, Math.Max(mod1maxIndex, Math.Max(mod2Index,
+                        Math.Max(mod2paramIndex, Math.Max(mod2minIndex, Math.Max(mod2maxIndex, Math.Max(mod3Index, Math.Max(mod3minIndex,
+                        Math.Max(mod3maxIndex, Math.Max(mod4Index, Math.Max(mod4minIndex, Math.Max(mod4maxIndex,
+                        Math.Max(mod5Index, Math.Max(mod5paramIndex, Math.Max(mod5minIndex, Math.Max(mod5maxIndex,eolIndex))))))))))))))))))))))))));
+
+                    string[] newRow = new string[maxIndex + 1];
+
+                    if (i == 0)
+                        newRow[descriptionIndex] = "Weapon - Normal -> " + colors[j];
+                    else if (i == 1)
+                        newRow[descriptionIndex] = "Weapon - White -> " + colors[j];
+                    else if (i == 2)
+                        newRow[descriptionIndex] = "Weapon - Black -> " + colors[j];
+                    else if (i == 3)
+                        newRow[descriptionIndex] = "Weapon - Red -> " + colors[j];
+                    else if (i == 4)
+                        newRow[descriptionIndex] = "Weapon - Green -> " + colors[j];
+                    else if (i == 5)
+                        newRow[descriptionIndex] = "Weapon - Blue -> " + colors[j];
+                    else if (i == 6)
+                        newRow[descriptionIndex] = "Weapon - Yellow -> " + colors[j];
+                    else if (i == 7)
+                        newRow[descriptionIndex] = "Weapon - Purple -> " + colors[j];
+                    else if (i == 8)
+                        newRow[descriptionIndex] = "Torso - Normal -> " + colors[j];
+                    else if (i == 9)
+                        newRow[descriptionIndex] = "Torso - White -> " + colors[j];
+                    else if (i == 10)
+                        newRow[descriptionIndex] = "Torso - Black -> " + colors[j];
+                    else if (i == 11)
+                        newRow[descriptionIndex] = "Torso - Red -> " + colors[j];
+                    else if (i == 12)
+                        newRow[descriptionIndex] = "Torso - Green -> " + colors[j];
+                    else if (i == 13)
+                        newRow[descriptionIndex] = "Torso - Blue -> " + colors[j];
+                    else if (i == 14)
+                        newRow[descriptionIndex] = "Torso - Yellow -> " + colors[j];
+                    else if (i == 15)
+                        newRow[descriptionIndex] = "Torso - Purple -> " + colors[j];
+                    else if (i == 16)
+                        newRow[descriptionIndex] = "Helm - Normal -> " + colors[j];
+                    else if (i == 17)
+                        newRow[descriptionIndex] = "Helm - White -> " + colors[j];
+                    else if (i == 18)
+                        newRow[descriptionIndex] = "Helm - Black -> " + colors[j];
+                    else if (i == 19)
+                        newRow[descriptionIndex] = "Helm - Red -> " + colors[j];
+                    else if (i == 20)
+                        newRow[descriptionIndex] = "Helm - Green -> " + colors[j];
+                    else if (i == 21)
+                        newRow[descriptionIndex] = "Helm - Blue -> " + colors[j];
+                    else if (i == 22)
+                        newRow[descriptionIndex] = "Helm - Yellow -> " + colors[j];
+                    else if (i == 23)
+                        newRow[descriptionIndex] = "Helm - Purple -> " + colors[j];
+                    else if (i == 24)
+                        newRow[descriptionIndex] = "Shield - Normal -> " + colors[j];
+                    else if (i == 25)
+                        newRow[descriptionIndex] = "Shield - White -> " + colors[j];
+                    else if (i == 26)
+                        newRow[descriptionIndex] = "Shield - Black -> " + colors[j];
+                    else if (i == 27)
+                        newRow[descriptionIndex] = "Shield - Red -> " + colors[j];
+                    else if (i == 28)
+                        newRow[descriptionIndex] = "Shield - Green -> " + colors[j];
+                    else if (i == 29)
+                        newRow[descriptionIndex] = "Shield - Blue -> " + colors[j];
+                    else if (i == 30)
+                        newRow[descriptionIndex] = "Shield - Yellow -> " + colors[j];
+                    else if (i == 31)
+                        newRow[descriptionIndex] = "Shield - Purple -> " + colors[j];
+
+                    newRow[enabledIndex] = "1";
+                    newRow[opIndex] = "18";
+                    newRow[paramIndex] = result.ToString();
+                    newRow[valueIndex] = (i%8).ToString();
+                    newRow[inputsIndex] = "4";
+                    newRow[input1Index] = (i < 8) ? "weap,any" : (i < 16) ? "tors,any" : (i < 24) ? "helm,any" : "shld,any";
+                    newRow[input2Index] = gems[j];
+                    newRow[outputIndex] = "useitem";
+                    newRow[mod1Index] = (i > 0 && (j % 7) == 6) ? "" : colorDyeProps[j];
+                    newRow[mod1minIndex] = (i > 0 && (j % 7) == 6) ? "" : "1";
+                    newRow[mod1maxIndex] = (i > 0 && (j % 7) == 6) ? "" : "1";
+                    newRow[mod2Index] = (i > 0 && (j % 7) == 6) ? "" : "state";
+                    newRow[mod2paramIndex] = (i > 0 && (j % 7) == 6) ? "" : (stateValue[j] + (7*(i/8))).ToString();
+                    newRow[mod2minIndex] = (i > 0 && (j % 7) == 6) ? "" : "1";
+                    newRow[mod2maxIndex] = (i > 0 && (j % 7) == 6) ? "" : "1";
+                    newRow[mod3Index] = "CD_Tracker";
+                    newRow[mod3minIndex] = trackerValue[j];
+                    newRow[mod3maxIndex] = trackerValue[j];
+                    newRow[mod4Index] = colorDyePropsR;
+                    newRow[mod4minIndex] = (i == 0) ? "" : "-1";
+                    newRow[mod4maxIndex] = (i == 0) ? "" : "-1";
+                    newRow[mod5Index] = (i == 0) ? "" : "state";
+                    newRow[mod5paramIndex] = (i == 0) ? "" : (i > 0 && (i % 8) == 0) ? "" : ((7 * (i / 8)) + (result2 + (i % 8))-1).ToString();
+                    newRow[mod5minIndex] = (i == 0) ? "" : "-1";
+                    newRow[mod5maxIndex] = (i == 0) ? "" : "-1";
+                    newRow[eolIndex] = "0";
+
+                    dataRows.Add(newRow);
+                }
+            }
+
+
+            // Write back to the file
+            using (StreamWriter writer = new StreamWriter(cubePath, append: false))
+            {
+                foreach (var line in lines)
+                {
+                    writer.WriteLine(line);
+                }
+
+                // Append the new rows to the file
+                foreach (var row in dataRows)
+                {
+                    writer.WriteLine(string.Join("\t", row));
+                }
+            }
+            //await DyesCube_Torso();
+        }
+
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+    }
+
+    private int SearchItemID(string filePath, string searchTerm)
+    {
+        int result = -1; // Default result if entry not found
+        int statColumnIndex = -1; // Index of the "Stat" column
+        int idColumnIndex = -1; // Index of the "*ID" column
+
+        try
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                // Read the header row to determine column indexes
+                string[] headers = reader.ReadLine().Split('\t');
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    if (headers[i] == "Stat")
+                        statColumnIndex = i;
+                    else if (headers[i] == "*ID")
+                        idColumnIndex = i;
+                }
+
+                if (statColumnIndex == -1 || idColumnIndex == -1)
+                {
+                    MessageBox.Show("Column headers not found in the file.");
+                    return result;
+                }
+
+                // Search for the desired entry
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] columns = line.Split('\t');
+                    if (columns.Length > statColumnIndex && columns[statColumnIndex] == searchTerm)
+                    {
+                        if (int.TryParse(columns[idColumnIndex], out result))
+                            return result; // Return the *ID as an integer
+                        else
+                        {
+                            MessageBox.Show("Unable to parse *ID as an integer.");
+                            return -1; // Return -1 indicating failure
+                        }
+                    }
+                }
+
+                MessageBox.Show($"No entry with '{searchTerm}' found in the Stat column.");
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+
+        return result;
+    }
+
+    private int SearchStateID(string filePath, string searchTerm)
+    {
+        int result2 = -1; // Default result if entry not found
+        int stateColumnIndex = -1; // Index of the "Stat" column
+        int idColumnIndex = -1; // Index of the "*ID" column
+
+        try
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                // Read the header row to determine column indexes
+                string[] headers = reader.ReadLine().Split('\t');
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    if (headers[i] == "state")
+                        stateColumnIndex = i;
+                    else if (headers[i] == "*ID")
+                        idColumnIndex = i;
+                }
+
+                if (stateColumnIndex == -1 || idColumnIndex == -1)
+                {
+                    MessageBox.Show("Column headers not found in the file.");
+                    return result2;
+                }
+
+                // Search for the desired entry
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] columns = line.Split('\t');
+                    if (columns.Length > stateColumnIndex && columns[stateColumnIndex] == searchTerm)
+                    {
+                        if (int.TryParse(columns[idColumnIndex], out result2))
+                            return result2; // Return the *ID as an integer
+                        else
+                        {
+                            MessageBox.Show("Unable to parse *ID as an integer.");
+                            return -1; // Return -1 indicating failure
+                        }
+                    }
+                }
+
+                MessageBox.Show($"No entry with '{searchTerm}' found in the Stat column.");
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+
+        return result2;
     }
 
     private async Task ConfigureItemIcons() //Item Display (Item/Rune Icons)

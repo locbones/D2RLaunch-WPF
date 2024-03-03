@@ -49,7 +49,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.0.9";
+    private string appVersion = "2.1.0";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -1809,7 +1809,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             case eMonsterStats.Disabled:
                 {
-                    if (File.Exists(hudMonsterHealthHdJsonFilePath))
+                    if (File.Exists(hudMonsterHealthHdJsonFilePath) && UserSettings.MonHPBar == false)
                         File.Move(hudMonsterHealthHdJsonFilePath, hudMonsterHealthHdDisabledJsonFilePath, true);
 
                     break;
@@ -1817,6 +1817,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eMonsterStats.Background:
                 {
                     string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+
+                    if (!File.Exists(hudMonsterHealthHdDisabledJsonFilePath) && !File.Exists(hudMonsterHealthHdJsonFilePath))
+                        Helper.ExtractFileFromCasc(GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", SelectedModDataFolder, "data:data");
 
                     if (content.Contains("HB_L_Blank"))
                     {
@@ -1833,6 +1836,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             case eMonsterStats.NoBackground:
                 {
                     string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+
+                    if (!File.Exists(hudMonsterHealthHdDisabledJsonFilePath) && !File.Exists(hudMonsterHealthHdJsonFilePath))
+                        Helper.ExtractFileFromCasc(GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", SelectedModDataFolder, "data:data");
 
                     if (content.Contains("HB_L"))
                     {

@@ -562,6 +562,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     string searchString = "";
                     int rowsToDelete = 0;
 
+                    if (ModInfo.Name == "ReMoDDeD")
+                        return;
+
                     if (File.Exists(Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost.txt"))))
                     {
                         filePath = Path.Combine(Path.Combine(SelectedModDataFolder, "global/excel/itemstatcost.txt"));

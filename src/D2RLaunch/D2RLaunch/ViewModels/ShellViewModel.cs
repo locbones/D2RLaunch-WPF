@@ -49,7 +49,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.1.0";
+    private string appVersion = "2.1.2";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -1782,7 +1782,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         if (!Directory.Exists(monsterStatsPath))
             Directory.CreateDirectory(monsterStatsPath);
 
-        if (!File.Exists(hudMonsterHealthHdJsonFilePath))
+        if (!File.Exists(hudMonsterHealthHdJsonFilePath) && !File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
             await File.WriteAllBytesAsync(hudMonsterHealthHdJsonFilePath, await Helper.GetResourceByteArray("Options.MonsterStats.hudmonsterhealthhd.json"));
 
         switch (monsterStatsDisplay)
@@ -1812,27 +1812,35 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     if (File.Exists(hudMonsterHealthHdJsonFilePath) && UserSettings.MonHPBar == false)
                         File.Move(hudMonsterHealthHdJsonFilePath, hudMonsterHealthHdDisabledJsonFilePath, true);
 
-                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-
-                    if (content.Contains("HB_L"))
+                    if (File.Exists(hudMonsterHealthHdJsonFilePath))
                     {
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content.Replace("HB_L\"", "HB_L_Blank\""));
-                        string content2 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content2.Replace("HB_M\"", "HB_M_Blank\""));
-                        string content3 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content3.Replace("HB_R\"", "HB_R_Blank\""));
-                        string content4 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content4.Replace("HB_A\"", "HB_A_Blank\""));
+                        string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+
+                        if (content.Contains("HB_L"))
+                        {
+                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content.Replace("HB_L\"", "HB_L_Blank\""));
+                            string content2 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content2.Replace("HB_M\"", "HB_M_Blank\""));
+                            string content3 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content3.Replace("HB_R\"", "HB_R_Blank\""));
+                            string content4 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content4.Replace("HB_A\"", "HB_A_Blank\""));
+                        }
                     }
 
                     break;
                 }
             case eMonsterStats.Background:
                 {
-                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                    
+
+                    if (File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
+                        File.Move(hudMonsterHealthHdDisabledJsonFilePath, hudMonsterHealthHdJsonFilePath, true);
 
                     if (!File.Exists(hudMonsterHealthHdDisabledJsonFilePath) && !File.Exists(hudMonsterHealthHdJsonFilePath))
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", SelectedModDataFolder, "data:data");
+
+                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
 
                     if (content.Contains("HB_L_Blank"))
                     {
@@ -1848,10 +1856,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 }
             case eMonsterStats.NoBackground:
                 {
-                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                    
+
+                    if (File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
+                        File.Move(hudMonsterHealthHdDisabledJsonFilePath, hudMonsterHealthHdJsonFilePath, true);
 
                     if (!File.Exists(hudMonsterHealthHdDisabledJsonFilePath) && !File.Exists(hudMonsterHealthHdJsonFilePath))
                         Helper.ExtractFileFromCasc(GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", SelectedModDataFolder, "data:data");
+
+                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
 
                     if (content.Contains("HB_L"))
                     {

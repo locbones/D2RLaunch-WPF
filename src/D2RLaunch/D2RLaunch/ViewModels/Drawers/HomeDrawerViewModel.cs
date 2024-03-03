@@ -732,10 +732,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
         if (ShellViewModel.UserSettings.MonHPBar == true)
         {
-            if (File.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "/global/ui/layouts/hudmonsterhealthhd_disabled.json")))
-                File.Move(ShellViewModel.SelectedModDataFolder + "global/ui/layouts/hudmonsterhealthhd_disabled.json", ShellViewModel.SelectedModDataFolder + "global/ui/layouts/hudmonsterhealthhd.json", true);
-            if (!File.Exists(JsonPath))
+            if (File.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/hudmonsterhealthhd_disabled.json")))
+                File.Move(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd_disabled.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
+            if (!File.Exists(JsonPath) && !File.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd_disabled.json"))
+            {
                 Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", ShellViewModel.SelectedModDataFolder, "data:data");
+            }
+                
             
 
             // Find normal color entry by matching it via regex 
@@ -747,7 +750,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             if (match.Success)
             {
                 // Update the normal color values
-                string updatedEntry = $"\"normalColor\": {{ \"r\": {0.141}, \"g\": {0.58}, \"b\": {0.0} }},";
+                string updatedEntry = $"\"normalColor\": {{ \"r\": {0.141.ToString("0.###", CultureInfo.InvariantCulture)}, \"g\": {0.58.ToString("0.###", CultureInfo.InvariantCulture)}, \"b\": {0.0.ToString("0.###", CultureInfo.InvariantCulture)} }},";
                 fileContents = fileContents.Remove(match.Index, match.Length).Insert(match.Index, updatedEntry);
 
                 // Add new strings to control dynamic colors
@@ -827,7 +830,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 if (match.Success)
                 {
                     // Update the normal color values
-                    string updatedEntry = $"\"normalColor\": {{ \"r\": {0.31}, \"g\": {0.0}, \"b\": {0.0} }},";
+                    string updatedEntry = $"\"normalColor\": {{ \"r\": {0.31.ToString("0.###", CultureInfo.InvariantCulture)}, \"g\": {0.0.ToString("0.###", CultureInfo.InvariantCulture)}, \"b\": {0.0.ToString("0.###", CultureInfo.InvariantCulture)} }},";
                     fileContents = fileContents.Remove(match.Index, match.Length).Insert(match.Index, updatedEntry);
 
                     // Check if criticalHealthPercent already exists and update the value

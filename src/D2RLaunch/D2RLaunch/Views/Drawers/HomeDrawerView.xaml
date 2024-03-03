@@ -159,12 +159,13 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <Label
                             Grid.Row="0"
                             Content="{Binding Path=TextLang, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" />
+                            Style="{StaticResource LabelHeaderStyle}" Margin="5,-5,5,0" />
                         <ComboBox
                             Grid.Row="1"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnTextLanguageSelectionChanged];"
@@ -178,7 +179,7 @@
                         <Label
                             Grid.Row="2"
                             Content="{Binding Path=AudioLang, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" />
+                            Style="{StaticResource LabelHeaderStyle}" Margin="5,0,5,0" />
                         <ComboBox
                             Grid.Row="3"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnAudioLanguageSelectionChanged];"
@@ -187,12 +188,12 @@
                             ItemsSource="{Binding Languages}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.AudioLanguage}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" />
+                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
 
                         <Label
                             Grid.Row="4"
                             Content="{Binding Path=AppLang, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" />
+                            Style="{StaticResource LabelHeaderStyle}" Margin="5,0,5,0" />
                         <ComboBox
                             Grid.Row="5"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnAppLanguageSelectionChanged];"
@@ -201,7 +202,21 @@
                             ItemsSource="{Binding Languages}"
                             SelectedItem="{Binding SelectedAppLanguage}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" />
+                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
+                        <Label
+                            Grid.Row="6"
+                            Content="{Binding Path=UI, Source={StaticResource Resources}}"
+                            Style="{StaticResource LabelHeaderStyle}" Margin="5,0,5,0" />
+                        <ComboBox
+                            Grid.Row="7"
+                            cm:Message.Attach="[Event SelectionChanged] = [Action OnUIThemeSelectionChanged];"
+                            Background="#FF313030"
+                            DisplayMemberPath="Key"
+                            IsEnabled="{Binding UiThemeEnabled}"
+                            ItemsSource="{Binding UiThemes}"
+                            SelectedIndex="{Binding ShellViewModel.UserSettings.UiTheme}"
+                            SelectedValuePath="Value"
+                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
                     </Grid>
 
                     <Grid
@@ -266,21 +281,21 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <syncfusion:ButtonAdv
                             Grid.Row="0"
                             Width="36"
                             Height="36"
-                            HorizontalAlignment="Left"
                             cm:Message.Attach="[Event Click] = [Action OnMapsHelp];"
                             Background="Transparent"
                             IconTemplate="{StaticResource QuestionMarkIconTemplate}"
-                            Style="{StaticResource SfButtonAdvSmallStyle}" />
+                            Style="{StaticResource SfButtonAdvSmallStyle}" Margin="120,-10,5,5" />
                         <Label
                             Grid.Row="0"
                             Content="{Binding Path=Maps, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" />
+                            Style="{StaticResource LabelHeaderStyle}" Margin="5,-15,5,0" />
                         <ComboBox
                             Grid.Row="1"
                             VerticalAlignment="Center"
@@ -292,34 +307,18 @@
                             SelectedIndex="{Binding ShellViewModel.UserSettings.MapLayout}"
                             SelectedValuePath="Value"
                             Style="{StaticResource ComboBoxStyle}" />
-
-                        <Label
-                            Grid.Row="2"
-                            Content="{Binding Path=UI, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" />
-                        <ComboBox
-                            Grid.Row="3"
-                            cm:Message.Attach="[Event SelectionChanged] = [Action OnUIThemeSelectionChanged];"
-                            Background="#FF313030"
-                            DisplayMemberPath="Key"
-                            IsEnabled="{Binding UiThemeEnabled}"
-                            ItemsSource="{Binding UiThemes}"
-                            SelectedIndex="{Binding ShellViewModel.UserSettings.UiTheme}"
-                            SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" />
-
                         <CheckBox
                             Grid.Row="4"
                             HorizontalAlignment="Left"
                             Content="{Binding Path=HDR, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.HdrFix}"
-                            Style="{StaticResource CheckBoxStyle}" />
+                            Style="{StaticResource CheckBoxStyle}" Margin="5,10,5,5" />
                         <CheckBox
-                            Grid.Row="4"
-                            HorizontalAlignment="Right"
+                            Grid.Row="7"
+                            HorizontalAlignment="Left"
                             Content="Dynamic HP Bar"
                             IsChecked="{Binding ShellViewModel.UserSettings.MonHPBar}"
-                            Style="{StaticResource CheckBoxStyle}" Visibility="Hidden" />
+                            Style="{StaticResource CheckBoxStyle}" />
                         <CheckBox
                             Grid.Row="5"
                             HorizontalAlignment="Left"

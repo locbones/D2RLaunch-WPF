@@ -733,7 +733,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         if (ShellViewModel.UserSettings.MonHPBar == true)
         {
             if (File.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "/global/ui/layouts/hudmonsterhealthhd_disabled.json")))
-                File.Move(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd_disabled.json", ShellViewModel.SelectedModDataFolder + "global/ui/layouts/hudmonsterhealthhd.json", true);
+                File.Move(ShellViewModel.SelectedModDataFolder + "global/ui/layouts/hudmonsterhealthhd_disabled.json", ShellViewModel.SelectedModDataFolder + "global/ui/layouts/hudmonsterhealthhd.json", true);
             if (!File.Exists(JsonPath))
                 Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", ShellViewModel.SelectedModDataFolder, "data:data");
             

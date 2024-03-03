@@ -1812,6 +1812,19 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     if (File.Exists(hudMonsterHealthHdJsonFilePath) && UserSettings.MonHPBar == false)
                         File.Move(hudMonsterHealthHdJsonFilePath, hudMonsterHealthHdDisabledJsonFilePath, true);
 
+                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+
+                    if (content.Contains("HB_L"))
+                    {
+                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content.Replace("HB_L\"", "HB_L_Blank\""));
+                        string content2 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content2.Replace("HB_M\"", "HB_M_Blank\""));
+                        string content3 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content3.Replace("HB_R\"", "HB_R_Blank\""));
+                        string content4 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content4.Replace("HB_A\"", "HB_A_Blank\""));
+                    }
+
                     break;
                 }
             case eMonsterStats.Background:

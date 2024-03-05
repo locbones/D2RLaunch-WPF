@@ -99,7 +99,11 @@ namespace D2RLaunch.ViewModels.Dialogs
                 File.Copy(openFileDialog.FileName, Path.Combine(ShellViewModel.SaveFilesFilePath, $"{SelectedCharacter}.d2s"), true);
 
             if (Directory.Exists(stashPath))
+            {
                 File.Copy(Path.Combine(stashPath, "SharedStashSoftCoreV2.d2i"), Path.Combine(ShellViewModel.SaveFilesFilePath, "SharedStashSoftCoreV2.d2i"), true);
+                File.Copy(Path.Combine(stashPath, "SharedStashHardCoreV2.d2i"), Path.Combine(ShellViewModel.SaveFilesFilePath, "SharedStashHardCoreV2.d2i"), true);
+            }
+
 
             System.Windows.MessageBox.Show($"{SelectedCharacter} Restored!", "Restore Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             await TryCloseAsync();

@@ -49,7 +49,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.1.2";
+    private string appVersion = "2.1.4";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -550,6 +550,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         }
     }
 
+    #region ---Color Dyes---
     private async Task ConfigureColorDyes() //Enable or Disable Color Dye System
     {
         eEnabledDisabled ColorDyes = (eEnabledDisabled)UserSettings.ColorDye;
@@ -1696,6 +1697,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             MessageBox.Show("An error occurred: " + ex.Message);
         }
     }
+    #endregion
 
     private async Task ConfigureItemIcons() //Item Display (Item/Rune Icons)
     {
@@ -2594,7 +2596,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 }
             }
         }
-
     }
 
     private void CreateSuperTKSkill()
@@ -2694,18 +2695,20 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             return;
         }
 
-        if ((eBackup) UserSettings.AutoBackups == eBackup.Disabled)
-        {
-            _autoBackupDispatcherTimer = null;
-            return;
-        }
+        _autoBackupDispatcherTimer?.Stop();
 
-        _autoBackupDispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-        _autoBackupDispatcherTimer.Tick += async (sender, args) =>
-                                           {
-                                               _logger.Info("Auto backup timer ticked.");
-                                               await BackupRecentCharacter();
-                                           };
+        if ((eBackup)UserSettings.AutoBackups == eBackup.Disabled)
+            return;
+
+        if (_autoBackupDispatcherTimer == null)
+        {
+            _autoBackupDispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            _autoBackupDispatcherTimer.Tick += async (sender, args) =>
+            {
+                _logger.Info("Auto backup timer ticked.");
+                await BackupRecentCharacter();
+            };
+        }
 
         //Auto-Backup Timer Intervals
         switch ((eBackup)UserSettings.AutoBackups)
@@ -2773,13 +2776,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 File.Copy(mostRecentCharacterFile.FullName, Path.Combine(mostRecentCharacterBackupFolder, mostRecentCharacterFile.Name + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2s"), true);
 
                 // Backup Stash
-                string mostRecentStashFile = Path.Combine(ActualSaveFilePath, "SharedStashSoftCoreV2.d2i");
+                string mostRecentStashFileSC = Path.Combine(ActualSaveFilePath, "SharedStashSoftCoreV2.d2i");
+                string mostRecentStashFileHC = Path.Combine(ActualSaveFilePath, "SharedStashHardCoreV2.d2i");
                 string stashBackupFolder = Path.Combine(ActualBackupFolder, "Stash");
 
                 if (!Directory.Exists(stashBackupFolder))
                     Directory.CreateDirectory(stashBackupFolder);
 
-                File.Copy(mostRecentStashFile, Path.Combine(stashBackupFolder, "SharedStashSoftCoreV2" + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2i"), true);
+                File.Copy(mostRecentStashFileSC, Path.Combine(stashBackupFolder, "SharedStashSoftCoreV2" + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2i"), true);
+                File.Copy(mostRecentStashFileHC, Path.Combine(stashBackupFolder, "SharedStashHardCoreV2" + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2i"), true);
             }
         }
         catch (Exception ex)
@@ -2800,9 +2805,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         string installLocation = gameKey?.GetValue("InstallLocation")?.ToString();
 
         if (installLocation != null)
-        {
             return installLocation;
-        }
 
         //Perform an exhaustive search of D2R.exe in Secondary Blizzard path location entry
         using RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);

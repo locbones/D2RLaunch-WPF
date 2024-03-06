@@ -9,7 +9,7 @@ namespace D2RLaunch.Models.Enums
 {
     public enum eSkillIconPack
     {
-        [Display(Name = "Disabled")]
+        [Display(Name = "Retail")]
         Disabled,
         [Display(Name = "ReMoDDeD")]
         ReMoDDeD,

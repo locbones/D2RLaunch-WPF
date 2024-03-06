@@ -378,6 +378,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             }
             File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryoriginallayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryoriginallayouthd.json", true);
             File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryexpansionlayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryexpansionlayouthd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilehd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilelv.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilelv.json", true);
         }
         else
         {
@@ -455,6 +457,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             }
             File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankoriginallayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankoriginallayouthd.json", true);
             File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankexpansionlayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankexpansionlayouthd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilehd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilelv.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilelv.json", true);
         }
         else
         {
@@ -845,7 +849,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
         if (!Directory.Exists(extractPath))
         {
-            if (MessageBox.Show("You don't have the required files for this feature!\nWould you like to download and extract them now?\n\n(It will download in the background and display when it's complete)", "Missing Files!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("You don't have the required files for this feature!\nWould you like to download and extract them now?\n(It will download in the background and display when it's complete)\n\nPLEASE NOTE: For first-time use, please toggle the option off then on to correctly enable.", "Missing Files!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 using (WebClient client = new WebClient())
                 {
@@ -857,6 +861,10 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
                             {
                                 ZipFile.ExtractToDirectory(savePath, extractPath);
                                 MessageBox.Show("Expanded Storage setup successfully!\nYou may now toggle your desired options.");
+
+
+
+
                             }
                             else
                                 MessageBox.Show($"An error occurred during download: {e.Error.Message}");

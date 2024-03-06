@@ -38,6 +38,7 @@ using System.Net;
 using System.Net.Http;
 using System.Resources;
 using WinForms = System.Windows.Forms;
+using System.Windows.Controls.Primitives;
 
 namespace D2RLaunch.ViewModels;
 
@@ -49,7 +50,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.1.4";
+    private string appVersion = "2.1.5";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -1717,7 +1718,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 }
             case eItemDisplay.ItemRuneIcons:
                 {
-                    if (!Directory.Exists(SelectedModDataFolder + "hd/ui/fonts"))
+                    if (!Directory.Exists(SelectedModDataFolder + "/hd/ui/fonts"))
                     {
                         string fontsFolder = Path.Combine(SelectedModDataFolder, "hd/ui/fonts");
                         byte[] font = await Helper.GetResourceByteArray($"Fonts.{UserSettings.Font}.otf");

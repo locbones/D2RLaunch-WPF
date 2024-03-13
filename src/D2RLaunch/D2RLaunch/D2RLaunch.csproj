@@ -109,6 +109,7 @@
     <None Remove="Resources\Icons\Icon_Speed.png" />
     <None Remove="Resources\Icons\Icon_Time.png" />
     <None Remove="Resources\Icons\Icon_Vault.png" />
+    <None Remove="Resources\Images\D2RLaunch_ColorDyePreview.png" />
     <None Remove="Resources\Images\D2RL_Logo.png" />
     <None Remove="Resources\Images\StashSettingsBackground.png" />
     <None Remove="Resources\modinfo_blank.json" />
@@ -260,6 +261,7 @@
     <EmbeddedResource Include="Resources\Fonts\9.otf" />
     <EmbeddedResource Include="Resources\Fonts\9.png" />
     <EmbeddedResource Include="Resources\Fonts\0.png" />
+    <Resource Include="Resources\Preview\D2RLaunch_ColorDyePreview.png" />
     <EmbeddedResource Include="Resources\modinfo_blank.json" />
     <EmbeddedResource Include="Resources\Options\D2RL_SkillIcons.zip" />
     <EmbeddedResource Include="Resources\Options\HideHelmets\hide_helmets.json" />

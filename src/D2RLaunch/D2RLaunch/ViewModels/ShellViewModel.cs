@@ -50,7 +50,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.1.5";
+    private string appVersion = "2.1.8";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -845,19 +845,19 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             {
                 id = 48002,
                 Key = "ModCDRed",
-                deDE = "ÿc4Farbe gefärbt: ÿc7Rot",
-                enUS = "ÿc4Color Dyed: ÿc7Red",
-                esES = "ÿc4Color teñido: ÿc7Rojo",
-                esMX = "ÿc4Color teñido: ÿc7Rojo",
-                frFR = "ÿc4Color Teint : ÿc7Red",
-                itIT = "ÿc4Colore tinto: ÿc7Rosso",
-                jaJP = "ÿc4色染め: ÿc7レッド",
-                koKR = "ÿc4색상 염색: ÿc7Red",
-                plPL = "ÿc4Color Barwiony: ÿc7Red",
-                ptBR = "ÿc4Cor tingida: ÿc7Vermelho",
-                ruRU = "Окрашенный цвет ÿc4: ÿc7Red",
-                zhCN = "ÿc4Color 染色：ÿc7Red",
-                zhTW = "ÿc4Color 染色：ÿc7Red"
+                deDE = "ÿc4Farbe gefärbt: ÿc1Rot",
+                enUS = "ÿc4Color Dyed: ÿc1Red",
+                esES = "ÿc4Color teñido: ÿc1Rojo",
+                esMX = "ÿc4Color teñido: ÿc1Rojo",
+                frFR = "ÿc4Color Teint : ÿc1Red",
+                itIT = "ÿc4Colore tinto: ÿc1Rosso",
+                jaJP = "ÿc4色染め: ÿc1レッド",
+                koKR = "ÿc4색상 염색: ÿc1Red",
+                plPL = "ÿc4Color Barwiony: ÿc1Red",
+                ptBR = "ÿc4Cor tingida: ÿc1Vermelho",
+                ruRU = "Окрашенный цвет ÿc4: ÿc1Red",
+                zhCN = "ÿc4Color 染色：ÿc1Red",
+                zhTW = "ÿc4Color 染色：ÿc1Red"
             });
 
             entries.Add(new Entry
@@ -1288,6 +1288,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             string[] gems4 = { "gpy,qty=3", "gpv,qty=3", "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "yps,qty=3" };
             string[] gems5 = { "gpv,qty=3", "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "yps,qty=3" };
             string[] gems6 = { "gpv,qty=3", "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "yps,qty=3" };
+            string[] gems7 = { "gpw,qty=3", "skz,qty=3", "gpr,qty=3", "gpg,qty=3", "gpb,qty=3", "gpy,qty=3", "yps,qty=3" };
             string[] value = { "1", "2", "3", "4", "5", "6", "7" };
             string[] trackerValue0 = { "1", "2", "3", "4", "5", "6", "7" };
             string[] trackerValue1 = { "1", "2", "3", "4", "5", "6", "-1" };
@@ -1407,7 +1408,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 else if (i == 7 || i == 15 || i == 23 || i == 31)
                 {
                     colors = colors7;
-                    gems = gems0;
+                    gems = gems7;
                     colorDyeProps = colorDyeProps0;
                     colorDyePropsR = "CD_Purple";
                     iscValue = result + 7;

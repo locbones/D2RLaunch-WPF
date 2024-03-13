@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     private bool _showFontPreview;
     private ImageSource _fontImage;
     private ObservableCollection<KeyValuePair<string, eFont>> _fonts = new();
-    private ObservableCollection<KeyValuePair<string, eBackup>> _backupsSettings = new ();
+    private ObservableCollection<KeyValuePair<string, eBackup>> _backupsSettings = new();
     private ObservableCollection<KeyValuePair<string, eEnabledDisabled>> _enabledDisabledOptions = new();
     private ObservableCollection<KeyValuePair<string, eSkillIconPack>> _skillIconPacks = new();
     private ObservableCollection<KeyValuePair<string, eMercIdentifier>> _mercIdentifiers = new();
@@ -255,7 +256,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     [UsedImplicitly]
     public async void OnColorDyePreview()
     {
-        await ShowPreviewImage("Preview_SuperTK.gif", "Color Dyes Preview");
+        await ShowPreviewImage("D2RLaunch_ColorDyePreview.png", "Color Dyes Preview");
     }
 
     [UsedImplicitly]
@@ -291,6 +292,16 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     [UsedImplicitly]
     public async void OnSkillBuffIconsSettings()
     {
+        /*
+        string templateFileName = "MyBuffTemplates.txt";
+
+        if (!File.Exists(templateFileName))
+        {
+            File.Create("MyBuffTemplates.txt").Close();
+            File.WriteAllText("MyBuffTemplates.txt", "Amazon: 0,0,0,0,0,0,0,0,0,0,0,0\r\nAssassin: 3,8,14,9,17,21,6,13,22,0,0,0\r\nBarbarian: 1,2,19,0,0,0,0,0,0,0,0,0\r\nDruid: 10,0,0,0,0,0,0,0,0,0,0,0\r\nNecromancer: 5,0,0,0,0,0,0,0,0,0,0,0\r\nPaladin: 16,0,0,0,0,0,0,0,0,0,0,0\r\nSorceress: 4,7,11,12,15,18,20,0,0,0,0,0");
+        }
+        */
+
         dynamic options = new ExpandoObject();
         options.ResizeMode = ResizeMode.NoResize;
         options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -364,6 +375,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/inventory"; // Path of the destination directory
         string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/inventorypanel"; // Path of the source directory
         string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/inventorypanel"; // Path of the destination directory
+        string PanelDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Panels"; // Path of the source directory
+        string PanelDestDir = ShellViewModel.SelectedModDataFolder + "/global/ui/layouts";
 
         if (!ShellViewModel.UserSettings.ExpandedInventory)
         {
@@ -371,25 +384,31 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             {
                 CopyDirectory(KBMDir, KBMDestDir);
                 CopyDirectory(ContDir, ContDestDir);
+                CopyDirectory(PanelDir, PanelDestDir);
+
+                File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryoriginallayouthd_expanded.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryoriginallayouthd.json", true);
+                File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryexpansionlayouthd_expanded.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryexpansionlayouthd.json", true);
+                if (!File.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json"))
+                {
+                    File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilehd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json", true);
+                    File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilelv.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilelv.json", true);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryoriginallayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryoriginallayouthd.json", true);
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryexpansionlayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryexpansionlayouthd.json", true);
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilehd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json", true);
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilelv.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilelv.json", true);
         }
         else
         {
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryoriginallayouthd_retailish.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryoriginallayouthd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Inventory/playerinventoryexpansionlayouthd_retailish.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryexpansionlayouthd.json", true);
+
             if (Directory.Exists(KBMDestDir))
             {
-                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryoriginallayouthd.json");
-                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/playerinventoryexpansionlayouthd.json");
                 Directory.Delete(ContDestDir, true);
                 Directory.Delete(KBMDestDir, true);
-            } 
+            }
         }
     }
 
@@ -443,6 +462,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/stash"; // Path of the destination directory
         string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/stashc"; // Path of the source directory
         string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/stash"; // Path of the destination directory
+        string PanelDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Panels"; // Path of the source directory
+        string PanelDestDir = ShellViewModel.SelectedModDataFolder + "/global/ui/layouts";
 
         if (!ShellViewModel.UserSettings.ExpandedStash)
         {
@@ -450,22 +471,29 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             {
                 CopyDirectory(KBMDir, KBMDestDir);
                 CopyDirectory(ContDir, ContDestDir);
+                CopyDirectory(PanelDir, PanelDestDir);
+
+                File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankoriginallayouthd_expanded.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankoriginallayouthd.json", true);
+                File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankexpansionlayouthd_expanded.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankexpansionlayouthd.json", true);
+
+                if (!File.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json"))
+                {
+                    File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilehd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json", true);
+                    File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilelv.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilelv.json", true);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankoriginallayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankoriginallayouthd.json", true);
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankexpansionlayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankexpansionlayouthd.json", true);
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilehd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilehd.json", true);
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/_profilelv.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/_profilelv.json", true);
         }
         else
         {
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankoriginallayouthd_retailish.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankoriginallayouthd.json", true);
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Stash/bankexpansionlayouthd_retailish.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankexpansionlayouthd.json", true);
+
             if (Directory.Exists(KBMDestDir))
             {
-                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankoriginallayouthd.json");
-                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/bankexpansionlayouthd.json");
                 Directory.Delete(ContDestDir, true);
                 Directory.Delete(KBMDestDir, true);
             }
@@ -522,6 +550,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/horadric_cube"; // Path of the destination directory
         string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadriccube"; // Path of the source directory
         string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/horadriccube"; // Path of the destination directory
+        string PanelDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Panels"; // Path of the source directory
+        string PanelDestDir = ShellViewModel.SelectedModDataFolder + "/global/ui/layouts";
 
         if (!ShellViewModel.UserSettings.ExpandedCube)
         {
@@ -529,18 +559,20 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             {
                 CopyDirectory(KBMDir, KBMDestDir);
                 CopyDirectory(ContDir, ContDestDir);
+                CopyDirectory(PanelDir, PanelDestDir);
+                File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadriccubelayouthd_expanded.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/horadriccubelayouthd.json", true);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadriccubelayouthd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/horadriccubelayouthd.json", true);
         }
         else
         {
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Cube/horadriccubelayouthd_retailish.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/horadriccubelayouthd.json", true);
+
             if (Directory.Exists(KBMDestDir))
             {
-                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/horadriccubelayouthd.json");
                 Directory.Delete(ContDestDir, true);
                 Directory.Delete(KBMDestDir, true);
             }
@@ -607,6 +639,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         string KBMDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/hireling"; // Path of the destination directory
         string ContDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hirelinginventory"; // Path of the source directory
         string ContDestDir = ShellViewModel.SelectedModDataFolder + "/hd/global/ui/controller/panel/hirelinginventory"; // Path of the destination directory
+        string PanelDir = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Panels"; // Path of the source directory
+        string PanelDestDir = ShellViewModel.SelectedModDataFolder + "/global/ui/layouts";
 
         if (!ShellViewModel.UserSettings.ExpandedMerc)
         {
@@ -614,18 +648,20 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             {
                 CopyDirectory(KBMDir, KBMDestDir);
                 CopyDirectory(ContDir, ContDestDir);
+                CopyDirectory(PanelDir, PanelDestDir);
+                File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hirelinginventorypanelhd_expanded.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hirelinginventorypanelhd.json", true);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hirelinginventorypanelhd.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hirelinginventorypanelhd.json", true);
         }
         else
         {
+            File.Copy(ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/Merc/hirelinginventorypanelhd_retailish.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hirelinginventorypanelhd.json", true);
+
             if (Directory.Exists(KBMDestDir))
             {
-                File.Delete(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hirelinginventorypanelhd.json");
                 Directory.Delete(ContDestDir, true);
                 Directory.Delete(KBMDestDir, true);
             }
@@ -687,16 +723,16 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
     private async Task UpdateFontPreview()
     {
-       await Execute.OnUIThreadAsync(async () =>
-                                     {
-                                         BitmapImage biImg = new BitmapImage();
-                                         byte[] image = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.png");
-                                         MemoryStream ms = new MemoryStream(image);
-                                         biImg.BeginInit();
-                                         biImg.StreamSource = ms;
-                                         biImg.EndInit();
-                                         FontImage = biImg;
-                                     });
+        await Execute.OnUIThreadAsync(async () =>
+        {
+            BitmapImage biImg = new BitmapImage();
+            byte[] image = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.png");
+            MemoryStream ms = new MemoryStream(image);
+            biImg.BeginInit();
+            biImg.StreamSource = ms;
+            biImg.EndInit();
+            FontImage = biImg;
+        });
 
     }
 
@@ -709,7 +745,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
 
         if (await _windowManager.ShowDialogAsync(vm, null, options))
-        {  
+        {
         }
     }
 
@@ -829,7 +865,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         {
             string fileName = Path.GetFileName(file);
             string destinationFile = Path.Combine(destinationDir, fileName);
-            File.Copy(file, destinationFile);
+            File.Copy(file, destinationFile, true);
         }
 
         // Recursively copy each subdirectory

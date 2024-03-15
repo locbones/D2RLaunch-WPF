@@ -263,7 +263,7 @@ public class CASCExtractorViewModel : Screen
 
                                               // Update progress bar
                                               DownloadProgress = (int) ((totalSizeGB / 40.41) * 100);
-                                              DownloadProgressString = Math.Round(DownloadProgress).ToString(CultureInfo.InvariantCulture);
+                                              DownloadProgressString = Math.Round(DownloadProgress).ToString(CultureInfo.InvariantCulture) + "%";
 
                                               //System.Diagnostics.Debug.WriteLine(extractedFiles.ToString()); });
                                               return Task.CompletedTask;

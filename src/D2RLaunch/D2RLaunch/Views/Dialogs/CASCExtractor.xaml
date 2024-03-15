@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:dialogs="clr-namespace:D2RLaunch.ViewModels.Dialogs"
-    Width="550"
-    Height="360"
+    Width="590"
+    Height="430"
     d:DataContext="{d:DesignInstance Type=dialogs:CASCExtractorViewModel,
                                      IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
@@ -18,9 +18,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="20"/>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20"/>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -69,6 +71,7 @@
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
+            Background="#FF313030"
             ItemsSource="{Binding InstalledMods}"
             SelectedItem="{Binding SelectedMod}"
             Style="{StaticResource ComboBoxStyle}" />
@@ -95,24 +98,18 @@
 
         <StackPanel
             Grid.Row="4"
-            Grid.Column="1"
             Orientation="Horizontal"
-            HorizontalAlignment="Center">
+            HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="132,0,0,20" Grid.RowSpan="2">
             <Label
-                Content="Files Name:"
+                Content="Filename:"
                 FontSize="12"
-                Margin="5,5,0,5"
-                Style="{StaticResource LabelHeaderStyle}"/>
-            <Label
-                d:Content="383838383"
-                Content="{Binding FileName}"
-                FontSize="12"
-                Margin="0,5,5,5"
-                Style="{StaticResource LabelHeaderStyle}" />
+                Style="{StaticResource LabelHeaderStyle}"
+                Width="300"
+                HorizontalContentAlignment="Center" Padding="0,0,0,0" Margin="0,5,5,0"/>
         </StackPanel>
 
         <syncfusion:SfLinearProgressBar
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Height="25"
@@ -122,16 +119,16 @@
             Style="{StaticResource SfLinearProgressBarStyle}" />
 
         <Label
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Content="{Binding DownloadProgressString}"
-            Foreground="DodgerBlue" />
+            Foreground="DodgerBlue" FontSize="16" />
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Orientation="Horizontal">
@@ -139,17 +136,11 @@
                 Content="Total Files:"
                 FontSize="12"
                 Margin="5,5,0,5"
-                Style="{StaticResource LabelHeaderStyle}"/>
-            <Label
-                d:Content="383838383"
-                Content="{Binding TotalFiles}"
-                FontSize="12"
-                Margin="0,5,5,5"
-                Style="{StaticResource LabelHeaderStyle}" />
+                Style="{StaticResource LabelHeaderStyle}" Width="130" HorizontalContentAlignment="Center"/>
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="1"
             Orientation="Horizontal"
             HorizontalAlignment="Center">
@@ -158,16 +149,10 @@
                 FontSize="12"
                 Margin="5,5,0,5"
                 Style="{StaticResource LabelHeaderStyle}"/>
-            <Label
-                d:Content="383838383"
-                Content="{Binding FilesLeft}"
-                FontSize="12"
-                Margin="0,5,5,5"
-                Style="{StaticResource LabelHeaderStyle}" />
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="2"
             Orientation="Horizontal"
             HorizontalAlignment="Center">
@@ -176,12 +161,6 @@
                 FontSize="12"
                 Margin="5,5,0,5"
                 Style="{StaticResource LabelHeaderStyle}"/>
-            <Label
-                d:Content="383838383"
-                Content="{Binding Extracted}"
-                FontSize="12"
-                Margin="0,5,5,5"
-                Style="{StaticResource LabelHeaderStyle}" />
         </StackPanel>
         <syncfusion:ButtonAdv
             Grid.Row="0"
@@ -192,6 +171,30 @@
             Background="Transparent"
             IconTemplate="{StaticResource QuestionMarkIconTemplate}"
             Style="{StaticResource SfButtonAdvSmallStyle}" Margin="10,145,0,0" Grid.Column="2" Grid.RowSpan="2" />
+        <Label
+            d:Content="383838383"
+            Content="{Binding FileName}"
+            FontSize="12"
+            Style="{StaticResource LabelHeaderStyle}" Grid.Row="5" VerticalAlignment="Top" Width="570"
+            HorizontalContentAlignment="Center" Foreground="#FFA21903" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="0,5,0,0" Padding="0,0,0,0"/>
+        <Label
+                d:Content="383838383"
+                Content="{Binding TotalFiles}"
+                FontSize="12"
+                Margin="5,22,0,0"
+                Style="{StaticResource LabelHeaderStyle}" Grid.Row="7" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.RowSpan="2" HorizontalContentAlignment="Center" Width="133" Foreground="#FFA21903"/>
+        <Label
+                d:Content="383838383"
+                Content="{Binding FilesLeft}"
+                FontSize="12"
+                Margin="0,22,0,0"
+                Style="{StaticResource LabelHeaderStyle}" Grid.Column="1" Grid.Row="7" VerticalAlignment="Top" Grid.RowSpan="2" HorizontalContentAlignment="Center" Foreground="#FFA21903"/>
+        <Label
+                d:Content="383838383"
+                Content="{Binding Extracted}"
+                FontSize="12"
+                Margin="0,22,0,0"
+                Style="{StaticResource LabelHeaderStyle}" Grid.Column="2" Grid.Row="7" VerticalAlignment="Top" Grid.RowSpan="2" Width="147" HorizontalContentAlignment="Center" Foreground="#FFA21903"/>
 
     </Grid>
 </Window>

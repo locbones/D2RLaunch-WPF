@@ -39,7 +39,7 @@
 
                     <Label
                         Grid.Row="0"
-                        Content="{Binding Path=FontTitle, Source={StaticResource Resources}}"
+                        Content="{Binding FontTitle, Source={StaticResource Resources}}"
                         FontWeight="Bold"
                         Foreground="Goldenrod"
                         Style="{StaticResource LabelHeaderStyle}" />
@@ -47,7 +47,7 @@
                         Grid.Row="1"
                         Foreground="BurlyWood"
                         Style="{StaticResource TextBlockStyleGold}"
-                        Text="{Binding Path=FontDesc, Source={StaticResource Resources}}"
+                        Text="{Binding FontDesc, Source={StaticResource Resources}}"
                         TextWrapping="WrapWithOverflow" />
                     <UniformGrid
                         Grid.Row="2"
@@ -65,7 +65,7 @@
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnUseFont];"
                             Background="#0d2905"
-                            Content="{Binding Path=FontBtn, Source={StaticResource Resources}}"
+                            Content="{Binding FontBtn, Source={StaticResource Resources}}"
                             Style="{StaticResource ButtonStyle}" />
                         <ToggleButton
                             cm:Message.Attach="[Event Click] = [Action OnPreviewFont];"
@@ -97,11 +97,14 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label
                         Grid.Row="0"
-                        Content="{Binding Path=AutoBackup, Source={StaticResource Resources}}"
+                        Content="{Binding AutoBackup, Source={StaticResource Resources}}"
                         FontWeight="Bold"
                         Foreground="Goldenrod"
                         Style="{StaticResource LabelHeaderStyle}" />
@@ -120,18 +123,18 @@
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnBackup];"
                             Background="#0d2905"
-                            Content="{Binding Path=AutoBackupBtn1, Source={StaticResource Resources}}"
+                            Content="{Binding AutoBackupBtn1, Source={StaticResource Resources}}"
                             Style="{StaticResource ButtonStyle}" />
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnRestoreBackup];"
                             Background="MidnightBlue"
-                            Content="{Binding Path=AutoBackupBtn2, Source={StaticResource Resources}}"
+                            Content="{Binding AutoBackupBtn2, Source={StaticResource Resources}}"
                             Style="{StaticResource ButtonStyle}" />
                     </UniformGrid>
 
                     <Label
                         Grid.Row="2"
-                        Content="{Binding Path=StashTabs, Source={StaticResource Resources}}"
+                        Content="{Binding StashTabs, Source={StaticResource Resources}}"
                         FontWeight="Bold"
                         Foreground="Goldenrod"
                         Style="{StaticResource LabelHeaderStyle}" />
@@ -150,13 +153,13 @@
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnStashTabsSettings];"
                             Background="#0d2905"
-                            Content="{Binding Path=StashTabsBtn, Source={StaticResource Resources}}"
+                            Content="{Binding StashTabsBtn, Source={StaticResource Resources}}"
                             Style="{StaticResource ButtonStyle}" />
                     </UniformGrid>
 
                     <Label
                         Grid.Row="4"
-                        Content="{Binding Path=Expanded, Source={StaticResource Resources}}"
+                        Content="{Binding Expanded, Source={StaticResource Resources}}"
                         FontWeight="Bold"
                         Foreground="Goldenrod"
                         Style="{StaticResource LabelHeaderStyle}" />
@@ -215,20 +218,127 @@
                         <Button
                             cm:Message.Attach="[Event Click] = [Action OnSkillBuffIconsSettings];"
                             Background="#0d2905"
-                            Content="{Binding Path=StashTabsBtn, Source={StaticResource Resources}}"
+                            Content="{Binding StashTabsBtn, Source={StaticResource Resources}}"
                             IsEnabled="{Binding ShellViewModel.SkillBuffIconsEnabled}"
                             Style="{StaticResource ButtonStyle}" />
                     </UniformGrid>
+                    <Label
+                        Grid.Row="8"
+                        Margin="0,5,0,0"
+                        Content="{Binding MonsterStatsDisplay, Source={StaticResource Resources}}"
+                        FontWeight="Bold"
+                        Foreground="Goldenrod"
+                        Style="{StaticResource LabelHeaderStyle}" />
+                    <UniformGrid
+                        Grid.Row="9"
+                        Columns="4" Margin="35,-10,0,0">
+                        <Label
+                            Margin="-20,5,0,0"
+                            HorizontalAlignment="Center"
+                            Content="Monster Stats"
+                            FontWeight="Bold"
+                            Foreground="SteelBlue"
+                            Style="{StaticResource LabelHeaderStyle}" />
+                        <Label
+                            Margin="-5,5,0,0"
+                            Content="Dynamic Colors"
+                            FontWeight="Bold"
+                            Foreground="SteelBlue"
+                            Style="{StaticResource LabelHeaderStyle}" />
+                        <Label
+                            Content=""
+                            FontWeight="Bold"
+                            Foreground="SteelBlue"
+                            Style="{StaticResource LabelHeaderStyle}" Margin="5,5,5,0" />
+                        <Label
+                            Content="Color Controls"
+                            FontWeight="Bold"
+                            Foreground="SteelBlue"
+                            Style="{StaticResource LabelHeaderStyle}" Margin="-180,5,5,0" />
+                    </UniformGrid>
+                    <syncfusion:ButtonAdv
+                        Grid.Row="8"
+                        Margin="160,5,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        cm:Message.Attach="[Event Click] = [Action OnMonsterStatsDisplayPreview];"
+                        Background="Transparent"
+                        IconTemplate="{StaticResource PreviewIconTemplate}"
+                        Style="{StaticResource SfButtonAdvSmallStyle}" />
+                    <UniformGrid
+                        Grid.Row="10"
+                        HorizontalAlignment="Center"
+                        Columns="4" Margin="20,0,0,0">
+                        <ComboBox
+                            Width="125"
+                            Height="40"
+                            DisplayMemberPath="Key"
+                            ItemsSource="{Binding MonsterHP}"
+                            SelectedIndex="{Binding ShellViewModel.UserSettings.MonsterHP}"
+                            SelectedValuePath="Value"
+                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" Margin="-40,-10,5,0" />
+                        <ComboBox
+                            Width="125"
+                            Height="40"
+                            DisplayMemberPath="Key"
+                            ItemsSource="{Binding MonsterHPColor}"
+                            SelectedIndex="{Binding ShellViewModel.UserSettings.monsterHPColor}"
+                            SelectedValuePath="Value"
+                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" Margin="5,-10,5,0" />
+                        <UniformGrid
+                            Grid.Row="10"
+                            Height="60"
+                            HorizontalAlignment="Center"
+                            Rows="3" VerticalAlignment="Center" Margin="0,-10,0,0">
+                            <Label
+                                Height="30"
+                                Content="Normal HP:"
+                                Foreground="WhiteSmoke"
+                                Style="{StaticResource LabelHeaderStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
+                            <Label
+                                Height="30"
+                                Content="Warning HP:"
+                                Foreground="WhiteSmoke"
+                                Style="{StaticResource LabelHeaderStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" />
+                            <Label
+                                Height="30"
+                                Content="Critical HP:"
+                                Foreground="WhiteSmoke"
+                                Style="{StaticResource LabelHeaderStyle}" FontSize="14" HorizontalAlignment="Right" />
+                        </UniformGrid>
+                        <UniformGrid
+                            Grid.Row="10"
+                            Height="60"
+                            HorizontalAlignment="Center"
+                            Rows="3" Margin="-70,-5,0,0">
+                            <syncfusion:ColorPicker x:Name="colorPicker"
+                                                    Height="30"
+                                                    Width="150"
+                                                    Background="#FF313030"
+                                Color="Green" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50,0,0,0"/>
+                            <syncfusion:ColorPicker x:Name="colorPicker2"
+                                                    Height="30"
+                                                    Width="150"
+                                                    Background="#FF313030"
+                                Color="Orange" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50,0,0,0"/>
+                            <syncfusion:ColorPicker x:Name="colorPicker3"
+                                                    Height="30"
+                                                    Width="150"
+                                                    Background="#FF313030"
+                                Color="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50,0,0,0"/>
+                        </UniformGrid>
+                    </UniformGrid>
+
 
                     <UniformGrid
-                        Grid.Row="8"
+                        Grid.Row="12"
                         HorizontalAlignment="Center"
-                        Columns="2">
+                        Columns="2" Margin="0,10,0,0">
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <Label
                                     Margin="5,5,0,0"
-                                    Content="{Binding Path=SkillIconPack, Source={StaticResource Resources}}"
+                                    Content="{Binding SkillIconPack, Source={StaticResource Resources}}"
                                     FontWeight="Bold"
                                     Foreground="Goldenrod"
                                     Style="{StaticResource LabelHeaderStyle}" />
@@ -254,7 +364,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label
                                     Margin="5,5,0,0"
-                                    Content="{Binding Path=MercID, Source={StaticResource Resources}}"
+                                    Content="{Binding MercID, Source={StaticResource Resources}}"
                                     FontWeight="Bold"
                                     Foreground="Goldenrod"
                                     Style="{StaticResource LabelHeaderStyle}" />
@@ -280,7 +390,7 @@
                         <StackPanel HorizontalAlignment="Center">
                             <Label
                                 Margin="0,5,0,0"
-                                Content="{Binding Path=Itemlevels, Source={StaticResource Resources}}"
+                                Content="{Binding Itemlevels, Source={StaticResource Resources}}"
                                 FontWeight="Bold"
                                 Foreground="Goldenrod"
                                 Style="{StaticResource LabelHeaderStyle}" />
@@ -298,7 +408,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label
                                     Margin="0,5,0,0"
-                                    Content="{Binding Path=RuneDisplay, Source={StaticResource Resources}}"
+                                    Content="{Binding RuneDisplay, Source={StaticResource Resources}}"
                                     FontWeight="Bold"
                                     Foreground="Goldenrod"
                                     Style="{StaticResource LabelHeaderStyle}" />
@@ -324,7 +434,7 @@
                         <StackPanel HorizontalAlignment="Center">
                             <Label
                                 Margin="0,5,0,0"
-                                Content="{Binding Path=HelmetDisplay, Source={StaticResource Resources}}"
+                                Content="{Binding HelmetDisplay, Source={StaticResource Resources}}"
                                 FontWeight="Bold"
                                 Foreground="Goldenrod"
                                 Style="{StaticResource LabelHeaderStyle}" />
@@ -337,38 +447,12 @@
                                 SelectedValuePath="Value"
                                 Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Center">
-                            <StackPanel Orientation="Horizontal">
-                                <Label
-                                    Margin="0,5,0,0"
-                                    Content="{Binding Path=MonsterStatsDisplay, Source={StaticResource Resources}}"
-                                    FontWeight="Bold"
-                                    Foreground="Goldenrod"
-                                    Style="{StaticResource LabelHeaderStyle}" />
-                                <syncfusion:ButtonAdv
-                                    Margin="0,5,0,0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    cm:Message.Attach="[Event Click] = [Action OnMonsterStatsDisplayPreview];"
-                                    Background="Transparent"
-                                    IconTemplate="{StaticResource PreviewIconTemplate}"
-                                    Style="{StaticResource SfButtonAdvSmallStyle}" />
-                            </StackPanel>
-                            <ComboBox
-                                Width="125"
-                                Height="40"
-                                DisplayMemberPath="Key"
-                                ItemsSource="{Binding MonsterStats}"
-                                SelectedIndex="{Binding ShellViewModel.UserSettings.MonsterStatsDisplay}"
-                                SelectedValuePath="Value"
-                                Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
-                        </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <Label
                                     Margin="0,5,0,0"
-                                    Content="{Binding Path=ItemIcons, Source={StaticResource Resources}}"
+                                    Content="{Binding ItemIcons, Source={StaticResource Resources}}"
                                     FontWeight="Bold"
                                     Foreground="Goldenrod"
                                     Style="{StaticResource LabelHeaderStyle}" />
@@ -394,7 +478,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label
                                     Margin="0,5,0,0"
-                                    Content="{Binding Path=SuperTK, Source={StaticResource Resources}}"
+                                    Content="{Binding SuperTK, Source={StaticResource Resources}}"
                                     FontWeight="Bold"
                                     Foreground="Goldenrod"
                                     Style="{StaticResource LabelHeaderStyle}" />
@@ -421,7 +505,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label
                             Margin="0,5,0,0"
-                            Content="{Binding Path=ColorDye, Source={StaticResource Resources}}"
+                            Content="{Binding ColorDye, Source={StaticResource Resources}}"
                             FontWeight="Bold"
                             Foreground="Goldenrod"
                             Style="{StaticResource LabelHeaderStyle}" />
@@ -445,23 +529,23 @@
                         Style="{StaticResource ComboBoxStyle}" Background="#FF313030" />
                         </StackPanel>
                     </UniformGrid>
-                    
+
                     <Label
-                        Grid.Row="9"
-                        Content="{Binding Path=AuthorFiles, Source={StaticResource Resources}}"
+                        Grid.Row="13"
+                        Content="{Binding AuthorFiles, Source={StaticResource Resources}}"
                         FontWeight="Bold"
                         Foreground="DarkRed"
                         Style="{StaticResource LabelHeaderStyle}" />
 
                     <UniformGrid
-                        Grid.Row="10"
+                        Grid.Row="14"
                         HorizontalAlignment="Center"
                         Columns="2">
 
                         <StackPanel HorizontalAlignment="Center">
                             <Label
                                 Margin="0,5,0,0"
-                                Content="{Binding Path=RWSort, Source={StaticResource Resources}}"
+                                Content="{Binding RWSort, Source={StaticResource Resources}}"
                                 FontWeight="Bold"
                                 Foreground="Goldenrod"
                                 Style="{StaticResource LabelHeaderStyle}" />
@@ -478,7 +562,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Label
                                     Margin="0,5,0,0"
-                                    Content="{Binding Path=HUD, Source={StaticResource Resources}}"
+                                    Content="{Binding HUD, Source={StaticResource Resources}}"
                                     FontWeight="Bold"
                                     Foreground="Goldenrod"
                                     Style="{StaticResource LabelHeaderStyle}" />

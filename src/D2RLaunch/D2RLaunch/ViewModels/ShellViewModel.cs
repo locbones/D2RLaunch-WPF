@@ -1776,6 +1776,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
     private async Task ConfigureMonsterStatsDisplay() //Advanced Monster Stats
     {
+        /*
+
         eMonsterStats monsterStatsDisplay = (eMonsterStats)UserSettings.MonsterStatsDisplay;
 
         string uiLayoutsPath = Path.Combine(SelectedModDataFolder, "global/ui/layouts");
@@ -1886,6 +1888,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     break;
                 }
         }
+        */
     }
 
     private async Task ConfigureHideHelmets() //Hide Helmets

@@ -21,6 +21,7 @@ public class UserSettings : INotifyPropertyChanged
     private int _itemIlvls;
     private int _mercIcons;
     private int _monsterStatsDisplay;
+    private int _monsterHP;
     private int _mapLayout;
     private int _personalizedTabs;
     private bool _resetMaps;
@@ -41,7 +42,7 @@ public class UserSettings : INotifyPropertyChanged
     private bool _ExpandedStash;
     private bool _ExpandedCube;
     private bool _ExpandedMerc;
-    private bool _MonHPBar;
+    private bool _monsterHPColor;
     private int _colorDye;
 
     #endregion
@@ -226,6 +227,20 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _monsterStatsDisplay = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int MonsterHP
+    {
+        get => _monsterHP;
+        set
+        {
+            if (value == _monsterHP)
+            {
+                return;
+            }
+            _monsterHP = value;
             OnPropertyChanged();
         }
     }
@@ -475,16 +490,16 @@ public class UserSettings : INotifyPropertyChanged
         }
     }
 
-    public bool MonHPBar
+    public bool monsterHPColor
     {
-        get => _MonHPBar;
+        get => _monsterHPColor;
         set
         {
-            if (value == _MonHPBar)
+            if (value == _monsterHPColor)
             {
                 return;
             }
-            _MonHPBar = value;
+            _monsterHPColor = value;
             OnPropertyChanged();
         }
     }

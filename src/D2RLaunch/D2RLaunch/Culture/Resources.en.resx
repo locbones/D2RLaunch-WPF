@@ -418,8 +418,8 @@
     <comment>Mod Update Available!\n\nWould you like to make a backup of your mod folder before updating?</comment>
   </data>
   <data name="MonsterStatsDisplay" xml:space="preserve">
-    <value>Monster Stats Display</value>
-    <comment>Monster Stats Display</comment>
+    <value>Monster HP Bar</value>
+    <comment>Monster HP Bar</comment>
   </data>
   <data name="MyFiles" xml:space="preserve">
     <value>My Files</value>

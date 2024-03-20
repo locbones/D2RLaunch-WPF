@@ -52,6 +52,7 @@
                 <Label Content="{Binding Path=InstallModDB, Source={StaticResource Resources}}" Style="{StaticResource LabelHeaderStyle}" />
                 <ComboBox
                     cm:Message.Attach="[Event SelectionChanged] = [Action OnModInstallSelectionChanged];"
+                    Background="#FF313030"
                     DisplayMemberPath="Key"
                     ItemsSource="{Binding Mods}"
                     SelectedItem="{Binding SelectedMod}"
@@ -67,6 +68,7 @@
             Style="{StaticResource LabelHeaderStyle}" />
         <TextBox
             Grid.Row="2"
+            Background="#FF313030"
             HorizontalContentAlignment="Center"
             Style="{StaticResource TextBoxStyle}"
             Text="{Binding ModDownloadLink, Mode=TwoWay}" />

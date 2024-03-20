@@ -125,7 +125,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Content="{Binding DownloadProgressString}"
-            Foreground="DodgerBlue" FontSize="16" />
+            Foreground="DodgerBlue" FontSize="16" Margin="0,-2,0,0" />
 
         <StackPanel
             Grid.Row="7"

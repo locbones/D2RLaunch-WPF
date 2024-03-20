@@ -727,6 +727,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
     private async Task ApplyMonHPBar()
     {
+        /*
         string JsonPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/hudmonsterhealthhd.json");
         string JsonPath2 = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/hudmonsterhealthhd2.json");
 
@@ -854,6 +855,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     Console.WriteLine("No matching entry found.");
             }
         }
+        */
     }
 
     private async Task ApplyUiTheme()

@@ -30,6 +30,7 @@ namespace D2RLaunch.Views.Drawers
         public QoLOptionsDrawerView()
         {
             InitializeComponent();
+            LoadLastColors();
         }
 
         private void ColorPicker_ColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e, int matchCount)
@@ -52,13 +53,14 @@ namespace D2RLaunch.Views.Drawers
                     if (shellViewModel != null)
                     {
                         string folderPath = System.IO.Path.Combine(shellViewModel.SelectedModDataFolder, "D2RLaunch", "Monster Stats");
-                        string filePath = System.IO.Path.Combine(folderPath, "MyColorSettings.txt");
+                        string filePath = "MyColorSettings.txt";
 
                         Directory.CreateDirectory(folderPath);
                         List<string> lines = new List<string>();
 
                         if (!File.Exists(filePath))
-                            File.Create(filePath).Close();
+                            File.WriteAllText(filePath, "Red: 80 Green: 0 Blue: 0\nRed: 80 Green: 0 Blue: 0\nRed: 80 Green: 0 Blue: 0");
+                            
 
                         lines.AddRange(File.ReadAllLines(filePath));
 
@@ -69,11 +71,9 @@ namespace D2RLaunch.Views.Drawers
                             Console.WriteLine($"Invalid matchCount: {matchCount}");
                             return;
                         }
-
-                        // Write modified content back to the file
                         File.WriteAllLines(filePath, lines);
 
-                        // Your existing code for modifying another file
+                        //Color Settings Updated - Now Updating Game Files
                         string jsonFilePath = System.IO.Path.Combine(shellViewModel.SelectedModDataFolder, "global", "ui", "layouts", "hudmonsterhealthhd.json");
                         string[] patterns = { @"""r""\s*:\s*-?\d*\.?\d*(?:[Ee][-+]?\d+)?", @"""g""\s*:\s*-?\d*\.?\d*(?:[Ee][-+]?\d+)?", @"""b""\s*:\s*-?\d*\.?\d*(?:[Ee][-+]?\d+)?" };
                         string[] replacements = { $"\"r\": {Format(Normalize(redValue))}", $"\"g\": {Format(Normalize(greenValue))}", $"\"b\": {Format(Normalize(blueValue))}" };
@@ -122,5 +122,37 @@ namespace D2RLaunch.Views.Drawers
             ColorPicker_ColorChanged(d, e, 2);
         }
 
+        private void LoadLastColors()
+        {
+            if (File.Exists("MyColorSettings.txt"))
+            {
+                string[] colorLines = File.ReadAllLines("MyColorSettings.txt");
+                string pattern = @"\d+";
+
+                MatchCollection matches1 = Regex.Matches(colorLines[0], pattern);
+                MatchCollection matches2 = Regex.Matches(colorLines[1], pattern);
+                MatchCollection matches3 = Regex.Matches(colorLines[2], pattern);
+
+                SetColorNormal(Convert.ToByte(matches1[0].Value), Convert.ToByte(matches1[1].Value), Convert.ToByte(matches1[2].Value));
+                SetColorWarning(Convert.ToByte(matches2[0].Value), Convert.ToByte(matches2[1].Value), Convert.ToByte(matches2[2].Value));
+                SetColorCritical(Convert.ToByte(matches3[0].Value), Convert.ToByte(matches3[1].Value), Convert.ToByte(matches3[2].Value));
+            }
+        }
+
+        private void SetColorNormal(byte red, byte green, byte blue)
+        {
+            Color newColor = Color.FromRgb(red, green, blue);
+            colorPicker.Color = newColor; // Assuming colorPicker is the instance of your Syncfusion color picker
+        }
+        private void SetColorWarning(byte red, byte green, byte blue)
+        {
+            Color newColor = Color.FromRgb(red, green, blue);
+            colorPicker2.Color = newColor; // Assuming colorPicker is the instance of your Syncfusion color picker
+        }
+        private void SetColorCritical(byte red, byte green, byte blue)
+        {
+            Color newColor = Color.FromRgb(red, green, blue);
+            colorPicker3.Color = newColor; // Assuming colorPicker is the instance of your Syncfusion color picker
+        }
     }
 }

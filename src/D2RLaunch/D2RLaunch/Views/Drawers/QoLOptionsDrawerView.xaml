@@ -300,7 +300,6 @@
                             <syncfusion:ColorPicker x:Name="colorPicker" ColorChanged="colorPicker_ColorChanged"
                                 Height="30" Width="150" Background="#FF313030"
                                 Color="Green" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25,0,0,0"/>
-
                             <syncfusion:ColorPicker x:Name="colorPicker2" ColorChanged="colorPicker2_ColorChanged"
                                 Height="30" Width="150" Background="#FF313030"
                                 Color="Orange" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25,0,0,0"/>

@@ -309,25 +309,19 @@
                             Style="{StaticResource ComboBoxStyle}" />
                         <CheckBox
                             Grid.Row="4"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             Content="{Binding Path=HDR, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.HdrFix}"
-                            Style="{StaticResource CheckBoxStyle}" Margin="5,10,5,5" />
-                        <CheckBox
-                            Grid.Row="7"
-                            HorizontalAlignment="Left"
-                            Content="Dynamic HP Bar"
-                            IsChecked="{Binding ShellViewModel.UserSettings.MonHPBar}"
-                            Style="{StaticResource CheckBoxStyle}" />
+                            Style="{StaticResource CheckBoxStyle}" Margin="5,30,5,5" />
                         <CheckBox
                             Grid.Row="5"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             Content="{Binding Path=Regen, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.ResetMaps}"
                             Style="{StaticResource CheckBoxStyle}" />
                         <CheckBox
                             Grid.Row="6"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             Content="{Binding Path=Respec, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.InfiniteRespec}"
                             Style="{StaticResource CheckBoxStyle}" />

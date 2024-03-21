@@ -725,139 +725,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
     }
 
-    private async Task ApplyMonHPBar()
-    {
-        /*
-        string JsonPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/hudmonsterhealthhd.json");
-        string JsonPath2 = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/hudmonsterhealthhd2.json");
-
-        if (ShellViewModel.UserSettings.MonHPBar == true)
-        {
-            if (File.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/hudmonsterhealthhd_disabled.json")))
-                File.Move(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd_disabled.json", ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
-            if (!File.Exists(JsonPath) && !File.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd_disabled.json"))
-            {
-                Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", ShellViewModel.SelectedModDataFolder, "data:data");
-            }
-                
-            
-
-            // Find normal color entry by matching it via regex 
-            string fileContents = File.ReadAllText(JsonPath);
-            string pattern = "\"normalColor\": \\{ \"r\": ([0-9]*\\.?[0-9]+), \"g\": ([0-9]*\\.?[0-9]+), \"b\": ([0-9]*\\.?[0-9]+) \\},";
-            Regex regex = new Regex(pattern);
-            Match match = regex.Match(fileContents);
-
-            if (match.Success)
-            {
-                // Update the normal color values
-                string updatedEntry = $"\"normalColor\": {{ \"r\": {0.141.ToString("0.###", CultureInfo.InvariantCulture)}, \"g\": {0.58.ToString("0.###", CultureInfo.InvariantCulture)}, \"b\": {0.0.ToString("0.###", CultureInfo.InvariantCulture)} }},";
-                fileContents = fileContents.Remove(match.Index, match.Length).Insert(match.Index, updatedEntry);
-
-                // Add new strings to control dynamic colors
-                string newText1 = "                \"criticalColor\": { \"r\": 0.31, \"g\": 0.0, \"b\": 0.0 },";
-                string newText2 = "                \"warningColor\": { \"r\": 0.85, \"g\": 0.50, \"b\": 0.0 },";
-
-                // Check if we need to add the entries, then Insert the new strings after the normal color entry index
-                if (!fileContents.Contains("criticalColor"))
-                {
-                    fileContents = fileContents.Insert((match.Index + updatedEntry.Length), $"\n{newText1}\n{newText2}");
-
-                    // Check if criticalHealthPercent already exists and update the value
-                    if (fileContents.Contains("criticalHealthPercent"))
-                    {
-                        string criticalHealthPattern = "\"criticalHealthPercent\": [0-9]*\\.?[0-9]+,";
-                        Regex criticalHealthRegex = new Regex(criticalHealthPattern);
-                        fileContents = criticalHealthRegex.Replace(fileContents, "\"criticalHealthPercent\": 33,");
-                    }
-
-                    // Check if warningHealthPercent already exists and update the value
-                    if (fileContents.Contains("warningHealthPercent"))
-                    {
-                        string warningHealthPattern = "\"warningHealthPercent\": [0-9]*\\.?[0-9]+,";
-                        Regex warningHealthRegex = new Regex(warningHealthPattern);
-                        fileContents = warningHealthRegex.Replace(fileContents, "\"warningHealthPercent\": 66,");
-                    }
-                }
-                if (fileContents.Contains("\"criticalHealthPercent\": 0,"))
-                {
-                    // Check if criticalColor already exists and update the value
-                    if (fileContents.Contains("criticalColor"))
-                    {
-                        string criticalColorPattern = "\"criticalColor\": \\{ \"r\": ([0-9]*\\.?[0-9]+), \"g\": ([0-9]*\\.?[0-9]+), \"b\": ([0-9]*\\.?[0-9]+) \\},";
-                        Regex criticalColorRegex = new Regex(criticalColorPattern);
-                        fileContents = criticalColorRegex.Replace(fileContents, "\"criticalColor\": { \"r\": 0.31, \"g\": 0.0, \"b\": 0.0 },");
-                    }
-
-                    // Check if warningColor already exists and update the value
-                    if (fileContents.Contains("warningColor"))
-                    {
-                        string warningColorPattern = "\"warningColor\": \\{ \"r\": ([0-9]*\\.?[0-9]+), \"g\": ([0-9]*\\.?[0-9]+), \"b\": ([0-9]*\\.?[0-9]+) \\},";
-                        Regex warningColorRegex = new Regex(warningColorPattern);
-                        fileContents = warningColorRegex.Replace(fileContents, "\"warningColor\": { \"r\": 0.31, \"g\": 0.0, \"b\": 0.0 },");
-                    }
-
-                    // Check if criticalHealthPercent already exists and update the value
-                    if (fileContents.Contains("criticalHealthPercent"))
-                    {
-                        string criticalHealthPattern = "\"criticalHealthPercent\": [0-9]*\\.?[0-9]+,";
-                        Regex criticalHealthRegex = new Regex(criticalHealthPattern);
-                        fileContents = criticalHealthRegex.Replace(fileContents, "\"criticalHealthPercent\": 33,");
-                    }
-
-                    // Check if warningHealthPercent already exists and update the value
-                    if (fileContents.Contains("warningHealthPercent"))
-                    {
-                        string warningHealthPattern = "\"warningHealthPercent\": [0-9]*\\.?[0-9]+,";
-                        Regex warningHealthRegex = new Regex(warningHealthPattern);
-                        fileContents = warningHealthRegex.Replace(fileContents, "\"warningHealthPercent\": 66,");
-                    }
-                }
-                File.WriteAllText(JsonPath, fileContents);
-            }
-            else
-                Console.WriteLine("No matching entry found.");
-        }
-        else
-        {
-            if (File.Exists(JsonPath))
-            {
-                // Find normal color entry by matching it via regex 
-                string fileContents = File.ReadAllText(JsonPath);
-                string pattern = "\"normalColor\": \\{ \"r\": ([0-9]*\\.?[0-9]+), \"g\": ([0-9]*\\.?[0-9]+), \"b\": ([0-9]*\\.?[0-9]+) \\},";
-                Regex regex = new Regex(pattern);
-                Match match = regex.Match(fileContents);
-
-                if (match.Success)
-                {
-                    // Update the normal color values
-                    string updatedEntry = $"\"normalColor\": {{ \"r\": {0.31.ToString("0.###", CultureInfo.InvariantCulture)}, \"g\": {0.0.ToString("0.###", CultureInfo.InvariantCulture)}, \"b\": {0.0.ToString("0.###", CultureInfo.InvariantCulture)} }},";
-                    fileContents = fileContents.Remove(match.Index, match.Length).Insert(match.Index, updatedEntry);
-
-                    // Check if criticalHealthPercent already exists and update the value
-                    if (fileContents.Contains("criticalHealthPercent"))
-                    {
-                        string criticalHealthPattern = "\"criticalHealthPercent\": [0-9]*\\.?[0-9]+,";
-                        Regex criticalHealthRegex = new Regex(criticalHealthPattern);
-                        fileContents = criticalHealthRegex.Replace(fileContents, "\"criticalHealthPercent\": 0,");
-                    }
-
-                    // Check if warningHealthPercent already exists and update the value
-                    if (fileContents.Contains("warningHealthPercent"))
-                    {
-                        string warningHealthPattern = "\"warningHealthPercent\": [0-9]*\\.?[0-9]+,";
-                        Regex warningHealthRegex = new Regex(warningHealthPattern);
-                        fileContents = warningHealthRegex.Replace(fileContents, "\"warningHealthPercent\": 0,");
-                    }
-                    File.WriteAllText(JsonPath, fileContents);
-                }
-                else
-                    Console.WriteLine("No matching entry found.");
-            }
-        }
-        */
-    }
-
     private async Task ApplyUiTheme()
     {
         string layoutPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts");
@@ -939,7 +806,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
 
         await ApplyHdrFix();
-        await ApplyMonHPBar();
         await ShellViewModel.ApplyModSettings();
 
         //Unlock / create SharedStash
@@ -992,13 +858,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         //Load MonsterStats Setting
         switch (ShellViewModel.UserSettings.MonsterHP)
         {
+            case 0:
+                    break;
             case 1:
                     break;
             case 2:
                     break;
             case 3:
-                    break;
-            case 4:
                 {
                     string stasherEntityFrameworkPath = Path.Combine(ShellViewModel.StasherPath, "EntityFramework.pdb");
 
@@ -1012,7 +878,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                     break;
                 }
-            case 5:
+            case 4:
                 {
                     string stasherEntityFrameworkPath = Path.Combine(ShellViewModel.StasherPath, "EntityFramework.pdb");
 

@@ -39,6 +39,7 @@ using System.Net.Http;
 using System.Resources;
 using WinForms = System.Windows.Forms;
 using System.Windows.Controls.Primitives;
+using System.Reflection;
 
 namespace D2RLaunch.ViewModels;
 
@@ -1776,9 +1777,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
     private async Task ConfigureMonsterStatsDisplay() //Advanced Monster Stats
     {
-        /*
+        
 
-        eMonsterStats monsterStatsDisplay = (eMonsterStats)UserSettings.MonsterStatsDisplay;
+        eMonsterHP monsterHP = (eMonsterHP)UserSettings.MonsterHP;
 
         string uiLayoutsPath = Path.Combine(SelectedModDataFolder, "global/ui/layouts");
         string hudMonsterHealthHdJsonFilePath = Path.Combine(uiLayoutsPath, "hudmonsterhealthhd.json");
@@ -1794,102 +1795,109 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         if (!File.Exists(hudMonsterHealthHdJsonFilePath) && !File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
             await File.WriteAllBytesAsync(hudMonsterHealthHdJsonFilePath, await Helper.GetResourceByteArray("Options.MonsterStats.hudmonsterhealthhd.json"));
 
-        switch (monsterStatsDisplay)
+        switch (monsterHP)
         {
-            case eMonsterStats.Background:
-            case eMonsterStats.NoBackground:
+            case eMonsterHP.Retail:
                 {
-                    if (!File.Exists(Path.Combine(monsterStatsPath, "HB_L.sprite")))
-                    {
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_L.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_L.sprite"));
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_L.lowend.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_L.lowend.sprite"));
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_M.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_M.sprite"));
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_M.lowend.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_M.lowend.sprite"));
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_R.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_R.sprite"));
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_R.lowend.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_R.lowend.sprite"));
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_A.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_A.sprite"));
-                        await File.WriteAllBytesAsync(Path.Combine(monsterStatsPath, "HB_A.lowend.sprite"), await Helper.GetResourceByteArray("Options.MonsterStats.HB_A.lowend.sprite"));
-                    }
+                    if (File.Exists(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json"))
+                        File.Move(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd_disabled.json", true);
                     break;
                 }
-        }
-
-        switch (monsterStatsDisplay)
-        {
-            case eMonsterStats.Disabled:
+            case eMonsterHP.BasicNoP:
                 {
-                    if (File.Exists(hudMonsterHealthHdJsonFilePath) && UserSettings.MonHPBar == false)
-                        File.Move(hudMonsterHealthHdJsonFilePath, hudMonsterHealthHdDisabledJsonFilePath, true);
+                    string outputPath = SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip";
 
-                    if (File.Exists(hudMonsterHealthHdJsonFilePath))
+                    if (File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip"))
+                        File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
+                    else
+                        await File.WriteAllBytesAsync(outputPath, await Helper.GetResourceByteArray("Options.MonsterStats.MS_Assets.zip"));
+
+                    ZipFile.ExtractToDirectory(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip", SelectedModDataFolder + "/D2RLaunch/Monster Stats/", true);
+                    File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
+
+                    if (!File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json"))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
+
+                    string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
+
+                    if (hudContents.Contains("MonHPBar_UniFull\"") || hudContents.Contains("MonHPBar_UniFullPer\""))
                     {
-                        string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-
-                        if (content.Contains("HB_L"))
-                        {
-                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content.Replace("HB_L\"", "HB_L_Blank\""));
-                            string content2 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content2.Replace("HB_M\"", "HB_M_Blank\""));
-                            string content3 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content3.Replace("HB_R\"", "HB_R_Blank\""));
-                            string content4 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                            await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content4.Replace("HB_A\"", "HB_A_Blank\""));
-                        }
+                        hudContents = hudContents.Replace("MonHPBar_UniFull\"", "MonHPBar_UniSmall\"").Replace("MonHPBar_NormFull\"", "MonHPBar_NormSmall\"").Replace("MonHPBar_UniFullPer\"", "MonHPBar_UniSmall\"").Replace("MonHPBar_NormFullPer\"", "MonHPBar_NormSmall\"")
+                            .Replace("MonHPBar_UniSmallPer\"", "MonHPBar_UniSmall\"").Replace("MonHPBar_NormSmallPer\"", "MonHPBar_NormSmall\"").Replace("\"y\": 115", "\"y\": 65").Replace("\"y\": 150", "\"y\": 100");
+                        File.WriteAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", hudContents);
                     }
 
                     break;
                 }
-            case eMonsterStats.Background:
+            case eMonsterHP.BasicP:
                 {
-                    
+                    if (File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip"))
+                        File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
 
-                    if (File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
-                        File.Move(hudMonsterHealthHdDisabledJsonFilePath, hudMonsterHealthHdJsonFilePath, true);
+                    string outputPath = SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip";
+                    await File.WriteAllBytesAsync(outputPath, await Helper.GetResourceByteArray("Options.MonsterStats.MS_Assets.zip"));
 
-                    if (!File.Exists(hudMonsterHealthHdDisabledJsonFilePath) && !File.Exists(hudMonsterHealthHdJsonFilePath))
-                        Helper.ExtractFileFromCasc(GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", SelectedModDataFolder, "data:data");
+                    ZipFile.ExtractToDirectory(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip", SelectedModDataFolder + "/D2RLaunch/Monster Stats/", true);
+                    File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
 
-                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                    if (!File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json"))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
 
-                    if (content.Contains("HB_L_Blank"))
-                    {
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content.Replace("HB_L_Blank\"", "HB_L\""));
-                        string content2 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content2.Replace("HB_M_Blank\"", "HB_M\""));
-                        string content3 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content3.Replace("HB_R_Blank\"", "HB_R\""));
-                        string content4 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content4.Replace("HB_A_Blank\"", "HB_A\""));
-                    } 
+                    string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
+
+                    hudContents = hudContents.Replace("MonHPBar_UniFull\"", "MonHPBar_UniSmallPer\"").Replace("MonHPBar_NormFull\"", "MonHPBar_NormSmallPer\"").Replace("MonHPBar_UniFullPer\"", "MonHPBar_UniSmallPer\"").Replace("MonHPBar_NormFullPer\"", "MonHPBar_NormSmallPer\"")
+                            .Replace("MonHPBar_UniSmall\"", "MonHPBar_UniSmallPer\"").Replace("MonHPBar_NormSmall\"", "MonHPBar_NormSmallPer\"").Replace("\"y\": 115", "\"y\": 65").Replace("\"y\": 150", "\"y\": 100");
+                    File.WriteAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", hudContents);
+
                     break;
                 }
-            case eMonsterStats.NoBackground:
+            case eMonsterHP.AdvancedNoP:
                 {
-                    
+                    if (File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip"))
+                        File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
 
-                    if (File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
-                        File.Move(hudMonsterHealthHdDisabledJsonFilePath, hudMonsterHealthHdJsonFilePath, true);
+                    string outputPath = SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip";
+                    await File.WriteAllBytesAsync(outputPath, await Helper.GetResourceByteArray("Options.MonsterStats.MS_Assets.zip"));
 
-                    if (!File.Exists(hudMonsterHealthHdDisabledJsonFilePath) && !File.Exists(hudMonsterHealthHdJsonFilePath))
-                        Helper.ExtractFileFromCasc(GamePath, @"data:data\global\ui\layouts\hudmonsterhealthhd.json", SelectedModDataFolder, "data:data");
+                    ZipFile.ExtractToDirectory(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip", SelectedModDataFolder + "/D2RLaunch/Monster Stats/", true);
+                    File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
 
-                    string content = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
+                    if (!File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json"))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
 
-                    if (content.Contains("HB_L"))
-                    {
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content.Replace("HB_L\"", "HB_L_Blank\""));
-                        string content2 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content2.Replace("HB_M\"", "HB_M_Blank\""));
-                        string content3 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content3.Replace("HB_R\"", "HB_R_Blank\""));
-                        string content4 = await File.ReadAllTextAsync(hudMonsterHealthHdJsonFilePath);
-                        await File.WriteAllTextAsync(hudMonsterHealthHdJsonFilePath, content4.Replace("HB_A\"", "HB_A_Blank\""));
-                    }    
+                    string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
+
+                    hudContents = hudContents.Replace("MonHPBar_UniFullPer\"", "MonHPBar_UniFull\"").Replace("MonHPBar_NormFullPer\"", "MonHPBar_NormFull\"").Replace("MonHPBar_UniSmallPer\"", "MonHPBar_UniFull\"").Replace("MonHPBar_NormSmallPer\"", "MonHPBar_NormFull\"")
+                            .Replace("MonHPBar_UniSmall\"", "MonHPBar_UniFull\"").Replace("MonHPBar_NormSmall\"", "MonHPBar_NormFull\"").Replace("\"y\": 65", "\"y\": 115").Replace("\"y\": 100", "\"y\": 150");
+                    File.WriteAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", hudContents);
+
+                    break;
+                }
+            case eMonsterHP.AdvancedP:
+                {
+                    if (File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip"))
+                        File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
+
+                    string outputPath = SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip";
+                    await File.WriteAllBytesAsync(outputPath, await Helper.GetResourceByteArray("Options.MonsterStats.MS_Assets.zip"));
+
+                    ZipFile.ExtractToDirectory(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip", SelectedModDataFolder + "/D2RLaunch/Monster Stats/", true);
+                    File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
+
+                    if (!File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json"))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
+
+                    string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
+
+                    hudContents = hudContents.Replace("MonHPBar_UniFull\"", "MonHPBar_UniFullPer\"").Replace("MonHPBar_NormFull\"", "MonHPBar_NormFullPer\"").Replace("MonHPBar_UniSmallPer\"", "MonHPBar_UniFullPer\"").Replace("MonHPBar_NormSmallPer\"", "MonHPBar_NormFullPer\"")
+                            .Replace("MonHPBar_UniSmall\"", "MonHPBar_UniFullPer\"").Replace("MonHPBar_NormSmall\"", "MonHPBar_NormFullPer\"").Replace("\"y\": 65", "\"y\": 115").Replace("\"y\": 100", "\"y\": 150");
+                    File.WriteAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", hudContents);
+
                     break;
                 }
         }
-        */
     }
+
 
     private async Task ConfigureHideHelmets() //Hide Helmets
     {

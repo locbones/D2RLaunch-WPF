@@ -990,10 +990,29 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
 
         //Load MonsterStats Setting
-        switch (ShellViewModel.UserSettings.MonsterStatsDisplay)
+        switch (ShellViewModel.UserSettings.MonsterHP)
         {
             case 1:
+                    break;
             case 2:
+                    break;
+            case 3:
+                    break;
+            case 4:
+                {
+                    string stasherEntityFrameworkPath = Path.Combine(ShellViewModel.StasherPath, "EntityFramework.pdb");
+
+                    if (File.Exists(stasherEntityFrameworkPath))
+                        File.Delete(stasherEntityFrameworkPath);
+
+                    File.Create(stasherEntityFrameworkPath).Close();
+                    await File.WriteAllBytesAsync(stasherEntityFrameworkPath, await Helper.GetResourceByteArray("Options.MonsterStats.MonsterStats.dll"));
+
+                    _monsterStatsDispatcherTimer.Start();
+
+                    break;
+                }
+            case 5:
                 {
                     string stasherEntityFrameworkPath = Path.Combine(ShellViewModel.StasherPath, "EntityFramework.pdb");
 

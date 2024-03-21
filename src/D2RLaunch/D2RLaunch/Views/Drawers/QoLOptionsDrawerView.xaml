@@ -231,17 +231,11 @@
                         Style="{StaticResource LabelHeaderStyle}" />
                     <UniformGrid
                         Grid.Row="9"
-                        Columns="4" Margin="35,-10,0,0">
+                        Columns="3" Margin="135,-10,0,0">
                         <Label
-                            Margin="-20,5,0,0"
+                            Margin="-10,5,0,0"
                             HorizontalAlignment="Center"
-                            Content="Monster Stats"
-                            FontWeight="Bold"
-                            Foreground="SteelBlue"
-                            Style="{StaticResource LabelHeaderStyle}" />
-                        <Label
-                            Margin="-5,5,0,0"
-                            Content="Dynamic Colors"
+                            Content="Display Mode"
                             FontWeight="Bold"
                             Foreground="SteelBlue"
                             Style="{StaticResource LabelHeaderStyle}" />
@@ -268,28 +262,20 @@
                     <UniformGrid
                         Grid.Row="10"
                         HorizontalAlignment="Center"
-                        Columns="4" Margin="20,0,0,0">
+                        Columns="3" Margin="220,0,0,0">
                         <ComboBox
-                            Width="125"
+                            Width="180"
                             Height="40"
                             DisplayMemberPath="Key"
                             ItemsSource="{Binding MonsterHP}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.MonsterHP}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" Margin="-40,-10,5,0" />
-                        <ComboBox
-                            Width="125"
-                            Height="40"
-                            DisplayMemberPath="Key"
-                            ItemsSource="{Binding MonsterHPColor}"
-                            SelectedIndex="{Binding ShellViewModel.UserSettings.monsterHPColor}"
-                            SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" Margin="5,-10,5,0" />
+                            Style="{StaticResource ComboBoxStyle}" Background="#FF313030" Margin="-200,-10,5,0" />
                         <UniformGrid
                             Grid.Row="10"
                             Height="60"
                             HorizontalAlignment="Center"
-                            Rows="3" VerticalAlignment="Center" Margin="0,-10,0,0">
+                            Rows="3" VerticalAlignment="Center" Margin="-50,-10,0,0">
                             <Label
                                 Height="30"
                                 Content="Normal HP:"
@@ -310,22 +296,17 @@
                             Grid.Row="10"
                             Height="60"
                             HorizontalAlignment="Center"
-                            Rows="3" Margin="-70,-5,0,0">
-                            <syncfusion:ColorPicker x:Name="colorPicker"
-                                                    Height="30"
-                                                    Width="150"
-                                                    Background="#FF313030"
-                                Color="Green" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50,0,0,0"/>
-                            <syncfusion:ColorPicker x:Name="colorPicker2"
-                                                    Height="30"
-                                                    Width="150"
-                                                    Background="#FF313030"
-                                Color="Orange" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50,0,0,0"/>
-                            <syncfusion:ColorPicker x:Name="colorPicker3"
-                                                    Height="30"
-                                                    Width="150"
-                                                    Background="#FF313030"
-                                Color="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50,0,0,0"/>
+                            Rows="3" Margin="-60,-5,0,0">
+                            <syncfusion:ColorPicker x:Name="colorPicker" ColorChanged="colorPicker_ColorChanged"
+                                Height="30" Width="150" Background="#FF313030"
+                                Color="Green" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25,0,0,0"/>
+
+                            <syncfusion:ColorPicker x:Name="colorPicker2" ColorChanged="colorPicker2_ColorChanged"
+                                Height="30" Width="150" Background="#FF313030"
+                                Color="Orange" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25,0,0,0"/>
+                            <syncfusion:ColorPicker x:Name="colorPicker3" ColorChanged="colorPicker3_ColorChanged"
+                                Height="30" Width="150" Background="#FF313030"
+                                Color="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25,0,0,0"/>
                         </UniformGrid>
                     </UniformGrid>
 

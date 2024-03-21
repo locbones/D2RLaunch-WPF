@@ -41,7 +41,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     private ObservableCollection<KeyValuePair<string, eMercIdentifier>> _mercIdentifiers = new();
     private ObservableCollection<KeyValuePair<string, eMonsterStats>> _monsterStats = new();
     private ObservableCollection<KeyValuePair<string, eMonsterHP>> _monsterHP = new();
-    private ObservableCollection<KeyValuePair<string, eMonsterHPColor>> _monsterHPColor = new();
     private ObservableCollection<KeyValuePair<string, eItemDisplay>> _itemDisplays = new();
     private ObservableCollection<KeyValuePair<string, eRunewordSorting>> _runewordSorting = new();
     private ObservableCollection<KeyValuePair<string, eHudDesign>> _hudDesigns = new();
@@ -113,17 +112,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         {
             if (Equals(value, _monsterHP)) return;
             _monsterHP = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eMonsterHPColor>> MonsterHPColor
-    {
-        get => _monsterHPColor;
-        set
-        {
-            if (Equals(value, _monsterHPColor)) return;
-            _monsterHPColor = value;
             OnPropertyChanged();
         }
     }
@@ -252,11 +240,6 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         foreach (eMonsterHP monsterHPSetting in Enum.GetValues<eMonsterHP>())
         {
             MonsterHP.Add(new KeyValuePair<string, eMonsterHP>(monsterHPSetting.GetAttributeOfType<DisplayAttribute>().Name, monsterHPSetting));
-        }
-
-        foreach (eMonsterHPColor monsterHPColorSetting in Enum.GetValues<eMonsterHPColor>())
-        {
-            MonsterHPColor.Add(new KeyValuePair<string, eMonsterHPColor>(monsterHPColorSetting.GetAttributeOfType<DisplayAttribute>().Name, monsterHPColorSetting));
         }
 
         foreach (eItemDisplay itemDisplaySetting in Enum.GetValues<eItemDisplay>())

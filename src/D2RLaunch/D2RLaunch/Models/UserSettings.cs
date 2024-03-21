@@ -42,7 +42,6 @@ public class UserSettings : INotifyPropertyChanged
     private bool _ExpandedStash;
     private bool _ExpandedCube;
     private bool _ExpandedMerc;
-    private bool _monsterHPColor;
     private int _colorDye;
 
     #endregion
@@ -486,20 +485,6 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _ExpandedMerc = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool monsterHPColor
-    {
-        get => _monsterHPColor;
-        set
-        {
-            if (value == _monsterHPColor)
-            {
-                return;
-            }
-            _monsterHPColor = value;
             OnPropertyChanged();
         }
     }

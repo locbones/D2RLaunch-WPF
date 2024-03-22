@@ -23,6 +23,7 @@ public class UserSettings : INotifyPropertyChanged
     private int _monsterStatsDisplay;
     private int _monsterHP;
     private int _mapLayout;
+    private int _windowMode;
     private int _personalizedTabs;
     private bool _resetMaps;
     private int _runewordSorting;
@@ -310,6 +311,20 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _mapLayout = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int WindowMode
+    {
+        get => _windowMode;
+        set
+        {
+            if (value == _windowMode)
+            {
+                return;
+            }
+            _windowMode = value;
             OnPropertyChanged();
         }
     }

@@ -35,6 +35,7 @@ using Syncfusion.Windows.Tools.Controls;
 using System.Net;
 using Syncfusion.Windows.Shared;
 using Newtonsoft.Json.Linq;
+using System.Runtime.InteropServices;
 
 namespace D2RLaunch.ViewModels.Drawers;
 
@@ -64,10 +65,45 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     private bool _mapRegenEnabled;
     private bool _respecEnabled;
     private ObservableCollection<KeyValuePair<string, eMapLayouts>> _mapLayouts = new ObservableCollection<KeyValuePair<string, eMapLayouts>>();
+    private ObservableCollection<KeyValuePair<string, eWindowMode>> _windowMode = new ObservableCollection<KeyValuePair<string, eWindowMode>>();
     private ObservableCollection<KeyValuePair<string, eUiThemes>> _uiThemes = new ObservableCollection<KeyValuePair<string, eUiThemes>>();
     private DispatcherTimer _monsterStatsDispatcherTimer;
     private bool _uiThemeEnabled = true;
-    
+    // P/Invoke declarations
+    private const int GWL_STYLE = -16;
+    private const int GWL_EXSTYLE = -20;
+    private const uint WS_CAPTION = 0x00C00000;
+    private const uint WS_THICKFRAME = 0x00040000;
+    private const uint WS_EX_CLIENTEDGE = 0x00000200;
+    private const uint SWP_FRAMECHANGED = 0x0020;
+    private const uint SWP_NOMOVE = 0x0002;
+    private const uint SWP_NOSIZE = 0x0001;
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr GetDesktopWindow();
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
 
     #endregion
 
@@ -282,6 +318,17 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
     }
 
+    public ObservableCollection<KeyValuePair<string, eWindowMode>> WindowMode
+    {
+        get => _windowMode;
+        set
+        {
+            if (Equals(value, _windowMode)) return;
+            _windowMode = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ObservableCollection<KeyValuePair<string, eLanguage>> Languages
     {
         get => _languages;
@@ -383,6 +430,11 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         foreach (eMapLayouts mapLayout in Enum.GetValues<eMapLayouts>())
         {
             MapLayouts.Add(new KeyValuePair<string, eMapLayouts>(mapLayout.GetAttributeOfType<DisplayAttribute>().Name, mapLayout));
+        }
+
+        foreach (eWindowMode windowMode in Enum.GetValues<eWindowMode>())
+        {
+            WindowMode.Add(new KeyValuePair<string, eWindowMode>(windowMode.GetAttributeOfType<DisplayAttribute>().Name, windowMode));
         }
 
         foreach (eUiThemes uiTheme in Enum.GetValues<eUiThemes>())
@@ -605,14 +657,21 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         string args = string.Empty;
         string regenArg = ShellViewModel.UserSettings.ResetMaps ? " -resetofflinemaps" : string.Empty;
         string respecArg = ShellViewModel.UserSettings.InfiniteRespec ? " -enablerespec" : string.Empty;
+        string windowedArg = string.Empty;
         string mapLayoutArg = GetMapLayoutArg();
+
+        if (ShellViewModel.UserSettings.WindowMode >= 1)
+            windowedArg = " -windowed";
+        else
+            windowedArg = string.Empty;
+
 
         if (ShellViewModel.UserSettings.DirectTxt)
         {
             if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
-                args = $"-direct{regenArg}{respecArg}{mapLayoutArg}";
+                args = $"-direct{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
             else
-                args = $"-direct -txt{regenArg}{respecArg}{mapLayoutArg}";
+                args = $"-direct -txt{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
         }
         else
         {
@@ -635,7 +694,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             else
                 args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
 
-            args = $"{args}{regenArg}{respecArg}{mapLayoutArg}";
+            args = $"{args}{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
         }
 
         return args;
@@ -905,6 +964,17 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             //MessageBox.Show(launchArgsF);
             Process.Start(startInfo);
             ShellViewModel.UserSettings.MapLayout = 0;
+
+            if (ShellViewModel.UserSettings.WindowMode == 2)
+            {
+                Thread.Sleep(10000);
+                ExtendDiabloWindowToFullScreen();
+            }
+            if (ShellViewModel.UserSettings.WindowMode == 3)
+            {
+                Thread.Sleep(10000);
+                RemoveDiabloWindowTitleBarAndBorder();
+            }
         }
         catch (Exception ex)
         {
@@ -1359,6 +1429,81 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
+
+    private void ExtendDiabloWindowToFullScreen()
+    {
+        Process[] processes = Process.GetProcesses();
+        bool foundDiabloWindow = false;
+
+        foreach (Process process in processes)
+        {
+            IntPtr mainWindowHandle = process.MainWindowHandle;
+            if (mainWindowHandle != IntPtr.Zero)
+            {
+                string windowTitle = process.MainWindowTitle.ToLower();
+                if (windowTitle.Contains("diablo"))
+                {
+                    foundDiabloWindow = true;
+
+                    // Remove title bar, border, and client edge
+                    uint style = GetWindowLong(mainWindowHandle, GWL_STYLE);
+                    uint exStyle = GetWindowLong(mainWindowHandle, GWL_EXSTYLE);
+
+                    style &= ~(WS_CAPTION | WS_THICKFRAME); // Remove title bar and resizable border
+                    exStyle &= ~WS_EX_CLIENTEDGE; // Remove client edge
+
+                    SetWindowLong(mainWindowHandle, GWL_STYLE, style);
+                    SetWindowLong(mainWindowHandle, GWL_EXSTYLE, exStyle);
+
+                    // Update window position and size to cover the entire screen
+                    IntPtr desktopHandle = GetDesktopWindow();
+                    RECT desktopRect;
+                    GetWindowRect(desktopHandle, out desktopRect);
+
+                    SetWindowPos(mainWindowHandle, IntPtr.Zero, desktopRect.Left, desktopRect.Top, desktopRect.Right - desktopRect.Left, desktopRect.Bottom - desktopRect.Top, SWP_FRAMECHANGED);
+
+                    //MessageBox.Show("Diablo window extended to full screen resolution.");
+                    break; // Once we find a Diablo window, no need to continue looping
+                }
+            }
+        }
+    }
+
+    private void RemoveDiabloWindowTitleBarAndBorder()
+    {
+        Process[] processes = Process.GetProcesses();
+        bool foundDiabloWindow = false;
+
+        foreach (Process process in processes)
+        {
+            IntPtr mainWindowHandle = process.MainWindowHandle;
+            if (mainWindowHandle != IntPtr.Zero)
+            {
+                string windowTitle = process.MainWindowTitle.ToLower();
+                if (windowTitle.Contains("diablo"))
+                {
+                    foundDiabloWindow = true;
+
+                    // Modify the window style to remove the title bar and border
+                    uint style = GetWindowLong(mainWindowHandle, GWL_STYLE);
+                    uint exStyle = GetWindowLong(mainWindowHandle, GWL_EXSTYLE);
+
+                    style &= ~(WS_CAPTION | WS_THICKFRAME); // Remove title bar and resizable border
+                    exStyle &= ~WS_EX_CLIENTEDGE; // Remove client edge
+
+                    SetWindowLong(mainWindowHandle, GWL_STYLE, style);
+                    SetWindowLong(mainWindowHandle, GWL_EXSTYLE, exStyle);
+
+                    // Update window position to refresh the appearance
+                    SetWindowPos(mainWindowHandle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+
+                    //MessageBox.Show("Title bar, border, and client edge removed from Diablo window.");
+                    break; // Once we find a Diablo window, no need to continue looping
+                }
+            }
+        }
+    }
+
 
     public event PropertyChangedEventHandler PropertyChanged;
 

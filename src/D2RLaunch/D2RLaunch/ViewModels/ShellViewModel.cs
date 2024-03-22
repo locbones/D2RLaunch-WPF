@@ -51,7 +51,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.1.9";
+    private string appVersion = "2.2.2";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -1794,6 +1794,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         if (!File.Exists(hudMonsterHealthHdJsonFilePath) && !File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
             await File.WriteAllBytesAsync(hudMonsterHealthHdJsonFilePath, await Helper.GetResourceByteArray("Options.MonsterStats.hudmonsterhealthhd.json"));
+        else if (!File.Exists(hudMonsterHealthHdJsonFilePath) && File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
+                File.Copy(hudMonsterHealthHdDisabledJsonFilePath, hudMonsterHealthHdJsonFilePath, true);
+
 
         switch (monsterHP)
         {
@@ -1820,6 +1823,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                     string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
 
+                    if (hudContents.Contains("HB_A\""))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
+
                     if (hudContents.Contains("MonHPBar_UniFull\"") || hudContents.Contains("MonHPBar_UniFullPer\""))
                     {
                         hudContents = hudContents.Replace("MonHPBar_UniFull\"", "MonHPBar_UniSmall\"").Replace("MonHPBar_NormFull\"", "MonHPBar_NormSmall\"").Replace("MonHPBar_UniFullPer\"", "MonHPBar_UniSmall\"").Replace("MonHPBar_NormFullPer\"", "MonHPBar_NormSmall\"")
@@ -1845,6 +1851,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                     string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
 
+                    if (hudContents.Contains("HB_A\""))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
+
                     hudContents = hudContents.Replace("MonHPBar_UniFull\"", "MonHPBar_UniSmallPer\"").Replace("MonHPBar_NormFull\"", "MonHPBar_NormSmallPer\"").Replace("MonHPBar_UniFullPer\"", "MonHPBar_UniSmallPer\"").Replace("MonHPBar_NormFullPer\"", "MonHPBar_NormSmallPer\"")
                             .Replace("MonHPBar_UniSmall\"", "MonHPBar_UniSmallPer\"").Replace("MonHPBar_NormSmall\"", "MonHPBar_NormSmallPer\"").Replace("\"y\": 115", "\"y\": 65").Replace("\"y\": 150", "\"y\": 100");
                     File.WriteAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", hudContents);
@@ -1867,6 +1876,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                     string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
 
+                    if (hudContents.Contains("HB_A\""))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
+
                     hudContents = hudContents.Replace("MonHPBar_UniFullPer\"", "MonHPBar_UniFull\"").Replace("MonHPBar_NormFullPer\"", "MonHPBar_NormFull\"").Replace("MonHPBar_UniSmallPer\"", "MonHPBar_UniFull\"").Replace("MonHPBar_NormSmallPer\"", "MonHPBar_NormFull\"")
                             .Replace("MonHPBar_UniSmall\"", "MonHPBar_UniFull\"").Replace("MonHPBar_NormSmall\"", "MonHPBar_NormFull\"").Replace("\"y\": 65", "\"y\": 115").Replace("\"y\": 100", "\"y\": 150");
                     File.WriteAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", hudContents);
@@ -1888,6 +1900,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
 
                     string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");
+
+                    if (hudContents.Contains("HB_A\""))
+                        File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
 
                     hudContents = hudContents.Replace("MonHPBar_UniFull\"", "MonHPBar_UniFullPer\"").Replace("MonHPBar_NormFull\"", "MonHPBar_NormFullPer\"").Replace("MonHPBar_UniSmallPer\"", "MonHPBar_UniFullPer\"").Replace("MonHPBar_NormSmallPer\"", "MonHPBar_NormFullPer\"")
                             .Replace("MonHPBar_UniSmall\"", "MonHPBar_UniFullPer\"").Replace("MonHPBar_NormSmall\"", "MonHPBar_NormFullPer\"").Replace("\"y\": 65", "\"y\": 115").Replace("\"y\": 100", "\"y\": 150");

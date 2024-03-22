@@ -282,6 +282,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <syncfusion:ButtonAdv
@@ -306,26 +307,40 @@
                             ItemsSource="{Binding MapLayouts}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.MapLayout}"
                             SelectedValuePath="Value"
+                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
+                        <Label
+                            Grid.Row="3"
+                            Content="Window Mode"
+                            Style="{StaticResource LabelHeaderStyle}" Margin="5,5,5,0" />
+                        <ComboBox
+                            Grid.Row="5"
+                            VerticalAlignment="Center"
+                            cm:Message.Attach="[Event SelectionChanged] = [Action OnMapLayoutSelectionChanged];"
+                            Background="#FF313030"
+                            BorderThickness="1,1,1,1"
+                            DisplayMemberPath="Key"
+                            ItemsSource="{Binding WindowMode}"
+                            SelectedIndex="{Binding ShellViewModel.UserSettings.WindowMode}"
+                            SelectedValuePath="Value"
                             Style="{StaticResource ComboBoxStyle}" />
                         <CheckBox
-                            Grid.Row="4"
+                            Grid.Row="6"
                             HorizontalAlignment="Center"
                             Content="{Binding Path=HDR, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.HdrFix}"
-                            Style="{StaticResource CheckBoxStyle}" Margin="5,30,5,5" />
+                            Style="{StaticResource CheckBoxStyle}" Margin="5,10,5,5" />
                         <CheckBox
-                            Grid.Row="5"
+                            Grid.Row="7"
                             HorizontalAlignment="Center"
                             Content="{Binding Path=Regen, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.ResetMaps}"
                             Style="{StaticResource CheckBoxStyle}" />
                         <CheckBox
-                            Grid.Row="6"
+                            Grid.Row="8"
                             HorizontalAlignment="Center"
                             Content="{Binding Path=Respec, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.InfiniteRespec}"
                             Style="{StaticResource CheckBoxStyle}" />
-
                     </Grid>
                 </Grid>
 

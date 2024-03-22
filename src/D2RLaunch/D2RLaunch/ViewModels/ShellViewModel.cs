@@ -1794,8 +1794,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         if (!File.Exists(hudMonsterHealthHdJsonFilePath) && !File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
             await File.WriteAllBytesAsync(hudMonsterHealthHdJsonFilePath, await Helper.GetResourceByteArray("Options.MonsterStats.hudmonsterhealthhd.json"));
-        else if (!File.Exists(hudMonsterHealthHdJsonFilePath) && File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
-                File.Copy(hudMonsterHealthHdDisabledJsonFilePath, hudMonsterHealthHdJsonFilePath, true);
+        if (!File.Exists(hudMonsterHealthHdJsonFilePath) && File.Exists(hudMonsterHealthHdDisabledJsonFilePath))
+            File.Move(hudMonsterHealthHdDisabledJsonFilePath, hudMonsterHealthHdJsonFilePath, true);             
 
 
         switch (monsterHP)
@@ -1818,7 +1818,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     ZipFile.ExtractToDirectory(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip", SelectedModDataFolder + "/D2RLaunch/Monster Stats/", true);
                     File.Delete(SelectedModDataFolder + "/D2RLaunch/Monster Stats/MS_Assets.zip");
 
-                    if (!File.Exists(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json"))
+                    if (!File.Exists(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json"))
                         File.Move(SelectedModDataFolder + "/D2RLaunch/Monster Stats/hudmonsterhealthhd.json", SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json", true);
 
                     string hudContents = File.ReadAllText(SelectedModDataFolder + "/global/ui/layouts/hudmonsterhealthhd.json");

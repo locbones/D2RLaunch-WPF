@@ -51,7 +51,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.2.2";
+    private string appVersion = "2.2.3";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -2185,9 +2185,57 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             case eEnabledDisabled.Disabled:
             {
-                //TODO: This needs to undo the show itemlevels functionality.
-                break;
-            }
+                    //search the defined files
+                    foreach (string file in files)
+                    {
+                        if (!Directory.Exists(excelPath))
+                            Directory.CreateDirectory(excelPath);
+
+                        if (!File.Exists(armorTxtPath))
+                        {
+                            File.Create(armorTxtPath).Close();
+                            Helper.ExtractFileFromCasc(GamePath, cascArmorTxtFileName, SelectedModDataFolder, "data:data");
+                        }
+                        if (!File.Exists(weaponsTxtPath))
+                        {
+                            File.Create(weaponsTxtPath).Close();
+                            Helper.ExtractFileFromCasc(GamePath, cascWeaponsTxtFileName, SelectedModDataFolder, "data:data");
+                        }
+                        if (!File.Exists(miscTxtPath))
+                        {
+                            File.Create(miscTxtPath).Close();
+                            Helper.ExtractFileFromCasc(GamePath, cascMiscTxtFileName, SelectedModDataFolder, "data:data");
+                        }
+
+                        string filePath = Path.Combine(excelPath, file);
+
+                        if (!File.Exists(filePath))
+                            continue;
+
+                        string[] lines = await File.ReadAllLinesAsync(filePath);
+
+                        if (lines.Length == 0)
+                            continue;
+
+                        string[] headers = lines[0].Split('\t'); //split by tab-delimited format
+                        int showLevelIndex = Array.IndexOf(headers, "ShowLevel"); //make an array from the 'ShowLevel' entries
+
+                        //search through 'ShowLevel' entries further
+                        for (int i = 1; i < lines.Length; i++)
+                        {
+                            string[] columns = lines[i].Split('\t');
+                            //check if entries match the dropdown index of 0 or 1
+                            if (columns.Length > showLevelIndex && columns[showLevelIndex] != UserSettings.ItemIlvls.ToString())
+                            {
+                                columns[showLevelIndex] = UserSettings.ItemIlvls.ToString();
+                                lines[i] = string.Join("\t", columns); //replace the 0 or 1 values as dropdown indicates
+                            }
+                        }
+                        //We done boys
+                        File.WriteAllLines(filePath, lines);
+                    }
+                    break;
+                }
             case eEnabledDisabled.Enabled:
             {
                 //search the defined files

@@ -156,6 +156,7 @@
     <None Remove="Resources\Options\MonsterStats\MS_Assets.zip" />
     <None Remove="Resources\Options\PersonalizedTabs\stash_rmd" />
     <None Remove="Resources\Options\PersonalizedTabs\stash_vnp" />
+    <None Remove="Resources\Preview\D2RLaunch_MonsterBarPreview.gif" />
     <None Remove="Resources\Preview\Preview_HUD.png" />
     <None Remove="Resources\Preview\Preview_ItemIcons.png" />
     <None Remove="Resources\Preview\Preview_MercIcon.png" />
@@ -255,6 +256,7 @@
     <EmbeddedResource Include="Resources\Fonts\9.png" />
     <EmbeddedResource Include="Resources\Fonts\0.png" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\MS_Assets.zip" />
+    <Resource Include="Resources\Preview\D2RLaunch_MonsterBarPreview.gif" />
     <Resource Include="Resources\Preview\D2RLaunch_ColorDyePreview.png" />
     <EmbeddedResource Include="Resources\modinfo_blank.json" />
     <EmbeddedResource Include="Resources\Options\D2RL_SkillIcons.zip" />

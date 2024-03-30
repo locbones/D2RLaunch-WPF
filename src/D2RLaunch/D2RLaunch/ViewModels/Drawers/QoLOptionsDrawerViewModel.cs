@@ -285,13 +285,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     [UsedImplicitly]
     public async void OnMonsterStatsDisplayPreview()
     {
-        await ShowPreviewImage("Preview_MonsterStats.gif", "Monster Stats Preview");
-    }
-
-    [UsedImplicitly]
-    public async void OnMonsterHPBarPreview()
-    {
-        await ShowPreviewImage("Preview_MonsterStats.gif", "Monster HP Bar Preview");
+        await ShowPreviewImage("D2RLaunch_MonsterBarPreview.gif", "Monster Stats Preview");
     }
 
     [UsedImplicitly]

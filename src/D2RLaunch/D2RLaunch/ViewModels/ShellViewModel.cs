@@ -51,7 +51,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.2.3";
+    private string appVersion = "2.2.5";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -400,7 +400,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                     {
                         if (File.Exists(hudPanelhdJsonFilePath))
                         {
-                            File.Delete(hudPanelhdJsonFilePath);
+                            File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/hudpanelhd.json"), hudPanelhdJsonFilePath, true);
+                            File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/Controller/hudpanelhd.json"), controllerhudPanelhdJsonFilePath, true);
 
                             if ((eUiThemes)UserSettings.UiTheme == eUiThemes.Standard)
                                 File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath);

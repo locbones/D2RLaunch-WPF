@@ -69,6 +69,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     private ObservableCollection<KeyValuePair<string, eUiThemes>> _uiThemes = new ObservableCollection<KeyValuePair<string, eUiThemes>>();
     private DispatcherTimer _monsterStatsDispatcherTimer;
     private bool _uiThemeEnabled = true;
+
     // P/Invoke declarations
     private const int GWL_STYLE = -16;
     private const int GWL_EXSTYLE = -20;
@@ -404,7 +405,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         object data = key.GetValue("CONNECTION_STRING_CN");
         if (data != null && data.ToString() == "127.0.0.1")
         {
-            if (userSettings.MonsterStatsDisplay != 0)
+            if (userSettings.MonsterHP != 0)
             {
                 Process testrun;
                 testrun = Process.GetProcessesByName("D2R")[0];

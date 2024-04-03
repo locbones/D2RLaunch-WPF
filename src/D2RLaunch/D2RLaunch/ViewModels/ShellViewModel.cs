@@ -51,7 +51,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private UserControl _userControl;
     private IWindowManager _windowManager;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.2.5";
+    private string appVersion = "2.2.8";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -398,15 +398,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             {
                 case eHudDesign.Standard:
                     {
-                        if (File.Exists(hudPanelhdJsonFilePath))
+                        if (File.Exists(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json")) || File.Exists(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/remodded/layouts/hudpanelhd.json")))
                         {
-                            File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/hudpanelhd.json"), hudPanelhdJsonFilePath, true);
-                            File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/Controller/hudpanelhd.json"), controllerhudPanelhdJsonFilePath, true);
-
                             if ((eUiThemes)UserSettings.UiTheme == eUiThemes.Standard)
-                                File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath);
+                                File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath, true);
                             else
-                                File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/remodded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath);
+                                File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/remodded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath, true);
+
+                            if (File.Exists(controllerhudPanelhdJsonFilePath))
+                                File.Delete(controllerhudPanelhdJsonFilePath);
 
                             // Update skillselecthd.json if it exists
                             if (File.Exists(skillSelecthdJsonFilePath))
@@ -415,6 +415,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                                 await File.WriteAllTextAsync(skillSelecthdJsonFilePath, skillSelect.Replace("\"centerMirrorGapWidth\": 846,", "\"centerMirrorGapWidth\": 146,"));
                             }
                         }
+                        else
+                            if (File.Exists(hudPanelhdJsonFilePath))
+                                File.Delete(hudPanelhdJsonFilePath);
                         break;
                     }
                 case eHudDesign.Merged:
@@ -422,9 +425,12 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         if (!Directory.Exists(controllerDirectory))
                             Directory.CreateDirectory(controllerDirectory);
 
-                        File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/hudpanelhd-merged.json"), hudPanelhdJsonFilePath, true);
-                        File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/Controller/hudpanelhd-merged_controller.json"), controllerhudPanelhdJsonFilePath, true);
-
+                        if (File.Exists(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/hudpanelhd-merged.json")))
+                        {
+                            File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/hudpanelhd-merged.json"), hudPanelhdJsonFilePath, true);
+                            File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/Merged HUD/Controller/hudpanelhd-merged_controller.json"), controllerhudPanelhdJsonFilePath, true);
+                        }
+                        
                         // Update skillselecthd.json if it exists
                         if (!File.Exists(skillSelecthdJsonFilePath))
                         {
@@ -3428,6 +3434,27 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                     //Open Vault Config Folder
                     string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\rcm";
+                    if (Directory.Exists(folderPath))
+                    {
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            Arguments = folderPath,
+                            FileName = "explorer.exe"
+                        };
+                        Process.Start(startInfo);
+                    }
+                    else
+                        MessageBox.Show($"{folderPath} Directory does not exist!");
+
+                    break;
+                }
+            case "ERROR LOGS":
+                {
+                    if (ModInfo == null || UserSettings == null)
+                        break;
+
+                    //Open Vault Config Folder
+                    string folderPath = "Error Logs";
                     if (Directory.Exists(folderPath))
                     {
                         ProcessStartInfo startInfo = new ProcessStartInfo

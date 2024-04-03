@@ -123,6 +123,10 @@
                     Style="{StaticResource NavigationItemGoldStyle}"
                     Tag="Launch Files" />
                 <syncfusion:NavigationItem
+                    Header="D2RLaunch Error Logs"
+                    Style="{StaticResource NavigationItemGoldStyle}"
+                    Tag="Error Logs" />
+                <syncfusion:NavigationItem
                     Header="{Binding Path=VaultFiles, Source={StaticResource Resources}}"
                     Style="{StaticResource NavigationItemGoldStyle}"
                     Tag="Vault Files" />

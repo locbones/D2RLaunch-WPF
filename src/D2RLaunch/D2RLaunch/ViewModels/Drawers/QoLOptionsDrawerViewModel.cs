@@ -324,6 +324,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
         BuffIconSettingsViewModel vm = new BuffIconSettingsViewModel(ShellViewModel);
+        await vm.Initialize();
 
         if (await _windowManager.ShowDialogAsync(vm, null, options))
         {

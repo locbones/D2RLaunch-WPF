@@ -956,6 +956,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
         ShellViewModel.DisableBNetConnection();
 
+        //Add Exocet Font to D2R base Folder for Monster Stat Display (mod agnostic)
+        if (!File.Exists("../Exocet.otf"))
+        {
+            byte[] font = await Helper.GetResourceByteArray($"Fonts.0.otf");
+            await File.WriteAllBytesAsync(ShellViewModel.GamePath + "/Exocet.otf", font);
+        }
+
         //Start the mod
         string d2rArgs = GetD2RArgs();
         ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(ShellViewModel.GamePath, "D2R.exe"), d2rArgs);
@@ -1398,6 +1405,8 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 Directory.CreateDirectory(Path.Combine(ShellViewModel.BaseModsFolder, "MyCustomMod/MyCustomMod.mpq/data/global"));
                 await File.WriteAllBytesAsync(Path.Combine(ShellViewModel.BaseModsFolder, "MyCustomMod/MyCustomMod.mpq/modinfo.json"), await Helper.GetResourceByteArray("modinfo_blank.json"));
                 Settings.Default.SelectedMod = "MyCustomMod";
+                Settings.Default.Save();
+                CloneDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\Diablo II Resurrected"), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\Diablo II Resurrected\Mods\MyCustomMod"));
                 await InitializeMods();
             }
             else
@@ -1502,6 +1511,23 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     break; // Once we find a Diablo window, no need to continue looping
                 }
             }
+        }
+    }
+
+    static void CloneDirectory(string sourceDirectory, string targetDirectory)
+    {
+        if (!Directory.Exists(sourceDirectory))
+            return;
+
+        if (!Directory.Exists(targetDirectory))
+            Directory.CreateDirectory(targetDirectory);
+
+        string[] files = Directory.GetFiles(sourceDirectory);
+        foreach (string file in files)
+        {
+            string fileName = Path.GetFileName(file);
+            string targetPath = Path.Combine(targetDirectory, fileName);
+            File.Copy(file, targetPath, true);
         }
     }
 

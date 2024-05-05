@@ -44,7 +44,7 @@ public class CASCExtractorViewModel : Screen
     [UsedImplicitly]
     public async void OnCascHelp()
     {
-        MessageBox.Show("Please be advised that this method is NOT recommended for most users, unless you are aware of the following info:\n\nAuto-Backups will not work:\nThis mode forces the game to use your retail save location, and the launcher will not perform backups of this folder for safety/liability reasons. I don't want to be responsible for ruining your retail progress. This means you will need to manually move/backup your save files to this location yourself.\n\nRetail game may fail to launch:\nAs you now have modded save files in your retail location; if attempting to play online, the game may crash as it tries to load what it thinks are corrupted characters. It is also recommend to keep a folder for your retail and mod saves so you can swap as needed.\n\nIf this sounds like too much hassle; I don't blame you...this mode was never truly designed for modding convenience.", "WARNING!!");
+        MessageBox.Show("D2RLaunch will first backup your mod's data, then extract CASC Data.\nAfter CASC Data has been extracted; it will restore your mod files.\n\nIf you wish to generate bins for your mod, please choose the 'Bin Generation Only' option, then you may run the game using -direct -txt.", "WARNING!!");
     }
 
     public CASCExtractorViewModel(ShellViewModel shellViewModel)
@@ -64,7 +64,7 @@ public class CASCExtractorViewModel : Screen
 
         string[] baseFolders = Directory.GetDirectories(ShellViewModel.BaseModsFolder);
 
-        InstalledMods.Add("Retail (Don't overwrite)");
+        InstalledMods.Add("Bin Generation Only");
 
         foreach (string folder in baseFolders)
         {
@@ -205,6 +205,34 @@ public class CASCExtractorViewModel : Screen
     {
         string extractionDirectory = ShellViewModel.GamePath;
 
+        if (SelectedMod == "Bin Generation Only")
+        {
+            extractionDirectory = ShellViewModel.GamePath;
+        }
+        else
+        {
+            extractionDirectory = Path.Combine(ShellViewModel.BaseModsFolder, SelectedMod, $"{SelectedMod}.mpq");
+            string[] modFiles = Directory.GetFiles(Path.Combine(extractionDirectory,"data"), "*.*", SearchOption.AllDirectories);
+
+            foreach (string file in modFiles)
+            {
+                string relativePath = Path.GetRelativePath(Path.Combine(extractionDirectory, "data"), file);
+                string destinationFilePath = Path.Combine(Path.Combine(extractionDirectory, "data_temp"), relativePath);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(destinationFilePath));
+                await Task.Run(() => File.Copy(file, destinationFilePath, true));
+
+                string fileNameFormatted = file.Replace($"{Path.Combine(extractionDirectory, @"data\")}","");
+                
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    FileName = fileNameFormatted;
+                    return Task.CompletedTask;
+                });
+                
+            }
+        }
+
         using CASCStorage storage = new CASCStorage(ShellViewModel.GamePath);
 
         int extractedFiles = 0;
@@ -273,10 +301,34 @@ public class CASCExtractorViewModel : Screen
         //Extraction Complete, Proceed with over-writing
         if (totalFiles - extractedFiles == 0)
         {
-            MessageBox.Show("CASC Extraction Complete!\n\nNow updating with mod files (if selected)");
+            if (SelectedMod != "Bin Generation Only")
+            {
+                MessageBox.Show("CASC Extraction Complete!\n\nNow updating with mod files (if selected)");
 
-            if (SelectedMod != "Retail (Don't overwrite)")
-                await OnUpdate();
+                extractionDirectory = Path.Combine(ShellViewModel.BaseModsFolder, SelectedMod, $"{SelectedMod}.mpq");
+                string[] modFiles = Directory.GetFiles(Path.Combine(extractionDirectory, "data_temp"), "*.*", SearchOption.AllDirectories);
+
+                foreach (string file in modFiles)
+                {
+                    string relativePath = Path.GetRelativePath(Path.Combine(extractionDirectory, "data_temp"), file);
+                    string destinationFilePath = Path.Combine(Path.Combine(extractionDirectory, "data"), relativePath);
+
+                    Directory.CreateDirectory(Path.GetDirectoryName(destinationFilePath));
+                    await Task.Run(() => File.Copy(file, destinationFilePath, true));
+
+                    string fileNameFormatted = file.Replace($"{Path.Combine(extractionDirectory, @"data_temp\")}", "");
+
+                    await Execute.OnUIThreadAsync(() =>
+                    {
+                        FileName = fileNameFormatted;
+                        return Task.CompletedTask;
+                    });
+
+                }
+            }
+            Directory.Delete(Path.Combine(extractionDirectory, "data_temp"));
+            MessageBox.Show("Extraction Process Complete! Now ready to Play");
+            await this.TryCloseAsync();
         }
     }
 

@@ -41,11 +41,11 @@
             Orientation="Vertical">
             <Label Content="CASC Extractor" Style="{StaticResource LabelHeaderStyle}" />
             <Label
-                Content="Use this to extract all D2R client files from CASC storage"
+                Content="In order to enable 'Fast Load', you must first extract all D2R files from CASC Storage"
                 FontSize="12"
                 Style="{StaticResource LabelNormalStyle}" />
             <Label
-                Content="You may want to do this if you need to generate bins for your mod or to reduce loading times"
+                Content="Please be advised that this operation will need to be performed for EVERY mod you enable it for"
                 FontSize="12"
                 Style="{StaticResource LabelNormalStyle}" />
             <Label
@@ -63,7 +63,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="3"
-            Content="After extraction, overwrite files with this mod:"
+            Content="After extraction, update files with this mod:"
             FontSize="12"
             Style="{StaticResource LabelNormalStyle}" />
 
@@ -86,13 +86,7 @@
                 cm:Message.Attach="[Event Click] = [Action OnExtract];"
                 Background="#0d2905"
                 IconTemplate="{StaticResource ExportIconTemplate}"
-                Label="Extract"
-                Style="{StaticResource SfButtonAdvNormalStyle}" />
-            <syncfusion:ButtonAdv
-                cm:Message.Attach="[Event Click] = [Action OnUpdate];"
-                Background="#0d2905"
-                IconTemplate="{StaticResource RefreshIconTemplate}"
-                Label="Update"
+                Label="Extract CASC Data"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
         </StackPanel>
 
@@ -163,14 +157,14 @@
                 Style="{StaticResource LabelHeaderStyle}"/>
         </StackPanel>
         <syncfusion:ButtonAdv
-            Grid.Row="0"
-            Width="36"
-            Height="36"
+            Grid.Row="1"
+            Width="24"
+            Height="24"
             HorizontalAlignment="Left"
             cm:Message.Attach="[Event Click] = [Action OnCascHelp];"
             Background="Transparent"
             IconTemplate="{StaticResource QuestionMarkIconTemplate}"
-            Style="{StaticResource SfButtonAdvSmallStyle}" Margin="10,145,0,0" Grid.Column="2" Grid.RowSpan="2" />
+            Style="{StaticResource SfButtonAdvSmallStyle}" Margin="-5,-15,0,0" Grid.Column="2" Grid.RowSpan="2" />
         <Label
             d:Content="383838383"
             Content="{Binding FileName}"

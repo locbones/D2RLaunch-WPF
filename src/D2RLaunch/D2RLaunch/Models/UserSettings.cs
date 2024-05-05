@@ -44,6 +44,8 @@ public class UserSettings : INotifyPropertyChanged
     private bool _ExpandedCube;
     private bool _ExpandedMerc;
     private int _colorDye;
+    private string _currentD2RArgs;
+    private string _fastLoad;
 
     #endregion
 
@@ -500,6 +502,28 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _ExpandedMerc = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string CurrentD2RArgs
+    {
+        get => _currentD2RArgs;
+        set
+        {
+            if (value == _currentD2RArgs) return;
+            _currentD2RArgs = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string FastLoad
+    {
+        get => _fastLoad;
+        set
+        {
+            if (value == _fastLoad) return;
+            _fastLoad = value;
             OnPropertyChanged();
         }
     }

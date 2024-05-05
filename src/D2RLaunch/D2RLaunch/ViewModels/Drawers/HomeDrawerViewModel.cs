@@ -36,6 +36,7 @@ using System.Net;
 using Syncfusion.Windows.Shared;
 using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
+using D2RLaunch.Views.Drawers;
 
 namespace D2RLaunch.ViewModels.Drawers;
 
@@ -69,6 +70,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     private ObservableCollection<KeyValuePair<string, eUiThemes>> _uiThemes = new ObservableCollection<KeyValuePair<string, eUiThemes>>();
     private DispatcherTimer _monsterStatsDispatcherTimer;
     private bool _uiThemeEnabled = true;
+    private string _d2rArgs;
 
     // P/Invoke declarations
     private const int GWL_STYLE = -16;
@@ -397,6 +399,17 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
     }
 
+    public string D2RArgsText
+    {
+        get => _d2rArgs;
+        set
+        {
+            if (value == _d2rArgs) return;
+            _d2rArgs = value;
+            OnPropertyChanged();
+        }
+    }
+
     #endregion
 
     private void MonsterStatsDispatcherTimerOnTick(UserSettings userSettings)
@@ -445,6 +458,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
         await InitializeLanguage();
         await InitializeMods();
+        GetD2RArgs();
     }
 
     public async Task InitializeLanguage()
@@ -525,6 +539,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 {
                 }
 
+                GetD2RArgs();
                 //await ApplyUiTheme();
             }
         }
@@ -627,7 +642,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 _logger.Error(ex);
             }
         }
-
     }
 
     private async Task<string> TranslateGoogleAsync(string text)
@@ -658,52 +672,46 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         string args = string.Empty;
         string regenArg = ShellViewModel.UserSettings.ResetMaps ? " -resetofflinemaps" : string.Empty;
         string respecArg = ShellViewModel.UserSettings.InfiniteRespec ? " -enablerespec" : string.Empty;
-        string windowedArg = string.Empty;
+        string windowedArg = ShellViewModel.UserSettings.WindowMode >= 1 ? " -windowed" : string.Empty;
         string mapLayoutArg = GetMapLayoutArg();
 
-        if (ShellViewModel.UserSettings.WindowMode >= 1)
-            windowedArg = " -windowed";
-        else
-            windowedArg = string.Empty;
+        string excelDir = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel");
 
-
-        if (ShellViewModel.UserSettings.DirectTxt)
+        if (Directory.Exists(excelDir))
         {
-            if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
-                args = $"-direct{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
-            else
-                args = $"-direct -txt{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
-        }
-        else
-        {
-            string excelDir = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel");
+            int binFileCount = Directory.GetFiles(excelDir, "*.bin").Length;
+            int txtFileCount = Directory.GetFiles(excelDir, "*.txt").Length;
 
-            if (Directory.Exists(excelDir))
-            {
-                int binFileCount = Directory.GetFiles(excelDir, "*.bin").Length;
-                int txtFileCount = Directory.GetFiles(excelDir, "*.txt").Length;
-
-                if (binFileCount >= 83 && txtFileCount >= 10)
-                    args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-
-                if (binFileCount >= 83 && txtFileCount < 10)
-                    args = $"-mod {ShellViewModel.ModInfo.Name}";
-
-                if (binFileCount < 83 && txtFileCount >= 1)
-                    args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-            }
-            else
+            if (binFileCount >= 83 && txtFileCount >= 10)
                 args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-
-            args = $"{args}{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
+            else if (binFileCount >= 83 && txtFileCount < 10)
+                args = $"-mod {ShellViewModel.ModInfo.Name}";
+            else if (binFileCount < 83 && txtFileCount >= 1)
+                args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
         }
+        else
+            args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
 
+        string mArgs = args;
+
+        if (SelectedMod == "ReMoDDeD")
+            mArgs = args.Replace(" -txt", "");
+
+        args = $"{mArgs}{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
+
+        if (File.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, @"local\macui\d2logo.pcx")))
+            ShellViewModel.UserSettings.FastLoad = "On";
+        else
+            ShellViewModel.UserSettings.FastLoad = "Off";
+        ShellViewModel.UserSettings.CurrentD2RArgs = args;
         return args;
     }
+
 
     private string GetMapLayoutArg()
     {
         string arg = string.Empty;
+        
 
         switch ((eMapLayouts) ShellViewModel.UserSettings.MapLayout)
         {
@@ -964,7 +972,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
 
         //Start the mod
-        string d2rArgs = GetD2RArgs();
+        string d2rArgs = ShellViewModel.UserSettings.CurrentD2RArgs;
         ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(ShellViewModel.GamePath, "D2R.exe"), d2rArgs);
         startInfo.WorkingDirectory = @".\";
         try
@@ -997,6 +1005,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         Settings.Default.Save();
 
         await InitializeMods();
+        GetD2RArgs();
     }
 
     [UsedImplicitly]
@@ -1013,6 +1022,8 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     {
         if ((eMapLayouts) ShellViewModel.UserSettings.MapLayout != eMapLayouts.Default)
             MessageBox.Show("WARNING: These options are meant for a fun experience or two, but will feel like cheating. Use at your own risk.\nIf you would like to proceed, please read these instructions:\n\nStep 1: Start the game with your selected layout\nStep 2: Once loaded into the game with your character fully, EXIT the game.\nStep 3: After exiting the game, you should see your layout dropdown on launcher changed back to Default. This is normal; Start the game again.\n\nIf you do not exit the game after changing your map layout...you will be stuck with a small drop pool of deterministic outcomes.\nThis does not need to be done every game; only if you change map layouts the normal ways; such as changing difficulty.");
+
+        GetD2RArgs();
     }
 
     [UsedImplicitly]
@@ -1417,9 +1428,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     [UsedImplicitly]
     public async void OnDirectTxtChecked()
     {
-        if (!Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/global")) || !Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/hd")) || !Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/local")))
+        string sourceDirectory = ShellViewModel.SelectedModDataFolder;
+
+        if (!File.Exists(Path.Combine(sourceDirectory, @"local\macui\d2logo.pcx")))
         {
-            if (MessageBox.Show("You don't have the required files for -direct -txt mode\nWould you like to extract them now?", "Missing Files!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            ShellViewModel.UserSettings.DirectTxt = false;
+
+            if (MessageBox.Show("You must first extract all ~40GB of game data to use this mode\nWould you like to extract them now?", "Missing Files!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 dynamic options = new ExpandoObject();
                 options.ResizeMode = ResizeMode.NoResize;
@@ -1430,14 +1445,18 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 if (await _windowManager.ShowDialogAsync(vm, null, options))
                 {   
                 }
-
-                if (!Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/global")) || !Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/hd")) ||
-                    !Directory.Exists(Path.Combine(ShellViewModel.GamePath, "/data/local")))
-                {
-                    ShellViewModel.UserSettings.DirectTxt = false;
-                }
             }
+            else
+                ShellViewModel.UserSettings.DirectTxt = false;
         }
+        
+        GetD2RArgs();
+    }
+
+    [UsedImplicitly]
+    public async void OnMapRegenChecked()
+    {
+        GetD2RArgs();
     }
 
     private void ExtendDiabloWindowToFullScreen()

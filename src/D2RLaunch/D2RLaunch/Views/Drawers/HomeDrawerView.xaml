@@ -55,7 +55,7 @@
                             <Border.BorderBrush>
                                 <SolidColorBrush Opacity="0.5" Color="Silver" />
                             </Border.BorderBrush>
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer CanContentScroll="True" MaxHeight="140" VerticalScrollBarVisibility="Auto">
                                 <TextBlock
                                     Margin="5"
                                     VerticalAlignment="Top"
@@ -238,6 +238,8 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
 
                         <Label
@@ -281,14 +283,30 @@
                                 IconTemplate="{StaticResource SettingsIconTemplate}"
                                 Style="{StaticResource SfButtonAdvSmallStyle}" Margin="5,10,5,5" />
                         </StackPanel>
-
                         <StackPanel
                             Grid.Row="3"
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
+                            <Label Content="{Binding ShellViewModel.UserSettings.MapSeedName}" Foreground ="Red" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="textBoxSeed" Text="{Binding ShellViewModel.UserSettings.MapSeed}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="25" VerticalAlignment="Top" Background="#FF313030" FontSize="11" Width="100"/>
+                            <syncfusion:ButtonAdv
+                                cm:Message.Attach="[Event Click] = [Action OnCharSelect];"
+                                Background="Transparent"
+                                IconTemplate="{StaticResource CharactersIconTemplate}"
+                                Style="{StaticResource SfButtonAdvSmallStyle}" Margin="0,0,0,0" Width="33" />
+                            <syncfusion:ButtonAdv
+                                cm:Message.Attach="[Event Click] = [Action OnCharMapSeed];"
+                                Background="Transparent"
+                                IconTemplate="{StaticResource PreviewIconTemplate}"
+                                Style="{StaticResource SfButtonAdvSmallStyle}" Margin="0,0,0,0" Width="33" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="4"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
                             <Label Content="Launch Mode:" Foreground ="Red" VerticalContentAlignment="Bottom"/>
                         </StackPanel>
-                        <Grid Grid.Row="4" HorizontalAlignment="Stretch">
+                        <Grid Grid.Row="5" HorizontalAlignment="Stretch">
                             <TextBox x:Name="textBoxArgs" Text="{Binding ShellViewModel.UserSettings.CurrentD2RArgs}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="25" VerticalAlignment="Top" Background="#FF313030" FontSize="11"/>
                         </Grid>
                     </Grid>

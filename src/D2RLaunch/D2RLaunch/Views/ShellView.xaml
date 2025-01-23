@@ -157,6 +157,15 @@
                     <Image Source="pack://application:,,,/Resources/Icons/Icon_Vault.png" />
                 </syncfusion:NavigationItem.Icon>
             </syncfusion:NavigationItem>
+            <syncfusion:NavigationItem
+                Header="Special Events"
+                IsEnabled="{Binding DiabloInstallDetected}"
+                Style="{StaticResource NavigationItemStyle}"
+                Tag="Events">
+                <syncfusion:NavigationItem.Icon>
+                    <Image Source="pack://application:,,,/Resources/Icons/Icon_Events.png" />
+                </syncfusion:NavigationItem.Icon>
+            </syncfusion:NavigationItem>
             <syncfusion:SfNavigationDrawer.FooterItems>
                 <syncfusion:NavigationItem>
                     <syncfusion:NavigationItem.Template>

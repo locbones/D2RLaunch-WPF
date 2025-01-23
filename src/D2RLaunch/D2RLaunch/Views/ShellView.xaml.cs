@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -29,5 +30,26 @@ namespace D2RLaunch.Views
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                using (var key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64)
+                                            .OpenSubKey(@"Software\Blizzard Entertainment\Battle.net\Launch Options\BNA", writable: true))
+                {
+                    key.SetValue("CONNECTION_STRING_CN", "cn.actual.battlenet.com.cn");
+                    key.SetValue("CONNECTION_STRING_CXX", "cn-ptr.actual.battle.net");
+                    key.SetValue("CONNECTION_STRING_EU", "eu.actual.battle.net");
+                    key.SetValue("CONNECTION_STRING_KR", "kr.actual.battle.net");
+                    key.SetValue("CONNECTION_STRING_US", "us.actual.battle.net");
+                    key.SetValue("CONNECTION_STRING_XX", "test.actual.battle.net");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
     }
 }

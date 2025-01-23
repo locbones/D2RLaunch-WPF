@@ -4,18 +4,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using Caliburn.Micro;
 using D2RLaunch.Models;
 using D2RLaunch.Models.Enums;
-using D2RLaunch.Properties;
 using JetBrains.Annotations;
-using log4net;
 using Syncfusion.Licensing;
 using ILog = log4net.ILog;
 using LogManager = log4net.LogManager;
@@ -24,26 +19,23 @@ namespace D2RLaunch.ViewModels.Drawers
 {
     public class CustomizationsDrawerViewModel : INotifyPropertyChanged
     {
-        #region members
+        #region ---Static Members---
 
         private ILog _logger = LogManager.GetLogger(typeof(CustomizationsDrawerViewModel));
         private DifficultyCustomizations _selectedDifficulty;
         private bool _normal = true;
         private bool _nightmare;
         private bool _hell;
-
         private string _actOneString;
         private string _actTwoString;
         private string _actThreeString;
         private string _actFourString;
         private string _actFiveString;
-
         private ObservableCollection<KeyValuePair<string, eChampionPacks>> _championPacks;
         private ObservableCollection<KeyValuePair<string, eGroupSizes>> _groupSizes;
         private ObservableCollection<KeyValuePair<string, eExpRate>> _expRates;
         private ObservableCollection<KeyValuePair<string, eMonsterItemDrops>> _monsterItemDrops;
         private ObservableCollection<KeyValuePair<string, eShortenedLevels>> _shortenedLevels;
-
         private string _customizationsPath;
         private string _globalTreasureClassExTxtPath;
         private string _globalLevelsTxtPath;
@@ -51,11 +43,73 @@ namespace D2RLaunch.ViewModels.Drawers
         private string _customizationsTreasureClassExTxtPath;
         private string _customizationLevelsTxtPath;
         private string _customizationMonStatsTxtPath;
-
         private bool _shortenedLevelsEnabled = true;
+        public ShellViewModel ShellViewModel { get; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
 
         #endregion
 
+        #region ---Window/Loaded Handlers---
+
+        public void Initialize()
+        {
+            ChampionPacks = new ObservableCollection<KeyValuePair<string, eChampionPacks>>();
+            GroupSizes = new ObservableCollection<KeyValuePair<string, eGroupSizes>>();
+            ExpRates = new ObservableCollection<KeyValuePair<string, eExpRate>>();
+            MonsterItemDrops = new ObservableCollection<KeyValuePair<string, eMonsterItemDrops>>();
+            ShortenedLevels = new ObservableCollection<KeyValuePair<string, eShortenedLevels>>();
+
+            foreach (eChampionPacks championPacks in Enum.GetValues<eChampionPacks>())
+            {
+                ChampionPacks.Add(new KeyValuePair<string, eChampionPacks>(championPacks.GetAttributeOfType<DisplayAttribute>().Name, championPacks));
+            }
+
+            foreach (eGroupSizes groupSizes in Enum.GetValues<eGroupSizes>())
+            {
+                GroupSizes.Add(new KeyValuePair<string, eGroupSizes>(groupSizes.GetAttributeOfType<DisplayAttribute>().Name, groupSizes));
+            }
+
+            foreach (eExpRate expRate in Enum.GetValues<eExpRate>())
+            {
+                ExpRates.Add(new KeyValuePair<string, eExpRate>(expRate.GetAttributeOfType<DisplayAttribute>().Name, expRate));
+            }
+
+            foreach (eMonsterItemDrops monsterItemDrops in Enum.GetValues<eMonsterItemDrops>())
+            {
+                MonsterItemDrops.Add(new KeyValuePair<string, eMonsterItemDrops>(Helper.GetCultureString(monsterItemDrops.GetAttributeOfType<DisplayAttribute>().Name), monsterItemDrops));
+            }
+
+            foreach (eShortenedLevels shortenedLevels in Enum.GetValues<eShortenedLevels>())
+            {
+                ShortenedLevels.Add(new KeyValuePair<string, eShortenedLevels>(Helper.GetCultureString(shortenedLevels.GetAttributeOfType<DisplayAttribute>().Name), shortenedLevels));
+            }
+
+            if (ShellViewModel.ModInfo.Name != "Vanilla++")
+            {
+                ShortenedLevelsEnabled = false;
+            }
+
+            if (!Directory.Exists(_customizationsPath))
+                Directory.CreateDirectory(_customizationsPath);
+
+            if (!File.Exists(_globalLevelsTxtPath))
+                Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\levels.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+            if (!File.Exists(_globalMonStatsTxtPath))
+                Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\monstats.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+            if (!File.Exists(_globalTreasureClassExTxtPath))
+                Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\treasureclassex.txt", ShellViewModel.SelectedModDataFolder, "data:data");
+
+            if (!File.Exists(_customizationLevelsTxtPath))
+                File.Copy(_globalLevelsTxtPath, _customizationLevelsTxtPath);
+            if (!File.Exists(_customizationMonStatsTxtPath))
+                File.Copy(_globalMonStatsTxtPath, _customizationMonStatsTxtPath);
+            if (!File.Exists(_customizationsTreasureClassExTxtPath))
+                File.Copy(_globalTreasureClassExTxtPath, _customizationsTreasureClassExTxtPath);
+
+            ChangeDifficulty();
+
+        }
         public CustomizationsDrawerViewModel()
         {
             if (Execute.InDesignMode)
@@ -72,7 +126,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 SelectedDifficulty = new DifficultyCustomizations();
             }
         }
-
         public CustomizationsDrawerViewModel(ShellViewModel shellViewModel)
         {
             ShellViewModel = shellViewModel;
@@ -107,10 +160,12 @@ namespace D2RLaunch.ViewModels.Drawers
                 userSettingsDifficultyCustomization.Value.PropertyChanged += async (sender, args) => { await OnDifficultyPropertyChanged(sender, args);};
             }
 
-            Task.Run(ChangeDifficulty);
+            ChangeDifficulty();
         }
 
-        #region properties
+        #endregion
+
+        #region ---Properties---
 
         public bool ShortenedLevelsEnabled
         {
@@ -125,7 +180,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActOneString
         {
             get => _actOneString;
@@ -139,7 +193,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActTwoString
         {
             get => _actTwoString;
@@ -153,7 +206,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActThreeString
         {
             get => _actThreeString;
@@ -167,7 +219,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActFourString
         {
             get => _actFourString;
@@ -181,7 +232,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActFiveString
         {
             get => _actFiveString;
@@ -195,7 +245,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<KeyValuePair<string, eChampionPacks>> ChampionPacks
         {
             get => _championPacks;
@@ -209,7 +258,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<KeyValuePair<string, eGroupSizes>> GroupSizes
         {
             get => _groupSizes;
@@ -223,7 +271,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<KeyValuePair<string, eExpRate>> ExpRates
         {
             get => _expRates;
@@ -237,7 +284,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<KeyValuePair<string, eMonsterItemDrops>> MonsterItemDrops
         {
             get => _monsterItemDrops;
@@ -252,7 +298,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<KeyValuePair<string, eShortenedLevels>> ShortenedLevels
         {
             get => _shortenedLevels;
@@ -266,9 +311,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
-        public ShellViewModel ShellViewModel { get; }
-
         public DifficultyCustomizations SelectedDifficulty
         {
             get => _selectedDifficulty;
@@ -282,7 +324,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public bool Normal
         {
             get => _normal;
@@ -298,7 +339,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 ChangeDifficulty();
             }
         }
-
         public bool Nightmare
         {
             get => _nightmare;
@@ -314,7 +354,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 ChangeDifficulty();
             }
         }
-
         public bool Hell
         {
             get => _hell;
@@ -333,6 +372,7 @@ namespace D2RLaunch.ViewModels.Drawers
 
         #endregion
 
+        #region ---Control Functions---
         [UsedImplicitly]
         public async void OnMonsterItemDropChange()
         {
@@ -391,7 +431,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
             }
         }
-
         private async Task OnDifficultyPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             int difficulty = Normal ? 0 : Nightmare ? 1 : Hell ? 2 : 0;
@@ -440,7 +479,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 }
             }
         }
-
         private async Task<(int density, double spawnChance)> CalculateMultiplier(double multiplier,int difficulty, int act, int startIndex, int endIndex)
         {
             int density = 0;
@@ -504,102 +542,41 @@ namespace D2RLaunch.ViewModels.Drawers
 
             return (10000, 10.0);
         }
-
-        private void ChangeDifficulty()
+        private async void ChangeDifficulty()
         {
+            string selectedDifficultyKey = null;
+
             if (Normal)
-            {
-                SelectedDifficulty = ShellViewModel.UserSettings.DifficultyCustomizations["Normal"];
-                Task.Run(async () =>
-                         {
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActOneMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActTwoMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActThreeMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActFourMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActFiveMultiplier)));
-                         });
-            }
+                selectedDifficultyKey = "Normal";
             else if (Nightmare)
-            {
-                SelectedDifficulty = ShellViewModel.UserSettings.DifficultyCustomizations["Nightmare"];
-                Task.Run(async () =>
-                         {
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActOneMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActTwoMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActThreeMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActFourMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActFiveMultiplier)));
-                         });
-            }
+                selectedDifficultyKey = "Nightmare";
             else if (Hell)
+                selectedDifficultyKey = "Hell";
+
+            if (selectedDifficultyKey != null && ShellViewModel.UserSettings.DifficultyCustomizations.TryGetValue(selectedDifficultyKey, out var difficultySettings))
             {
-                SelectedDifficulty = ShellViewModel.UserSettings.DifficultyCustomizations["Hell"];
-                Task.Run(async () =>
-                         {
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActOneMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActTwoMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActThreeMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActFourMultiplier)));
-                             await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(nameof(SelectedDifficulty.ActFiveMultiplier)));
-                         });
+                SelectedDifficulty = difficultySettings;
+                await UpdateDifficultyPropertiesAsync();
             }
+            else
+                _logger.Error("\nCustomizations: Settings not found");
         }
 
-        public void Initialize()
+        private async Task UpdateDifficultyPropertiesAsync()
         {
-            ChampionPacks = new ObservableCollection<KeyValuePair<string, eChampionPacks>>();
-            GroupSizes = new ObservableCollection<KeyValuePair<string, eGroupSizes>>();
-            ExpRates = new ObservableCollection<KeyValuePair<string, eExpRate>>();
-            MonsterItemDrops = new ObservableCollection<KeyValuePair<string, eMonsterItemDrops>>();
-            ShortenedLevels = new ObservableCollection<KeyValuePair<string, eShortenedLevels>>();
-
-            foreach (eChampionPacks championPacks in Enum.GetValues<eChampionPacks>())
+            var properties = new[]
             {
-                ChampionPacks.Add(new KeyValuePair<string, eChampionPacks>(championPacks.GetAttributeOfType<DisplayAttribute>().Name, championPacks));
-            }
+        nameof(SelectedDifficulty.ActOneMultiplier),
+        nameof(SelectedDifficulty.ActTwoMultiplier),
+        nameof(SelectedDifficulty.ActThreeMultiplier),
+        nameof(SelectedDifficulty.ActFourMultiplier),
+        nameof(SelectedDifficulty.ActFiveMultiplier)
+    };
 
-            foreach (eGroupSizes groupSizes in Enum.GetValues<eGroupSizes>())
+            foreach (var property in properties)
             {
-                GroupSizes.Add(new KeyValuePair<string, eGroupSizes>(groupSizes.GetAttributeOfType<DisplayAttribute>().Name, groupSizes));
+                await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(property));
             }
-
-            foreach (eExpRate expRate in Enum.GetValues<eExpRate>())
-            {
-                ExpRates.Add(new KeyValuePair<string, eExpRate>(expRate.GetAttributeOfType<DisplayAttribute>().Name, expRate));
-            }
-
-            foreach (eMonsterItemDrops monsterItemDrops in Enum.GetValues<eMonsterItemDrops>())
-            {
-                MonsterItemDrops.Add(new KeyValuePair<string, eMonsterItemDrops>(Helper.GetCultureString(monsterItemDrops.GetAttributeOfType<DisplayAttribute>().Name), monsterItemDrops));
-            }
-
-            foreach (eShortenedLevels shortenedLevels in Enum.GetValues<eShortenedLevels>())
-            {
-                ShortenedLevels.Add(new KeyValuePair<string, eShortenedLevels>(Helper.GetCultureString(shortenedLevels.GetAttributeOfType<DisplayAttribute>().Name), shortenedLevels));
-            }
-
-            if (ShellViewModel.ModInfo.Name != "Vanilla++")
-            {
-                ShortenedLevelsEnabled = false;
-            }
-
-            if (!Directory.Exists(_customizationsPath))
-                Directory.CreateDirectory(_customizationsPath);
-
-            if (!File.Exists(_globalLevelsTxtPath))
-                Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\levels.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-            if (!File.Exists(_globalMonStatsTxtPath))
-                Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\monstats.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-            if (!File.Exists(_globalTreasureClassExTxtPath))
-                Helper.ExtractFileFromCasc(ShellViewModel.GamePath, @"data:data\global\excel\treasureclassex.txt", ShellViewModel.SelectedModDataFolder, "data:data");
-
-            if (!File.Exists(_customizationLevelsTxtPath))
-                File.Copy(_globalLevelsTxtPath, _customizationLevelsTxtPath);
-            if (!File.Exists(_customizationMonStatsTxtPath))
-                File.Copy(_globalMonStatsTxtPath, _customizationMonStatsTxtPath);
-            if (!File.Exists(_customizationsTreasureClassExTxtPath))
-                File.Copy(_globalTreasureClassExTxtPath, _customizationsTreasureClassExTxtPath);
-
         }
 
         [UsedImplicitly]
@@ -808,48 +785,43 @@ namespace D2RLaunch.ViewModels.Drawers
                     index += 1;
                 }
                 await File.WriteAllTextAsync(_globalMonStatsTxtPath, contents);
+
                 #endregion
                 MessageBox.Show("Customizations applied successfully!");
+                await ShellViewModel.SaveUserSettings();
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
+        #endregion
     }
 
     public class DifficultyCustomizations : INotifyPropertyChanged
     {
-        #region members
+        #region ---Static Members---
+
         private int _selectedChampionPack = 0;
         private int _selectedExpRate = 0;
         private int _selectedShortenedLevel = 0;
-
         private int _actOneDensity;
         private int _actTwoDensity;
         private int _actThreeDensity;
         private int _actFourDensity;
         private int _actFiveDensity;
-
         private double _actOneSpawnChance;
         private double _actTwoSpawnChance;
         private double _actThreeSpawnChance;
         private double _actFourSpawnChance;
         private double _actFiveSpawnChance;
-
         private string _actOneMultiplierString;
         private string _actTwoMultiplierString;
         private string _actThreeMultiplierString;
         private string _actFourMultiplierString;
         private string _actFiveMultiplierString;
-
         private double _actOneMultiplier = 1;
         private double _actTwoMultiplier = 1;
         private double _actThreeMultiplier = 1;
         private double _actFourMultiplier = 1;
         private double _actFiveMultiplier = 1;
-        #endregion
-
         public DifficultyCustomizations()
         {
             if (Execute.InDesignMode)
@@ -862,7 +834,12 @@ namespace D2RLaunch.ViewModels.Drawers
             }
         }
 
-        #region properties
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
+
+        #endregion
+
+        #region ---Properties---
 
         public int SelectedShortenedLevel
         {
@@ -877,7 +854,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public int SelectedChampionPack
         {
             get => _selectedChampionPack;
@@ -891,7 +867,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public int SelectedExpRate
         {
             get => _selectedExpRate;
@@ -905,7 +880,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActOneMultiplierString
         {
             get => _actOneMultiplierString;
@@ -919,7 +893,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActTwoMultiplierString
         {
             get => _actTwoMultiplierString;
@@ -933,7 +906,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActThreeMultiplierString
         {
             get => _actThreeMultiplierString;
@@ -947,7 +919,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActFourMultiplierString
         {
             get => _actFourMultiplierString;
@@ -961,7 +932,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public string ActFiveMultiplierString
         {
             get => _actFiveMultiplierString;
@@ -975,7 +945,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActOneMultiplier
         {
             get => _actOneMultiplier;
@@ -989,7 +958,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActTwoMultiplier
         {
             get => _actTwoMultiplier;
@@ -1003,7 +971,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActThreeMultiplier
         {
             get => _actThreeMultiplier;
@@ -1017,7 +984,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActFourMultiplier
         {
             get => _actFourMultiplier;
@@ -1031,7 +997,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActFiveMultiplier
         {
             get => _actFiveMultiplier;
@@ -1045,7 +1010,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public int ActOneDensity
         {
             get => _actOneDensity;
@@ -1059,7 +1023,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public int ActTwoDensity
         {
             get => _actTwoDensity;
@@ -1073,7 +1036,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public int ActThreeDensity
         {
             get => _actThreeDensity;
@@ -1087,7 +1049,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public int ActFourDensity
         {
             get => _actFourDensity;
@@ -1101,7 +1062,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public int ActFiveDensity
         {
             get => _actFiveDensity;
@@ -1115,7 +1075,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActOneSpawnChance
         {
             get => _actOneSpawnChance;
@@ -1129,7 +1088,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActTwoSpawnChance
         {
             get => _actTwoSpawnChance;
@@ -1143,7 +1101,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActThreeSpawnChance
         {
             get => _actThreeSpawnChance;
@@ -1157,7 +1114,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActFourSpawnChance
         {
             get => _actFourSpawnChance;
@@ -1171,7 +1127,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 OnPropertyChanged();
             }
         }
-
         public double ActFiveSpawnChance
         {
             get => _actFiveSpawnChance;
@@ -1187,9 +1142,5 @@ namespace D2RLaunch.ViewModels.Drawers
         }
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
     }
 }

@@ -3,24 +3,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using D2RLaunch.Models;
 using D2RLaunch.Models.Enums;
-using D2RLaunch.Properties;
 using D2RLaunch.ViewModels.Dialogs;
 using JetBrains.Annotations;
 using Syncfusion.Licensing;
@@ -29,7 +24,7 @@ namespace D2RLaunch.ViewModels.Drawers;
 
 public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 {
-    #region members
+    #region ---Static Members---
 
     private IWindowManager _windowManager;
     private bool _showFontPreview;
@@ -44,164 +39,12 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
     private ObservableCollection<KeyValuePair<string, eItemDisplay>> _itemDisplays = new();
     private ObservableCollection<KeyValuePair<string, eRunewordSorting>> _runewordSorting = new();
     private ObservableCollection<KeyValuePair<string, eHudDesign>> _hudDesigns = new();
+    private ObservableCollection<KeyValuePair<string, eCinematicSubs>> _cinematicSubs = new();
+    private ObservableCollection<KeyValuePair<string, eEnabledDisabledModify>> _enabledDisabledModifyOptions = new();
 
     #endregion
 
-    public QoLOptionsDrawerViewModel()
-    {
-        if (Execute.InDesignMode)
-        { }
-    }
-
-    public QoLOptionsDrawerViewModel(ShellViewModel shellViewModel, IWindowManager windowManager)
-    {
-        ShellViewModel = shellViewModel;
-        _windowManager = windowManager;
-    }
-
-    #region properties
-
-    public ObservableCollection<KeyValuePair<string, eHudDesign>> HudDesigns
-    {
-        get => _hudDesigns;
-        set
-        {
-            if (Equals(value, _hudDesigns)) return;
-            _hudDesigns = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eRunewordSorting>> RunewordSorting
-    {
-        get => _runewordSorting;
-        set
-        {
-            if (Equals(value, _runewordSorting)) return;
-            _runewordSorting = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eItemDisplay>> ItemDisplays
-    {
-        get => _itemDisplays;
-        set
-        {
-            if (Equals(value, _itemDisplays)) return;
-            _itemDisplays = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eMonsterStats>> MonsterStats
-    {
-        get => _monsterStats;
-        set
-        {
-            if (Equals(value, _monsterStats)) return;
-            _monsterStats = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eMonsterHP>> MonsterHP
-    {
-        get => _monsterHP;
-        set
-        {
-            if (Equals(value, _monsterHP)) return;
-            _monsterHP = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eMercIdentifier>> MercIdentifiers
-    {
-        get => _mercIdentifiers;
-        set
-        {
-            if (Equals(value, _mercIdentifiers)) return;
-            _mercIdentifiers = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eSkillIconPack>> SkillIconPacks
-    {
-        get => _skillIconPacks;
-        set
-        {
-            if (Equals(value, _skillIconPacks)) return;
-            _skillIconPacks = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eEnabledDisabled>> EnabledDisabledOptions
-    {
-        get => _enabledDisabledOptions;
-        set
-        {
-            if (Equals(value, _enabledDisabledOptions)) return;
-            _enabledDisabledOptions = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eBackup>> BackupsSettings
-    {
-        get => _backupsSettings;
-        set
-        {
-            if (Equals(value, _backupsSettings)) return;
-            _backupsSettings = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ShellViewModel ShellViewModel { get; }
-
-    public ImageSource FontImage
-    {
-        get => _fontImage;
-        set
-        {
-            if (value == _fontImage) return;
-            _fontImage = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool ShowFontPreview
-    {
-        get => _showFontPreview;
-        set
-        {
-            if (value == _showFontPreview) return;
-            _showFontPreview = value;
-            Task.Run(UpdateFontPreview);
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eFont>> Fonts
-    {
-        get => _fonts;
-        set
-        {
-            if (Equals(value, _fonts))
-            {
-                return;
-            }
-            _fonts = value;
-            OnPropertyChanged();
-        }
-    }
-
-    #endregion
-
-    public event PropertyChangedEventHandler PropertyChanged;
+    #region ---Window/Loaded Handlers---
 
     public async Task Initialize()
     {
@@ -256,58 +99,243 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         {
             HudDesigns.Add(new KeyValuePair<string, eHudDesign>(hudDesignSetting.GetAttributeOfType<DisplayAttribute>().Name, hudDesignSetting));
         }
+
+        foreach (eCinematicSubs cinematicSubSetting in Enum.GetValues<eCinematicSubs>())
+        {
+            CinematicSubs.Add(new KeyValuePair<string, eCinematicSubs>(cinematicSubSetting.GetAttributeOfType<DisplayAttribute>().Name, cinematicSubSetting));
+        }
+
+        foreach (eEnabledDisabledModify enabledDisabledSetting in Enum.GetValues<eEnabledDisabledModify>())
+        {
+            EnabledDisabledModifyOptions.Add(new KeyValuePair<string, eEnabledDisabledModify>(enabledDisabledSetting.GetAttributeOfType<DisplayAttribute>().Name, enabledDisabledSetting));
+        }
+
+    }
+    public QoLOptionsDrawerViewModel()
+    {
+        if (Execute.InDesignMode)
+        { }
+    }
+    public QoLOptionsDrawerViewModel(ShellViewModel shellViewModel, IWindowManager windowManager)
+    {
+        ShellViewModel = shellViewModel;
+        _windowManager = windowManager;
     }
 
+    #endregion
+
+    #region ---Properties---
+    public ShellViewModel ShellViewModel { get; }
+    public event PropertyChangedEventHandler PropertyChanged;
+    public ObservableCollection<KeyValuePair<string, eHudDesign>> HudDesigns
+    {
+        get => _hudDesigns;
+        set
+        {
+            if (Equals(value, _hudDesigns)) return;
+            _hudDesigns = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eCinematicSubs>> CinematicSubs
+    {
+        get => _cinematicSubs;
+        set
+        {
+            if (Equals(value, _cinematicSubs)) return;
+            _cinematicSubs = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eRunewordSorting>> RunewordSorting
+    {
+        get => _runewordSorting;
+        set
+        {
+            if (Equals(value, _runewordSorting)) return;
+            _runewordSorting = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eItemDisplay>> ItemDisplays
+    {
+        get => _itemDisplays;
+        set
+        {
+            if (Equals(value, _itemDisplays)) return;
+            _itemDisplays = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eMonsterStats>> MonsterStats
+    {
+        get => _monsterStats;
+        set
+        {
+            if (Equals(value, _monsterStats)) return;
+            _monsterStats = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eMonsterHP>> MonsterHP
+    {
+        get => _monsterHP;
+        set
+        {
+            if (Equals(value, _monsterHP)) return;
+            _monsterHP = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eMercIdentifier>> MercIdentifiers
+    {
+        get => _mercIdentifiers;
+        set
+        {
+            if (Equals(value, _mercIdentifiers)) return;
+            _mercIdentifiers = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eSkillIconPack>> SkillIconPacks
+    {
+        get => _skillIconPacks;
+        set
+        {
+            if (Equals(value, _skillIconPacks)) return;
+            _skillIconPacks = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eEnabledDisabled>> EnabledDisabledOptions
+    {
+        get => _enabledDisabledOptions;
+        set
+        {
+            if (Equals(value, _enabledDisabledOptions)) return;
+            _enabledDisabledOptions = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eBackup>> BackupsSettings
+    {
+        get => _backupsSettings;
+        set
+        {
+            if (Equals(value, _backupsSettings)) return;
+            _backupsSettings = value;
+            OnPropertyChanged();
+        }
+    }
+    public ImageSource FontImage
+    {
+        get => _fontImage;
+        set
+        {
+            if (value == _fontImage) return;
+            _fontImage = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool ShowFontPreview
+    {
+        get => _showFontPreview;
+        set
+        {
+            if (value == _showFontPreview) return;
+            _showFontPreview = value;
+            Task.Run(UpdateFontPreview);
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eFont>> Fonts
+    {
+        get => _fonts;
+        set
+        {
+            if (Equals(value, _fonts))
+            {
+                return;
+            }
+            _fonts = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eEnabledDisabledModify>> EnabledDisabledModifyOptions
+    {
+        get => _enabledDisabledModifyOptions;
+        set
+        {
+            if (Equals(value, _enabledDisabledModifyOptions)) return;
+            _enabledDisabledModifyOptions = value;
+            OnPropertyChanged();
+        }
+    }
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
+
+    #endregion
+
+    #region ---Preview Displays---
+
+    private async Task ShowPreviewImage(string imageName, string title)
+    {
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+        ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        {
+        }
+    }
     [UsedImplicitly]
     public async void OnHudDesignDisplayPreview()
     {
         await ShowPreviewImage("Preview_HUD.png", "HUD Preview");
     }
-
     [UsedImplicitly]
     public async void OnSuperTelekinesisPreview()
     {
         await ShowPreviewImage("Preview_SuperTK.gif", "Super Telekinesis Preview");
     }
-
     [UsedImplicitly]
     public async void OnColorDyePreview()
     {
         await ShowPreviewImage("D2RLaunch_ColorDyePreview.png", "Color Dyes Preview");
     }
-
     [UsedImplicitly]
     public async void OnItemDisplayPreview()
     {
         await ShowPreviewImage("Preview_ItemIcons.png", "Item Icons Preview");
     }
-
     [UsedImplicitly]
     public async void OnMonsterStatsDisplayPreview()
     {
         await ShowPreviewImage("D2RLaunch_MonsterBarPreview.gif", "Monster Stats Preview");
     }
-
     [UsedImplicitly]
     public async void OnRuneDisplayPreview()
     {
         await ShowPreviewImage("Preview_RuneDisplay.gif", "Rune Display Preview");
     }
-
     [UsedImplicitly]
     public async void OnMercIdentifierPreview()
     {
         await ShowPreviewImage("Preview_MercIcon.png", "Merc Icons Preview");
     }
-
     [UsedImplicitly]
     public async void OnSkillIconPreview()
     {
         await ShowPreviewImage("Preview_SkillIcons.gif", "Skill Icons Preview");
     }
 
+    #endregion
+
+    #region ---Stash Tab and Buff Icon Settings
+
     [UsedImplicitly]
-    public async void OnSkillBuffIconsSettings()
+    public async void OnSkillBuffIconsSettings() //Open Buff Icons Settings Window
     {
         /*
         string templateFileName = "MyBuffTemplates.txt";
@@ -331,9 +359,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
 
         }
     }
-
     [UsedImplicitly]
-    public async void OnStashTabsSettings()
+    public async void OnStashTabsSettings() //Open Stash Tab Settings Window
     {
         dynamic options = new ExpandoObject();
         options.ResizeMode = ResizeMode.NoResize;
@@ -346,8 +373,12 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         }
     }
 
+    #endregion
+
+    #region ---Expanded Storage Functions---
+
     [UsedImplicitly]
-    public async void OnExpanded_Inventory()
+    public async void OnExpanded_Inventory() //Toggle Expanded Inventory
     {
         CreateExpandedDirs();
         DownloadExpandedZip();
@@ -429,9 +460,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
-
     [UsedImplicitly]
-    public async void OnExpanded_Stash()
+    public async void OnExpanded_Stash() //Toggle Expanded Stash
     {
         CreateExpandedDirs();
         DownloadExpandedZip();
@@ -517,9 +547,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
-
     [UsedImplicitly]
-    public async void OnExpanded_Cube()
+    public async void OnExpanded_Cube() //Toggle Expanded Cube
     {
         CreateExpandedDirs();
         DownloadExpandedZip();
@@ -596,9 +625,8 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
-
     [UsedImplicitly]
-    public async Task OnExpanded_Merc()
+    public async Task OnExpanded_Merc() //Toggle Expanded Merc
     {
         CreateExpandedDirs();
         DownloadExpandedZip();
@@ -685,89 +713,61 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
-
-
-    [UsedImplicitly]
-    public async void OnBackup()
+    public async void DownloadExpandedZip() //Download Expanded File Package
     {
-        (string characterName, bool passed) result = await ShellViewModel.BackupRecentCharacter();
+        string url = "https://drive.google.com/uc?export=download&id=11W5rbVwZCB6TkU8O1YNkj9iQ0xCi0Jxg"; // URL of the file to download
+        string savePath = "Expanded.zip"; // Path where the file will be saved
+        string extractPath = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/"; // Path to extract the contents
 
-        if (result.passed)
-            MessageBox.Show($"{result.characterName} and your Shared Stash has been backed up successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        else
-            MessageBox.Show("Failed to backup character!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-    }
-
-    [UsedImplicitly]
-    public async void OnRestoreBackup()
-    {
-        dynamic options = new ExpandoObject();
-        options.ResizeMode = ResizeMode.NoResize;
-        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-        RestoreBackupViewModel vm = new RestoreBackupViewModel(ShellViewModel);
-
-        if (await _windowManager.ShowDialogAsync(vm, null, options))
+        if (!Directory.Exists(extractPath))
         {
+            if (MessageBox.Show("You don't have the required files for this feature!\nWould you like to download and extract them now?\n(It will download in the background and display when it's complete)\n\nPLEASE NOTE: For first-time use, please toggle the option off then on to correctly enable.", "Missing Files!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFileCompleted += (sender, e) =>
+                    {
+                        try
+                        {
+                            if (e.Error == null)
+                            {
+                                ZipFile.ExtractToDirectory(savePath, extractPath);
+                                MessageBox.Show("Expanded Storage setup successfully!\nYou may now toggle your desired options.");
+                            }
+                            else
+                                MessageBox.Show($"An error occurred during download: {e.Error.Message}");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An error occurred: {ex.Message}");
+                        }
+                    };
+
+                    try
+                    {
+                        client.DownloadFileAsync(new Uri(url), savePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred: {ex.Message}");
+                    }
+                }
+            }
         }
     }
-
-    [UsedImplicitly]
-    public async void OnUseFont()
+    public async void CreateExpandedDirs() //Create Needed Folders
     {
-        string fontsFolder = Path.Combine(ShellViewModel.SelectedModDataFolder, "hd/ui/fonts");
+        //Create needed directories if they don't exist
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts");
 
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel");
 
-        byte[] font = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.otf");
-
-        if (!Directory.Exists(fontsFolder))
-        {
-            Directory.CreateDirectory(fontsFolder);
-            File.Create(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf")).Close();
-        }
-
-        await File.WriteAllBytesAsync(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf"), font);
-
-
-        MessageBox.Show($"Font \"{((eFont)ShellViewModel.UserSettings.Font).GetAttributeOfType<DisplayAttribute>().Name}\" Loaded!");
+        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/controller"))
+            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/controller");
     }
-
-    [UsedImplicitly]
-    public async void OnUsePreview()
-    {
-        if (ShowFontPreview)
-            await UpdateFontPreview();
-    }
-
-    private async Task UpdateFontPreview()
-    {
-        await Execute.OnUIThreadAsync(async () =>
-        {
-            BitmapImage biImg = new BitmapImage();
-            byte[] image = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.png");
-            MemoryStream ms = new MemoryStream(image);
-            biImg.BeginInit();
-            biImg.StreamSource = ms;
-            biImg.EndInit();
-            FontImage = biImg;
-        });
-
-    }
-
-    private async Task ShowPreviewImage(string imageName, string title)
-    {
-        dynamic options = new ExpandoObject();
-        options.ResizeMode = ResizeMode.NoResize;
-        options.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-        ImagePreviewerViewModel vm = new ImagePreviewerViewModel($"pack://application:,,,/Resources/Preview/{imageName}", title);
-
-        if (await _windowManager.ShowDialogAsync(vm, null, options))
-        {
-        }
-    }
-
-    public async Task ExpandedItemTypesEdit()
+    public async Task ExpandedItemTypesEdit() //Update itemtypes.txt for Merc Equip
     {
         string itemTypesFile = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel/itemtypes.txt");
 
@@ -872,8 +872,7 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
             File.WriteAllText(itemTypesFile, sb.ToString());
         }
     }
-
-    static void CopyDirectory(string sourceDir, string destinationDir)
+    static void CopyDirectory(string sourceDir, string destinationDir) //Helper function
     {
         if (!Directory.Exists(destinationDir))
             Directory.CreateDirectory(destinationDir);
@@ -895,65 +894,73 @@ public class QoLOptionsDrawerViewModel : INotifyPropertyChanged
         }
     }
 
-    public async void DownloadExpandedZip()
+    #endregion
+
+    #region ---Manual Backup/Restore---
+
+    [UsedImplicitly]
+    public async void OnBackup() //Manual Backup Function
     {
-        string url = "https://drive.google.com/uc?export=download&id=11W5rbVwZCB6TkU8O1YNkj9iQ0xCi0Jxg"; // URL of the file to download
-        string savePath = "Expanded.zip"; // Path where the file will be saved
-        string extractPath = ShellViewModel.SelectedModDataFolder + "/D2RLaunch/Expanded/"; // Path to extract the contents
+        (string characterName, bool passed) result = await ShellViewModel.BackupRecentCharacter();
 
-        if (!Directory.Exists(extractPath))
+        if (result.passed)
+            MessageBox.Show($"{result.characterName} and your Shared Stash has been backed up successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        else
+            MessageBox.Show("Failed to backup character!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+    [UsedImplicitly]
+    public async void OnRestoreBackup() //Manual Restore Function
+    {
+        dynamic options = new ExpandoObject();
+        options.ResizeMode = ResizeMode.NoResize;
+        options.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+        RestoreBackupViewModel vm = new RestoreBackupViewModel(ShellViewModel);
+
+        if (await _windowManager.ShowDialogAsync(vm, null, options))
         {
-            if (MessageBox.Show("You don't have the required files for this feature!\nWould you like to download and extract them now?\n(It will download in the background and display when it's complete)\n\nPLEASE NOTE: For first-time use, please toggle the option off then on to correctly enable.", "Missing Files!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                using (WebClient client = new WebClient())
-                {
-                    client.DownloadFileCompleted += (sender, e) =>
-                    {
-                        try
-                        {
-                            if (e.Error == null)
-                            {
-                                ZipFile.ExtractToDirectory(savePath, extractPath);
-                                MessageBox.Show("Expanded Storage setup successfully!\nYou may now toggle your desired options.");
-
-
-
-
-                            }
-                            else
-                                MessageBox.Show($"An error occurred during download: {e.Error.Message}");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"An error occurred: {ex.Message}");
-                        }
-                    };
-
-                    try
-                    {
-                        client.DownloadFileAsync(new Uri(url), savePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"An error occurred: {ex.Message}");
-                    }
-                }
-            }
         }
     }
 
-    public async void CreateExpandedDirs()
+    #endregion
+
+    #region ---Font Changer Functions---
+
+    [UsedImplicitly]
+    public async void OnUseFont() //Font Switcher Function
     {
-        //Create needed directories if they don't exist
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/global/ui/layouts");
+        string fontsFolder = Path.Combine(ShellViewModel.SelectedModDataFolder, "hd/ui/fonts");
+        byte[] font = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.otf");
 
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel");
+        if (!Directory.Exists(fontsFolder))
+        {
+            Directory.CreateDirectory(fontsFolder);
+            File.Create(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf")).Close();
+        }
 
-        if (!Directory.Exists(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/controller"))
-            Directory.CreateDirectory(ShellViewModel.SelectedModDataFolder + "/hd/global/ui/panel/controller");
+        await File.WriteAllBytesAsync(Path.Combine(fontsFolder, "exocetblizzardot-medium.otf"), font);
+        MessageBox.Show($"Font \"{((eFont)ShellViewModel.UserSettings.Font).GetAttributeOfType<DisplayAttribute>().Name}\" Loaded!");
+    }
+    [UsedImplicitly]
+    public async void OnUsePreview() //Toggle Font Previewer
+    {
+        if (ShowFontPreview)
+            await UpdateFontPreview();
+    }
+    private async Task UpdateFontPreview() //Helper Function for Previewer
+    {
+        await Execute.OnUIThreadAsync(async () =>
+        {
+            BitmapImage biImg = new BitmapImage();
+            byte[] image = await Helper.GetResourceByteArray($"Fonts.{ShellViewModel.UserSettings.Font}.png");
+            MemoryStream ms = new MemoryStream(image);
+            biImg.BeginInit();
+            biImg.StreamSource = ms;
+            biImg.EndInit();
+            FontImage = biImg;
+        });
+
     }
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
+    #endregion
 }

@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     Width="550"
-    Height="275"
+    Height="299"
     d:DataContext="{d:DesignInstance Type=dialogs:DownloadNewModViewModel,
                                      IsDesignTimeCreatable=True}"
     mc:Ignorable="d" SizeToContent="Height">
@@ -84,41 +84,6 @@
                 IconTemplate="{StaticResource DownloadIconTemplate}"
                 Label="{Binding Path=InstallMod, Source={StaticResource Resources}}"
                 Style="{StaticResource SfButtonAdvNormalStyle}" />
-            <syncfusion:ButtonAdv
-                Width="36"
-                Height="36"
-                HorizontalAlignment="Left"
-                Background="Transparent"
-                IconTemplate="{StaticResource QuestionMarkIconTemplate}"
-                Style="{StaticResource SfButtonAdvSmallStyle}">
-                <syncfusion:ButtonAdv.ToolTip>
-                    <Grid Background="Black">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Grid.Row="0"
-                            Margin="5,0,5,0"
-                            VerticalAlignment="Top"
-                            Style="{StaticResource TextBlockStyle}"
-                            Text="{Binding Path=Warning1, Source={StaticResource Resources}}" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Margin="5,0,5,0"
-                            VerticalAlignment="Top"
-                            Style="{StaticResource TextBlockStyle}"
-                            Text="{Binding Path=Warning2, Source={StaticResource Resources}}" />
-                        <TextBlock
-                            Grid.Row="2"
-                            Margin="5,0,5,0"
-                            VerticalAlignment="Top"
-                            Style="{StaticResource TextBlockStyle}"
-                            Text="{Binding Path=Warning3, Source={StaticResource Resources}}" />
-                    </Grid>
-                </syncfusion:ButtonAdv.ToolTip>
-            </syncfusion:ButtonAdv>
         </StackPanel>
         <Label
             Grid.Row="4"

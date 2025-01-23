@@ -4,11 +4,13 @@ namespace D2RLaunch.ViewModels.Dialogs;
 
 public class ImagePreviewerViewModel : Screen
 {
-    #region members
+    #region ---Static Members---
 
     private string _imagePath;
 
     #endregion
+
+    #region ---Window/Loaded Handlers---
 
     public ImagePreviewerViewModel(string imagePath, string title)
     {
@@ -16,7 +18,9 @@ public class ImagePreviewerViewModel : Screen
         _imagePath = imagePath;
     }
 
-    #region properties
+    #endregion
+
+    #region ---Properties---
 
     public string ImagePath
     {

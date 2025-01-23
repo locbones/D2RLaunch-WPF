@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,8 +22,7 @@ namespace D2RLaunch.ViewModels.Dialogs;
 
 public class DownloadNewModViewModel : Screen
 {
-    //TODO: Need to add a "Custom Mod" entry to the mod install drop down and that should dictate if a user and enter/modify the download link.
-    #region members
+    #region ---Static Members---
     private ILog _logger = LogManager.GetLogger(typeof(DownloadNewModViewModel));
     private ObservableCollection<KeyValuePair<string, string>> _mods = new ObservableCollection<KeyValuePair<string, string>>();
 
@@ -45,6 +38,8 @@ public class DownloadNewModViewModel : Screen
 
     #endregion
 
+    #region ---Window/Loaded Handlers---
+
     public DownloadNewModViewModel()
     {
         if (Execute.InDesignMode)
@@ -55,19 +50,21 @@ public class DownloadNewModViewModel : Screen
             ModDownloadLink = "This is a test string";
         }
     }
-
     public DownloadNewModViewModel(ShellViewModel shellViewModel)
     {
         DisplayName = "Download A New Mod";
         ShellViewModel = shellViewModel;
         Execute.OnUIThread(async () =>
-                           {
-                               await GetAvailableMods();
-                           });
+        {
+            await GetAvailableMods();
+        });
     }
 
-    #region properties
+    #endregion
 
+    #region ---Properties---
+
+    public ShellViewModel ShellViewModel { get; }
     public string ProgressStatus
     {
         get => _progressStatus;
@@ -78,7 +75,6 @@ public class DownloadNewModViewModel : Screen
             NotifyOfPropertyChange();
         }
     }
-
     public bool ProgressBarIsIndeterminate
     {
         get => _progressBarIsIndeterminate;
@@ -89,7 +85,6 @@ public class DownloadNewModViewModel : Screen
             NotifyOfPropertyChange();
         }
     }
-
     public string DownloadProgressString
     {
         get => _downloadProgressString;
@@ -100,7 +95,6 @@ public class DownloadNewModViewModel : Screen
             NotifyOfPropertyChange();
         }
     }
-
     public double DownloadProgress
     {
         get => _downloadProgress;
@@ -111,7 +105,6 @@ public class DownloadNewModViewModel : Screen
             NotifyOfPropertyChange();
         }
     }
-
     public string ModDownloadLink
     {
         get => _modDownloadLink;
@@ -122,7 +115,6 @@ public class DownloadNewModViewModel : Screen
             NotifyOfPropertyChange();
         }
     }
-
     public KeyValuePair<string, string> SelectedMod
     {
         get => _selectedMod;
@@ -133,7 +125,6 @@ public class DownloadNewModViewModel : Screen
             NotifyOfPropertyChange();
         }
     }
-
     public ObservableCollection<KeyValuePair<string, string>> Mods
     {
         get => _mods;
@@ -148,9 +139,9 @@ public class DownloadNewModViewModel : Screen
         }
     }
 
-    public ShellViewModel ShellViewModel { get; }
-
     #endregion
+
+    #region ---Mod Download Functions--
 
     private async Task GetAvailableMods()
     {
@@ -207,7 +198,6 @@ public class DownloadNewModViewModel : Screen
             _logger.Error(ex);
         }
     }
-
     [UsedImplicitly]
     public async void OnInstallMod()
     {
@@ -280,7 +270,7 @@ public class DownloadNewModViewModel : Screen
 
             await Task.Run(() =>
                            {
-                               ZipFile.ExtractToDirectory(tempFile, tempExtractedModFolderPath);
+                               ZipFile.ExtractToDirectory(tempFile, tempExtractedModFolderPath, true);
                                return Task.CompletedTask;
                            });
 
@@ -353,11 +343,12 @@ public class DownloadNewModViewModel : Screen
             await TryCloseAsync(false);
         }
     }
-
     [UsedImplicitly]
     public async void OnModInstallSelectionChanged()
     {
         if (!string.IsNullOrEmpty(SelectedMod.Value))
             ModDownloadLink = SelectedMod.Value;
     }
+
+    #endregion
 }

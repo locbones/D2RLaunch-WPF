@@ -2,12 +2,16 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>RMD_Logo_New.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\Drawers\KeybindMappingsViewMode2l.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\BuffIcons\BuffIcons.zip" />
@@ -97,6 +101,7 @@
     <None Remove="Resources\Fonts\9.otf" />
     <None Remove="Resources\Fonts\9.png" />
     <None Remove="Resources\Fonts\formal436bt.ttf" />
+    <None Remove="Resources\Icons\Icon_Events.png" />
     <None Remove="Resources\Icons\Icon_Files.png" />
     <None Remove="Resources\Icons\Icon_Home.png" />
     <None Remove="Resources\Icons\Icon_Modding.png" />
@@ -152,6 +157,8 @@
     <None Remove="Resources\Options\MergedHUD\hudpanelhd-n.json" />
     <None Remove="Resources\Options\MergedHUD\skillselecthd.json" />
     <None Remove="Resources\Options\MonsterStats.dll" />
+    <None Remove="Resources\Options\MonsterStats\D2RHUD.dll" />
+    <None Remove="Resources\Options\MonsterStats\D2RHUD_Config.txt" />
     <None Remove="Resources\Options\MonsterStats\hudmonsterhealthhd.json" />
     <None Remove="Resources\Options\MonsterStats\MS_Assets.zip" />
     <None Remove="Resources\Options\PersonalizedTabs\stash_rmd" />
@@ -168,6 +175,7 @@
     <None Remove="Resources\SharedStashHardCoreV2.d2i" />
     <None Remove="Resources\SharedStashSoftCoreV2.d2i" />
     <None Remove="RMD_Logo_New.ico" />
+    <None Remove="Views\Dialogs\AITest1.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -255,7 +263,10 @@
     <EmbeddedResource Include="Resources\Fonts\9.otf" />
     <EmbeddedResource Include="Resources\Fonts\9.png" />
     <EmbeddedResource Include="Resources\Fonts\0.png" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\D2RHUD.dll" />
+    <EmbeddedResource Include="Resources\Options\MonsterStats\D2RHUD_Config.txt" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\MS_Assets.zip" />
+    <Resource Include="Resources\Icons\Icon_Events.png" />
     <Resource Include="Resources\Preview\D2RLaunch_MonsterBarPreview.gif" />
     <Resource Include="Resources\Preview\D2RLaunch_ColorDyePreview.png" />
     <EmbeddedResource Include="Resources\modinfo_blank.json" />
@@ -298,7 +309,6 @@
     <EmbeddedResource Include="Resources\Options\MergedHUD\hudpanelhd-n.json" />
     <EmbeddedResource Include="Resources\Options\MergedHUD\skillselecthd.json" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\hudmonsterhealthhd.json" />
-    <EmbeddedResource Include="Resources\Options\MonsterStats\MonsterStats.dll" />
     <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_rmd" />
     <EmbeddedResource Include="Resources\Options\PersonalizedTabs\stash_vnp" />
     <Resource Include="Resources\BuffIcons\Images\BuffIconPreview.png" />
@@ -333,6 +343,7 @@
     <Resource Include="Resources\Icons\Icon_Vault.png" />
     <Resource Include="Resources\Images\D2RL_Logo.png" />
     <Resource Include="RMD_Logo_New.ico" />
+    <Resource Include="Views\Dialogs\AITest1.png" />
   </ItemGroup>
 
   <ItemGroup>

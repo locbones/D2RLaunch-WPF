@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using D2RLaunch.Properties;
 using JetBrains.Annotations;
 using ILog = log4net.ILog;
 using LogManager = log4net.LogManager;
@@ -17,13 +13,15 @@ namespace D2RLaunch.ViewModels.Dialogs
 {
     public class StashTabSettingsViewModel : Screen
     {
-        #region members
+        #region ---Static Members---
 
         private ILog _logger = LogManager.GetLogger(typeof(RestoreBackupViewModel));
         private List<string> _originalStashTabNames = new List<string>();
         private ObservableCollection<string> _stashTabNames = new ObservableCollection<string>();
 
         #endregion
+
+        #region ---Window/Loaded Handlers---
 
         public StashTabSettingsViewModel()
         {
@@ -42,7 +40,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                                 };
             }
         }
-
         public StashTabSettingsViewModel(ShellViewModel shellViewModel)
         {
             DisplayName = "Stash Tab Settings";
@@ -51,7 +48,9 @@ namespace D2RLaunch.ViewModels.Dialogs
             Execute.OnUIThread(async () => { await GetStashTabNames(); });
         }
 
-        #region properties
+        #endregion
+
+        #region ---Properties---
 
         public ShellViewModel ShellViewModel { get; }
 
@@ -85,7 +84,9 @@ namespace D2RLaunch.ViewModels.Dialogs
 
         #endregion
 
-        public async Task GetStashTabNames()
+        #region ---Stash Tab Functions---
+
+        public async Task GetStashTabNames() //Read names from bankexpansionlayout.json
         {
             string bankExpansionLayoutHdJsonPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/bankexpansionlayouthd.json");
 
@@ -103,9 +104,8 @@ namespace D2RLaunch.ViewModels.Dialogs
                 }
             }
         }
-
         [UsedImplicitly]
-        public async void OnApply()
+        public async void OnApply() //Apply User-Chosen Settings
         {
             string bankExpansionLayoutHdJsonPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts/bankexpansionlayouthd.json");
 
@@ -143,18 +143,18 @@ namespace D2RLaunch.ViewModels.Dialogs
             MessageBox.Show("Stash Tab Names have been updated successfully!");
 
             await TryCloseAsync(true);
-        }
-
-        // Helper method to replace only the first occurrence of a substring in a string
-        private string ReplaceFirst(string original, string oldValue, string newValue)
+        }      
+        private string ReplaceFirst(string original, string oldValue, string newValue) //Helper method to replace only the first occurrence of a substring in a string
         {
             int index = original.IndexOf(oldValue);
 
             if (index == -1)
-                return original; // Not found, return the original string
+                return original; //Not found, return the original string
 
             string result = original.Remove(index, oldValue.Length).Insert(index, newValue);
             return result;
         }
+
+        #endregion
     }
 }

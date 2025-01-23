@@ -206,6 +206,9 @@
     <DataTemplate x:Key="SettingsIconTemplate">
         <Image Source="pack://application:,,,/Resources/Icons/Icon_Options.png" />
     </DataTemplate>
+    <DataTemplate x:Key="CharactersIconTemplate">
+        <Image Source="pack://application:,,,/Resources/Icons/Icon_Social.png" />
+    </DataTemplate>
     <DataTemplate x:Key="SizeIconTemplate">
         <Image Source="pack://application:,,,/Resources/Icons/Icon_Size.png" />
     </DataTemplate>
@@ -319,6 +322,31 @@
         <Setter Property="Margin" Value="5,5,5,0" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
+    <Style
+    x:Key="EventNameStyle"
+    BasedOn="{StaticResource WPFLabelStyle}"
+    TargetType="Label">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="CornflowerBlue" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5,5,5,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style
+    x:Key="EventHeaderStyle"
+    BasedOn="{StaticResource WPFLabelStyle}"
+    TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="Firebrick" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5,5,5,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="EventHeaderStyleT" TargetType="Run">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="Firebrick" />
+    </Style>
+
     <Style
         x:Key="LabelNormalStyle"
         BasedOn="{StaticResource WPFLabelStyle}"

@@ -26,23 +26,17 @@ using D2RLaunch.Models;
 using D2RLaunch.ViewModels.Dialogs;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using System.Text;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Diagnostics;
-using System.Timers;
-using Syncfusion.Windows.Tools.Controls;
-using System.Net;
-using Syncfusion.Windows.Shared;
-using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
-using D2RLaunch.Views.Drawers;
 
 namespace D2RLaunch.ViewModels.Drawers;
 
 public class HomeDrawerViewModel : INotifyPropertyChanged
 {
-    #region members
+    #region ---Static Members---
+
     private const string TAB_BYTE_CODE = "55AA55AA0000000061000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
     private ILog _logger = LogManager.GetLogger(typeof(HomeDrawerViewModel));
     private IWindowManager _windowManager;
@@ -84,21 +78,16 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
-
     [DllImport("user32.dll", SetLastError = true)]
     private static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
-
     [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
-
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr GetDesktopWindow();
-
     [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {
@@ -107,10 +96,14 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         public int Right;
         public int Bottom;
     }
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
 
     #endregion
 
-    public HomeDrawerViewModel()
+    #region ---Window/Loaded Handlers---
+
+    public HomeDrawerViewModel() //Main Window
     {
         if (Execute.InDesignMode)
         {
@@ -118,328 +111,43 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             ProgressStatus = "Test Progress Status...";
         }
     }
-
-    public HomeDrawerViewModel(ShellViewModel shellViewModel, IWindowManager windowManager)
+    public HomeDrawerViewModel(ShellViewModel shellViewModel, IWindowManager windowManager) //Main Window Settings
     {
         ShellViewModel = shellViewModel;
         _windowManager = windowManager;
-
 
         _monsterStatsDispatcherTimer = new System.Windows.Threading.DispatcherTimer();
         _monsterStatsDispatcherTimer.Tick += (sender, args) => MonsterStatsDispatcherTimerOnTick(ShellViewModel.UserSettings);
         _monsterStatsDispatcherTimer.Interval = TimeSpan.FromSeconds(15);
     }
-
-    #region properties
-
-    public ShellViewModel ShellViewModel { get; }
-
-    public bool UiThemeEnabled
-    {
-        get => _uiThemeEnabled;
-        set
-        {
-            if (value == _uiThemeEnabled) return;
-            _uiThemeEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool DirectTxtEnabled
-    {
-        get => _directTxtEnabled;
-        set
-        {
-            if (value == _directTxtEnabled) return;
-            _directTxtEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool HdrOpacityFixEnabled
-    {
-        get => _hdrOpacityFixEnabled;
-        set
-        {
-            if (value == _hdrOpacityFixEnabled) return;
-            _hdrOpacityFixEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool MapRegenEnabled
-    {
-        get => _mapRegenEnabled;
-        set
-        {
-            if (value == _mapRegenEnabled) return;
-            _mapRegenEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool RespecEnabled
-    {
-        get => _respecEnabled;
-        set
-        {
-            if (value == _respecEnabled) return;
-            _respecEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string ProgressStatus
-    {
-        get => _progressStatus;
-        set
-        {
-            if (value == _progressStatus) return;
-            _progressStatus = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool ProgressBarIsIndeterminate
-    {
-        get => _progressBarIsIndeterminate;
-        set
-        {
-            if (value == _progressBarIsIndeterminate) return;
-            _progressBarIsIndeterminate = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string DownloadProgressString
-    {
-        get => _downloadProgressString;
-        set
-        {
-            if (value == _downloadProgressString) return;
-            _downloadProgressString = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public double DownloadProgress
-    {
-        get => _downloadProgress;
-        set
-        {
-            if (value.Equals(_downloadProgress)) return;
-            _downloadProgress = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool CheckingForUpdates
-    {
-        get => _checkingForUpdates;
-        set
-        {
-            if (value == _checkingForUpdates) return;
-            _checkingForUpdates = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool UiComboBoxEnabled
-    {
-        get => _uiComboBoxEnabled;
-        set
-        {
-            if (value == _uiComboBoxEnabled) return;
-            _uiComboBoxEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool MapsComboBoxEnabled
-    {
-        get => _mapsComboBoxEnabled;
-        set
-        {
-            if (value == _mapsComboBoxEnabled) return;
-            _mapsComboBoxEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string SelectedMod
-    {
-        get => _selectedMod;
-        set
-        {
-            if (value == _selectedMod) return;
-            _selectedMod = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<string> InstalledMods
-    {
-        get => _installedMods;
-        set
-        {
-            if (Equals(value, _installedMods)) return;
-            _installedMods = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public KeyValuePair<string, eLanguage> SelectedAppLanguage
-    {
-        get => _selectedAppLanguage;
-        set
-        {
-            if (value.Equals(_selectedAppLanguage)) return;
-            _selectedAppLanguage = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eUiThemes>> UiThemes
-    {
-        get => _uiThemes;
-        set
-        {
-            if (Equals(value, _uiThemes)) return;
-            _uiThemes = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eMapLayouts>> MapLayouts
-    {
-        get => _mapLayouts;
-        set
-        {
-            if (Equals(value, _mapLayouts)) return;
-            _mapLayouts = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eWindowMode>> WindowMode
-    {
-        get => _windowMode;
-        set
-        {
-            if (Equals(value, _windowMode)) return;
-            _windowMode = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<KeyValuePair<string, eLanguage>> Languages
-    {
-        get => _languages;
-        set
-        {
-            if (Equals(value, _languages)) return;
-            _languages = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string ModTitle
-    {
-        get => _modTitle;
-        set
-        {
-            if (value == _modTitle)
-            {
-                return;
-            }
-            _modTitle = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string ModDescription
-    {
-        get => _modDescription;
-        set
-        {
-            if (value == _modDescription)
-            {
-                return;
-            }
-            _modDescription = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string LauncherTitle
-    {
-        get => _launcherTitle;
-        set
-        {
-            if (value == _launcherTitle)
-            {
-                return;
-            }
-            _launcherTitle = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string LauncherDescription
-    {
-        get => _launcherDescription;
-        set
-        {
-            if (value == _launcherDescription)
-            {
-                return;
-            }
-            _launcherDescription = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string D2RArgsText
-    {
-        get => _d2rArgs;
-        set
-        {
-            if (value == _d2rArgs) return;
-            _d2rArgs = value;
-            OnPropertyChanged();
-        }
-    }
-
-    #endregion
-
-    private void MonsterStatsDispatcherTimerOnTick(UserSettings userSettings)
+    private void MonsterStatsDispatcherTimerOnTick(UserSettings userSettings) //Inject DLL after timed delay
     {
         RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Blizzard Entertainment\Battle.net\Launch Options\BNA");
         object data = key.GetValue("CONNECTION_STRING_CN");
-        if (data != null && data.ToString() == "127.0.0.1")
+
+        if (data != null && data.ToString() == "127.0.0.1") //Only inject is we've verified BNET access has been disabled
         {
-            if (userSettings.MonsterHP != 0)
+            Process testrun;
+            testrun = Process.GetProcessesByName("D2R")[0];
+            if (testrun != null)
             {
-                Process testrun;
-                testrun = Process.GetProcessesByName("D2R")[0];
-                if (testrun != null)
+                try
                 {
-                    try
-                    {
-                        Injector.MainInject();
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.Error(ex);
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
-                    }
-                    _monsterStatsDispatcherTimer.Stop();
+                    Injector.Inject(new string[] { "D2R.exe" }, ShellViewModel.GamePath, "D2RHUD.DLL");
+                    _logger.Error("Monster Stats: D2RHUD.dll has been loaded");
                 }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+                }
+                _monsterStatsDispatcherTimer.Stop();
             }
         }
+        else
+            _logger.Error("Monster Stats: No D2R Path Data Found!");
     }
-
-    public async Task Initialize()
+    public async Task Initialize() //Load User's Map, Window Mode and UI Theme Settings
     {
         foreach (eMapLayouts mapLayout in Enum.GetValues<eMapLayouts>())
         {
@@ -459,9 +167,14 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         await InitializeLanguage();
         await InitializeMods();
         GetD2RArgs();
-    }
+        if (ShellViewModel.UserSettings != null)
+        {
+            ShellViewModel.UserSettings.MapSeed = "";
+            ShellViewModel.UserSettings.MapSeedName = "An Evil Force's Seed: ";
+        }
 
-    public async Task InitializeLanguage()
+    }
+    public async Task InitializeLanguage() //Load User's Audio and Text Language
     {
         eLanguage appLanguage = ((eLanguage)Settings.Default.AppLanguage);
         SelectedAppLanguage = new KeyValuePair<string, eLanguage>(appLanguage.GetAttributeOfType<DisplayAttribute>().Name, appLanguage);
@@ -473,8 +186,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
         await Translate();
     }
-
-    public async Task InitializeMods()
+    public async Task InitializeMods() //Load Author-Enabled Mod Settings
     {
         string[] modFolders = Directory.GetDirectories(ShellViewModel.BaseModsFolder);
 
@@ -521,7 +233,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 {
                     UiThemeEnabled = false;
                     ShellViewModel.WikiEnabled = true;
-                    ShellViewModel.UserSettings.UiTheme = 1;
+                    ShellViewModel.UserSettings.UiTheme = 2;
 
                     ShellViewModel.ShowItemLevelsEnabled = false;
                     ShellViewModel.SuperTelekinesisEnabled = false;
@@ -537,6 +249,20 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
                 else
                 {
+                    UiThemeEnabled = false;
+                    ShellViewModel.WikiEnabled = true;
+                    ShellViewModel.UserSettings.UiTheme = 2;
+
+                    ShellViewModel.ShowItemLevelsEnabled = true;
+                    ShellViewModel.SuperTelekinesisEnabled = true;
+                    ShellViewModel.SkillBuffIconsEnabled = true;
+                    ShellViewModel.SkillIconPackEnabled = true;
+                    ShellViewModel.ItemIconDisplayEnabled = true;
+                    ShellViewModel.ExpandedInventoryEnabled = true;
+                    ShellViewModel.ExpandedStashEnabled = true;
+                    ShellViewModel.ExpandedCubeEnabled = true;
+                    ShellViewModel.ExpandedMercEnabled = true;
+                    ShellViewModel.ColorDyesEnabled = true;
                 }
 
                 GetD2RArgs();
@@ -544,8 +270,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
-
-    private async Task LoadUserSettings()
+    private async Task LoadUserSettings() //Create User Settings file
     {
         //Protected
         if (Directory.Exists(ShellViewModel.SelectedModDataFolder))
@@ -561,7 +286,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             }
             else
-                ShellViewModel.UserSettings = JsonConvert.DeserializeObject<UserSettings>(await File.ReadAllTextAsync(ShellViewModel.SelectedUserSettingsFilePath));  
+                ShellViewModel.UserSettings = JsonConvert.DeserializeObject<UserSettings>(await File.ReadAllTextAsync(ShellViewModel.SelectedUserSettingsFilePath));
         }
         else //Unprotected
         {
@@ -583,7 +308,579 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         //TODO:_profilehd.json be setup here?
     }
 
-    private async Task Translate()
+    #endregion
+
+    #region ---Properties---
+
+    public ShellViewModel ShellViewModel { get; }
+    public bool UiThemeEnabled
+    {
+        get => _uiThemeEnabled;
+        set
+        {
+            if (value == _uiThemeEnabled) return;
+            _uiThemeEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool DirectTxtEnabled
+    {
+        get => _directTxtEnabled;
+        set
+        {
+            if (value == _directTxtEnabled) return;
+            _directTxtEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool HdrOpacityFixEnabled
+    {
+        get => _hdrOpacityFixEnabled;
+        set
+        {
+            if (value == _hdrOpacityFixEnabled) return;
+            _hdrOpacityFixEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool MapRegenEnabled
+    {
+        get => _mapRegenEnabled;
+        set
+        {
+            if (value == _mapRegenEnabled) return;
+            _mapRegenEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool RespecEnabled
+    {
+        get => _respecEnabled;
+        set
+        {
+            if (value == _respecEnabled) return;
+            _respecEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+    public string ProgressStatus
+    {
+        get => _progressStatus;
+        set
+        {
+            if (value == _progressStatus) return;
+            _progressStatus = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool ProgressBarIsIndeterminate
+    {
+        get => _progressBarIsIndeterminate;
+        set
+        {
+            if (value == _progressBarIsIndeterminate) return;
+            _progressBarIsIndeterminate = value;
+            OnPropertyChanged();
+        }
+    }
+    public string DownloadProgressString
+    {
+        get => _downloadProgressString;
+        set
+        {
+            if (value == _downloadProgressString) return;
+            _downloadProgressString = value;
+            OnPropertyChanged();
+        }
+    }
+    public double DownloadProgress
+    {
+        get => _downloadProgress;
+        set
+        {
+            if (value.Equals(_downloadProgress)) return;
+            _downloadProgress = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool CheckingForUpdates
+    {
+        get => _checkingForUpdates;
+        set
+        {
+            if (value == _checkingForUpdates) return;
+            _checkingForUpdates = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool UiComboBoxEnabled
+    {
+        get => _uiComboBoxEnabled;
+        set
+        {
+            if (value == _uiComboBoxEnabled) return;
+            _uiComboBoxEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool MapsComboBoxEnabled
+    {
+        get => _mapsComboBoxEnabled;
+        set
+        {
+            if (value == _mapsComboBoxEnabled) return;
+            _mapsComboBoxEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+    public string SelectedMod
+    {
+        get => _selectedMod;
+        set
+        {
+            if (value == _selectedMod) return;
+            _selectedMod = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<string> InstalledMods
+    {
+        get => _installedMods;
+        set
+        {
+            if (Equals(value, _installedMods)) return;
+            _installedMods = value;
+            OnPropertyChanged();
+        }
+    }
+    public KeyValuePair<string, eLanguage> SelectedAppLanguage
+    {
+        get => _selectedAppLanguage;
+        set
+        {
+            if (value.Equals(_selectedAppLanguage)) return;
+            _selectedAppLanguage = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eUiThemes>> UiThemes
+    {
+        get => _uiThemes;
+        set
+        {
+            if (Equals(value, _uiThemes)) return;
+            _uiThemes = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eMapLayouts>> MapLayouts
+    {
+        get => _mapLayouts;
+        set
+        {
+            if (Equals(value, _mapLayouts)) return;
+            _mapLayouts = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eWindowMode>> WindowMode
+    {
+        get => _windowMode;
+        set
+        {
+            if (Equals(value, _windowMode)) return;
+            _windowMode = value;
+            OnPropertyChanged();
+        }
+    }
+    public ObservableCollection<KeyValuePair<string, eLanguage>> Languages
+    {
+        get => _languages;
+        set
+        {
+            if (Equals(value, _languages)) return;
+            _languages = value;
+            OnPropertyChanged();
+        }
+    }
+    public string ModTitle
+    {
+        get => _modTitle;
+        set
+        {
+            if (value == _modTitle)
+            {
+                return;
+            }
+            _modTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    public string ModDescription
+    {
+        get => _modDescription;
+        set
+        {
+            if (value == _modDescription)
+            {
+                return;
+            }
+            _modDescription = value;
+            OnPropertyChanged();
+        }
+    }
+    public string LauncherTitle
+    {
+        get => _launcherTitle;
+        set
+        {
+            if (value == _launcherTitle)
+            {
+                return;
+            }
+            _launcherTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    public string LauncherDescription
+    {
+        get => _launcherDescription;
+        set
+        {
+            if (value == _launcherDescription)
+            {
+                return;
+            }
+            _launcherDescription = value;
+            OnPropertyChanged();
+        }
+    }
+    public string D2RArgsText
+    {
+        get => _d2rArgs;
+        set
+        {
+            if (value == _d2rArgs) return;
+            _d2rArgs = value;
+            OnPropertyChanged();
+        }
+    }
+
+    #endregion
+
+    #region ---Launch Arguments/Game Start---
+
+    [UsedImplicitly]
+    public async void OnPlayMod() //Main execution function
+    {
+        string dllPath = Path.Combine(ShellViewModel.GamePath, "D2RHUD.dll");
+
+        if (ShellViewModel.ModInfo == null)
+        {
+            return;
+        }
+
+        await ApplyHdrFix();
+        await ShellViewModel.ApplyModSettings();
+
+        // Unlock or Create SharedStash
+        if (ShellViewModel.ModInfo != null)
+        {
+            string hexString = String.Concat(Enumerable.Repeat(TAB_BYTE_CODE, 4));
+            string d2rSavePath = string.Empty;
+
+            if (ShellViewModel.ModInfo.SavePath == "\"../\"")
+                d2rSavePath = GetSavePath();
+            else
+                d2rSavePath = Path.Combine(GetSavePath(), @$"Diablo II Resurrected\Mods\{ShellViewModel.ModInfo.Name}");
+
+            if (!Directory.Exists(d2rSavePath))
+                Directory.CreateDirectory(d2rSavePath);
+
+            string sharedStashSoftCorePath = Path.Combine(d2rSavePath, "SharedStashSoftCoreV2.d2i");
+            string sharedStashHardCorePath = Path.Combine(d2rSavePath, "SharedStashHardCoreV2.d2i");
+
+            // If stash doesn't exist yet; create a new one with all 7 tabs unlocked
+            if (!File.Exists(sharedStashSoftCorePath))
+            {
+                File.Create(sharedStashSoftCorePath).Close();
+                await File.WriteAllBytesAsync(sharedStashSoftCorePath, await Helper.GetResourceByteArray("SharedStashSoftCoreV2.d2i"));
+            }
+            else
+            {
+                // Check if stash is unlocked already and unlock if not
+                byte[] data = await File.ReadAllBytesAsync(sharedStashSoftCorePath);
+                string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
+
+                if (Regex.Matches(bitString, "4A4D").Count == 3)
+                    await File.WriteAllBytesAsync(sharedStashSoftCorePath, Helper.StringToByteArray(bitString + hexString));
+            }
+
+            //Repeat for the hardcore stash
+            if (!File.Exists(sharedStashHardCorePath))
+            {
+                File.Create(sharedStashHardCorePath).Close();
+                await File.WriteAllBytesAsync(sharedStashHardCorePath, await Helper.GetResourceByteArray("SharedStashHardCoreV2.d2i"));
+            }
+            else
+            {
+                byte[] data = await File.ReadAllBytesAsync(sharedStashHardCorePath); //read file
+                string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
+                if (Regex.Matches(bitString, "4A4D").Count == 3)
+                    await File.WriteAllBytesAsync(sharedStashHardCorePath, Helper.StringToByteArray(bitString + hexString));
+            }
+        }
+
+        string filePath = System.IO.Path.Combine(ShellViewModel.GamePath, "D2RHUD_Config.txt");
+
+        if (!File.Exists(filePath))
+        {
+            File.Create(filePath).Close();
+            await File.WriteAllBytesAsync(filePath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD_Config.txt"));
+        }
+
+        //Load MonsterStats Setting
+        switch (ShellViewModel.UserSettings.MonsterHP)
+        {
+            case 0:
+            case 1:
+            case 2:
+                {
+                    if (!File.Exists(dllPath))
+                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+
+                    string[] displayValue = File.ReadAllLines(filePath);
+                    if (displayValue[0] == "Monster Stats: 1")
+                        displayValue[0] = displayValue[0].Replace("1", "0");
+                    File.WriteAllLines(filePath, displayValue);
+
+                    _monsterStatsDispatcherTimer.Start();
+                    _logger.Error("Monster Stats: Basic Timer Started");
+
+                    break;
+                }
+            case 3:
+            case 4:
+                {
+                    if (File.Exists(dllPath))
+                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+
+                    string[] displayValue = File.ReadAllLines(filePath);
+                    if (displayValue[0] == "Monster Stats: 0")
+                        displayValue[0] = displayValue[0].Replace("0", "1");
+                    File.WriteAllLines(filePath, displayValue);
+
+                    _monsterStatsDispatcherTimer.Start();
+                    _logger.Error("Monster Stats: Advanced Timer Started");
+
+                    break;
+                }
+        }
+
+
+        ShellViewModel.DisableBNetConnection();
+
+        //Add Exocet Font to D2R base Folder for Monster Stat Display (mod agnostic)
+        if (!File.Exists("../Exocet.otf"))
+        {
+            byte[] font = await Helper.GetResourceByteArray($"Fonts.0.otf");
+            await File.WriteAllBytesAsync(ShellViewModel.GamePath + "/Exocet.otf", font);
+        }
+
+        //Start the mod
+        string d2rArgs = ShellViewModel.UserSettings.CurrentD2RArgs;
+        ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(ShellViewModel.GamePath, "D2R.exe"), d2rArgs);
+        startInfo.WorkingDirectory = @".\";
+        try
+        {
+            //MessageBox.Show(launchArgsF);
+            Process.Start(startInfo);
+            ShellViewModel.UserSettings.MapLayout = 0;
+
+            if (ShellViewModel.UserSettings.WindowMode == 2)
+            {
+                Thread.Sleep(10000);
+                ExtendDiabloWindowToFullScreen();
+            }
+            if (ShellViewModel.UserSettings.WindowMode == 3)
+            {
+                Thread.Sleep(10000);
+                RemoveDiabloWindowTitleBarAndBorder();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error starting application: {ex}");
+            _logger.Error($"Monster Stats: FAIL - GamePath:{ShellViewModel.GamePath}");
+        }
+
+        _logger.Error($"\n\n--------------------\nMod Name: {ShellViewModel.ModInfo.Name}\nGame Path: {ShellViewModel.GamePath}\nSave Path: {ShellViewModel.SaveFilesFilePath}\nLaunch Arguments: {ShellViewModel.UserSettings.CurrentD2RArgs}\n\nAudio Language: {ShellViewModel.UserSettings.AudioLanguage}\nText Language: {ShellViewModel.UserSettings.TextLanguage}\nUI Theme: {ShellViewModel.UserSettings.UiTheme}\nWindow Mode: {ShellViewModel.UserSettings.WindowMode}\nHDR Fix: {ShellViewModel.UserSettings.HdrFix}\n\nFont: {ShellViewModel.UserSettings.Font}\nBackups: {ShellViewModel.UserSettings.AutoBackups}\nPersonalized Tabs: {ShellViewModel.UserSettings.PersonalizedStashTabs}\nExpanded Cube: {ShellViewModel.UserSettings.ExpandedCube}\nExpanded Inventory: {ShellViewModel.UserSettings.ExpandedInventory}\nExpanded Merc: {ShellViewModel.UserSettings.ExpandedMerc}\nExpanded Stash: {ShellViewModel.UserSettings.ExpandedStash}\nBuff Icons: {ShellViewModel.UserSettings.BuffIcons}\nMonster Display: {ShellViewModel.UserSettings.MonsterStatsDisplay}\nSkill Icons: {ShellViewModel.UserSettings.SkillIcons}\nMerc Identifier: {ShellViewModel.UserSettings.MercIcons}\nItem Levels: {ShellViewModel.UserSettings.ItemIlvls}\nRune Display: {ShellViewModel.UserSettings.RuneDisplay}\nHide Helmets: {ShellViewModel.UserSettings.HideHelmets}\nItem Display: {ShellViewModel.UserSettings.ItemIcons}\nSuper Telekinesis: {ShellViewModel.UserSettings.SuperTelekinesis}\nColor Dyes: {ShellViewModel.UserSettings.ColorDye}\nCinematic Subtitles: {ShellViewModel.UserSettings.CinematicSubs}\nRuneword Sorting: {ShellViewModel.UserSettings.RunewordSorting}\nMerged HUD: {ShellViewModel.UserSettings.HudDesign}\n--------------------");
+
+    }
+    public string GetD2RArgs() //Determine whether to run the mod with -txt or not
+    {
+        string args = string.Empty;
+        string regenArg = ShellViewModel?.UserSettings?.ResetMaps ?? false ? " -resetofflinemaps" : string.Empty;
+        string respecArg = ShellViewModel?.UserSettings?.InfiniteRespec ?? false ? " -enablerespec" : string.Empty;
+        string windowedArg = ShellViewModel?.UserSettings?.WindowMode >= 1 ? " -windowed" : string.Empty;
+        string mapLayoutArg = GetMapLayoutArg();
+
+        string excelDir = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel");
+
+        if (Directory.Exists(excelDir))
+        {
+            int binFileCount = Directory.GetFiles(excelDir, "*.bin").Length;
+            int txtFileCount = Directory.GetFiles(excelDir, "*.txt").Length;
+
+            if (binFileCount >= 83 && txtFileCount >= 10)
+                args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
+            else if (binFileCount >= 83 && txtFileCount < 10)
+                args = $"-mod {ShellViewModel.ModInfo.Name}";
+            else if (binFileCount < 83 && txtFileCount >= 1)
+                args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
+        }
+        else 
+        {
+            if (ShellViewModel.ModInfo != null)
+                args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
+            else
+                args = "";
+        }
+        
+        string mArgs = args;
+
+        if (SelectedMod == "ReMoDDeD")
+            mArgs = args.Replace(" -txt", "");
+
+        args = $"{mArgs}{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
+
+        if (ShellViewModel != null && ShellViewModel.SelectedModDataFolder != null)
+        {
+            string filePath = Path.Combine(ShellViewModel.SelectedModDataFolder, @"local\macui\d2logo.pcx");
+
+            if (ShellViewModel.UserSettings != null)
+            {
+                if (File.Exists(filePath))
+                    ShellViewModel.UserSettings.FastLoad = "On";
+                else
+                    ShellViewModel.UserSettings.FastLoad = "Off";
+
+                ShellViewModel.UserSettings.CurrentD2RArgs = args;
+            }
+
+        }
+
+        return args;
+    }
+    private string GetMapLayoutArg() //Convert User's map choice to seed values
+    {
+        if (ShellViewModel?.UserSettings == null)
+            return string.Empty;
+
+        string arg = string.Empty;
+
+        switch ((eMapLayouts)ShellViewModel.UserSettings.MapLayout)
+        {
+            case eMapLayouts.Default:
+                    return "";
+            case eMapLayouts.Tower:
+                    return " -seed 1112";
+            case eMapLayouts.Catacombs:
+                    return " -seed 348294647";
+            case eMapLayouts.AncientTunnels:
+                    return " -seed 1111";
+            case eMapLayouts.LowerKurast:
+                    return " -seed 1460994795";
+            case eMapLayouts.DuranceOfHate:
+                    return " -seed 1113";
+            case eMapLayouts.Hellforge:
+                    return " -seed 100";
+            case eMapLayouts.WorldstoneKeep:
+                    return " -seed 1104";
+            case eMapLayouts.Cheater:
+                    return " -seed 1056279548";
+            default:
+                    return "";
+        }
+    }
+    private void ExtendDiabloWindowToFullScreen() //Fullscreen Borderless
+    {
+        Process[] processes = Process.GetProcesses();
+        bool foundDiabloWindow = false;
+
+        foreach (Process process in processes)
+        {
+            IntPtr mainWindowHandle = process.MainWindowHandle;
+            if (mainWindowHandle != IntPtr.Zero)
+            {
+                string windowTitle = process.MainWindowTitle.ToLower();
+                if (windowTitle.Contains("diablo"))
+                {
+                    foundDiabloWindow = true;
+
+                    // Remove title bar, border, and client edge
+                    uint style = GetWindowLong(mainWindowHandle, GWL_STYLE);
+                    uint exStyle = GetWindowLong(mainWindowHandle, GWL_EXSTYLE);
+
+                    style &= ~(WS_CAPTION | WS_THICKFRAME); // Remove title bar and resizable border
+                    exStyle &= ~WS_EX_CLIENTEDGE; // Remove client edge
+
+                    SetWindowLong(mainWindowHandle, GWL_STYLE, style);
+                    SetWindowLong(mainWindowHandle, GWL_EXSTYLE, exStyle);
+
+                    // Update window position and size to cover the entire screen
+                    IntPtr desktopHandle = GetDesktopWindow();
+                    RECT desktopRect;
+                    GetWindowRect(desktopHandle, out desktopRect);
+
+                    SetWindowPos(mainWindowHandle, IntPtr.Zero, desktopRect.Left, desktopRect.Top, desktopRect.Right - desktopRect.Left, desktopRect.Bottom - desktopRect.Top, SWP_FRAMECHANGED);
+
+                    //MessageBox.Show("Diablo window extended to full screen resolution.");
+                    break; // Once we find a Diablo window, no need to continue looping
+                }
+            }
+        }
+    }
+    private void RemoveDiabloWindowTitleBarAndBorder() //Windowed Borderless
+    {
+        Process[] processes = Process.GetProcesses();
+        bool foundDiabloWindow = false;
+
+        foreach (Process process in processes)
+        {
+            IntPtr mainWindowHandle = process.MainWindowHandle;
+            if (mainWindowHandle != IntPtr.Zero)
+            {
+                string windowTitle = process.MainWindowTitle.ToLower();
+                if (windowTitle.Contains("diablo"))
+                {
+                    foundDiabloWindow = true;
+
+                    // Modify the window style to remove the title bar and border
+                    uint style = GetWindowLong(mainWindowHandle, GWL_STYLE);
+                    uint exStyle = GetWindowLong(mainWindowHandle, GWL_EXSTYLE);
+
+                    style &= ~(WS_CAPTION | WS_THICKFRAME); // Remove title bar and resizable border
+                    exStyle &= ~WS_EX_CLIENTEDGE; // Remove client edge
+
+                    SetWindowLong(mainWindowHandle, GWL_STYLE, style);
+                    SetWindowLong(mainWindowHandle, GWL_EXSTYLE, exStyle);
+
+                    // Update window position to refresh the appearance
+                    SetWindowPos(mainWindowHandle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+
+                    //MessageBox.Show("Title bar, border, and client edge removed from Diablo window.");
+                    break; // Once we find a Diablo window, no need to continue looping
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region ---Translations---
+
+    private async Task Translate() //Parse and Prepare News Messages for Translation
     {
         if (ShellViewModel.ModInfo != null)
         {
@@ -596,14 +893,15 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                 return;
             }
-                
+
             if (SelectedAppLanguage.Value == eLanguage.English)
             {
                 ModTitle = ShellViewModel.ModInfo.ModTitle.Trim().Replace("\"", "");
-                ModDescription = ShellViewModel.ModInfo.ModDescription.Trim().Replace("\"", "");
+                ModDescription = ShellViewModel.ModInfo.ModDescription.Trim().Replace("|| ", ".").Replace(@"\u0026", ". ").Replace("\\n", Environment.NewLine);
 
                 LauncherTitle = ShellViewModel.ModInfo.NewsTitle.Trim().Replace("\"", "");
-                LauncherDescription = ShellViewModel.ModInfo.NewsDescription.Trim().Replace("\"", "");
+                //LauncherDescription = ShellViewModel.ModInfo.NewsDescription.Trim().Replace("\"", "");
+                LauncherDescription = ShellViewModel.ModInfo.NewsDescription.Trim().Replace("|| ", ".").Replace(@"\u0026", ". ").Replace("\\n", Environment.NewLine);
 
                 return;
             }
@@ -618,8 +916,9 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             {
                 ModTitle = await TranslateGoogleAsync(modTitle);
                 ModDescription = await TranslateGoogleAsync(modDescription.Replace("|| ", ".").Replace(@"\u0026", ". "));
-                LauncherTitle = await TranslateGoogleAsync(launcherTitle);
-                LauncherDescription = await TranslateGoogleAsync(launcherDescription.Replace("|| ", ".").Replace(@"\u0026", ". "));
+                LauncherTitle = await TranslateGoogleAsync(launcherTitle.Replace("|| ", ".").Replace(@"\u0026", ". ").Replace("\\n", Environment.NewLine));
+                //LauncherDescription = await TranslateGoogleAsync(launcherDescription.Replace("|| ", ".").Replace(@"\u0026", ". "));
+                LauncherDescription = await TranslateGoogleAsync(launcherDescription.Replace("|| ", ".").Replace(@"\u0026", ". ").Replace("\\n", Environment.NewLine));
             }
             catch (Exception ex)
             {
@@ -643,8 +942,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
-
-    private async Task<string> TranslateGoogleAsync(string text)
+    private async Task<string> TranslateGoogleAsync(string text) //Function to convert text without API or quota restrictions
     {
         try
         {
@@ -666,97 +964,134 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             return null;
         }
     }
-
-    private string GetD2RArgs()
+    [UsedImplicitly]
+    public async void OnTextLanguageSelectionChanged() //Update registry with Language Selection
     {
-        string args = string.Empty;
-        string regenArg = ShellViewModel.UserSettings.ResetMaps ? " -resetofflinemaps" : string.Empty;
-        string respecArg = ShellViewModel.UserSettings.InfiniteRespec ? " -enablerespec" : string.Empty;
-        string windowedArg = ShellViewModel.UserSettings.WindowMode >= 1 ? " -windowed" : string.Empty;
-        string mapLayoutArg = GetMapLayoutArg();
-
-        string excelDir = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/excel");
-
-        if (Directory.Exists(excelDir))
+        if (ShellViewModel.UserSettings != null)
         {
-            int binFileCount = Directory.GetFiles(excelDir, "*.bin").Length;
-            int txtFileCount = Directory.GetFiles(excelDir, "*.txt").Length;
+            RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"Software\Blizzard Entertainment\Battle.net\Launch Options\OSI", true) ?? throw new Exception("Failed to find registry key");
 
-            if (binFileCount >= 83 && txtFileCount >= 10)
-                args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-            else if (binFileCount >= 83 && txtFileCount < 10)
-                args = $"-mod {ShellViewModel.ModInfo.Name}";
-            else if (binFileCount < 83 && txtFileCount >= 1)
-                args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-        }
-        else
-            args = $"-mod {ShellViewModel.ModInfo.Name} -txt";
-
-        string mArgs = args;
-
-        if (SelectedMod == "ReMoDDeD")
-            mArgs = args.Replace(" -txt", "");
-
-        args = $"{mArgs}{regenArg}{respecArg}{mapLayoutArg}{windowedArg}";
-
-        if (File.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, @"local\macui\d2logo.pcx")))
-            ShellViewModel.UserSettings.FastLoad = "On";
-        else
-            ShellViewModel.UserSettings.FastLoad = "Off";
-        ShellViewModel.UserSettings.CurrentD2RArgs = args;
-        return args;
-    }
-
-
-    private string GetMapLayoutArg()
-    {
-        string arg = string.Empty;
-        
-
-        switch ((eMapLayouts) ShellViewModel.UserSettings.MapLayout)
-        {
-            case eMapLayouts.Default:
+            switch (ShellViewModel.UserSettings.TextLanguage)
             {
-                return "";
+                case 0:
+                    key.SetValue("LOCALE", "enUS");
+                    break;
+                case 1:
+                    key.SetValue("LOCALE", "deDE");
+                    break;
+                case 2:
+                    key.SetValue("LOCALE", "esES");
+                    break;
+                case 3:
+                    key.SetValue("LOCALE", "esMX");
+                    break;
+                case 4:
+                    key.SetValue("LOCALE", "frFR");
+                    break;
+                case 5:
+                    key.SetValue("LOCALE", "itIT");
+                    break;
+                case 6:
+                    key.SetValue("LOCALE", "jaJP");
+                    break;
+                case 7:
+                    key.SetValue("LOCALE", "koKR");
+                    break;
+                case 8:
+                    key.SetValue("LOCALE", "plPL");
+                    break;
+                case 9:
+                    key.SetValue("LOCALE", "ptBR");
+                    break;
+                case 10:
+                    key.SetValue("LOCALE", "ruRU");
+                    break;
+                case 11:
+                    key.SetValue("LOCALE", "zhCN");
+                    break;
+                case 12:
+                    key.SetValue("LOCALE", "zhTW");
+                    break;
+                default:
+                    key.SetValue("LOCALE", "enUS");
+                    break;
             }
-            case eMapLayouts.Tower:
-            {
-                return " -seed 1112";
-            }
-            case eMapLayouts.Catacombs:
-            {
-                return " -seed 348294647";
-            }
-            case eMapLayouts.AncientTunnels:
-            {
-                return " -seed 1111";
-            }
-            case eMapLayouts.LowerKurast:
-            {
-                return " -seed 1460994795";
-            }
-            case eMapLayouts.DuranceOfHate:
-            {
-                return " -seed 1113";
-            }
-            case eMapLayouts.Hellforge:
-            {
-                return " -seed 100";
-            }
-            case eMapLayouts.WorldstoneKeep:
-            {
-                return " -seed 1104";
-            }
-            case eMapLayouts.Cheater:
-            {
-                return " -seed 1056279548";
-            }
-            default:
-            {
-                return "";
-            }
+            key.Close();
         }
     }
+    [UsedImplicitly]
+    public async void OnAudioLanguageSelectionChanged() //Update registry with Language Selection
+    {
+        if (ShellViewModel.UserSettings != null)
+        {
+            RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"Software\Blizzard Entertainment\Battle.net\Launch Options\OSI", true) ?? throw new Exception("Failed to find registry key");
+
+            switch (ShellViewModel.UserSettings.AudioLanguage)
+            {
+                case 0:
+                    key.SetValue("LOCALE_AUDIO", "enUS");
+                    break;
+                case 1:
+                    key.SetValue("LOCALE_AUDIO", "deDE");
+                    break;
+                case 2:
+                    key.SetValue("LOCALE_AUDIO", "esES");
+                    break;
+                case 3:
+                    key.SetValue("LOCALE_AUDIO", "esMX");
+                    break;
+                case 4:
+                    key.SetValue("LOCALE_AUDIO", "frFR");
+                    break;
+                case 5:
+                    key.SetValue("LOCALE_AUDIO", "itIT");
+                    break;
+                case 6:
+                    key.SetValue("LOCALE_AUDIO", "jaJP");
+                    break;
+                case 7:
+                    key.SetValue("LOCALE_AUDIO", "koKR");
+                    break;
+                case 8:
+                    key.SetValue("LOCALE_AUDIO", "plPL");
+                    break;
+                case 9:
+                    key.SetValue("LOCALE_AUDIO", "ptBR");
+                    break;
+                case 10:
+                    key.SetValue("LOCALE_AUDIO", "ruRU");
+                    break;
+                case 11:
+                    key.SetValue("LOCALE_AUDIO", "zhCN");
+                    break;
+                case 12:
+                    key.SetValue("LOCALE_AUDIO", "zhTW");
+                    break;
+                default:
+                    key.SetValue("LOCALE_AUDIO", "enUS");
+                    break;
+            }
+            key.Close();
+        }
+    }
+    [UsedImplicitly]
+    public async void OnAppLanguageSelectionChanged() //Update app text with Language Selection
+    {
+        Settings.Default.AppLanguage = (int)SelectedAppLanguage.Value;
+        Settings.Default.Save();
+
+        if (!string.IsNullOrEmpty(SelectedAppLanguage.Key))
+        {
+            CultureInfo culture = new CultureInfo(SelectedAppLanguage.Key.Split(' ')[1].Trim(new[] { '(', ')' }));
+            CultureResources.ChangeCulture(culture);
+        }
+
+        await Translate();
+    }
+
+    #endregion
+
+    #region ---Button/Checkbox Controls---
 
     private async Task ApplyHdrFix()
     {
@@ -792,7 +1127,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             MessageBox.Show(ex.Message);
         }
     }
-
     private async Task ApplyUiTheme()
     {
         string layoutPath = Path.Combine(ShellViewModel.SelectedModDataFolder, "global/ui/layouts");
@@ -858,301 +1192,11 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
-
     [UsedImplicitly]
     public async void OnMapsHelp()
     {
         MessageBox.Show("These options let you force specific map layouts so you can roll that 'perfect' map anytime you want. Details explained below:\n\nTower: The tower entrance is on the same screen as your waypoint.\n\nCatacombs: Levels 3 and 4 are less than 3 screens away\n\nAncient Tunnels: Entrance is 1 screen away from your waypoint\n\nLower Kurast: Very favorable super chest pattern near your waypoint\n\nDurance of Hate: Level 3 entrance is one teleport away from waypoint.\n\nHellforge: Forge is at closest spawn to your waypoint\n\nWorldstone Keep: Level 3 and 4 are right next to each other\n\nI'm a Cheater: Almost all entrances are absurdly close with a perfect LK pattern by the waypoint. You're basically just cheating now.\n\n\nNOTE: Lower Kurast and I'm a Cheater options are only available on Vanilla++.");
     }
-
-    [UsedImplicitly]
-    public async void OnPlayMod()
-    {
-        if (ShellViewModel.ModInfo == null)
-        {
-            return;
-        }
-
-        await ApplyHdrFix();
-        await ShellViewModel.ApplyModSettings();
-
-        //Unlock / create SharedStash
-        if (ShellViewModel.ModInfo != null)
-        {
-            string hexString = String.Concat(Enumerable.Repeat(TAB_BYTE_CODE, 4));
-            string d2rSavePath = string.Empty;
-
-            if (ShellViewModel.ModInfo.SavePath == "\"../\"")
-                d2rSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\Diablo II Resurrected");
-            else
-                d2rSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\Mods\{ShellViewModel.ModInfo.Name}");
-
-            if (!Directory.Exists(d2rSavePath))
-                Directory.CreateDirectory(d2rSavePath);
-
-            string sharedStashSoftCorePath = Path.Combine(d2rSavePath, "SharedStashSoftCoreV2.d2i");
-            string sharedStashHardCorePath = Path.Combine(d2rSavePath, "SharedStashHardCoreV2.d2i");
-
-            //If stash doesn't exist yet; create a new one with all 7 tabs unlocked
-            if (!File.Exists(sharedStashSoftCorePath))
-            {
-                File.Create(sharedStashSoftCorePath).Close();
-                await File.WriteAllBytesAsync(sharedStashSoftCorePath, await Helper.GetResourceByteArray("SharedStashSoftCoreV2.d2i"));
-            }
-            else
-            {
-                //Check if stash is unlocked already and unlock if not
-                byte[] data = await File.ReadAllBytesAsync(sharedStashSoftCorePath);
-                string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
-                if (Regex.Matches(bitString, "4A4D0000").Count == 3)
-                    await File.WriteAllBytesAsync(sharedStashSoftCorePath, Helper.StringToByteArray(bitString + hexString));
-            }
-
-            //Repeat for the hardcore stash
-            if (!File.Exists(sharedStashHardCorePath))
-            {
-                File.Create(sharedStashHardCorePath).Close();
-                await File.WriteAllBytesAsync(sharedStashHardCorePath, await Helper.GetResourceByteArray("SharedStashHardCoreV2.d2i"));
-            }
-            else
-            {
-                byte[] data = await File.ReadAllBytesAsync(sharedStashHardCorePath); //read file
-                string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
-                if (Regex.Matches(bitString, "4A4D0000").Count == 3)
-                    await File.WriteAllBytesAsync(sharedStashHardCorePath, Helper.StringToByteArray(bitString + hexString));
-            }
-        }
-
-        //Load MonsterStats Setting
-        switch (ShellViewModel.UserSettings.MonsterHP)
-        {
-            case 0:
-                    break;
-            case 1:
-                    break;
-            case 2:
-                    break;
-            case 3:
-                {
-                    string stasherEntityFrameworkPath = Path.Combine(ShellViewModel.StasherPath, "EntityFramework.pdb");
-
-                    if (File.Exists(stasherEntityFrameworkPath))
-                        File.Delete(stasherEntityFrameworkPath);
-
-                    File.Create(stasherEntityFrameworkPath).Close();
-                    await File.WriteAllBytesAsync(stasherEntityFrameworkPath, await Helper.GetResourceByteArray("Options.MonsterStats.MonsterStats.dll"));
-
-                    _monsterStatsDispatcherTimer.Start();
-
-                    break;
-                }
-            case 4:
-                {
-                    string stasherEntityFrameworkPath = Path.Combine(ShellViewModel.StasherPath, "EntityFramework.pdb");
-
-                    if (File.Exists(stasherEntityFrameworkPath))
-                        File.Delete(stasherEntityFrameworkPath);
-
-                    File.Create(stasherEntityFrameworkPath).Close();
-                    await File.WriteAllBytesAsync(stasherEntityFrameworkPath, await Helper.GetResourceByteArray("Options.MonsterStats.MonsterStats.dll"));
-
-                    _monsterStatsDispatcherTimer.Start();
-
-                    break;
-                }
-        }
-
-        ShellViewModel.DisableBNetConnection();
-
-        //Add Exocet Font to D2R base Folder for Monster Stat Display (mod agnostic)
-        if (!File.Exists("../Exocet.otf"))
-        {
-            byte[] font = await Helper.GetResourceByteArray($"Fonts.0.otf");
-            await File.WriteAllBytesAsync(ShellViewModel.GamePath + "/Exocet.otf", font);
-        }
-
-        //Start the mod
-        string d2rArgs = ShellViewModel.UserSettings.CurrentD2RArgs;
-        ProcessStartInfo startInfo = new ProcessStartInfo(Path.Combine(ShellViewModel.GamePath, "D2R.exe"), d2rArgs);
-        startInfo.WorkingDirectory = @".\";
-        try
-        {
-            //MessageBox.Show(launchArgsF);
-            Process.Start(startInfo);
-            ShellViewModel.UserSettings.MapLayout = 0;
-
-            if (ShellViewModel.UserSettings.WindowMode == 2)
-            {
-                Thread.Sleep(10000);
-                ExtendDiabloWindowToFullScreen();
-            }
-            if (ShellViewModel.UserSettings.WindowMode == 3)
-            {
-                Thread.Sleep(10000);
-                RemoveDiabloWindowTitleBarAndBorder();
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error starting application: {ex}");
-        }
-    }
-
-    [UsedImplicitly]
-    public async void OnModSelectionChanged()
-    {
-        Settings.Default.SelectedMod = SelectedMod;
-        Settings.Default.Save();
-
-        await InitializeMods();
-        GetD2RArgs();
-    }
-
-    [UsedImplicitly]
-    public async void OnUIThemeSelectionChanged()
-    {
-        if (ShellViewModel.ModInfo == null)
-            return;
-
-        await ApplyUiTheme();
-    }
-
-    [UsedImplicitly]
-    public async void OnMapLayoutSelectionChanged()
-    {
-        if ((eMapLayouts) ShellViewModel.UserSettings.MapLayout != eMapLayouts.Default)
-            MessageBox.Show("WARNING: These options are meant for a fun experience or two, but will feel like cheating. Use at your own risk.\nIf you would like to proceed, please read these instructions:\n\nStep 1: Start the game with your selected layout\nStep 2: Once loaded into the game with your character fully, EXIT the game.\nStep 3: After exiting the game, you should see your layout dropdown on launcher changed back to Default. This is normal; Start the game again.\n\nIf you do not exit the game after changing your map layout...you will be stuck with a small drop pool of deterministic outcomes.\nThis does not need to be done every game; only if you change map layouts the normal ways; such as changing difficulty.");
-
-        GetD2RArgs();
-    }
-
-    [UsedImplicitly]
-    public async void OnTextLanguageSelectionChanged()
-    {
-        if (ShellViewModel.UserSettings != null)
-        {
-            RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"Software\Blizzard Entertainment\Battle.net\Launch Options\OSI", true) ?? throw new Exception("Failed to find registry key");
-
-            switch (ShellViewModel.UserSettings.TextLanguage)
-            {
-                case 0:
-                    key.SetValue("LOCALE", "enUS");
-                    break;
-                case 1:
-                    key.SetValue("LOCALE", "deDE");
-                    break;
-                case 2:
-                    key.SetValue("LOCALE", "esES");
-                    break;
-                case 3:
-                    key.SetValue("LOCALE", "esMX");
-                    break;
-                case 4:
-                    key.SetValue("LOCALE", "frFR");
-                    break;
-                case 5:
-                    key.SetValue("LOCALE", "itIT");
-                    break;
-                case 6:
-                    key.SetValue("LOCALE", "jaJP");
-                    break;
-                case 7:
-                    key.SetValue("LOCALE", "koKR");
-                    break;
-                case 8:
-                    key.SetValue("LOCALE", "plPL");
-                    break;
-                case 9:
-                    key.SetValue("LOCALE", "ptBR");
-                    break;
-                case 10:
-                    key.SetValue("LOCALE", "ruRU");
-                    break;
-                case 11:
-                    key.SetValue("LOCALE", "zhCN");
-                    break;
-                case 12:
-                    key.SetValue("LOCALE", "zhTW");
-                    break;
-                default:
-                    key.SetValue("LOCALE", "enUS");
-                    break;
-            }
-            key.Close();
-        }
-    }
-
-    [UsedImplicitly]
-    public async void OnAudioLanguageSelectionChanged()
-    {
-        if (ShellViewModel.UserSettings != null)
-        {
-            RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"Software\Blizzard Entertainment\Battle.net\Launch Options\OSI", true) ?? throw new Exception("Failed to find registry key");
-
-            switch (ShellViewModel.UserSettings.AudioLanguage)
-            {
-                case 0:
-                    key.SetValue("LOCALE_AUDIO", "enUS");
-                    break;
-                case 1:
-                    key.SetValue("LOCALE_AUDIO", "deDE");
-                    break;
-                case 2:
-                    key.SetValue("LOCALE_AUDIO", "esES");
-                    break;
-                case 3:
-                    key.SetValue("LOCALE_AUDIO", "esMX");
-                    break;
-                case 4:
-                    key.SetValue("LOCALE_AUDIO", "frFR");
-                    break;
-                case 5:
-                    key.SetValue("LOCALE_AUDIO", "itIT");
-                    break;
-                case 6:
-                    key.SetValue("LOCALE_AUDIO", "jaJP");
-                    break;
-                case 7:
-                    key.SetValue("LOCALE_AUDIO", "koKR");
-                    break;
-                case 8:
-                    key.SetValue("LOCALE_AUDIO", "plPL");
-                    break;
-                case 9:
-                    key.SetValue("LOCALE_AUDIO", "ptBR");
-                    break;
-                case 10:
-                    key.SetValue("LOCALE_AUDIO", "ruRU");
-                    break;
-                case 11:
-                    key.SetValue("LOCALE_AUDIO", "zhCN");
-                    break;
-                case 12:
-                    key.SetValue("LOCALE_AUDIO", "zhTW");
-                    break;
-                default:
-                    key.SetValue("LOCALE_AUDIO", "enUS");
-                    break;
-            }
-            key.Close();
-        }
-    }
-
-    [UsedImplicitly]
-    public async void OnAppLanguageSelectionChanged()
-    {
-        Settings.Default.AppLanguage = (int)SelectedAppLanguage.Value;
-        Settings.Default.Save();
-
-        if (!string.IsNullOrEmpty(SelectedAppLanguage.Key))
-        {
-            CultureInfo culture = new CultureInfo(SelectedAppLanguage.Key.Split(' ')[1].Trim(new[] { '(', ')' }));
-            CultureResources.ChangeCulture(culture);
-        }
-
-        await Translate();
-    }
-
     [UsedImplicitly]
     public async Task OnCheckForUpdates()
     {
@@ -1235,7 +1279,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 {
                     try
                     {
-                        string backupPath = Path.Combine(ShellViewModel.BaseModsFolder, $"{Settings.Default.SelectedMod}(Backup-{ShellViewModel.ModInfo.ModVersion.Replace(".","-")})");
+                        string backupPath = Path.Combine(ShellViewModel.BaseModsFolder, $"{Settings.Default.SelectedMod}(Backup-{ShellViewModel.ModInfo.ModVersion.Replace(".", "-")})");
                         if (Directory.Exists(backupPath))
                             Directory.Delete(backupPath, true);
 
@@ -1264,23 +1308,23 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 Progress<double> progress = new Progress<double>();
 
                 progress.ProgressChanged += (sender, args) =>
-                                            {
-                                                Execute.OnUIThread(() =>
-                                                                   {
-                                                                       if (args == -1)
-                                                                       {
-                                                                           DownloadProgress = 0;
-                                                                           DownloadProgressString = string.Empty;
-                                                                           ProgressBarIsIndeterminate = true;
-                                                                           ProgressStatus = Helper.GetCultureString("UpdateProgressGHSize");
-                                                                       }
-                                                                       else
-                                                                       {
-                                                                           DownloadProgress = Math.Round(args, MidpointRounding.AwayFromZero);
-                                                                           DownloadProgressString = $"{DownloadProgress}%";
-                                                                       }
-                                                                   });
-                                            };
+                {
+                    Execute.OnUIThread(() =>
+                    {
+                        if (args == -1)
+                        {
+                            DownloadProgress = 0;
+                            DownloadProgressString = string.Empty;
+                            ProgressBarIsIndeterminate = true;
+                            ProgressStatus = Helper.GetCultureString("UpdateProgressGHSize");
+                        }
+                        else
+                        {
+                            DownloadProgress = Math.Round(args, MidpointRounding.AwayFromZero);
+                            DownloadProgressString = $"{DownloadProgress}%";
+                        }
+                    });
+                };
 
                 if (File.Exists(tempUpdatePath))
                     File.Delete(tempUpdatePath);
@@ -1305,10 +1349,10 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     Directory.Delete(tempExtractedModFolderPath, true);
 
                 await Task.Run(() =>
-                               {
-                                   ZipFile.ExtractToDirectory(tempUpdatePath, tempExtractedModFolderPath);
-                                   return Task.CompletedTask;
-                               });
+                {
+                    ZipFile.ExtractToDirectory(tempUpdatePath, tempExtractedModFolderPath);
+                    return Task.CompletedTask;
+                });
 
                 string tempModDirPath = await Helper.FindFolderWithMpq(tempExtractedModFolderPath);
                 string tempParentDir = Path.GetDirectoryName(tempModDirPath);
@@ -1374,7 +1418,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         CheckingForUpdates = false;
 
     }
-
     [UsedImplicitly]
     public async void OnDownloadMod()
     {
@@ -1392,7 +1435,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             await InitializeMods();
         }
     }
-
     [UsedImplicitly]
     public async void OnCASCSettings()
     {
@@ -1417,7 +1459,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 await File.WriteAllBytesAsync(Path.Combine(ShellViewModel.BaseModsFolder, "MyCustomMod/MyCustomMod.mpq/modinfo.json"), await Helper.GetResourceByteArray("modinfo_blank.json"));
                 Settings.Default.SelectedMod = "MyCustomMod";
                 Settings.Default.Save();
-                CloneDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\Diablo II Resurrected"), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\Diablo II Resurrected\Mods\MyCustomMod"));
+                CloneDirectory(Path.Combine(GetSavePath(), @"Diablo II Resurrected"), Path.Combine(GetSavePath(), @"Diablo II Resurrected\Mods\MyCustomMod"));
                 await InitializeMods();
             }
             else
@@ -1443,13 +1485,13 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 CASCExtractorViewModel vm = new CASCExtractorViewModel(ShellViewModel);
 
                 if (await _windowManager.ShowDialogAsync(vm, null, options))
-                {   
+                {
                 }
             }
             else
                 ShellViewModel.UserSettings.DirectTxt = false;
         }
-        
+
         GetD2RArgs();
     }
 
@@ -1459,80 +1501,35 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         GetD2RArgs();
     }
 
-    private void ExtendDiabloWindowToFullScreen()
+    #endregion
+
+    #region ---Change Handlers---
+
+    [UsedImplicitly]
+    public async void OnModSelectionChanged()
     {
-        Process[] processes = Process.GetProcesses();
-        bool foundDiabloWindow = false;
+        Settings.Default.SelectedMod = SelectedMod;
+        Settings.Default.Save();
 
-        foreach (Process process in processes)
-        {
-            IntPtr mainWindowHandle = process.MainWindowHandle;
-            if (mainWindowHandle != IntPtr.Zero)
-            {
-                string windowTitle = process.MainWindowTitle.ToLower();
-                if (windowTitle.Contains("diablo"))
-                {
-                    foundDiabloWindow = true;
-
-                    // Remove title bar, border, and client edge
-                    uint style = GetWindowLong(mainWindowHandle, GWL_STYLE);
-                    uint exStyle = GetWindowLong(mainWindowHandle, GWL_EXSTYLE);
-
-                    style &= ~(WS_CAPTION | WS_THICKFRAME); // Remove title bar and resizable border
-                    exStyle &= ~WS_EX_CLIENTEDGE; // Remove client edge
-
-                    SetWindowLong(mainWindowHandle, GWL_STYLE, style);
-                    SetWindowLong(mainWindowHandle, GWL_EXSTYLE, exStyle);
-
-                    // Update window position and size to cover the entire screen
-                    IntPtr desktopHandle = GetDesktopWindow();
-                    RECT desktopRect;
-                    GetWindowRect(desktopHandle, out desktopRect);
-
-                    SetWindowPos(mainWindowHandle, IntPtr.Zero, desktopRect.Left, desktopRect.Top, desktopRect.Right - desktopRect.Left, desktopRect.Bottom - desktopRect.Top, SWP_FRAMECHANGED);
-
-                    //MessageBox.Show("Diablo window extended to full screen resolution.");
-                    break; // Once we find a Diablo window, no need to continue looping
-                }
-            }
-        }
+        await InitializeMods();
+        GetD2RArgs();
     }
-
-    private void RemoveDiabloWindowTitleBarAndBorder()
+    [UsedImplicitly]
+    public async void OnUIThemeSelectionChanged()
     {
-        Process[] processes = Process.GetProcesses();
-        bool foundDiabloWindow = false;
+        if (ShellViewModel.ModInfo == null)
+            return;
 
-        foreach (Process process in processes)
-        {
-            IntPtr mainWindowHandle = process.MainWindowHandle;
-            if (mainWindowHandle != IntPtr.Zero)
-            {
-                string windowTitle = process.MainWindowTitle.ToLower();
-                if (windowTitle.Contains("diablo"))
-                {
-                    foundDiabloWindow = true;
-
-                    // Modify the window style to remove the title bar and border
-                    uint style = GetWindowLong(mainWindowHandle, GWL_STYLE);
-                    uint exStyle = GetWindowLong(mainWindowHandle, GWL_EXSTYLE);
-
-                    style &= ~(WS_CAPTION | WS_THICKFRAME); // Remove title bar and resizable border
-                    exStyle &= ~WS_EX_CLIENTEDGE; // Remove client edge
-
-                    SetWindowLong(mainWindowHandle, GWL_STYLE, style);
-                    SetWindowLong(mainWindowHandle, GWL_EXSTYLE, exStyle);
-
-                    // Update window position to refresh the appearance
-                    SetWindowPos(mainWindowHandle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-
-                    //MessageBox.Show("Title bar, border, and client edge removed from Diablo window.");
-                    break; // Once we find a Diablo window, no need to continue looping
-                }
-            }
-        }
+        await ApplyUiTheme();
     }
+    [UsedImplicitly]
+    public async void OnMapLayoutSelectionChanged()
+    {
+        if ((eMapLayouts) ShellViewModel.UserSettings.MapLayout != eMapLayouts.Default)
+            MessageBox.Show("WARNING: These options are meant for a fun experience or two, but will feel like cheating. Use at your own risk.\nIf you would like to proceed, please read these instructions:\n\nStep 1: Start the game with your selected layout\nStep 2: Once loaded into the game with your character fully, EXIT the game.\nStep 3: After exiting the game, you should see your layout dropdown on launcher changed back to Default. This is normal; Start the game again.\n\nIf you do not exit the game after changing your map layout...you will be stuck with a small drop pool of deterministic outcomes.\nThis does not need to be done every game; only if you change map layouts the normal ways; such as changing difficulty.");
 
+        GetD2RArgs();
+    }
     static void CloneDirectory(string sourceDirectory, string targetDirectory)
     {
         if (!Directory.Exists(sourceDirectory))
@@ -1550,8 +1547,135 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         }
     }
 
+    #endregion
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    #region ---Map Seed Functions---
+    public string GetSavePath()
+    {
+        string savePath = null;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); }
+        // Get all SIDs
+        string[] userSIDs = Registry.Users.GetSubKeyNames()
+            .Where(name => Regex.IsMatch(name, @"S-1-5-21-\d+-\d+-\d+-\d+$"))
+            .ToArray();
+
+        // GUID for Saved Games folder
+        string valueName = "{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}";
+
+        foreach (string SID in userSIDs)
+        {
+            // Find the location of the registry key under the current user's hive
+            string keyPath = $"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders";
+            using (RegistryKey key = Registry.Users.OpenSubKey($"{SID}\\{keyPath}"))
+            {
+                if (key != null)
+                {
+                    object value = key.GetValue(valueName);
+                    if (value != null)
+                    {
+                        savePath = value.ToString();
+                        break;
+                    }
+                }
+            }
+        }
+
+        // If not found under specific user SID, check under HKEY_CURRENT_USER
+        if (savePath == null)
+        {
+            string currentUserKeyPath = $"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders";
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(currentUserKeyPath))
+            {
+                if (key != null)
+                {
+                    object value = key.GetValue(valueName);
+                    if (value != null)
+                    {
+                        savePath = value.ToString();
+                    }
+                }
+            }
+        }
+
+        return savePath;
+    }
+    [UsedImplicitly]
+    public async void OnCharSelect()
+    {
+        OpenFileDialog ofd = new OpenFileDialog();
+        {
+            ofd.InitialDirectory = ShellViewModel.SaveFilesFilePath;
+            ofd.Filter = "D2R Character Files (*.d2s)|*.d2s";
+        };
+
+        ofd.ShowDialog();
+
+        if (ofd.FileName != "")
+        {
+            string seedID = ParseD2SSeed(ofd.FileName).ToString();
+            ShellViewModel.UserSettings.MapSeed = seedID;
+            ShellViewModel.UserSettings.MapSeedName = Path.GetFileNameWithoutExtension(ofd.FileName) + "'s Seed: ";
+            ShellViewModel.UserSettings.MapSeedLoc = ofd.FileName;
+        }
+        else
+        {
+            ShellViewModel.UserSettings.MapSeed = "";
+            ShellViewModel.UserSettings.MapSeedName = "An Evil Force's Seed: ";
+            ShellViewModel.UserSettings.MapSeedLoc = "";
+        }
+    }
+    public async void OnCharMapSeed()
+    {
+        try
+        {
+            // Read the character file and parse the saved map seed ID
+            byte[] bytes = await File.ReadAllBytesAsync(ShellViewModel.UserSettings.MapSeedLoc);
+            byte[] newSeedBytes = BitConverter.GetBytes(uint.Parse(ShellViewModel.UserSettings.MapSeed));
+
+            //Apply the saved map seed ID and update the D2S checksum
+            Array.Copy(newSeedBytes, 0, bytes, 171, newSeedBytes.Length);
+            int checksum = FixChecksum(bytes);
+            byte[] checksumBytes = BitConverter.GetBytes(checksum);
+            Array.Copy(checksumBytes, 0, bytes, 12, checksumBytes.Length);
+
+            // Write the modified content back to the file
+            await File.WriteAllBytesAsync(ShellViewModel.UserSettings.MapSeedLoc, bytes);
+            MessageBox.Show($"{ShellViewModel.UserSettings.MapSeedName.Replace(":","")}Updated!");
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+    }
+    public static int ParseD2SSeed(string filePath)
+    {
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException($"The file at {filePath} was not found.");
+
+        byte[] fileData = File.ReadAllBytes(filePath);
+
+        // Read 4 bytes starting at byte 171 for seed ID
+        int startIndex = 171;
+        byte[] data = new byte[4];
+        Array.Copy(fileData, startIndex, data, 0, 4);
+
+        // Convert the 4 bytes to an integer and return the result
+        int result = BitConverter.ToInt32(data, 0);
+        return result;
+    }
+    private int FixChecksum(byte[] bytes)
+    {
+        //Update save file checksum data to match edited content
+        new byte[4].CopyTo(bytes, 0xc);
+        int checksum = 0;
+
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            checksum = bytes[i] + (checksum * 2) + (checksum < 0 ? 1 : 0);
+        }
+
+        return checksum;
+    }
+
+    #endregion
 }

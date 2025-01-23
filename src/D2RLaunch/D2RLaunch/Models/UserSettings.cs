@@ -46,6 +46,10 @@ public class UserSettings : INotifyPropertyChanged
     private int _colorDye;
     private string _currentD2RArgs;
     private string _fastLoad;
+    private int _CinematicSubs;
+    private string _mapSeed;
+    private string _mapSeedName;
+    private string _mapSeedLoc;
 
     #endregion
 
@@ -524,6 +528,53 @@ public class UserSettings : INotifyPropertyChanged
         {
             if (value == _fastLoad) return;
             _fastLoad = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int CinematicSubs
+    {
+        get => _CinematicSubs;
+        set
+        {
+            if (value == _CinematicSubs)
+            {
+                return;
+            }
+            _CinematicSubs = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string MapSeed
+    {
+        get => _mapSeed;
+        set
+        {
+            if (value == _mapSeed) return;
+            _mapSeed = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string MapSeedName
+    {
+        get => _mapSeedName;
+        set
+        {
+            if (value == _mapSeedName) return;
+            _mapSeedName = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string MapSeedLoc
+    {
+        get => _mapSeedLoc;
+        set
+        {
+            if (value == _mapSeedLoc) return;
+            _mapSeedLoc = value;
             OnPropertyChanged();
         }
     }

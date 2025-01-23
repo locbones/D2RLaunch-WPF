@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using D2RLaunch.Models;
 using D2RLaunch.Models.Enums;
-using D2RLaunch.ViewModels;
 using JetBrains.Annotations;
 using Syncfusion.Licensing;
 using ILog = log4net.ILog;
@@ -22,7 +21,7 @@ namespace D2RLaunch.ViewModels.Dialogs
 {
     public class BuffIconSettingsViewModel : Screen
     {
-        #region members
+        #region ---Static Members---
 
         private ILog _logger = LogManager.GetLogger(typeof(RestoreBackupViewModel));
         private ObservableCollection<CharacterBuffTemplate> _templates = new ObservableCollection<CharacterBuffTemplate>();
@@ -55,15 +54,28 @@ namespace D2RLaunch.ViewModels.Dialogs
 
         #endregion
 
-        public BuffIconSettingsViewModel() { }
+        #region ---Window/Loaded Handlers---
 
+        public async Task Initialize()
+        {
+            foreach (eBuffIcons buffIcon in Enum.GetValues<eBuffIcons>())
+            {
+                BuffIcons.Add(new KeyValuePair<string, eBuffIcons>(buffIcon.GetAttributeOfType<DisplayAttribute>().Name, buffIcon));
+            }
+
+            await GetTemplates();
+        }
+        public BuffIconSettingsViewModel() { }
         public BuffIconSettingsViewModel(ShellViewModel shellViewModel)
         {
             ShellViewModel = shellViewModel;
         }
 
-        #region properties
+        #endregion
 
+        #region ---Properties---
+
+        public ShellViewModel ShellViewModel { get; }
         public ObservableCollection<KeyValuePair<string, eBuffIcons>> BuffIcons
         {
             get => _buffIcons;
@@ -74,7 +86,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconOne
         {
             get => _buffIconOne;
@@ -91,7 +102,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconTwo
         {
             get => _buffIconTwo;
@@ -108,7 +118,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconThree
         {
             get => _buffIconThree;
@@ -124,7 +133,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconFour
         {
             get => _buffIconFour;
@@ -140,7 +148,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconFive
         {
             get => _buffIconFive;
@@ -156,7 +163,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconSix
         {
             get => _buffIconSix;
@@ -172,7 +178,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconSeven
         {
             get => _buffIconSeven;
@@ -188,7 +193,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconEight
         {
             get => _buffIconEight;
@@ -204,7 +208,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconNine
         {
             get => _buffIconNine;
@@ -220,7 +223,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconTen
         {
             get => _buffIconTen;
@@ -236,7 +238,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconEleven
         {
             get => _buffIconEleven;
@@ -252,7 +253,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public eBuffIcons BuffIconTwelve
         {
             get => _buffIconTwelve;
@@ -268,7 +268,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageOne
         {
             get => _buffIconImageOne;
@@ -279,7 +278,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageTwo
         {
             get => _buffIconImageTwo;
@@ -290,7 +288,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageThree
         {
             get => _buffIconImageThree;
@@ -301,7 +298,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageFour
         {
             get => _buffIconImageFour;
@@ -312,7 +308,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageFive
         {
             get => _buffIconImageFive;
@@ -323,7 +318,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageSix
         {
             get => _buffIconImageSix;
@@ -334,7 +328,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageSeven
         {
             get => _buffIconImageSeven;
@@ -345,7 +338,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageEight
         {
             get => _buffIconImageEight;
@@ -356,7 +348,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageNine
         {
             get => _buffIconImageNine;
@@ -367,7 +358,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageTen
         {
             get => _buffIconImageTen;
@@ -378,7 +368,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageEleven
         {
             get => _buffIconImageEleven;
@@ -389,7 +378,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public ImageSource BuffIconImageTwelve
         {
             get => _buffIconImageTwelve;
@@ -400,9 +388,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
-        public ShellViewModel ShellViewModel { get; }
-
         public ObservableCollection<CharacterBuffTemplate> Templates
         {
             get => _templates;
@@ -416,7 +401,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-
         public CharacterBuffTemplate SelectedTemplate
         {
             get => _selectedTemplate;
@@ -430,15 +414,7 @@ namespace D2RLaunch.ViewModels.Dialogs
 
         #endregion
 
-        public async Task Initialize()
-        {
-            foreach (eBuffIcons buffIcon in Enum.GetValues<eBuffIcons>())
-            {
-                BuffIcons.Add(new KeyValuePair<string, eBuffIcons>(buffIcon.GetAttributeOfType<DisplayAttribute>().Name, buffIcon));
-            }
-
-            await GetTemplates();
-        }
+        #region ---Template Functions---
 
         private async Task GetTemplates()
         {
@@ -450,6 +426,8 @@ namespace D2RLaunch.ViewModels.Dialogs
             {
                 if (File.Exists(templateFileName))
                 {
+                    MessageBox.Show("File Exists");
+
                     string[] lines = await File.ReadAllLinesAsync(templateFileName);
                     foreach (string line in lines)
                     {
@@ -486,6 +464,8 @@ namespace D2RLaunch.ViewModels.Dialogs
                         await LoadTemplate();
                     }
                 }
+                else
+                    MessageBox.Show("Doesnt Exist");
             }
             catch (Exception ex)
             {
@@ -493,7 +473,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-
         private async Task LoadTemplate()
         {
 
@@ -537,7 +516,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 }
             }
         }
-
         private async Task<ImageSource> GetImage(eBuffIcons buffIcon)
         {
             string buffName = string.Empty;
@@ -632,18 +610,6 @@ namespace D2RLaunch.ViewModels.Dialogs
 
             return imageSource;
         }
-
-        public class CharacterBuffTemplate
-        {
-            #region properties
-
-            public string CharacterName { get; set; }
-
-            public List<int> BuffValues { get; set; }
-
-            #endregion
-        }
-
         [UsedImplicitly]
         public async void OnSave()
         {
@@ -712,7 +678,6 @@ namespace D2RLaunch.ViewModels.Dialogs
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-
         [UsedImplicitly]
         public async void OnDelete()
         {
@@ -728,5 +693,16 @@ namespace D2RLaunch.ViewModels.Dialogs
             MessageBox.Show("Template \"" + SelectedTemplate.CharacterName + "\" deleted successfully!");
             await GetTemplates();
         }
+
+        #endregion
+    }
+    public class CharacterBuffTemplate
+    {
+        #region ---Properties---
+
+        public string CharacterName { get; set; }
+        public List<int> BuffValues { get; set; }
+
+        #endregion
     }
 }

@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace D2RLaunch.Models.Enums
 {
-    public enum eUiThemes
+    public enum eCinematicSubs
     {
-        [Display(Name = "Don't Modify")]
+        [Display(Name = "SDH (Default)")]
         Disabled,
-        [Display(Name = "Standard UI")]
-        Standard,
-        [Display(Name = "ReMoDDeD UI")]
-        ReMoDDeD,
+        [Display(Name = "Standard")]
+        Enabled,
     }
 }

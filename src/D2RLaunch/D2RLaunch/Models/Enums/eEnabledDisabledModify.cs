@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace D2RLaunch.Models.Enums
 {
-    public enum eUiThemes
+    public enum eEnabledDisabledModify
     {
         [Display(Name = "Don't Modify")]
+        NoChange,
+        [Display(Name = "Disabled")]
         Disabled,
-        [Display(Name = "Standard UI")]
-        Standard,
-        [Display(Name = "ReMoDDeD UI")]
-        ReMoDDeD,
+        [Display(Name = "Enabled")]
+        Enabled,
     }
 }

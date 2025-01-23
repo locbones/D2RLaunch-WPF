@@ -26,19 +26,19 @@ namespace D2RLaunch.ViewModels.Dialogs
         private ILog _logger = LogManager.GetLogger(typeof(RestoreBackupViewModel));
         private ObservableCollection<CharacterBuffTemplate> _templates = new ObservableCollection<CharacterBuffTemplate>();
         private CharacterBuffTemplate _selectedTemplate;
-        private eBuffIcons _buffIconOne;
-        private eBuffIcons _buffIconTwo;
-        private eBuffIcons _buffIconThree;
-        private eBuffIcons _buffIconFour;
-        private eBuffIcons _buffIconFive;
-        private eBuffIcons _buffIconSix;
-        private eBuffIcons _buffIconSeven;
-        private eBuffIcons _buffIconEight;
-        private eBuffIcons _buffIconNine;
-        private eBuffIcons _buffIconTen;
-        private eBuffIcons _buffIconEleven;
-        private eBuffIcons _buffIconTwelve;
-        private ObservableCollection<KeyValuePair<string, eBuffIcons>> _buffIcons = new ObservableCollection<KeyValuePair<string, eBuffIcons>>();
+        private int _buffIconOne;
+        private int _buffIconTwo;
+        private int _buffIconThree;
+        private int _buffIconFour;
+        private int _buffIconFive;
+        private int _buffIconSix;
+        private int _buffIconSeven;
+        private int _buffIconEight;
+        private int _buffIconNine;
+        private int _buffIconTen;
+        private int _buffIconEleven;
+        private int _buffIconTwelve;
+        private ObservableCollection<KeyValuePair<string, int>> _buffIcons = new ObservableCollection<KeyValuePair<string, int>>();
         private ImageSource _buffIconImageOne;
         private ImageSource _buffIconImageTwo;
         private ImageSource _buffIconImageThree;
@@ -60,7 +60,7 @@ namespace D2RLaunch.ViewModels.Dialogs
         {
             foreach (eBuffIcons buffIcon in Enum.GetValues<eBuffIcons>())
             {
-                BuffIcons.Add(new KeyValuePair<string, eBuffIcons>(buffIcon.GetAttributeOfType<DisplayAttribute>().Name, buffIcon));
+                BuffIcons.Add(new KeyValuePair<string, int>(buffIcon.GetAttributeOfType<DisplayAttribute>().Name, (int)buffIcon));
             }
 
             await GetTemplates();
@@ -76,7 +76,7 @@ namespace D2RLaunch.ViewModels.Dialogs
         #region ---Properties---
 
         public ShellViewModel ShellViewModel { get; }
-        public ObservableCollection<KeyValuePair<string, eBuffIcons>> BuffIcons
+        public ObservableCollection<KeyValuePair<string, int>> BuffIcons
         {
             get => _buffIcons;
             set
@@ -86,7 +86,8 @@ namespace D2RLaunch.ViewModels.Dialogs
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconOne
+
+        public int BuffIconOne
         {
             get => _buffIconOne;
             set
@@ -96,13 +97,14 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageOne = await GetImage(BuffIconOne);
+                                       BuffIconImageOne = await GetImage((eBuffIcons)BuffIconOne);
                                    });
 
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconTwo
+
+        public int BuffIconTwo
         {
             get => _buffIconTwo;
             set
@@ -112,13 +114,14 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageTwo = await GetImage(BuffIconTwo);
+                                       BuffIconImageTwo = await GetImage((eBuffIcons)BuffIconTwo);
                                    });
 
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconThree
+
+        public int BuffIconThree
         {
             get => _buffIconThree;
             set
@@ -128,12 +131,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageThree = await GetImage(BuffIconThree);
+                                       BuffIconImageThree = await GetImage((eBuffIcons)BuffIconThree);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconFour
+
+        public int BuffIconFour
         {
             get => _buffIconFour;
             set
@@ -143,12 +147,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageFour = await GetImage(BuffIconFour);
+                                       BuffIconImageFour = await GetImage((eBuffIcons)BuffIconFour);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconFive
+
+        public int BuffIconFive
         {
             get => _buffIconFive;
             set
@@ -158,12 +163,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageFive = await GetImage(BuffIconFive);
+                                       BuffIconImageFive = await GetImage((eBuffIcons)BuffIconFive);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconSix
+
+        public int BuffIconSix
         {
             get => _buffIconSix;
             set
@@ -173,12 +179,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageSix = await GetImage(BuffIconSix);
+                                       BuffIconImageSix = await GetImage((eBuffIcons)BuffIconSix);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconSeven
+
+        public int BuffIconSeven
         {
             get => _buffIconSeven;
             set
@@ -188,12 +195,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageSeven = await GetImage(BuffIconSeven);
+                                       BuffIconImageSeven = await GetImage((eBuffIcons)BuffIconSeven);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconEight
+
+        public int BuffIconEight
         {
             get => _buffIconEight;
             set
@@ -203,12 +211,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageEight = await GetImage(BuffIconEight);
+                                       BuffIconImageEight = await GetImage((eBuffIcons)BuffIconEight);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconNine
+
+        public int BuffIconNine
         {
             get => _buffIconNine;
             set
@@ -218,12 +227,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageNine = await GetImage(BuffIconNine);
+                                       BuffIconImageNine = await GetImage((eBuffIcons)BuffIconNine);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconTen
+
+        public int BuffIconTen
         {
             get => _buffIconTen;
             set
@@ -233,12 +243,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageTen = await GetImage(BuffIconTen);
+                                       BuffIconImageTen = await GetImage((eBuffIcons)BuffIconTen);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconEleven
+
+        public int BuffIconEleven
         {
             get => _buffIconEleven;
             set
@@ -248,12 +259,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageEleven = await GetImage(BuffIconEleven);
+                                       BuffIconImageEleven = await GetImage((eBuffIcons)BuffIconEleven);
                                    });
                 NotifyOfPropertyChange();
             }
         }
-        public eBuffIcons BuffIconTwelve
+
+        public int BuffIconTwelve
         {
             get => _buffIconTwelve;
             set
@@ -263,7 +275,7 @@ namespace D2RLaunch.ViewModels.Dialogs
 
                 Execute.OnUIThread(async () =>
                                    {
-                                       BuffIconImageTwelve = await GetImage(BuffIconTwelve);
+                                       BuffIconImageTwelve = await GetImage((eBuffIcons)BuffIconTwelve);
                                    });
                 NotifyOfPropertyChange();
             }
@@ -414,13 +426,13 @@ namespace D2RLaunch.ViewModels.Dialogs
 
         #endregion
 
-        #region ---Template Functions---
-
         private async Task GetTemplates()
         {
             string templateFileName = "MyBuffTemplates.txt";
 
             Templates = new ObservableCollection<CharacterBuffTemplate>();
+
+            List<string> characterNames = await ShellViewModel.GetCharacterNames();
 
             try
             {
@@ -443,7 +455,7 @@ namespace D2RLaunch.ViewModels.Dialogs
                                 List<int> buffValues = new List<int>();
                                 foreach (string value in values)
                                 {
-                                    if (int.TryParse(value, out int intValue))
+                                    if (int.TryParse(value.Trim(), out int intValue))
                                     {
                                         buffValues.Add(intValue);
                                     }
@@ -455,17 +467,30 @@ namespace D2RLaunch.ViewModels.Dialogs
                             // Handle invalid line with the wrong number of values
                         }
                     }
-
-                    SelectedTemplate = Templates.FirstOrDefault();
-
-                    if (SelectedTemplate != null)
-                    {
-                        ShellViewModel.UserSettings.BuffIconTemplate = SelectedTemplate.CharacterName;
-                        await LoadTemplate();
-                    }
                 }
-                else
-                    MessageBox.Show("Doesnt Exist");
+
+                foreach (string characterName in characterNames)
+                {
+                    if (Templates.Any(t => t.CharacterName == characterName))
+                    {
+                        continue;
+                    }
+
+                    Templates.Add(new CharacterBuffTemplate() { BuffValues = new List<int>(), CharacterName = characterName });
+                }
+
+                //if (Templates.Count == 0)
+                //{
+                //    Templates.Add(new CharacterBuffTemplate() {BuffValues = new List<int>()});
+                //}
+
+                SelectedTemplate = Templates.FirstOrDefault();
+
+                if (SelectedTemplate != null)
+                {
+                    ShellViewModel.UserSettings.BuffIconTemplate = SelectedTemplate.CharacterName;
+                    await LoadTemplate();
+                }
             }
             catch (Exception ex)
             {
@@ -480,38 +505,41 @@ namespace D2RLaunch.ViewModels.Dialogs
             {
                 switch (i)
                 {
+                    case 0:
+                        BuffIconOne = SelectedTemplate.BuffValues[i];
+                        break;
                     case 1:
-                        BuffIconOne = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconTwo = SelectedTemplate.BuffValues[i];
                         break;
                     case 2:
-                        BuffIconTwo = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconThree = SelectedTemplate.BuffValues[i];
                         break;
                     case 3:
-                        BuffIconThree = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconFour = SelectedTemplate.BuffValues[i];
                         break;
                     case 4:
-                        BuffIconFour = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconFive = SelectedTemplate.BuffValues[i];
                         break;
                     case 5:
-                        BuffIconFive = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconSix = SelectedTemplate.BuffValues[i];
                         break;
                     case 6:
-                        BuffIconSix = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconSeven = SelectedTemplate.BuffValues[i];
                         break;
                     case 7:
-                        BuffIconSeven = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconEight = SelectedTemplate.BuffValues[i];
                         break;
                     case 8:
-                        BuffIconEight = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconNine = SelectedTemplate.BuffValues[i];
                         break;
                     case 9:
-                        BuffIconNine = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconTen = SelectedTemplate.BuffValues[i];
                         break;
                     case 10:
-                        BuffIconTen = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconEleven = SelectedTemplate.BuffValues[i];
                         break;
                     case 11:
-                        BuffIconEleven = (eBuffIcons)SelectedTemplate.BuffValues[i];
+                        BuffIconTwelve = SelectedTemplate.BuffValues[i];
                         break;
                 }
             }
@@ -613,6 +641,12 @@ namespace D2RLaunch.ViewModels.Dialogs
         [UsedImplicitly]
         public async void OnSave()
         {
+            if (string.IsNullOrEmpty(SelectedTemplate.CharacterName))
+            {
+                MessageBox.Show("Template can not be empty!");
+                return;
+            }
+
             List<int> selectedIndexes = new List<int>()
                                         {
                                             (int) BuffIconOne,
@@ -631,6 +665,13 @@ namespace D2RLaunch.ViewModels.Dialogs
             try
             {
                 string templateFileName = "MyBuffTemplates.txt";
+
+                if (!File.Exists(templateFileName))
+                {
+                    File.Create(templateFileName).Close();
+                }
+
+
                 if (File.Exists(templateFileName))
                 {
                     List<string> lines = (await File.ReadAllLinesAsync(templateFileName)).ToList();
@@ -693,8 +734,6 @@ namespace D2RLaunch.ViewModels.Dialogs
             MessageBox.Show("Template \"" + SelectedTemplate.CharacterName + "\" deleted successfully!");
             await GetTemplates();
         }
-
-        #endregion
     }
     public class CharacterBuffTemplate
     {

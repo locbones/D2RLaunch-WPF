@@ -52,10 +52,9 @@
                     <ComboBox
                         Width="125"
                         Height="40"
-                        DisplayMemberPath="Key"
-                        ItemsSource="{Binding MyTemplates}"
-                        SelectedIndex="{Binding SelectedTemplate}"
-                        SelectedValuePath="Value"
+                        ItemsSource="{Binding Templates}"
+                        SelectedItem="{Binding SelectedTemplate}"
+                        DisplayMemberPath="CharacterName"
                         Style="{StaticResource ComboBoxStyle}" />
                 </StackPanel>
                 <Label
@@ -212,7 +211,7 @@
                     <Label Content="Icon Preview" Style="{StaticResource LabelHeaderStyle}" />
 
                     <Border
-                        Height="210"
+                        Height="200"
                         Margin="5"
                         BorderThickness="4,4,4,2"
                         CornerRadius="1,1,1,1">
@@ -243,7 +242,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconSeven}" />
+                                <Image Source="{Binding BuffIconImageSeven}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -266,7 +265,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconEight}" />
+                                <Image Source="{Binding BuffIconImageEight}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -289,7 +288,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconNine}" />
+                                <Image Source="{Binding BuffIconImageNine}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -312,7 +311,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconTen}" />
+                                <Image Source="{Binding BuffIconImageTen}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -335,7 +334,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconEleven}" />
+                                <Image Source="{Binding BuffIconImageEleven}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -358,7 +357,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconTwelve}" />
+                                <Image Source="{Binding BuffIconImageTwelve}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -381,7 +380,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconOne}" />
+                                <Image Source="{Binding BuffIconImageOne}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -404,7 +403,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconTwo}" />
+                                <Image Source="{Binding BuffIconImageTwo}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -427,7 +426,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconThree}" />
+                                <Image Source="{Binding BuffIconImageThree}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -450,7 +449,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconFour}" />
+                                <Image Source="{Binding BuffIconImageFour}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -473,7 +472,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconFive}" />
+                                <Image Source="{Binding BuffIconImageFive}" />
                             </Border>
                             <Border Margin="5" BorderThickness="1,1,1,1">
                                 <Border.BorderBrush>
@@ -496,7 +495,7 @@
                                     </DrawingBrush>
                                 </Border.BorderBrush>
 
-                                <Image Source="{Binding BuffIconSix}" />
+                                <Image Source="{Binding BuffIconImageSix}" />
                             </Border>
 
                         </UniformGrid>

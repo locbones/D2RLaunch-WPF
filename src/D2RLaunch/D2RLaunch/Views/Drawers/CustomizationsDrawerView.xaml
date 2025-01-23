@@ -162,9 +162,9 @@
                             Style="{StaticResource LabelNormalStyle}" />
                         <ComboBox
                             Height="40"
+                            cm:Message.Attach="[Event SelectionChanged] = [Action OnMonsterItemDropChange];"
                             Background="#FF313030"
                             DisplayMemberPath="Key"
-                            cm:Message.Attach="[Event SelectionChanged] = [Action OnMonsterItemDropChange];"
                             ItemsSource="{Binding MonsterItemDrops}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.SelectedMonsterItemDrops}"
                             SelectedValuePath="Value"

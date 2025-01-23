@@ -55,7 +55,10 @@
                             <Border.BorderBrush>
                                 <SolidColorBrush Opacity="0.5" Color="Silver" />
                             </Border.BorderBrush>
-                            <ScrollViewer CanContentScroll="True" MaxHeight="140" VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer
+                                MaxHeight="140"
+                                CanContentScroll="True"
+                                VerticalScrollBarVisibility="Auto">
                                 <TextBlock
                                     Margin="5"
                                     VerticalAlignment="Top"
@@ -172,8 +175,9 @@
 
                         <Label
                             Grid.Row="0"
+                            Margin="5,-5,5,0"
                             Content="{Binding Path=TextLang, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" Margin="5,-5,5,0" />
+                            Style="{StaticResource LabelHeaderStyle}" />
                         <ComboBox
                             Grid.Row="1"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnTextLanguageSelectionChanged];"
@@ -186,37 +190,43 @@
 
                         <Label
                             Grid.Row="2"
+                            Margin="5,0,5,0"
                             Content="{Binding Path=AudioLang, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" Margin="5,0,5,0" />
+                            Style="{StaticResource LabelHeaderStyle}" />
                         <ComboBox
                             Grid.Row="3"
+                            Margin="5,-5,5,0"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnAudioLanguageSelectionChanged];"
                             Background="#FF313030"
                             DisplayMemberPath="Key"
                             ItemsSource="{Binding Languages}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.AudioLanguage}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
+                            Style="{StaticResource ComboBoxStyle}" />
 
                         <Label
                             Grid.Row="4"
+                            Margin="5,0,5,0"
                             Content="{Binding Path=AppLang, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" Margin="5,0,5,0" />
+                            Style="{StaticResource LabelHeaderStyle}" />
                         <ComboBox
                             Grid.Row="5"
+                            Margin="5,-5,5,0"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnAppLanguageSelectionChanged];"
                             Background="#FF313030"
                             DisplayMemberPath="Key"
                             ItemsSource="{Binding Languages}"
                             SelectedItem="{Binding SelectedAppLanguage}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
+                            Style="{StaticResource ComboBoxStyle}" />
                         <Label
                             Grid.Row="6"
+                            Margin="5,0,5,0"
                             Content="{Binding Path=UI, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" Margin="5,0,5,0" />
+                            Style="{StaticResource LabelHeaderStyle}" />
                         <ComboBox
                             Grid.Row="7"
+                            Margin="5,-5,5,0"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnUIThemeSelectionChanged];"
                             Background="#FF313030"
                             DisplayMemberPath="Key"
@@ -224,7 +234,7 @@
                             ItemsSource="{Binding UiThemes}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.UiTheme}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
+                            Style="{StaticResource ComboBoxStyle}" />
                     </Grid>
 
                     <Grid
@@ -244,33 +254,47 @@
 
                         <Label
                             Grid.Row="0"
+                            Margin="5,-15,5,0"
+                            Padding="5,5,5,5"
                             Content="{Binding Path=ModChoice, Source={StaticResource Resources}}"
                             FontWeight="Bold"
-                            Style="{StaticResource LabelHeaderStyle}" Padding="5,5,5,5" Margin="5,-15,5,0" />
+                            Style="{StaticResource LabelHeaderStyle}" />
                         <ComboBox
                             Grid.Row="1"
+                            Margin="5,-10,5,10"
+                            Padding="3,2,2,2"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnModSelectionChanged];"
                             Background="#FF313030"
                             ItemsSource="{Binding InstalledMods}"
                             SelectedItem="{Binding SelectedMod}"
-                            Style="{StaticResource ComboBoxStyle}" Margin="5,-10,5,10" Padding="3,2,2,2" />
+                            Style="{StaticResource ComboBoxStyle}" />
                         <StackPanel
                             Grid.Row="2"
+                            Margin="0,-15,0,0"
                             HorizontalAlignment="Center"
-                            Orientation="Horizontal" Margin="0,-15,0,0">
+                            Orientation="Horizontal">
                             <Label
                                 Grid.Row="0"
+                                Padding="5,5,5,5"
                                 Content="Fast Load:"
-                                Style="{StaticResource LabelHeaderStyle}" Padding="5,5,5,5" />
-                            <TextBlock Grid.Row="0" Text="{Binding ShellViewModel.UserSettings.FastLoad}" VerticalAlignment="Center" TextAlignment="Left" Padding="0,5,0,5" Margin="-5,8,0,0" FontSize="16" FontWeight="Bold">
+                                Style="{StaticResource LabelHeaderStyle}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Margin="-5,8,0,0"
+                                Padding="0,5,0,5"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Text="{Binding ShellViewModel.UserSettings.FastLoad}"
+                                TextAlignment="Left">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ShellViewModel.UserSettings.FastLoad}" Value="On">
-                                                <Setter Property="Foreground" Value="Green"/>
+                                                <Setter Property="Foreground" Value="Green" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding ShellViewModel.UserSettings.FastLoad}" Value="Off">
-                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Foreground" Value="Red" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -278,36 +302,66 @@
                             </TextBlock>
 
                             <syncfusion:ButtonAdv
+                                Margin="5,10,5,5"
                                 cm:Message.Attach="[Event Click] = [Action OnCASCSettings];"
                                 Background="Transparent"
                                 IconTemplate="{StaticResource SettingsIconTemplate}"
-                                Style="{StaticResource SfButtonAdvSmallStyle}" Margin="5,10,5,5" />
+                                Style="{StaticResource SfButtonAdvSmallStyle}" />
                         </StackPanel>
                         <StackPanel
                             Grid.Row="3"
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
-                            <Label Content="{Binding ShellViewModel.UserSettings.MapSeedName}" Foreground ="Red" VerticalContentAlignment="Center"/>
-                            <TextBox x:Name="textBoxSeed" Text="{Binding ShellViewModel.UserSettings.MapSeed}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="25" VerticalAlignment="Top" Background="#FF313030" FontSize="11" Width="100"/>
+                            <Label
+                                VerticalContentAlignment="Center"
+                                Content="{Binding ShellViewModel.UserSettings.MapSeedName}"
+                                Foreground="Red" />
+                            <TextBox
+                                x:Name="textBoxSeed"
+                                Width="100"
+                                Height="25"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="#FF313030"
+                                FontSize="11"
+                                Text="{Binding ShellViewModel.UserSettings.MapSeed}"
+                                TextAlignment="Center" />
                             <syncfusion:ButtonAdv
+                                Width="33"
+                                Margin="0,0,0,0"
                                 cm:Message.Attach="[Event Click] = [Action OnCharSelect];"
                                 Background="Transparent"
                                 IconTemplate="{StaticResource CharactersIconTemplate}"
-                                Style="{StaticResource SfButtonAdvSmallStyle}" Margin="0,0,0,0" Width="33" />
+                                Style="{StaticResource SfButtonAdvSmallStyle}" />
                             <syncfusion:ButtonAdv
+                                Width="33"
+                                Margin="0,0,0,0"
                                 cm:Message.Attach="[Event Click] = [Action OnCharMapSeed];"
                                 Background="Transparent"
                                 IconTemplate="{StaticResource PreviewIconTemplate}"
-                                Style="{StaticResource SfButtonAdvSmallStyle}" Margin="0,0,0,0" Width="33" />
+                                Style="{StaticResource SfButtonAdvSmallStyle}" />
                         </StackPanel>
                         <StackPanel
                             Grid.Row="4"
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
-                            <Label Content="Launch Mode:" Foreground ="Red" VerticalContentAlignment="Bottom"/>
+                            <Label
+                                VerticalContentAlignment="Bottom"
+                                Content="Launch Mode:"
+                                Foreground="Red" />
                         </StackPanel>
                         <Grid Grid.Row="5" HorizontalAlignment="Stretch">
-                            <TextBox x:Name="textBoxArgs" Text="{Binding ShellViewModel.UserSettings.CurrentD2RArgs}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="25" VerticalAlignment="Top" Background="#FF313030" FontSize="11"/>
+                            <TextBox
+                                x:Name="textBoxArgs"
+                                Height="25"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="#FF313030"
+                                FontSize="11"
+                                Text="{Binding ShellViewModel.UserSettings.CurrentD2RArgs}"
+                                TextAlignment="Center" />
                         </Grid>
                     </Grid>
 
@@ -331,16 +385,19 @@
                             Grid.Row="0"
                             Width="36"
                             Height="36"
+                            Margin="120,-10,5,5"
                             cm:Message.Attach="[Event Click] = [Action OnMapsHelp];"
                             Background="Transparent"
                             IconTemplate="{StaticResource QuestionMarkIconTemplate}"
-                            Style="{StaticResource SfButtonAdvSmallStyle}" Margin="120,-10,5,5" />
+                            Style="{StaticResource SfButtonAdvSmallStyle}" />
                         <Label
                             Grid.Row="0"
+                            Margin="5,-15,5,0"
                             Content="{Binding Path=Maps, Source={StaticResource Resources}}"
-                            Style="{StaticResource LabelHeaderStyle}" Margin="5,-15,5,0" />
+                            Style="{StaticResource LabelHeaderStyle}" />
                         <ComboBox
                             Grid.Row="1"
+                            Margin="5,-5,5,0"
                             VerticalAlignment="Center"
                             cm:Message.Attach="[Event SelectionChanged] = [Action OnMapLayoutSelectionChanged];"
                             Background="#FF313030"
@@ -349,11 +406,12 @@
                             ItemsSource="{Binding MapLayouts}"
                             SelectedIndex="{Binding ShellViewModel.UserSettings.MapLayout}"
                             SelectedValuePath="Value"
-                            Style="{StaticResource ComboBoxStyle}" Margin="5,-5,5,0" />
+                            Style="{StaticResource ComboBoxStyle}" />
                         <Label
                             Grid.Row="3"
+                            Margin="5,5,5,0"
                             Content="Window Mode"
-                            Style="{StaticResource LabelHeaderStyle}" Margin="5,5,5,0" />
+                            Style="{StaticResource LabelHeaderStyle}" />
                         <ComboBox
                             Grid.Row="5"
                             VerticalAlignment="Center"
@@ -367,10 +425,11 @@
                             Style="{StaticResource ComboBoxStyle}" />
                         <CheckBox
                             Grid.Row="6"
+                            Margin="5,10,5,5"
                             HorizontalAlignment="Center"
                             Content="{Binding Path=HDR, Source={StaticResource Resources}}"
                             IsChecked="{Binding ShellViewModel.UserSettings.HdrFix}"
-                            Style="{StaticResource CheckBoxStyle}" Margin="5,10,5,5" />
+                            Style="{StaticResource CheckBoxStyle}" />
                         <CheckBox
                             Grid.Row="7"
                             HorizontalAlignment="Center"

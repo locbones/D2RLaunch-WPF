@@ -3289,39 +3289,66 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         _autoBackupDispatcherTimer.Start();
     }
-    public async Task<(string characterName, bool passed)> BackupRecentCharacter() //Backup last modified save files
+
+    public async Task<List<string>> GetCharacterNames()
+    {
+        string actualSaveFilePath;
+        // Determine if the mod is using a mod folder or retail folder for backups by verifying the directories first
+        if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\Mods\{Settings.Default.SelectedMod}")))
+        {
+            // The save directory doesn't exist; this mod is using retail location - set default pathing info
+            actualSaveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\");
+        }
+        else
+        {
+            // The save directory exists; this mod is using mod folder locations - proceed normally
+            actualSaveFilePath = SaveFilesFilePath;
+        }
+
+        List<string> saveFiles = Directory.GetFiles(actualSaveFilePath).ToList();
+        List<string> characterNames = new List<string>();
+        foreach (string save in saveFiles.Where(s => s.EndsWith(".d2s")))
+        {
+            characterNames.Add(Path.GetFileNameWithoutExtension(save.Split('\\').Last()));
+        }
+
+        return characterNames;
+    }
+
+    public async Task<(string characterName, bool passed)> BackupRecentCharacter()
     {
         string mostRecentCharacterName = null;
         string baseSavePath = GetSavePath();
-        string ActualSaveFilePath;
-        string ActualBackupFolder;
+        string actualSaveFilePath;
+        string actualBackupFolder;
+
         try
         {
             // Determine if the mod is using a mod folder or retail folder for backups by verifying the directories first
             if (!Directory.Exists(Path.Combine(baseSavePath, @$"Diablo II Resurrected\Mods\{Settings.Default.SelectedMod}")))
             {
                 // The save directory doesn't exist; this mod is using retail location - set default pathing info
-                ActualSaveFilePath = BaseSaveFilesFilePath;
-                ActualBackupFolder = Path.Combine(BaseSaveFilesFilePath, "Backups");
+                actualSaveFilePath = BaseSaveFilesFilePath;
+                actualBackupFolder = Path.Combine(BaseSaveFilesFilePath, "Backups");
             }
             else
             {
                 // The save directory exists; this mod is using mod folder locations - proceed normally
-                ActualSaveFilePath = SaveFilesFilePath;
-                ActualBackupFolder = BackupFolder;
+                actualSaveFilePath = SaveFilesFilePath;
+                actualBackupFolder = BackupFolder;
             }
 
             // Create backup folder if it doesn't exist yet
-            if (!Directory.Exists(ActualBackupFolder))
-                Directory.CreateDirectory(ActualBackupFolder);
+            if (!Directory.Exists(actualBackupFolder))
+                Directory.CreateDirectory(actualBackupFolder);
 
-            if (new DirectoryInfo(ActualSaveFilePath).GetFiles("*.d2s").Length >= 1)
+            if (new DirectoryInfo(actualSaveFilePath).GetFiles("*.d2s").Length >= 1)
             {
                 // Backup Character
-                FileInfo mostRecentCharacterFile = new DirectoryInfo(ActualSaveFilePath).GetFiles("*.d2s").OrderByDescending(o => o.LastWriteTime).First();
+                FileInfo mostRecentCharacterFile = new DirectoryInfo(actualSaveFilePath).GetFiles("*.d2s").OrderByDescending(o => o.LastWriteTime).First();
                 mostRecentCharacterName = Path.GetFileNameWithoutExtension(mostRecentCharacterFile.Name);
 
-                string mostRecentCharacterBackupFolder = Path.Combine(ActualBackupFolder, mostRecentCharacterName);
+                string mostRecentCharacterBackupFolder = Path.Combine(actualBackupFolder, mostRecentCharacterName);
                 if (!Directory.Exists(mostRecentCharacterBackupFolder))
                     Directory.CreateDirectory(mostRecentCharacterBackupFolder);
 
@@ -3329,9 +3356,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 _logger.Error($"Auto Backups: Backed up {mostRecentCharacterFile.Name} at {DateTime.Now.ToString("_MM_dd--hh_mmtt")} in {mostRecentCharacterBackupFolder}");
 
                 // Backup Stash
-                string mostRecentStashFileSC = Path.Combine(ActualSaveFilePath, "SharedStashSoftCoreV2.d2i");
-                string mostRecentStashFileHC = Path.Combine(ActualSaveFilePath, "SharedStashHardCoreV2.d2i");
-                string stashBackupFolder = Path.Combine(ActualBackupFolder, "Stash");
+                string mostRecentStashFileSC = Path.Combine(actualSaveFilePath, "SharedStashSoftCoreV2.d2i");
+                string mostRecentStashFileHC = Path.Combine(actualSaveFilePath, "SharedStashHardCoreV2.d2i");
+                string stashBackupFolder = Path.Combine(actualBackupFolder, "Stash");
 
                 if (!Directory.Exists(stashBackupFolder))
                     Directory.CreateDirectory(stashBackupFolder);

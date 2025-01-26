@@ -3294,32 +3294,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         _autoBackupDispatcherTimer.Start();
     }
-
-    public async Task<List<string>> GetCharacterNames()
-    {
-        string actualSaveFilePath;
-        // Determine if the mod is using a mod folder or retail folder for backups by verifying the directories first
-        if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\Mods\{Settings.Default.SelectedMod}")))
-        {
-            // The save directory doesn't exist; this mod is using retail location - set default pathing info
-            actualSaveFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @$"Saved Games\Diablo II Resurrected\");
-        }
-        else
-        {
-            // The save directory exists; this mod is using mod folder locations - proceed normally
-            actualSaveFilePath = SaveFilesFilePath;
-        }
-
-        List<string> saveFiles = Directory.GetFiles(actualSaveFilePath).ToList();
-        List<string> characterNames = new List<string>();
-        foreach (string save in saveFiles.Where(s => s.EndsWith(".d2s")))
-        {
-            characterNames.Add(Path.GetFileNameWithoutExtension(save.Split('\\').Last()));
-        }
-
-        return characterNames;
-    }
-
     public async Task<(string characterName, bool passed)> BackupRecentCharacter()
     {
         string mostRecentCharacterName = null;

@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="990"
     Height="750"
+    d:Background="Black"
     d:DataContext="{d:DesignInstance Type=dialogs:BuffIconSettingsViewModel,
                                      IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
@@ -26,7 +27,7 @@
         <Image
             Grid.Row="1"
             Margin="5"
-            Source="pack://application:,,,/Resources/BuffIcons/Images/BuffIconPreview.png" />
+            Source="pack://application:,,,/Resources/BuffIcons/BuffIconPreview.png" />
 
         <UniformGrid
             Grid.Row="2"
@@ -52,9 +53,9 @@
                     <ComboBox
                         Width="125"
                         Height="40"
+                        DisplayMemberPath="TemplateName"
                         ItemsSource="{Binding Templates}"
                         SelectedItem="{Binding SelectedTemplate}"
-                        DisplayMemberPath="CharacterName"
                         Style="{StaticResource ComboBoxStyle}" />
                 </StackPanel>
                 <Label
@@ -65,7 +66,7 @@
 
                 <UniformGrid Grid.Row="3" Columns="2">
 
-                    <TextBox Text="{Binding SelectedTemplate.CharacterName}" />
+                    <TextBox Text="{Binding SelectedTemplate.TemplateName}" />
 
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <Button

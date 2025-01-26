@@ -26,7 +26,6 @@ public class DownloadNewModViewModel : Screen
     private ILog _logger = LogManager.GetLogger(typeof(DownloadNewModViewModel));
     private ObservableCollection<KeyValuePair<string, string>> _mods = new ObservableCollection<KeyValuePair<string, string>>();
 
-    //TODO: Both of these should really be acquired in a more safe way such as querying an API endpoint to get mod info.
     private string _serviceAccountEmail;
     private string _privateKey;
     private KeyValuePair<string, string> _selectedMod;

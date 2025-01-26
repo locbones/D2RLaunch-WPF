@@ -21,9 +21,9 @@
         <StackPanel Grid.Row="0" Orientation="Vertical">
             <Label Content="Select A Character To Restore" Style="{StaticResource LabelHeaderStyle}" />
             <ComboBox
+                cm:Message.Attach="[Event SelectionChanged] = [Action OnRestoreBackupSelection];"
                 ItemsSource="{Binding Characters}"
                 SelectedValue="{Binding SelectedCharacter}"
-                cm:Message.Attach="[Event SelectionChanged] = [Action OnRestoreBackupSelection];"
                 Style="{StaticResource ComboBoxStyle}" />
         </StackPanel>
 

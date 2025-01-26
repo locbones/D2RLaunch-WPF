@@ -27,6 +27,35 @@ namespace D2RLaunch.Models
             return userSettings;
         }
 
+        public static bool ResourceNamespaceExists(string namespacePath)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var manifestResources = assembly.GetManifestResourceNames();
+
+            // Prepend the base namespace
+            string fullNamespace = $"{nameof(D2RLaunch)}.{namespacePath}";
+
+            return manifestResources.Any(resource => resource.StartsWith(fullNamespace));
+        }
+
+        public static IEnumerable<string> GetResourceNames(string namespacePath)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var manifestResources = assembly.GetManifestResourceNames();
+
+            // Prepend the base namespace
+            string fullNamespace = $"{nameof(D2RLaunch)}.{namespacePath}";
+
+            return manifestResources.Where(resource => resource.StartsWith(fullNamespace));
+        }
+
+        public static async Task<IEnumerable<string>> GetResourceFileNames(string namespacePath)
+        {
+            string fullNamespace = $"{nameof(D2RLaunch)}.{namespacePath}";
+            return GetResourceNames(namespacePath)
+                .Select(resource => resource.Substring(fullNamespace.Length).TrimStart('.'));
+        }
+
         public static async Task<string> GetResource(string name)
         {
             return await Assembly.GetExecutingAssembly().ReadResourceAsync(name);

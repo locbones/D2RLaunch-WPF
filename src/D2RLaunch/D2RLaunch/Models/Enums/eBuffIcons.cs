@@ -9,8 +9,6 @@ namespace D2RLaunch.Models.Enums
 {
     public enum eBuffIcons
     {
-        [Display(Name = "None")]
-        None,
         [Display(Name = "Battle Command")]
         BattleCommand,
         [Display(Name = "Battle Orders")]
@@ -21,7 +19,7 @@ namespace D2RLaunch.Models.Enums
         Blaze,
         [Display(Name = "Bone Armor")]
         BoneArmor,
-        [Display(Name = "Burst of Speed")]
+        [Display(Name = "Burst Of Speed")]
         BurstOfSpeed,
         [Display(Name = "Chilling Armor")]
         ChillingArmor,
@@ -49,7 +47,7 @@ namespace D2RLaunch.Models.Enums
         ShiverArmor,
         [Display(Name = "Shout")]
         Shout,
-        [Display(Name = "Thunder Storm")]
+        [Display(Name = "Thunder storm")]
         ThunderStorm,
         [Display(Name = "Tiger Strike")]
         TigerStrike,

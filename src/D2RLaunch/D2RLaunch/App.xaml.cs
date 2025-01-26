@@ -1,5 +1,13 @@
-﻿using System.Windows.Threading;
+﻿using System;
+using System.IO;
+using System.Text.Json;
+using System.Text;
+using System.Windows;
+using System.Windows.Threading;
+using D2RLaunch.Models;
 using log4net;
+using Syncfusion.Licensing;
+using System.Linq;
 
 namespace D2RLaunch
 {
@@ -11,7 +19,30 @@ namespace D2RLaunch
         private ILog _logger = LogManager.GetLogger(typeof(App));
         public App()
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF5cXmVCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdgWH9feXRRQmReUkF2VkE=");
+            try
+            {
+                byte[] rawAppSettings = Helper.GetResourceByteArray("appSettings.json").GetAwaiter().GetResult();
+
+                // Skip BOM if present
+                int skip = rawAppSettings.Length >= 3 &&
+                    rawAppSettings[0] == 0xEF &&
+                    rawAppSettings[1] == 0xBB &&
+                    rawAppSettings[2] == 0xBF ? 3 : 0;
+
+                string jsonString = Encoding.UTF8.GetString(rawAppSettings.Skip(skip).ToArray());
+
+                using JsonDocument document = JsonDocument.Parse(jsonString);
+                string licenseKey = document.RootElement.GetProperty("SyncfusionLicense").GetString();
+
+
+                SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                MessageBox.Show("Please make sure you have properly setup appSetting.json with the appropriate syncfusion license!");
+                Current.Shutdown(0);
+            }
             InitializeComponent();
         }
 

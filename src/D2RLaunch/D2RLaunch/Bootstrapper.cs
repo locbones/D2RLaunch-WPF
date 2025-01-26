@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using D2RLaunch.Models;
 using D2RLaunch.ViewModels;
 using log4net.Config;
+using Microsoft.Extensions.Configuration;
 using ILog = log4net.ILog;
 using LogManager = log4net.LogManager;
 
@@ -44,12 +45,15 @@ public class Bootstrapper : BootstrapperBase
             _container.Singleton<IWindowManager, ChromelessWindowManager>();
             _container.Singleton<IEventAggregator, EventAggregator>();
 
-            // _container.Singleton<LogManager>();
+            var config = Helper.GetResourceByteArray("appSettings.json").GetAwaiter().GetResult();
 
-            
+            using MemoryStream ms = new MemoryStream(config);
 
-            
-            //_container.RegisterType<IShell, ShellViewModel>();
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder().AddJsonStream(ms);
+
+            IConfigurationRoot configuration = configBuilder.Build();
+
+            _container.RegisterInstance(typeof(IConfigurationRoot), "appSettings", configuration);
         }
         catch (Exception e)
         {

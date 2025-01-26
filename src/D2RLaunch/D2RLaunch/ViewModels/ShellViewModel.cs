@@ -32,6 +32,7 @@ using WinForms = System.Windows.Forms;
 using D2RLaunch.ViewModels.Dialogs;
 using System.Dynamic;
 using System.Net.Sockets;
+using Microsoft.Extensions.Configuration;
 
 namespace D2RLaunch.ViewModels;
 
@@ -42,6 +43,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private ILog _logger = LogManager.GetLogger(typeof(ShellViewModel));
     private UserControl _userControl;
     private IWindowManager _windowManager;
+    private readonly IConfigurationRoot _configuration;
     private string _title = "D2RLaunch";
     private string appVersion = "2.5.0";
     private string _gamePath;
@@ -82,9 +84,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             Injector injector = new Injector(_gamePath);
         }
     }
-    public ShellViewModel(IWindowManager windowManager) //Load Logger
+    public ShellViewModel(IWindowManager windowManager, IConfigurationRoot configuration) //Load Logger
     {
         _windowManager = windowManager;
+        _configuration = configuration;
         _logger.Error("Main Window Loaded");
     }
     public async Task ApplyModSettings()
@@ -390,6 +393,8 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     #endregion
 
     #region ---Properties---
+
+    public IConfigurationRoot Configuration => _configuration;
 
     public string LauncherUpdateString
     {

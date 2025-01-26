@@ -15,13 +15,13 @@
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="800"
     d:DesignWidth="1300"
+    Icon="pack://application:,,,/RMD_Logo_New.ico"
     ResizeMode="CanResizeWithGrip"
     SizeToContent="Manual"
     SnapsToDevicePixels="True"
     UseNativeChrome="True"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d"
-    Icon="pack://application:,,,/RMD_Logo_New.ico">
+    mc:Ignorable="d">
 
     <Grid>
         <syncfusion:SfNavigationDrawer
@@ -29,10 +29,10 @@
             cm:Message.Attach="[Event Loaded] = [Action OnLoaded($eventArgs)]; [Event ItemClicked] = [Action OnItemClicked($eventArgs)]"
             AutoChangeDisplayMode="True"
             DisplayMode="Expanded"
+            DrawerBackground="Black"
             ExpandedModeThresholdWidth="600"
             ExpandedModeWidth="245"
             IndentationWidth="0"
-            DrawerBackground="Black"
             IsToggleButtonVisible="False">
 
             <syncfusion:SfNavigationDrawer.ToggleButtonContentTemplate>

@@ -561,7 +561,6 @@ namespace D2RLaunch.ViewModels.Drawers
             else
                 _logger.Error("\nCustomizations: Settings not found");
         }
-
         private async Task UpdateDifficultyPropertiesAsync()
         {
             var properties = new[]
@@ -578,7 +577,6 @@ namespace D2RLaunch.ViewModels.Drawers
                 await OnDifficultyPropertyChanged(null, new PropertyChangedEventArgs(property));
             }
         }
-
         [UsedImplicitly]
         public async void OnApply()
         {

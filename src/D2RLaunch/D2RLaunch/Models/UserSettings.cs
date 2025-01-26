@@ -50,6 +50,7 @@ public class UserSettings : INotifyPropertyChanged
     private string _mapSeed;
     private string _mapSeedName;
     private string _mapSeedLoc;
+    private bool _MSIFix;
 
     #endregion
 
@@ -575,6 +576,19 @@ public class UserSettings : INotifyPropertyChanged
         {
             if (value == _mapSeedLoc) return;
             _mapSeedLoc = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool MSIFix
+    {
+        get => _MSIFix;
+        set
+        {
+            if (value == _MSIFix)
+            {
+                return;
+            }
+            _MSIFix = value;
             OnPropertyChanged();
         }
     }

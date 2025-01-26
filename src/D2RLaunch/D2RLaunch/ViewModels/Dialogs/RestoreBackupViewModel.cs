@@ -68,7 +68,7 @@ namespace D2RLaunch.ViewModels.Dialogs
 
         #endregion
 
-        #region ---Backup/Restore Functions--
+        #region ---Restore Character--
 
         private async Task GetCharactersToRestore() //Populate dropbox with retrieved backup file list
         {

@@ -133,8 +133,29 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             {
                 try
                 {
+                    List<string> MSIPath = null;
+
+                    if (ShellViewModel.UserSettings.MSIFix == true)
+                    {
+                        //Close MSI Afterburner and Riva Tuner to allow Monster Stats Display to load correctly; restarted after game launch
+                        MSIPath = CloseMSIAfterburner("MSIAfterburner"); //Special Function to retrieve MSI path info; don't need others
+                        CloseRivaTuner("RTSS");
+                        CloseRivaTuner("RTSSHooksLoader64");
+                        CloseRivaTuner("EncoderServer");
+                        Thread.Sleep(1000);
+                    }
+
                     Injector.Inject(new string[] { "D2R.exe" }, ShellViewModel.GamePath, "D2RHUD.DLL");
                     _logger.Error("Monster Stats: D2RHUD.dll has been loaded");
+
+                    if (ShellViewModel.UserSettings.MSIFix == true)
+                    {
+                        foreach (string path in MSIPath)
+                        {
+                            Thread.Sleep(1000);
+                            Process.Start(path); //Restart MSI Afterburner (which restarts Riva Tuner)
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -237,7 +258,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                     ShellViewModel.ShowItemLevelsEnabled = false;
                     ShellViewModel.SuperTelekinesisEnabled = false;
-                    ShellViewModel.SkillBuffIconsEnabled = false;
+                    ShellViewModel.SkillBuffIconsEnabled = true;
                     ShellViewModel.SkillIconPackEnabled = false;
                     ShellViewModel.ItemIconDisplayEnabled = false;
                     ShellViewModel.UserSettings.ItemIlvls = 1;
@@ -644,6 +665,20 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         {
             case 0:
             case 1:
+                {
+                    if (!File.Exists(dllPath))
+                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+
+                    string[] displayValue = File.ReadAllLines(filePath);
+                    if (displayValue[0] == "Monster Stats: 1")
+                        displayValue[0] = displayValue[0].Replace("1", "0");
+                    File.WriteAllLines(filePath, displayValue);
+
+                    _monsterStatsDispatcherTimer.Start();
+                    _logger.Error("Monster Stats: Basic Timer Started");
+
+                    break;
+                }
             case 2:
                 {
                     if (!File.Exists(dllPath))
@@ -660,6 +695,20 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     break;
                 }
             case 3:
+                {
+                    if (File.Exists(dllPath))
+                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+
+                    string[] displayValue = File.ReadAllLines(filePath);
+                    if (displayValue[0] == "Monster Stats: 0")
+                        displayValue[0] = displayValue[0].Replace("0", "1");
+                    File.WriteAllLines(filePath, displayValue);
+
+                    _monsterStatsDispatcherTimer.Start();
+                    _logger.Error("Monster Stats: Advanced Timer Started");
+
+                    break;
+                }
             case 4:
                 {
                     if (File.Exists(dllPath))
@@ -693,8 +742,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         startInfo.WorkingDirectory = @".\";
         try
         {
-            //MessageBox.Show(launchArgsF);
-            Process.Start(startInfo);
+            Process.Start(startInfo); //Start the game
             ShellViewModel.UserSettings.MapLayout = 0;
 
             if (ShellViewModel.UserSettings.WindowMode == 2)
@@ -873,6 +921,68 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                     break; // Once we find a Diablo window, no need to continue looping
                 }
             }
+        }
+    }
+    public List<string> CloseMSIAfterburner(string processName) //Used to find path info and close MSI Afterburner
+    {
+        List<string> exePaths = new List<string>();
+
+        try
+        {
+            // Get all processes by name
+            Process[] processes = Process.GetProcessesByName(processName);
+
+            foreach (Process process in processes)
+            {
+                try
+                {
+                    exePaths.Add(process.MainModule.FileName);
+                    process.Kill();
+                }
+                catch (AccessViolationException)
+                {
+                    Console.WriteLine($"Access denied to process {processName}. Unable to retrieve the file path.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error accessing process {processName}: {ex.Message}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+
+        return exePaths;
+    }
+    public void CloseRivaTuner(string processName) //Used to find and close Riva Tuner
+    {
+        try
+        {
+            Process[] processes = Process.GetProcessesByName(processName);
+
+            foreach (Process process in processes)
+            {
+                try
+                {
+                    _logger.Error($"Closing process: {processName}");
+                    _logger.Error($"Executable Path: {process.MainModule.FileName}");
+                    process.Kill();
+                }
+                catch (AccessViolationException)
+                {
+                    _logger.Error($"Access denied to process {processName}. Unable to retrieve the file path.");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Error accessing process {processName}: {ex.Message}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
         }
     }
 
@@ -1196,6 +1306,11 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
     public async void OnMapsHelp()
     {
         MessageBox.Show("These options let you force specific map layouts so you can roll that 'perfect' map anytime you want. Details explained below:\n\nTower: The tower entrance is on the same screen as your waypoint.\n\nCatacombs: Levels 3 and 4 are less than 3 screens away\n\nAncient Tunnels: Entrance is 1 screen away from your waypoint\n\nLower Kurast: Very favorable super chest pattern near your waypoint\n\nDurance of Hate: Level 3 entrance is one teleport away from waypoint.\n\nHellforge: Forge is at closest spawn to your waypoint\n\nWorldstone Keep: Level 3 and 4 are right next to each other\n\nI'm a Cheater: Almost all entrances are absurdly close with a perfect LK pattern by the waypoint. You're basically just cheating now.\n\n\nNOTE: Lower Kurast and I'm a Cheater options are only available on Vanilla++.");
+    }
+    [UsedImplicitly]
+    public async void OnMSIFixHelp()
+    {
+        MessageBox.Show("Use this feature if you meet these conditions:\n- Using either of the 'Advanced' Monster Stats Display Options\n- Using MSI Afterburner (Riva Tuner) for in-game overlays\n\nThis will restart the apps to avoid loading conflicts; requires:\n- D2RLaunch must be ran as Administrator\n- Change MSI Settings to 'Start App Minimized' (for QoL purposes)");
     }
     [UsedImplicitly]
     public async Task OnCheckForUpdates()

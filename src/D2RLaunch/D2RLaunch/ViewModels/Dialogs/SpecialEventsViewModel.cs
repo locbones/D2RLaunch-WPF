@@ -18,16 +18,7 @@ public class SpecialEventsViewModel : Screen
     #region ---Static Members---
     private ILog _logger = LogManager.GetLogger(typeof(DownloadNewModViewModel));
     private ObservableCollection<KeyValuePair<string, string>> _mods = new ObservableCollection<KeyValuePair<string, string>>();
-
-    //TODO: Both of these should really be acquired in a more safe way such as querying an API endpoint to get mod info.
-    private string _serviceAccountEmail = "d2rlaunch@d2rlaunchcore.iam.gserviceaccount.com";
-    private string _privateKey = "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqwvhB5hfC8fK8\n1SVdybxQAgSXKegys3QHsu+xx/Gv+/f70PkuZFt35UODV0385vlk0nu0aohIWmkF\nt/tmyhITSQqLNfWrVoKHfENRVtcaHn788BOCfDXFNsx0anz9FMACM4ZXBe3zPWGr\nfs/qtG+eSQ4eKP1vR8qn/a5Dj2WR26lNUzEPxMzGjPzwLcLqUUPbX1RGiRD1cKrC\noa7QNbzcPedFaOFRhfj1HmQK3H0H63qFCZOXW+yZoVRRMItCoZug4oJFltViU61m\n0rIbGbmdeU3DIAT93mi3o7WYOcrYC/XhVhBI2Fz1qsMKp4XXPzUZhIFEuidKJvv6\nhn+PrzLpAgMBAAECggEAAnwCs6a+2sG9Z9zsBcDNIhbdbTuZWr98pS4HybzgedB/\nK6U/MtsX75cg09Td2BueLkbXsOjJ4c+a7o/eMwEmoSwzYJIg6GTCUmlO62yJhaJC\n87gkeIYJHDzvXZQ9DEuUfZO1VSfLbfoLJT0blk0YwKNMdsje4xMW0jnhIq9/6U7U\nOkKFQRw7z+Hm/DpwZNJPR6rm3fZlqgL/NspKg0fz4Rark713WeGkgK+/YcyHbaYk\neq6lAJz/eSPwOQ/DXWOpV3F1Ide46V8LzHbg70qj153FWyZUPXeT8t7tlFFdMZ6b\ncuk6qDjWfdmYraVmnnpzah/P8MkJMzyy6Fig4Eai+QKBgQDoGa7h3Xmmze7oLxyd\nqEfY/85RCONVys4m2IlBDet1mHfrFEPnf76FNEMTEBgwL5doGMO4FC9bwAJW3BrD\n8nYwTiZ20vOmxYkIwKt7UXYk+fxEzwBmwa1Wil9JjeSUkhG4I7V+r0i2b71zZlMr\n/oEi120Rq/2WZUyQDfB+UoBMVQKBgQC8WFuL1r5ZWtNGyp5V6v4/gOd0k+Ts3FQO\npNM2bohBWNYMulQSBiKiPz7n2vmq5qxec30dn+be8SMfBJgDaasn58wiMDoAitCB\nEnBnNBKygX6nPx1/83syAYmR9wRlINiHKpWK5p4XXtbANMC/XcH+PGR5PGJb7d/i\n/CX8s1AgRQKBgH0zHXsJFU49V9o3T6Bb3iXYF1rvCHKG651YwPEuqQzOKiHM1LRT\n3FnOT0BBNksH4QxuD2WEvecoNBrWsDly2P5Fqcn/ER+s/raR9+6Vir13e/VCFF1Z\nrD86dRwgRmU+RgCmgojL1NVUgUV2tPbOWqqIunUF6czu59XtLwV1S2/hAoGAIjDE\nBaGpEl17hxlXHu+20d5bpf0HDLx+gd4H/ZSZJYuz58GXa2IzvVJP4BUPR6fyWH8M\nkmkppwUNRB84XT48dNUOaJJqpRiN+zBWuVVpo4AAduntOAICNjSzPY0i/hy1Uew4\nE2wD/OgZgfDRoKurgLSD5MJCdL+86d6uIq6GeCUCgYEAlXLZttb0ocGChfzSLQhd\nnXM3uVuxxqCgXaK9ocUDfC7oF0O0Cq9pL8jyUglHkXjDjTTb/Isfb8MQZi1502ew\nfOvhjRvHivwEED3IzDDg3UL6j0h1kkP1cm2rvfAi7ohzR3TnVOdOkUidn/o111If\nskO0qnMmEU8OVCwo3id1W5E=\n-----END PRIVATE KEY-----\n";
     private KeyValuePair<string, string> _selectedMod;
-    private string _modDownloadLink;
-    private double _downloadProgress;
-    private bool _progressBarIsIndeterminate;
-    private string _progressStatus;
-    private string _downloadProgressString;
     public string eventNameStr;
     public bool eventJoined = false;
     private string _eventImage;

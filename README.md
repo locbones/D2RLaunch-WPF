@@ -157,16 +157,14 @@ Each feature will be placed in it's own subfolder within it, following these rul
 - **Retail:** Used to display your own modified UI, based on the Retail Theme.
 - **ReMoDDeD:** Used to display the heavily customized UI, based on the ReMoDDeD mod.
 
-**Merged HUD:** Utilizes a folder named **Merged HUD** and should contain 2 folders (for now):
-- **Retail:** Used to display your own modified HUD UI, based on the Retail Theme.
-- **Merged:** Used to display the heavily customized HUD UI, based on the ReMoDDeD mod.
-
 **Buff Icons:** Utilizes a folder named **Buff Icons** and should contain X files (explained below, not yet complete):
 - **Skill_Names.txt:** Used to provide the launcher with your mods list of *buff skills* (if different from retail).
 - **Preview_SkillName.png:** For each custom buff icon you have, include an image the launcher can use for it.
 
 **Custom Mod/App Logo:** Looks for a file named **Logo.png** to be used in the top left of D2RLaunch.<br>
 The size of the logo can vary to your liking, but I recommend something around 200x200 or so.
+
+**Merged HUD:** Contains the needed files for the **Merged HUD** Option:
 
 As previously mentioned, some folders will be created automatically by the launcher, mostly for file-safekeeping:
 - **Customizations:** Created to store unedited copies of the armor, misc, weapons, levels and treasureclass txt files.<br>

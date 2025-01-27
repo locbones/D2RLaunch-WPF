@@ -143,13 +143,13 @@ I recommend adding your mod to the [Mod Database](https://docs.google.com/spread
 ## Step 3: Enabling Optional Features
 For some features, additional files must be provided to D2RLaunch, due to the variety of changes/complexity.<br>
 As an example, the Event Manager cannot host Special Events if it has no instructions or files provided for this task.<br>
-Any feature that is optional or requires file-safekeeping will use the D2RLaunch folder in your mod directory.<br>
+Any feature that is optional or requires file-safekeeping will use a new D2RLaunch folder in your mod directory.<br>
 Each feature will be placed in it's own subfolder within it, following these rules:<br>
 
 **Runeword Menu Sorting:** Utilizes a folder named **Runeword Sort** and may contain up to 6 files:
 - **runewords-ab.json / helppanelhd-ab.json:** Used to display the runewords sorted **Alphabetically**
 - **runewords-it.json / helppanelhd-it.json:** Used to display the runewords sorted **By ItemType**
-- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**<br>
+- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**<br><br>
 *helppanel* files are optional if you've chosen to replace it with your runeword menu (quick-access)
 
 **UI Theme:** Utilizes a folder named **UI Theme** and should contain 2 folders (for now):

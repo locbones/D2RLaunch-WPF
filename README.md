@@ -25,7 +25,7 @@ Some features require additional author **support** to function correctly, and w
 - **Hotkey Controls:** Set hotkeys for Cube Transmuting or Auto-Sorting items
 - **Merc Identifier:** Add a glowing indicator above your mercenary to help identify them in large crowds
 - **Rune Identifier:** Add special visual effects to mid and high runes when dropped on the ground
-- **Item Display:** Simplify common items, such as potions, scrolls, etc to use icons instead of text (screen clutter improvement)
+- **Item Display:** Simplify common items, such as potions, scrolls, etc to use icons instead of text (screen clutter)
 - **Hide Helmets:** Ability to Hide all Helmets from the world view display
 - **Item Level Display:** Toggleable Item Levels Display (appears next to item name)
 
@@ -52,9 +52,9 @@ Some features require additional author **support** to function correctly, and w
 - **Cinematic Subtitles:** Improved subtitle text and no longer formatted for the deaf/hard-of-hearing
 
 ## -Author Feature List-
-- **Code-less:** No code is needed to add full D2RLaunch support; control news, features, community links or appearance
-- **Easy Installs/Advertisement:** Add your mod to the database, so players can easily view and install it with one-click
-- **Mod Updating:** Setup file-linking, which allows players to upgrade to your most recent mod version with one-click
+- **Code-less:** No code needed to add D2RLaunch support; control news, features, community links or appearance
+- **Easy Installs/Advertisement:** Add your mod to the database; players can easily view and install with one-click
+- **Mod Updating:** Allow players to upgrade to your most recent mod version (with backups) in one-click
 - **Real-Time News:** Control the news feed displayed to dynamically address your player-base
 - **Feature Controls:** Dynamically control certain launcher features based on your own preference, enabling or disabling them for your mod specifically
 - **Player Experience:** Improve the experience of your player-base by giving them easy access to many QoL features and extra perks

@@ -126,9 +126,9 @@ I recommend adding your mod to the [Mod Database](https://docs.google.com/spread
 *As long as you follow the above linking rules, then the links provided in your modinfo.json file will never need to be updated between mod or config changes!*<br>
 
 ## Step 3: Enabling Optional Features
-For some features, additional files must be provided to D2RLaunch, due to the variety of changes that might be involved.<br>
+For some features, additional files must be provided to D2RLaunch, due to the variety of changes/complexity.<br>
 As an example, the Event Manager cannot host Special Events if it has no instructions or files provided for this task.<br>
-Any feature that is optional or requires file-safekeeping will use a new folder in your mods base directory. (D2RLaunch)<br>
+Any feature that is optional or requires file-safekeeping will use the D2RLaunch folder in your mod directory.<br>
 Each feature will be placed in it's own subfolder within it, following these rules:<br>
 
 **Runeword Menu Sorting:** Utilizes a folder named **Runeword Sort** and may contain up to 6 files:

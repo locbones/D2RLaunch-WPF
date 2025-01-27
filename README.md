@@ -179,20 +179,20 @@ I put much effort into making it easy, open and powerful, while balancing it wit
 So thanks for everyones patience and support during this free-time side project of mine; some final words on it:
 
 **To The Players:**
-Enjoy all of the added QoL features, mod controls and hassle-free modding that comes with using D2RLaunch.<br>
+Enjoy the many new QoL features, mod controls and hassle-free modding that comes with using D2RLaunch.<br>
 I know sometimes the worst part about modding, can be dealing with all the frustration and confusion around them.<br>
 I also know that everyone likes to play just a little bit differently, and noone can say no to some added QoL.<br>
 So I hope this app helps fill in a large gap of what may have been missing from your mod experience.
 
 **To The Authors**
-Enjoy what I consider to be a very simple, code-less method to control the launchers various systems to your liking.<br>
+Enjoy what I hope is a very simple, code-less method to control the launchers various systems to your liking.<br>
 I know sometimes it can be frustrating dealing with so many files, troubleshooting with your community, etc.<br>
 I also know that many of the same features get requested by players or wish were included by default.<br>
 So I hope this app helps provide some of that to your player-base; letting them enjoy your mod even longer.
 
 **To The Developers**
 I respectfully request that you help improve this project rather than fork it, if you wish to modify it.<br>
-Much effort was made to allow authors control of the launcher in a dynamic fashion, without coding needed.<br>.
+Much effort was made to allow authors control of the launcher in a dynamic fashion, without coding needed.<br>
 That said, I will not be attaching any licenses or any other form of red tape to this project.<br>
 I wish for it to be open and hope you might be convinced to help improve it further.
 

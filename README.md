@@ -197,8 +197,8 @@ So I hope this app helps provide some of that to your player-base; letting them 
 **To The Developers**<Br>
 I respectfully request that you help improve this project rather than fork it, if you wish to modify it.<br>
 Much effort was made to allow authors control of the launcher in a dynamic fashion, without coding needed.<br>
-That said, I will not be attaching any licenses or any other form of red tape to this project.<br>
-I wish for it to be open and hope you might be convinced to help improve it further.
+I wish for it to be open and hope you might be convinced to help improve it further.<br>
+With that said; a standard **GPL License** has been attached to this project.
 
 In order for build deployment, you will need to provide your own Licenses/API Keys for the following services:<br>
 **SyncFusion:** Used for various form controls and library functions<br>

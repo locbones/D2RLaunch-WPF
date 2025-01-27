@@ -122,7 +122,7 @@ When updating the file, you must use the **File Properties > File Information > 
 - **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**
 
 The First time you upload modinfo.json, you will need to use a dummy config link, because you havnt uploaded it yet<br>
-Finally, as an optional substep, I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.<br>
+I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.<br>
 *As long as you follow the above linking rules, then the links provided in your modinfo.json file will never need to be updated between mod or config changes!*<br>
 
 ## Step 3: Enabling Optional Features

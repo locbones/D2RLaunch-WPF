@@ -197,7 +197,6 @@ That said, I will not be attaching any licenses or any other form of red tape to
 I wish for it to be open and hope you might be convinced to help improve it further.
 
 In order for build deployment, you will need to provide your own Licenses/API Keys for the following services:<br>
-**SyncFusion:** Used for various form controls and library functions
-**Google Sheets:** Used to retrieve the Mod Listing from the Mod Database and update the Download Dropdown
-
+**SyncFusion:** Used for various form controls and library functions<br>
+**Google Sheets:** Used to retrieve the Mod Listing from the Mod Database and update the Download Dropdown<br>
 File should be named *appSettings.json* and placed in the *Resources* folder. An example file has already been included.<br>

@@ -149,7 +149,8 @@ Each feature will be placed in it's own subfolder within it, following these rul
 **Runeword Menu Sorting:** Utilizes a folder named **Runeword Sort** and may contain up to 6 files:
 - **runewords-ab.json / helppanelhd-ab.json:** Used to display the runewords sorted **Alphabetically**
 - **runewords-it.json / helppanelhd-it.json:** Used to display the runewords sorted **By ItemType**
-- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**<br><br>
+- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**<br>
+
 *helppanel* files are optional if you've chosen to replace it with your runeword menu (quick-access)
 
 **UI Theme:** Utilizes a folder named **UI Theme** and should contain 2 folders (for now):

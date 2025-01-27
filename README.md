@@ -3,7 +3,7 @@ This app is designed to be a code-less, open, all-in-one solution for D2R mod ma
 It has many features designed to be used by both mod authors and players to enhance their overall experience.<br>
 Mod Authors can customize D2RLaunch to their mod by editing their modinfo.json file.<br>
 Mod Players can download, update and customize mods in a few button clicks.<br>
-Some features require additional author **support** to function correctly, and will be indicated with a **+**<br>
+Some features require additional author support to function correctly, and will be indicated with a **+**<br>
 
 ### -Player Feature List-
 *Mod Manager-Related Features*
@@ -63,9 +63,9 @@ Some features require additional author **support** to function correctly, and w
 - **Event Manager:** Easily setup real-time events for your player-base using the Event Manager System
 
 # Adding D2RLaunch Support
-In order to fully support the various features of this launcher, some additional steps will be needed from you.
-Some features will require your permission to use, additional files provided or mod download/community links to reference.
-As mentioned, no coding is needed for any of these customizations and the instructions for **full integration** are outlined below.
+In order to fully support the various features of this launcher, some additional steps will be needed from you.<br>
+Some features will require your permission to use, additional files provided or mod download/community links to reference.<br>
+As mentioned, no coding is needed for any of these customizations and the instructions are outlined below.<br>
 
 ## Step 1: Edit modinfo.json
 All of the D2RLaunch customizations are determined by this file, since it is included/required by your mod already.

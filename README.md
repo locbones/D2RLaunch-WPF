@@ -174,6 +174,8 @@ In order to fully utilize this app, or receive staff support, some requirements 
 - **Windows OS:** This is the only supported Operating System for the launcher, although emulation layers may also work for it (WINE, Lutris, etc)<br>
 - **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!<br>
 - **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues.<br>
+- **D2RHUD.dll:** This file is used to enable hotkey controls and advanced monster stats display options [(Source Code)](https://github.com/locbones/D2RHud)<br>
+- **CASCLib.NET.dll:** This file is used to enable file extraction from your internal game storage [(Source Code)](https://github.com/ladislav-zezula/CascLib)<br>
 
 # Developer Notes
 This app was made because I am passionate about helping everyone get the most out of their D2R experience.<br>

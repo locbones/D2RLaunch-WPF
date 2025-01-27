@@ -56,10 +56,10 @@ Some features require additional author **support** to function correctly, and w
 - **Easy Installs/Advertisement:** Add your mod to the database; players can easily view and install with one-click
 - **Mod Updating:** Allow players to upgrade to your most recent mod version (with backups) in one-click
 - **Real-Time News:** Control the news feed displayed to dynamically address your player-base
-- **Feature Controls:** Dynamically control certain launcher features based on your own preference, enabling or disabling them for your mod specifically
-- **Player Experience:** Improve the experience of your player-base by giving them easy access to many QoL features and extra perks
+- **Feature Controls:** Enable or Disable certain mod features for your mod specifically
+- **Player Experience:** Add frequently requested features and QoL perks to your mod instantly
 - **Make It Your Own:** Control the displayed app logo and community links (discord, wiki, patreon)
-- **Event Manager:** Easily setup special events for your player-base using the Event Manager, which utilizes the Terror Zone system and live-edits for real-time gameplay adjustments
+- **Event Manager:** Easily setup real-time events for your player-base using the Event Manager System
 
 # Adding D2RLaunch Support
 In order to fully support the various features of this launcher, some additional steps will be needed from you.

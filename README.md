@@ -167,13 +167,10 @@ Keep in mind that you are *pushing* data to the web, and the launcher is automat
 
 # Program Requirements/Specifications
 In order to fully utilize this app, or receive staff support, some requirements must be met.
-- **.NET Desktop Runtime 7.0:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) website.<br>
-It is needed to run the program itself.<br>
-- **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website.<br>
-It is needed to perform CASC Extraction of internal game storage.
+- **.NET Desktop Runtime 7.0:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) website. It is needed to run the program itself.<br>
+- **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website. It is needed to perform CASC Extraction of internal game storage.
 - **Windows OS:** This is the only supported Operating System for the launcher, although emulation layers may also work for it (WINE, Lutris, etc)<br>
-- **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies.<br>
-If you want to support modding, then purchase the game!<br>
+- **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!<br>
 - **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues.<br>
 
 # Developer Notes

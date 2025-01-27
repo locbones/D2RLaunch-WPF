@@ -258,7 +258,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                     ShellViewModel.ShowItemLevelsEnabled = false;
                     ShellViewModel.SuperTelekinesisEnabled = false;
-                    ShellViewModel.SkillBuffIconsEnabled = true;
+                    ShellViewModel.SkillBuffIconsEnabled = false;
                     ShellViewModel.SkillIconPackEnabled = false;
                     ShellViewModel.ItemIconDisplayEnabled = false;
                     ShellViewModel.UserSettings.ItemIlvls = 1;
@@ -276,7 +276,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                     ShellViewModel.ShowItemLevelsEnabled = true;
                     ShellViewModel.SuperTelekinesisEnabled = true;
-                    ShellViewModel.SkillBuffIconsEnabled = true;
+                    ShellViewModel.SkillBuffIconsEnabled = false;
                     ShellViewModel.SkillIconPackEnabled = true;
                     ShellViewModel.ItemIconDisplayEnabled = true;
                     ShellViewModel.ExpandedInventoryEnabled = true;

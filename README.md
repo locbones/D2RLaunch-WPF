@@ -1,6 +1,7 @@
 <div align="center">
 <img src="https://static.wixstatic.com/media/698f72_11a7eaa882f24e969c85b0ef680746ab~mv2.png" alt="D2RLaunch Home View" width="700">
 </div>
+
 # About D2RLaunch
 This app is designed to be a code-less, open, all-in-one solution for D2R mod management.<br>
 It has many features designed to be used by both mod authors and players to enhance their overall experience.<br>

@@ -1,4 +1,4 @@
-#About D2RLaunch
+# About D2RLaunch
 This app is designed to be a code-less, open, all-in-one solution for D2R mod management. It has many features designed to be used by either mod authors or players to help enhance their overall experience while creating and playing mods.
 Mod Authors can customize D2RLaunch to their mod by editing their modinfo.json file.
 Mod Players can download, update and customize mods in a few button clicks.

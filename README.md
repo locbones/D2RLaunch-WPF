@@ -61,7 +61,7 @@ Some features require additional author **support** to function correctly, and w
 - **Make It Your Own:** Control the displayed app logo and community links (discord, wiki, patreon)
 - **Event Manager:** Easily setup special events for your player-base using the Event Manager, which utilizes the Terror Zone system and live-edits for real-time gameplay adjustments
 
-#Adding D2RLaunch Support
+# Adding D2RLaunch Support
 In order to fully support the various features of this launcher, some additional steps will be needed from you.
 Some features will require your permission to use, additional files provided or mod download/community links to reference.
 As mentioned, no coding is needed for any of these customizations and the instructions for **full integration** are outlined below.

@@ -1,5 +1,5 @@
 # About D2RLaunch
-This app is designed to be a code-less, open, all-in-one solution for D2R mod management. It has many features designed to be used by either mod authors or players to help enhance their overall experience while creating and playing mods.
+This app is designed to be a code-less, open, all-in-one solution for D2R mod management. It has many features designed to be used by either mod authors or players to help enhance their overall experience while creating and playing mods.<br>
 Mod Authors can customize D2RLaunch to their mod by editing their modinfo.json file.
 Mod Players can download, update and customize mods in a few button clicks.
 Some features require additional author **support** to function correctly, and will be indicated with a **+**
@@ -30,7 +30,7 @@ Some features require additional author **support** to function correctly, and w
 - **Item Level Display:** Toggleable Item Levels Display (appears next to item name)
 
 *Gameplay-Changing Features* (Author may enable/disable as desired)
-- **Monster Customizations:** Customization controls that allow editing of Monster Density, Drop Rates, Experience, etc
+- **Monster Customizations:** Various controls which allow editing of Monster Density, Drop Rates, Experience, etc
 - **Expanded Storage:** Ability to toggle various Expanded Storage functionality for Inventory, Merc, etc
 - **More Shared Stash Tabs:** Unlocks 4 additional Shared Stash Tabs (1 personal, 7 shared)
 - **Super Telekinesis:** Upgraded Telekinesis skill which can pick up any* item instead of just pots/scrolls
@@ -115,7 +115,7 @@ For a proper link, it needs to be both **static** and **direct**. I will describ
 
 To setup a link that satisfies both of these requirements, you can use services such as Google Drive, Dropbox, Github, Amazon S3, etc.
 Provided below are instructions for some of them I have used previously or currently:
-- **Github** - Click the green Code button, then right-click the Download Zip option and select Copy Link Address (or similar)
+- **Github** - Click the green Code button, then right-click the Download Zip option and select Copy Link Address
 - **Google Drive** - Copy your google provided link and paste into this [Online Generator](https://sites.google.com/site/gdocs2direct/) to convert it to a static-direct link.
 When updating the file, it is important that you go to the **File Properties > File Information > Manage Versions** and update it using this method, to retain the same base link.
 - **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**

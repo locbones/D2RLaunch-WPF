@@ -77,7 +77,7 @@ The process to setup the launcher should be simple and straight forward, but her
 *You may need to run the launcher as Administrator and/or exclude the folder from your Antivirus<br>
 **For any issues or questions, please reach out in our [Discord](https://www.discord.gg/pqUWcDcjWF)
 
-# Adding D2RLaunch Support
+# Author Setup Guide
 In order to fully support the various features of this launcher, some additional steps will be needed from you.<br>
 Some features will require your permission to use, additional files provided or mod download/community links.<br>
 As mentioned, no coding is needed for any of these customizations and the instructions are outlined below.<br>

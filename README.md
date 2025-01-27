@@ -202,3 +202,10 @@ In order for build deployment, you will need to provide your own Licenses/API Ke
 **SyncFusion:** Used for various form controls and library functions<br>
 **Google Sheets:** Used to retrieve the Mod Listing from the Mod Database and update the Download Dropdown<br>
 File should be named *appSettings.json* and placed in the *Resources* folder. An example file has already been included.<br>
+
+# Credits
+Special thanks to the following people or groups for their help along this project's journey so far:<br>
+- @Ethan-Braddy for helping convert this project from WinForms to WPF, improving stability and performance<br>
+- @Dschu012 for being there to answer my dumb questions and broaden my coding horizons<br>
+- @D2RModding Community for being patient, supportfive and helping report issues or improvements<br>
+

@@ -17,7 +17,7 @@ Some features require additional author support to function correctly, and will 
 - **Audio/Text Languages:** Change in-game text or audio languages individually
 - **Game Data Extractor:** Built-In CASC Extractor to retrieve needed/missing files from your internal game storage
 - **Fast Load Option:** Fast Load option which extracts ALL game files for slightly improved loading times
-- **Queue-Skipping:** Disables access to BNET while app open to skip the queue-check process and for extra protection
+- **Queue-Skipping:** Disables BNET access while app open to skip the queue-check process and extra protection
 
 *Quality-Of-Life Features*
 - **Automatic Backup/Restore:** Automatically backs up your save and stash files, with quick restoral option
@@ -63,6 +63,19 @@ Some features require additional author support to function correctly, and will 
 - **Player Experience:** Add frequently requested features and QoL perks to your mod instantly
 - **Make It Your Own:** Control the displayed app logo and community links (discord, wiki, patreon)
 - **Event Manager:** Easily setup real-time events for your player-base using the Event Manager System
+
+# Player Setup Guide
+The process to setup the launcher should be simple and straight forward, but here's how to do it:<br>
+- **Step 1:** Download and Install the [.NET Desktop Runtime 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.20-windows-x64-installer) which is required for the app to run.<br>
+- **Step 2:** Drag the *D2RLaunch* folder from the downloaded .zip to your Desktop or other convenient location.<br>
+- **Step 3a:** Browse to the *Launcher* folder and run *D2RLaunch.exe*.<br>
+- **Step 3b:** Depending on your version, an update notification may appear in the bottom left of the app.<br>
+- **Step 4:** Click the *Download New Mod* button and select your desired mod from the dropdown box.<br>
+- **Step 5:** View the *QoL Options* and other settings to customize things to your liking.<br>
+- **Step 6:** Press the *Play Mod* button to start the mod with your chosen configuration and enjoy!
+
+*You may need to run the launcher as Administrator and/or exclude the folder from your Antivirus<br>
+**For any issues or questions, please reach out in our [Discord](https://www.discord.gg/pqUWcDcjWF)
 
 # Adding D2RLaunch Support
 In order to fully support the various features of this launcher, some additional steps will be needed from you.<br>
@@ -136,7 +149,7 @@ Each feature will be placed in it's own subfolder within it, following these rul
 **Runeword Menu Sorting:** Utilizes a folder named **Runeword Sort** and may contain up to 6 files:
 - **runewords-ab.json / helppanelhd-ab.json:** Used to display the runewords sorted **Alphabetically**
 - **runewords-it.json / helppanelhd-it.json:** Used to display the runewords sorted **By ItemType**
-- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**
+- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**<br>
 *helppanel* files are optional if you've chosen to replace it with your runeword menu (quick-access)
 
 **UI Theme:** Utilizes a folder named **UI Theme** and should contain 2 folders (for now):

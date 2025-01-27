@@ -205,7 +205,7 @@ File should be named *appSettings.json* and placed in the *Resources* folder. An
 
 # Credits
 Special thanks to the following people or groups for their help along this project's journey so far:<br>
-- @Ethan-Braddy for helping convert this project from WinForms to WPF, improving stability and performance<br>
-- @Dschu012 for being there to answer my dumb questions and broaden my coding horizons<br>
+- [Ethan-Braddy](https://github.com/Ethan-Braddy) for helping convert this project from WinForms to WPF, improving stability/performance<br>
+- [Dschu012](https://github.com/dschu012) for being there to answer my dumb questions and D2RHUD's base implementation<br>
 - @D2RModding Community for being patient, supportfive and helping report issues or improvements<br>
 

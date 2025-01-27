@@ -9,15 +9,15 @@ Some features require additional author support to function correctly, and will 
 
 ### -Player Feature List-
 *Mod Manager-Related Features*
-- **+Mod Downloader:** One-Click download and install of many popular mods
-- **+Mod File Updater:** One-Click updating to the most recent version's mod files
-- **Mod Creator:** One-Click creation of a blank, D2R compatible mod
-- **Mod Launcher:** Quickly switch and control startup settings for installed mods
-- **+News Display:** Read the recent mod news from author with real-time updating
-- **Audio/Text Languages:** Change in-game text or audio languages individually
-- **Game Data Extractor:** Built-In CASC Extractor to retrieve needed/missing files from your internal game storage
-- **Fast Load Option:** Fast Load option which extracts ALL game files for slightly improved loading times
-- **Queue-Skipping:** Disables access to BNET while app open to skip the queue-check process and for extra protection
+- *+Mod Downloader:* One-Click download and install of many popular mods
+- *+Mod File Updater:* One-Click updating to the most recent version's mod files
+- *Mod Creator:* One-Click creation of a blank, D2R compatible mod
+- *Mod Launcher:* Quickly switch and control startup settings for installed mods
+- *+News Display:* Read the recent mod news from author with real-time updating
+- *Audio/Text Languages:* Change in-game text or audio languages individually
+- *Game Data Extractor:* Built-In CASC Extractor to retrieve needed/missing files from your internal game storage
+- *Fast Load Option:* Fast Load option which extracts ALL game files for slightly improved loading times
+- *Queue-Skipping:* Disables access to BNET while app open to skip the queue-check process and for extra protection
 
 *Quality-Of-Life Features*
 - **Automatic Backup/Restore:** Automatically backs up your save and stash files, with quick restoral option

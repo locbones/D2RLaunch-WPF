@@ -71,7 +71,7 @@ As mentioned, no coding is needed for any of these customizations and the instru
 All of the D2RLaunch customizations are determined by this file, since it is included/required by your mod already.<br>
 With that said, please edit your modinfo.json file using the following template, being sure to respect the line counts.<br>
 The launcher will compare the players file to the web file to determine mod version status and control features/info.<br>
-Change your enabled/disabled options as desired (Expect the Option Controls to be updated in future launcher releases)<br>
+Change your enabled/disabled options as desired (Expect the Option Controls to be updated in future releases)<br>
 ```
 {
     "name": "MyModName",
@@ -109,31 +109,32 @@ Patreon: https://MyPatreonLink.com
 ```
 
 ## Step 2: Setup Mod File Linking
-In order to provide downloading, updating and configuration changes to be made dynamically by the launcher, we need to setup proper links.<br>
-For a proper link, it needs to be both **static** and **direct**. I will outline my preferred methods for this, but use what you like.<br>
-- **Static** - This means when the file contents have been update, the link itself does not change
-- **Direct** - This means that when the link is clicked, the file is downloaded directly, instead of a webpage button to download it
+In order to provide downloading, updating and configuration changes to be made dynamically by the launcher, we need to setup proper links.
+For a proper link, it needs to be both **static** and **direct**.<br>
+- **Static** - This means when the file has been updated/replaced, the link itself does not change
+- **Direct** - This means that when the link is clicked, the file is downloaded directly, not a webpage button download
 
 To setup a link that satisfies both of these requirements, you can use services such as Google Drive, Dropbox, Github, Amazon S3, etc.
 Provided below are instructions for some of them I have used previously or currently:
 - **Github** - Click the green Code button, then right-click the Download Zip option and select Copy Link Address
-- **Google Drive** - Copy your google provided link and paste into this [Online Generator](https://sites.google.com/site/gdocs2direct/) to convert it to a static-direct link.<br>
-When updating the file, it is important that you use the **File Properties > File Information > Manage Versions** method<br>
+- **Google Drive** - Copy your google provided link into this [Online Generator](https://sites.google.com/site/gdocs2direct/) to convert it to a static-direct link.<br>
+When updating the file, you must use the **File Properties > File Information > Manage Versions** method<br>
 - **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**
 
 Finally, as an optional substep, I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.<br>
 *As long as you follow the above linking rules, then the links provided in your modinfo.json file will never need to be updated between mod or config changes!*<br>
 
 ## Step 3: Enabling Optional Features
-For some features, additional files must be provided to the launcher, due to the variety of changes that might be involved.<br>
+For some features, additional files must be provided to D2RLaunch, due to the variety of changes that might be involved.<br>
 As an example, the Event Manager cannot host Special Events if it has no instructions or files provided for this task.<br>
-Any optional feature, or feature that requires file-safekeeping will use a new folder in your mods base directory called D2RLaunch. Each feature will be placed in a subfolder within.<br>
-Provided below will be instructions and details on how to setup and configure the folder structure for these optional features:<br>
+Any feature that is optional or requires file-safekeeping will use a new folder in your mods base directory. (D2RLaunch)<br>
+Each feature will be placed in it's own subfolder within it, following these rules:<br>
 
 **Runeword Menu Sorting:** Utilizes a folder named **Runeword Sort** and may contain up to 6 files:
-- **runewords-ab.json / helppanelhd-ab.json:** Used to display the runewords sorted **Alphabetically**, optionally includes help panel replacement file
-- **runewords-it.json / helppanelhd-it.json:** Used to display the runewords sorted **By ItemType**, optionally includes help panel replacement file
-- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**, optionally includes help panel replacement file
+- **runewords-ab.json / helppanelhd-ab.json:** Used to display the runewords sorted **Alphabetically**
+- **runewords-it.json / helppanelhd-it.json:** Used to display the runewords sorted **By ItemType**
+- **runewords-lv.json / helppanelhd-lv.json:** Used to display the runewords sorted **By Required Level**
+*helppanel* files are optional if you've chosen to replace it with your runeword menu (quick-access)
 
 **UI Theme:** Utilizes a folder named **UI Theme** and should contain 2 folders (for now):
 - **Retail:** Used to display your own modified UI, based on the Retail Theme.
@@ -144,55 +145,61 @@ Provided below will be instructions and details on how to setup and configure th
 - **Merged:** Used to display the heavily customized HUD UI, based on the ReMoDDeD mod.
 
 **Buff Icons:** Utilizes a folder named **Buff Icons** and should contain X files (explained below, not yet complete):
-- **Skill_Names.txt:** This file is used to provide the launcher with your mods list of specifically buff skills (if different from retail).
-- **Preview_SkillName.png:** For each custom buff icon you have, you will need to include an image the launcher can use.
+- **Skill_Names.txt:** Used to provide the launcher with your mods list of *buff skills* (if different from retail).
+- **Preview_SkillName.png:** For each custom buff icon you have, include an image the launcher can use for it.
 
-**Custom Mod/App Logo:** Looks for a file named **Logo.png** to be used in the top left of D2RLaunch, to help showcase/customize it to your mod.
+**Custom Mod/App Logo:** Looks for a file named **Logo.png** to be used in the top left of D2RLaunch.<br>
 The size of the logo can vary to your liking, but I recommend something around 200x200 or so.
 
 As previously mentioned, some folders will be created automatically by the launcher, mostly for file-safekeeping:
-- **Customizations:** This folder is created to store unedited copies of the armor, misc, weapons, levels and treasureclass txt files. This is needed for the Monster Customizations options to work correctly.
-- **Monster Stats:** This folder is created to store edited copies of the monster hp bar layout files, for various option displays. This is needed for the Monster Stats option to work correctly.
+- **Customizations:** Created to store unedited copies of the armor, misc, weapons, levels and treasureclass txt files.<br>
+This is needed for the Monster Customizations options to work correctly.<br>
+- **Monster Stats:** Created to store edited copies of the monster hp bar layout files, for various option displays.<br>
+This is needed for the Monster Stats option to work correctly.
 
 ## Step 4: Updating Mod, News, Features or Appearance
 To update your mod or config files, simply replace the .zip or .json file used in w/e you service chose in **Step 2**.<br>
 If you followed those instructions carefully, then the link does not need updating and your edits are immediately live.<br>
-The next time D2RLaunch goes to download your mod or access the config file for controls, news, links, etc customization; it will retrieve the updated version(s).<br>
+When D2RLaunch goes to download the mod or access the config file; it will retrieve the updated version(s).<br>
 You can use this to dynamically update mod files, allowed features, news messages, app logo, etc.<br>
-Keep in mind that you are *pushing* data to the web, and the launcher is *pulling* that data down. It cannot update what it does not have.<br>
+Keep in mind that you are *pushing* data to the web, and the launcher is automatically *pulling* that data down.<br>
 
 # Program Requirements/Specifications
 In order to fully utilize this app, or receive staff support, some requirements must be met.
-- **.NET Desktop Runtime 7.0:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) website. It is needed to run the program itself.
-- **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website. It is needed to perform CASC Extraction of internal game storage.
-- **Windows OS:** This is the only supported Operating System for the launcher, although emulation layers may also work for it (WINE, Lutris, etc)
-- **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!
-- **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues. I am constantly improving it also.
+- **.NET Desktop Runtime 7.0:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) website.<br>
+It is needed to run the program itself.<br>
+- **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website.<br>
+It is needed to perform CASC Extraction of internal game storage.
+- **Windows OS:** This is the only supported Operating System for the launcher, although emulation layers may also work for it (WINE, Lutris, etc)<br>
+- **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies.<br>
+If you want to support modding, then purchase the game!<br>
+- **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues.<br>
 
 # Developer Notes
-This app was made because I am passionate about helping everyone get the most out of their D2R experience.
-I put much effort into making it hassle-free, openly editable and powerful, while balancing it with author intentions, efforts and respect.
-Over the last few years of my free time, it's slowly grown into a powerfully capable app. So here's what I'd like to say now that it's been made open-source:
+This app was made because I am passionate about helping everyone get the most out of their D2R experience.<br>
+I put much effort into making it easy, open and powerful, while balancing it with author intentions/efforts.<br>
+So thanks for everyones patience and support during this free-time side project of mine; some final words on it:
 
 **To The Players:**
-Please enjoy all of the added QoL features, mod controls and hassle-free file management that comes with using D2RLaunch.
-I know sometimes the worst part about modding, can be dealing with all the file-updating/conflicts and general confusion around them.
-I also know that everyone likes to play just a little bit differently, and noone can say no to some added Quality of Life.
+Please enjoy all of the added QoL features, mod controls and hassle-free file management that comes with using D2RLaunch.<br>
+I know sometimes the worst part about modding, can be dealing with all the file-updating/conflicts and confusion around them.<br>
+I also know that everyone likes to play just a little bit differently, and noone can say no to some added Quality of Life.<br>
 So I hope this app, while not perfect, helps fill in a large gap in what may have been missing from your mod experience.
 
 **To The Authors**
 Please enjoy what I consider to be a very simple, code-less method to control the launchers various systems to your liking.
-I know sometimes the worst part about modding, can be dealing with all the file-updating/conflicts; troubleshooting with your community, etc.
-I also know that many of the same features get requested repeatedly by the players or wish were included as a part of the normal experience.
-So I hope this app, while not perfect, helps provide some of that to your player-base; letting them enjoy your mod even longer or more deeply.
+I know sometimes it can be frustrating dealing with so many files, troubleshooting with your community, etc.<br>
+I also know that many of the same features get requested by players or wish were included by default.<br>
+So I hope this app helps provide some of that to your player-base; letting them enjoy your mod even longer.<br>
 
 **To The Developers**
-I respectfully request that you help me continue to improve this project rather than fork it, if you wish to make your own modifications.
-Much effort was made to this keep app free of any perceived gate-keeping, while also allowing authors to control the launcher in a more dynamic fashion, without needing coding knowledge.
-That said, I will not be attaching any licenses or any other form of red tape to this project. I wish for it to be open and hope you might be convinced to help improve it further.
+I respectfully request that you help improve this project rather than fork it, if you wish to modify it.<br>
+Much effort was made to allow authors control of the launcher in a dynamic fashion, without coding needed.<br>.
+That said, I will not be attaching any licenses or any other form of red tape to this project.<br>
+I wish for it to be open and hope you might be convinced to help improve it further.
 
-In order to build this app for your own deployment, you will need to provide your own Licenses/API Keys for the following services:
+In order for build deployment, you will need to provide your own Licenses/API Keys for the following services:<br>
 **SyncFusion:** Used for various form controls and library functions
 **Google Sheets:** Used to retrieve the Mod Listing from the Mod Database and update the Download Dropdown
 
-This file should be named *appSettings.json* and placed in the *Resources* folder. An example file has already been included.
+File should be named *appSettings.json* and placed in the *Resources* folder. An example file has already been included.<br>

@@ -1,11 +1,11 @@
-<img src="https://static.wixstatic.com/media/698f72_11a7eaa882f24e969c85b0ef680746ab~mv2.png" alt="D2RLaunch Home View" width="800">
-
 # About D2RLaunch
 This app is designed to be a code-less, open, all-in-one solution for D2R mod management.<br>
 It has many features designed to be used by both mod authors and players to enhance their overall experience.<br>
 Mod Authors can customize D2RLaunch to their mod by editing their modinfo.json file.<br>
 Mod Players can download, update and customize mods in a few button clicks.<br>
 Some features require additional author support to function correctly, and will be indicated with a **+**<br>
+
+<img src="https://static.wixstatic.com/media/698f72_11a7eaa882f24e969c85b0ef680746ab~mv2.png" alt="D2RLaunch Home View" width="820">
 
 ### -Player Feature List-
 *Mod Manager-Related Features*

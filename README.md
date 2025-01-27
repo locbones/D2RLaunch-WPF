@@ -64,14 +64,14 @@ Some features require additional author support to function correctly, and will 
 
 # Adding D2RLaunch Support
 In order to fully support the various features of this launcher, some additional steps will be needed from you.<br>
-Some features will require your permission to use, additional files provided or mod download/community links to reference.<br>
+Some features will require your permission to use, additional files provided or mod download/community links.<br>
 As mentioned, no coding is needed for any of these customizations and the instructions are outlined below.<br>
 
 ## Step 1: Edit modinfo.json
-All of the D2RLaunch customizations are determined by this file, since it is included/required by your mod already.
-With that said, please edit your modinfo.json file using the following template, being sure to respect the line counts.
-The launcher will compare the players file to the web file to determine mod version status (for updating) and control features/info accordingly.
-Change your enabled/disabled options as desired (Expect the Option Controls to be updated in future launcher releases)
+All of the D2RLaunch customizations are determined by this file, since it is included/required by your mod already.<br>
+With that said, please edit your modinfo.json file using the following template, being sure to respect the line counts.<br>
+The launcher will compare the players file to the web file to determine mod version status and control features/info.<br>
+Change your enabled/disabled options as desired (Expect the Option Controls to be updated in future launcher releases)<br>
 ```
 {
     "name": "MyModName",
@@ -109,26 +109,26 @@ Patreon: https://MyPatreonLink.com
 ```
 
 ## Step 2: Setup Mod File Linking
-In order to provide downloading, updating and configuration changes to be made dynamically by the launcher, we need to setup proper links.
-For a proper link, it needs to be both **static** and **direct**. I will describe and outline my preferred methods for this, but use what you prefer.
+In order to provide downloading, updating and configuration changes to be made dynamically by the launcher, we need to setup proper links.<br>
+For a proper link, it needs to be both **static** and **direct**. I will outline my preferred methods for this, but use what you like.<br>
 - **Static** - This means when the file contents have been update, the link itself does not change
 - **Direct** - This means that when the link is clicked, the file is downloaded directly, instead of a webpage button to download it
 
 To setup a link that satisfies both of these requirements, you can use services such as Google Drive, Dropbox, Github, Amazon S3, etc.
 Provided below are instructions for some of them I have used previously or currently:
 - **Github** - Click the green Code button, then right-click the Download Zip option and select Copy Link Address
-- **Google Drive** - Copy your google provided link and paste into this [Online Generator](https://sites.google.com/site/gdocs2direct/) to convert it to a static-direct link.
-When updating the file, it is important that you go to the **File Properties > File Information > Manage Versions** and update it using this method, to retain the same base link.
+- **Google Drive** - Copy your google provided link and paste into this [Online Generator](https://sites.google.com/site/gdocs2direct/) to convert it to a static-direct link.<br>
+When updating the file, it is important that you use the **File Properties > File Information > Manage Versions** method<br>
 - **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**
 
-Finally, as an optional substep, I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.
-*As long as you follow the above linking rules, then the links provided in your modinfo.json file will never need to be updated between mod or config changes!*
+Finally, as an optional substep, I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.<br>
+*As long as you follow the above linking rules, then the links provided in your modinfo.json file will never need to be updated between mod or config changes!*<br>
 
 ## Step 3: Enabling Optional Features
-For some features, additional files must be provided to the launcher, due to the variety of changes that might be involved.
-As an example, the Event Manager cannot host Special Events if it has no instructions or files provided for this task.
-Any optional feature, or feature that requires file-safekeeping will use a new folder in your mods base directory called D2RLaunch. Each feature will be placed in a subfolder within.
-Provided below will be instructions and details on how to setup and configure the folder structure for these optional features:
+For some features, additional files must be provided to the launcher, due to the variety of changes that might be involved.<br>
+As an example, the Event Manager cannot host Special Events if it has no instructions or files provided for this task.<br>
+Any optional feature, or feature that requires file-safekeeping will use a new folder in your mods base directory called D2RLaunch. Each feature will be placed in a subfolder within.<br>
+Provided below will be instructions and details on how to setup and configure the folder structure for these optional features:<br>
 
 **Runeword Menu Sorting:** Utilizes a folder named **Runeword Sort** and may contain up to 6 files:
 - **runewords-ab.json / helppanelhd-ab.json:** Used to display the runewords sorted **Alphabetically**, optionally includes help panel replacement file
@@ -155,11 +155,11 @@ As previously mentioned, some folders will be created automatically by the launc
 - **Monster Stats:** This folder is created to store edited copies of the monster hp bar layout files, for various option displays. This is needed for the Monster Stats option to work correctly.
 
 ## Step 4: Updating Mod, News, Features or Appearance
-To update your mod or config files, simply replace the .zip or .json file used in w/e you service chose in **Step 2**.
-If you followed those instructions carefully, then the link does not need updating and your edits are immediately live.
-The next time D2RLaunch goes to download your mod or access the config file for controls, news, links, etc customization; it will retrieve the updated version(s).
-You can use this to dynamically update mod files, allowed features, news messages, app logo, etc.
-Keep in mind that you are *pushing* data to the web, and the launcher is *pulling* that data down. It cannot update what it does not have.
+To update your mod or config files, simply replace the .zip or .json file used in w/e you service chose in **Step 2**.<br>
+If you followed those instructions carefully, then the link does not need updating and your edits are immediately live.<br>
+The next time D2RLaunch goes to download your mod or access the config file for controls, news, links, etc customization; it will retrieve the updated version(s).<br>
+You can use this to dynamically update mod files, allowed features, news messages, app logo, etc.<br>
+Keep in mind that you are *pushing* data to the web, and the launcher is *pulling* that data down. It cannot update what it does not have.<br>
 
 # Program Requirements/Specifications
 In order to fully utilize this app, or receive staff support, some requirements must be met.

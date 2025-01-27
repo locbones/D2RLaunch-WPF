@@ -4,7 +4,7 @@ Mod Authors can customize D2RLaunch to their mod by editing their modinfo.json f
 Mod Players can download, update and customize mods in a few button clicks.
 Some features require additional author **support** to function correctly, and will be indicated with a **+**
 
-##-Player Feature List-
+## -Player Feature List-
 *Mod Manager-Related Features*
 - **+Mod Downloader:** One-Click download and install of many popular mods
 - **+Mod File Updater:** One-Click updating to the most recent version's mod files
@@ -51,7 +51,7 @@ Some features require additional author **support** to function correctly, and w
 - **Character Map Seeds:** Edit your characters map seed directly from save file
 - **Cinematic Subtitles:** Improved subtitle text and no longer formatted for the deaf/hard-of-hearing
 
-##-Author Feature List-
+## -Author Feature List-
 - **Code-less:** No code is needed to add full D2RLaunch support; control news, features, community links or appearance
 - **Easy Installs/Advertisement:** Add your mod to the database, so players can easily view and install it with one-click
 - **Mod Updating:** Setup file-linking, which allows players to upgrade to your most recent mod version with one-click
@@ -66,7 +66,7 @@ In order to fully support the various features of this launcher, some additional
 Some features will require your permission to use, additional files provided or mod download/community links to reference.
 As mentioned, no coding is needed for any of these customizations and the instructions for **full integration** are outlined below.
 
-##Step 1: Edit modinfo.json
+## Step 1: Edit modinfo.json
 All of the D2RLaunch customizations are determined by this file, since it is included/required by your mod already.
 With that said, please edit your modinfo.json file using the following template, being sure to respect the line counts.
 The launcher will compare the players file to the web file to determine mod version status (for updating) and control features/info accordingly.
@@ -107,7 +107,7 @@ Patreon: https://MyPatreonLink.com
 }
 ```
 
-##Step 2: Setup Mod File Linking
+## Step 2: Setup Mod File Linking
 In order to provide downloading, updating and configuration changes to be made dynamically by the launcher, we need to setup proper links.
 For a proper link, it needs to be both **static** and **direct**. I will describe and outline my preferred methods for this, but use what you prefer.
 - **Static** - This means when the file contents have been update, the link itself does not change
@@ -123,7 +123,7 @@ When updating the file, it is important that you go to the **File Properties > F
 Finally, as an optional substep, I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.
 *As long as you follow the above linking rules, then the links provided in your modinfo.json file will never need to be updated between mod or config changes!*
 
-##Step 3: Enabling Optional Features
+## Step 3: Enabling Optional Features
 For some features, additional files must be provided to the launcher, due to the variety of changes that might be involved.
 As an example, the Event Manager cannot host Special Events if it has no instructions or files provided for this task.
 Any optional feature, or feature that requires file-safekeeping will use a new folder in your mods base directory called D2RLaunch. Each feature will be placed in a subfolder within.
@@ -153,14 +153,14 @@ As previously mentioned, some folders will be created automatically by the launc
 - **Customizations:** This folder is created to store unedited copies of the armor, misc, weapons, levels and treasureclass txt files. This is needed for the Monster Customizations options to work correctly.
 - **Monster Stats:** This folder is created to store edited copies of the monster hp bar layout files, for various option displays. This is needed for the Monster Stats option to work correctly.
 
-##Step 4: Updating Mod, News, Features or Appearance
+## Step 4: Updating Mod, News, Features or Appearance
 To update your mod or config files, simply replace the .zip or .json file used in w/e you service chose in **Step 2**.
 If you followed those instructions carefully, then the link does not need updating and your edits are immediately live.
 The next time D2RLaunch goes to download your mod or access the config file for controls, news, links, etc customization; it will retrieve the updated version(s).
 You can use this to dynamically update mod files, allowed features, news messages, app logo, etc.
 Keep in mind that you are *pushing* data to the web, and the launcher is *pulling* that data down. It cannot update what it does not have.
 
-#Program Requirements/Specifications
+# Program Requirements/Specifications
 In order to fully utilize this app, or receive staff support, some requirements must be met.
 - **.NET Desktop Runtime 7.0:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) website. It is needed to run the program itself.
 - **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website. It is needed to perform CASC Extraction of internal game storage.
@@ -168,7 +168,7 @@ In order to fully utilize this app, or receive staff support, some requirements 
 - **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!
 - **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues. I am constantly improving it also.
 
-#Developer Notes
+# Developer Notes
 This app was made because I am passionate about helping everyone get the most out of their D2R experience.
 I put much effort into making it hassle-free, openly editable and powerful, while balancing it with author intentions, efforts and respect.
 Over the last few years of my free time, it's slowly grown into a powerfully capable app. So here's what I'd like to say now that it's been made open-source:

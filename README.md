@@ -4,7 +4,7 @@ Mod Authors can customize D2RLaunch to their mod by editing their modinfo.json f
 Mod Players can download, update and customize mods in a few button clicks.
 Some features require additional author **support** to function correctly, and will be indicated with a **+**
 
-## -Player Feature List-
+### -Player Feature List-
 *Mod Manager-Related Features*
 - **+Mod Downloader:** One-Click download and install of many popular mods
 - **+Mod File Updater:** One-Click updating to the most recent version's mod files
@@ -51,7 +51,7 @@ Some features require additional author **support** to function correctly, and w
 - **Character Map Seeds:** Edit your characters map seed directly from save file
 - **Cinematic Subtitles:** Improved subtitle text and no longer formatted for the deaf/hard-of-hearing
 
-## -Author Feature List-
+### -Author Feature List-
 - **Code-less:** No code needed to add D2RLaunch support; control news, features, community links or appearance
 - **Easy Installs/Advertisement:** Add your mod to the database; players can easily view and install with one-click
 - **Mod Updating:** Allow players to upgrade to your most recent mod version (with backups) in one-click

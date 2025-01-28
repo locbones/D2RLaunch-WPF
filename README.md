@@ -7,6 +7,15 @@ Some features require additional author support to function correctly, and will 
 
 <img src="https://static.wixstatic.com/media/698f72_11a7eaa882f24e969c85b0ef680746ab~mv2.png" alt="D2RLaunch Home View" width="820">
 
+# Table of Contents
+
+- [Introduction](#aboutd2rlaunch)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
 ### -Player Feature List-
 *Mod Manager-Related Features*
 - **+Mod Downloader:** One-Click download and install of many popular mods
@@ -67,7 +76,7 @@ Some features require additional author support to function correctly, and will 
 # Player Setup Guide
 The process to setup the launcher should be simple and straight forward, but here's how to do it:<br>
 - **Step 1:** Download and Install the [.NET Desktop Runtime 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.20-windows-x64-installer) which is required for the app to run.<br>
-- **Step 2:** Drag the *D2RLaunch* folder from the downloaded .zip to your Desktop or other convenient location.<br>
+- **Step 2:** Download D2RLaunch from [D2RModding](https://d2rmodding.com/d2rlaunch), then drag the *D2RLaunch* folder from the downloaded .zip to your Desktop or other convenient location.<br>
 - **Step 3a:** Browse to the *Launcher* folder and run *D2RLaunch.exe*.<br>
 - **Step 3b:** Depending on your version, an update notification may appear in the bottom left of the app.<br>
 - **Step 4:** Click the *Download New Mod* button and select your desired mod from the dropdown box.<br>

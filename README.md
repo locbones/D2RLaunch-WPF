@@ -9,7 +9,7 @@ Some features require additional author support to function correctly, and will 
 
 # Table of Contents
 
-- [Introduction](#aboutd2rlaunch)
+- [About D2RLaunch](#about-d2rlaunch)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)

@@ -2,10 +2,17 @@
 
 [About D2RLaunch](#about-d2rlaunch)
 - [Player Features](#-player-feature-list-)
-- [Author Features](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Author Features](#-author-feature-list-)
+[Player Setup Guide](#player-setup-guide)
+[Author Setup Guide](#author-setup-guide)
+- [Step 1: Modinfo.json](#step-1-edit-modinfojson)
+- [Step 2: File Linking](#step-2-setup-mod-file-linking)
+- [Step 3: Optional Features](#step-3-enabling-optional-features)
+- [Step 4: Updating Files](#step-4-updating-mod-news-features-or-appearance)
+[Program Requirements/Specs](#program-requirements-specifications)
+[Developer Notes](#developer-notes)
+[Credits](#credits)
+
 
 # About D2RLaunch
 This app is designed to be a code-less, open, all-in-one solution for D2R mod management.<br>

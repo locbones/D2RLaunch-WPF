@@ -1,7 +1,7 @@
 # Table of Contents
 
 [About D2RLaunch](#about-d2rlaunch)
-- [Player Features](###-player-feature-list-)
+- [Player Features](#-player-feature-list-)
 - [Author Features](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)

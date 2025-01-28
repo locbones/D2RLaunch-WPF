@@ -9,7 +9,7 @@
     - [Step 2: File Linking](#step-2-setup-mod-file-linking)
     - [Step 3: Optional Features](#step-3-enabling-optional-features)
     - [Step 4: Updating Files](#step-4-updating-mod-news-features-or-appearance)
-- [Program Requirements/Specs](#program-requirements-specifications)
+- [Program Requirements/Specs](#program-requirementsspecifications)
 - [Developer Notes](#developer-notes)
 - [Credits](#credits)
 

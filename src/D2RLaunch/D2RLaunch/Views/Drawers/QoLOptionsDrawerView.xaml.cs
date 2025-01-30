@@ -194,20 +194,12 @@ namespace D2RLaunch.Views.Drawers
         {
             var mainWindow = Window.GetWindow(this);
             var shellViewModel = mainWindow.DataContext as ShellViewModel;
-
             string filePath = System.IO.Path.Combine(shellViewModel.GamePath, "D2RHUD_Config.txt");
-            string dllPath = System.IO.Path.Combine(shellViewModel.GamePath, "D2RHUD.dll");
 
             if (!File.Exists(filePath))
             {
                 File.Create(filePath).Close();
                 await File.WriteAllBytesAsync(filePath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD_Config.txt"));
-            }
-
-            if (!File.Exists(dllPath))
-            {
-                File.Create(dllPath).Close();
-                await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
             }
 
             List<string> lines = new List<string>(File.ReadAllLines(filePath));
@@ -309,7 +301,6 @@ namespace D2RLaunch.Views.Drawers
                 }
             }
         }
-
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {

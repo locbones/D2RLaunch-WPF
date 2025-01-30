@@ -30,6 +30,7 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Net;
 
 namespace D2RLaunch.ViewModels.Drawers;
 
@@ -667,7 +668,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             case 1:
                 {
                     if (!File.Exists(dllPath))
-                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+                        DownloadD2RHUDZip();
 
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 1")
@@ -682,7 +683,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             case 2:
                 {
                     if (!File.Exists(dllPath))
-                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+                        DownloadD2RHUDZip();
 
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 1")
@@ -696,8 +697,8 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             case 3:
                 {
-                    if (File.Exists(dllPath))
-                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+                    if (!File.Exists(dllPath))
+                        DownloadD2RHUDZip();
 
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 0")
@@ -711,8 +712,8 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             case 4:
                 {
-                    if (File.Exists(dllPath))
-                        await File.WriteAllBytesAsync(dllPath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD.dll"));
+                    if (!File.Exists(dllPath))
+                        DownloadD2RHUDZip();
 
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 0")
@@ -983,6 +984,52 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+    public async void DownloadD2RHUDZip() //Download Expanded File Package
+    {
+        string url = "https://github.com/locbones/D2RHud/archive/refs/heads/main.zip";
+        string savePath = "D2RHUD.zip";
+        string extractPathTemp = "./";
+
+        if (File.Exists(savePath))
+            File.Delete(savePath);
+
+        using (WebClient client = new WebClient())
+        {
+            client.DownloadFileCompleted += (sender, e) =>
+            {
+                try
+                {
+                    if (e.Error == null)
+                    {
+                        ZipFile.ExtractToDirectory(savePath, extractPathTemp);
+                        _logger.Error("Monster Stats: D2RHUD Downloaded and Extracted");
+
+                        File.Copy(extractPathTemp + "D2RHud-main/x64/Release/D2RHUD.dll", ShellViewModel.GamePath + "/D2RHUD.dll", true);
+                        _logger.Error($"Monster Stats: D2RHUD.dll copied to {ShellViewModel.GamePath}");
+
+                        File.Delete(savePath);
+                        Directory.Delete(extractPathTemp + "/D2Rhud-main", true);
+                        _logger.Error($"Monster Stats: D2RHUD Cleanup Completed");
+                    }
+                    else
+                        MessageBox.Show($"An error occurred during download: {e.Error.Message}");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}");
+                }
+            };
+
+            try
+            {
+                client.DownloadFileAsync(new Uri(url), savePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
         }
     }
 

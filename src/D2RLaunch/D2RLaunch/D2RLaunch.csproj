@@ -159,7 +159,6 @@
     <None Remove="Resources\Options\MergedHUD\hudpanelhd-n.json" />
     <None Remove="Resources\Options\MergedHUD\skillselecthd.json" />
     <None Remove="Resources\Options\MonsterStats.dll" />
-    <None Remove="Resources\Options\MonsterStats\D2RHUD.dll" />
     <None Remove="Resources\Options\MonsterStats\D2RHUD_Config.txt" />
     <None Remove="Resources\Options\MonsterStats\hudmonsterhealthhd.json" />
     <None Remove="Resources\Options\MonsterStats\MS_Assets.zip" />
@@ -267,7 +266,6 @@
     <EmbeddedResource Include="Resources\Fonts\9.otf" />
     <EmbeddedResource Include="Resources\Fonts\9.png" />
     <EmbeddedResource Include="Resources\Fonts\0.png" />
-    <EmbeddedResource Include="Resources\Options\MonsterStats\D2RHUD.dll" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\D2RHUD_Config.txt" />
     <EmbeddedResource Include="Resources\Options\MonsterStats\MS_Assets.zip" />
     <Resource Include="Resources\Icons\Icon_Events.png" />

@@ -3581,35 +3581,35 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         WebClient webClient = new();
 
         //Download the most recent version info file to compare values
-        if (!File.Exists(@"..\MyVersions_Temp.txt"))
-        {
-            string primaryLink = "https://drive.google.com/uc?export=download&id=1AW5tOJVpSkWdrXYdjllyPyU3Cpdd-SMV";
-            string backupLink = "https://d2filesdrop.s3.us-east-2.amazonaws.com/MyVersions.txt";
+        if (File.Exists(@"..\MyVersions_Temp.txt"))
+            File.Delete(@"..\MyVersions_Temp.txt");
 
-            try
+        string primaryLink = "https://drive.google.com/uc?export=download&id=1AW5tOJVpSkWdrXYdjllyPyU3Cpdd-SMV";
+        string backupLink = "https://d2filesdrop.s3.us-east-2.amazonaws.com/MyVersions.txt";
+
+        try
+        {
+            webClient.DownloadFile(primaryLink, @"..\MyVersions_Temp.txt");
+        }
+        catch (WebException ex)
+        {
+            if (ex.Response is HttpWebResponse response && ((int)response.StatusCode == 429 || (int)response.StatusCode == 500))
             {
-                webClient.DownloadFile(primaryLink, @"..\MyVersions_Temp.txt");
-            }
-            catch (WebException ex)
-            {
-                if (ex.Response is HttpWebResponse response && ((int)response.StatusCode == 429 || (int)response.StatusCode == 500))
+                try
                 {
-                    try
-                    {
-                        webClient.DownloadFile(backupLink, @"..\MyVersions_Temp.txt");
-                    }
-                    catch (WebException)
-                    {
-                        _logger.Error("Backup download link for MyVersions_Temp.txt failed.");
-                        return;
-                    }
+                    webClient.DownloadFile(backupLink, @"..\MyVersions_Temp.txt");
                 }
-                else
+                catch (WebException)
                 {
-                    _logger.Error(ex.Message);
-                    _logger.Error("An error occurred during the download: ");
+                    _logger.Error("Backup download link for MyVersions_Temp.txt failed.");
                     return;
                 }
+            }
+            else
+            {
+                _logger.Error(ex.Message);
+                _logger.Error("An error occurred during the download: ");
+                return;
             }
         }
 

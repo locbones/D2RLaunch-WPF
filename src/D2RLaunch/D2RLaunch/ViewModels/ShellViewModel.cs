@@ -45,7 +45,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private IWindowManager _windowManager;
     private readonly IConfigurationRoot _configuration;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.5.1";
+    private string appVersion = "2.5.2";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -3797,8 +3797,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 return;
             }
         }
-
-        MessageBox.Show(updaterDir);
 
         //Download complete, remove old files and extract new ones
         if (Directory.Exists(updaterDir))

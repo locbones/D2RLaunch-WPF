@@ -244,6 +244,7 @@ Special thanks to the following people or groups for their help along this proje
     - [D2RModding Community](https://www.discord.gg/pqUWcDcjWF) for being patient, supportive and assisting with bug-reports or improvements<br>
 
 # Changelogs
+This changelog list is mainly for reference use, as the project repo and codebase has changed much over time<br>
 <details>
   <summary>2.5.2</summary>
     - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>

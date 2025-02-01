@@ -245,6 +245,9 @@ Special thanks to the following people or groups for their help along this proje
 
 # Changelogs
 This changelog list is mainly for reference use, as the project repo and codebase has changed much over time<br>
+
+<details>
+  <summary>2.5.1+ Changelogs</summary>
 <details>
   <summary>2.5.2</summary>
     - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>
@@ -255,6 +258,7 @@ This changelog list is mainly for reference use, as the project repo and codebas
     - Removed D2RHUD.dll as a Project Resource<br>
     - Launcher will now retrieve latest D2RHUD.dll file from Github when missing<br>
     - Fixed an issue that would cause launcher version checking to fail if program crashed during task previously
+</details>
 </details>
 <details>
   <summary>2.5.0</summary>

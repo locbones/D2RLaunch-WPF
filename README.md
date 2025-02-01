@@ -871,4 +871,8 @@ Added ability for launcher to track your total playtime (Click logo to display, 
     - Fixed error when selecting rune display option multiple times<br>
     - Fixed error when selecting the no background option for monster stats display<br>
     - Fixed issue with playing mods with special characters in the modname
-</summary>
+</details>
+<details>
+  <summary>1.0.0</summary>
+    - Initial Release
+</details>

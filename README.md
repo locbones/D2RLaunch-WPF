@@ -86,13 +86,13 @@ Publicly ready download can be found at http://d2rmodding.com/d2rlaunch
 
 # Player Setup Guide
 The process to setup the launcher should be simple and straight forward, but here's how to do it:<br>
-- **Step 1:** Download and Install the [.NET Desktop Runtime 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.20-windows-x64-installer) which is required for the app to run.<br>
-- **Step 2:** Download D2RLaunch from [D2RModding](https://d2rmodding.com/d2rlaunch), then drag the *D2RLaunch* folder from the downloaded .zip to your Desktop or other convenient location.<br>
-- **Step 3a:** Browse to the *Launcher* folder and run *D2RLaunch.exe*.<br>
-- **Step 3b:** Depending on your version, an update notification may appear in the bottom left of the app.<br>
-- **Step 4:** Click the *Download New Mod* button and select your desired mod from the dropdown box.<br>
-- **Step 5:** View the *QoL Options* and other settings to customize things to your liking.<br>
-- **Step 6:** Press the *Play Mod* button to start the mod with your chosen configuration and enjoy!
+    - **Step 1:** Download and Install the [.NET Desktop Runtime 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.20-windows-x64-installer) which is required for the app to run.<br>
+    - **Step 2:** Download D2RLaunch from [D2RModding](https://d2rmodding.com/d2rlaunch), then drag the *D2RLaunch* folder from the downloaded .zip to your Desktop or other convenient location.<br>
+    - **Step 3a:** Browse to the *Launcher* folder and run *D2RLaunch.exe*.<br>
+    - **Step 3b:** Depending on your version, an update notification may appear in the bottom left of the app.<br>
+    - **Step 4:** Click the *Download New Mod* button and select your desired mod from the dropdown box.<br>
+    - **Step 5:** View the *QoL Options* and other settings to customize things to your liking.<br>
+    - **Step 6:** Press the *Play Mod* button to start the mod with your chosen configuration and enjoy!
 
 *You may need to run the launcher as Administrator and/or exclude the folder from your Antivirus<br>
 **For any issues or questions, please reach out in our [Discord](https://www.discord.gg/pqUWcDcjWF)
@@ -146,7 +146,7 @@ Patreon: https://MyPatreonLink.com
 ## Step 2: Setup Mod File Linking
 In order to provide downloading, updating and configuration changes to be made dynamically by the launcher, we need to setup proper links.
 For a proper link, it needs to be both **static** and **direct**.<br>
-- **Static** - This means when the file has been updated/replaced, the link itself does not change
+    - **Static** - This means when the file has been updated/replaced, the link itself does not change
 - **Direct** - This means that when the link is clicked, the file is downloaded directly, not a webpage button download
 
 To setup a link that satisfies both of these requirements, you can use services such as Google Drive, Dropbox, Github, Amazon S3, etc.
@@ -154,7 +154,7 @@ Provided below are instructions for some of them I have used previously or curre
 - **Github** - Click the green Code button, then right-click the Download Zip option and select Copy Link Address
 - **Google Drive** - Copy your google provided link into this [Online Generator](https://sites.google.com/site/gdocs2direct/) to convert it to a static-direct link.<br>
 When updating the file, you must use the **File Properties > File Information > Manage Versions** method<br>
-- **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**
+    - **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**
 
 The First time you upload modinfo.json, you will need to use a dummy config link, because you havnt uploaded it yet<br>
 I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.<br>
@@ -189,7 +189,7 @@ The size of the logo can vary to your liking, but I recommend something around 2
 As previously mentioned, some folders will be created automatically by the launcher, mostly for file-safekeeping:
 - **Customizations:** Created to store unedited copies of the armor, misc, weapons, levels and treasureclass txt files.<br>
 This is needed for the Monster Customizations options to work correctly.<br>
-- **Monster Stats:** Created to store edited copies of the monster hp bar layout files, for various option displays.<br>
+    - **Monster Stats:** Created to store edited copies of the monster hp bar layout files, for various option displays.<br>
 This is needed for the Monster Stats option to work correctly.
 
 ## Step 4: Updating Mod, News, Features or Appearance
@@ -202,12 +202,12 @@ Keep in mind that you are *pushing* data to the web, and the launcher is automat
 # Program Requirements/Specifications
 In order to fully utilize this app, or receive staff support, some requirements must be met.
 - **.NET Desktop Runtime 7.0:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) website. It is needed to run the program itself.<br>
-- **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website. It is needed to perform CASC Extraction of internal game storage.
+    - **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website. It is needed to perform CASC Extraction of internal game storage.
 - **Windows OS:** This is the only supported Operating System for the launcher, although emulation layers may also work for it (WINE, Lutris, etc)<br>
-- **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!<br>
-- **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues.<br>
-- **D2RHUD.dll:** This file is used to enable hotkey controls and advanced monster stats display options [(Source)](https://github.com/locbones/D2RHud)<br>
-- **CASCLib.NET.dll:** This file is used to enable file extraction from your internal game storage [(Source)](https://github.com/ladislav-zezula/CascLib)<br>
+    - **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!<br>
+    - **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues.<br>
+    - **D2RHUD.dll:** This file is used to enable hotkey controls and advanced monster stats display options [(Source)](https://github.com/locbones/D2RHud)<br>
+    - **CASCLib.NET.dll:** This file is used to enable file extraction from your internal game storage [(Source)](https://github.com/ladislav-zezula/CascLib)<br>
 
 # Developer Notes
 This app was made because I am passionate about helping everyone get the most out of their D2R experience.<br>
@@ -239,636 +239,636 @@ File should be named *appSettings.json* and placed in the *Resources* folder. An
 
 # Credits
 Special thanks to the following people or groups for their help along this project's journey so far:<br>
-- [Ethan-Braddy](https://github.com/Ethan-Braddy) for helping convert this project from WinForms to WPF, improving stability/performance<br>
-- [Dschu012](https://github.com/dschu012) for being there to answer my dumb questions and D2RHUD's base implementation<br>
-- [D2RModding Community](https://www.discord.gg/pqUWcDcjWF) for being patient, supportive and assisting with bug-reports or improvements<br>
+    - [Ethan-Braddy](https://github.com/Ethan-Braddy) for helping convert this project from WinForms to WPF, improving stability/performance<br>
+    - [Dschu012](https://github.com/dschu012) for being there to answer my dumb questions and D2RHUD's base implementation<br>
+    - [D2RModding Community](https://www.discord.gg/pqUWcDcjWF) for being patient, supportive and assisting with bug-reports or improvements<br>
 
 # Changelogs
-<summary>
-    <details>2.5.2</details>
+<details>
+  <summary>2.5.2</summary>
     - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>
     - Added "Ultra" rune support for RMD
-</summary>
-<summary>
-<details>2.5.1</details>
-- Removed D2RHUD.dll as a Project Resource<br>
-- Launcher will now retrieve latest D2RHUD.dll file from Github when missing<br>
-- Fixed an issue that would cause launcher version checking to fail if program crashed during task previously
-</summary>
-<summary>
-<details>2.5.0</details>
-- Source Code is now available via https://github.com/locbones/D2RLaunch-WPF<br>
-- Code Cleanup performed to comment, organize and simplify functions<br>
-- More logging info added to output logs to indicate options used, function chain status, etc<br>
-- Fixed an issue where Customizations UI Display would not update correctly after reloading it<br>
-- Improved the Auto Backup functionality and logging data<br>
-- Shared Stash Backups will now appear in the Restoral dropdown box<br>
-- Added the ability to restore shared stash files individually instead of grouped with character<br>
-- Cold color has been lightened to make it more readable (when using the Advanced Monster Stats Display option)<br>
-- An "Overlay Fix" option has been added for improved compatibility with MSI Afterburner<br>
-- .NET Runtime package is now included with core package files<br>
-- Core file package has been updated from 2.3.3 to 2.5.0
-</summary>
-<summary>
-<details>2.4.8 - 2.4.9</details>
-- Fixed an issue with retrieving save files location for "alternate" OS/User configs
-</summary>
-<summary>
-<details>2.4.7</details>
-- Improved/Reduced code for managing keybind and monster stat display QoL Options<br>
-- Fixed an issue where Monster Stats wouldn't display if no QoL keybinds were set
-</summary>
-<summary>
-<details>2.4.6</details>
-- Fixed an issue where Item ilvls display option would revert to "Don't Modify" option after changing it<br>
-- Fixed an issue that would prevent extra stash tabs from being unlocked for existing stash files
-</summary>
-<summary>
-<details>2.4.5</details>
-- Fixed an issue with blank app screen when no mods or user settings were detected
-</summary>
-<summary>
-<details>2.4.4</details>
-- Added Character Map Seed Reader/Editor
-</summary>
-<summary>
-<details>2.4.3</details>
-- Added "Don't Modify" option to Item iLvls<br>
-- Added support for newline characters in News Display messages<br>
-- Fixed an issue where author settings weren't refreshing with mod selection change
-</summary>
-<summary>
-<details>2.4.2</details>
-- Changed Download App Updates method to asynchronous operation for improved performance<br>
-- Fixed an issue with vault update function
-</summary>
-<summary>
-<details>2.4.1</details>
-- Added Event Manager system to Side Menu (Author Controlled Special Events)<br>
-- Fixed an issue which would cause restore function to open wrong folder on first usage<br>
-- Fixed an issue which would cause restore function to parse timestamps incorrectly
-</summary>
-<summary>
-<details>2.4.0</details>
-- Fixed an issue that would cause subtitles to disappear partway through cinematic<br>
-- Moved subtitle positioning down to letterbox area<br>
-- Improved Subtitle replacement logic
-</summary>
-<summary>
-<details>2.3.9</details>
-- Fixed an issue that would result in main screen failing to load if user had no mods installed (again)<br>
-- Added a new QoL Option to toggle Cinematic Subtitle Display Mode (SDH or Standard)
-</summary>
-<summary>
-<details>2.3.8</details>
-- Fixed an issue that would cause Launch Options box to not display arguments<br>
-- Separated the Monster Stats and Keybind Plugin functions so they can be used independently
-</summary>
-<summary>
-<details>2.3.7</details>
-- Fixed an issue that would cause hotkey bindings to fail if multiple functions used the same hotkey<br>
-- Added more keybinds to the recognized keys list<br>
-- Added a function to Autosort Cube
-</summary>
-<summary>
-<details>2.3.6</details>
-- Fixed an issue that would result in main screen failing to load if user had no mods installed<br>
-- Added preliminary support for custom keybind functions: Transmute, and Autosort
-</summary>
-<summary>
-<details>2.3.5</details>
-- Hotfix for game launch error (game.exe)
-</summary>
-<summary>
-<details>2.3.4</details>
-- Added Status indicator to CASC Extraction<br>
-- Added an option not to modify UI Theme<br>
-- Improved save folder discovery function<br>
-- Fixed an issue that would cause mod files to extract incorrectly when downloading a mod
-</summary>
-<summary>
-<details>2.3.3</details>
-- Fixed an issue that caused app blank screen if user settings did not yet exist
-</summary>
-<summary>
-<details>2.3.2</details>
-- D2R Save Folder should now be dynamically found by GUID instead of default folder structure<br>
-- CASC Extractor will now show status updates as it progresses<br>
-- Fixed an issue that would cause window not to exit when CASC extraction completed<br>
-- Fast Load Status will be updated automatically after extraction completes<br>
-- Fixed an issue that would cause launch arguments not to update when respec option was toggled (display issue only)
-</summary>
-<summary>
-<details>2.3.1</details>
-- D2R Launch Arguments are now shown and customizable (for seeds and such)<br>
-- DirectTxt Functionality has been altered for individual mods (to help avoid user error)<br>
-- "Fast Load" status will be evaluated and displayed to user (requires CASC extraction)
-</summary>
-<summary>
-<details>2.3.0</details>
-- The Create-A-Mod option will now use it's own mod folder for saves and copy retail save files to it
-</summary>
-<summary>
-<details>2.2.9</details>
-- Advanced Monster Stats will now display for player summons and will be hidden for NPC's<br>
-- Exocet font will now be provided by D2RLaunch and will be used for Stats Display<br>
-- The "Fix Stash" option has been removed; it applies automatically (if needed)
-</summary>
-<summary>
-<details>2.2.8</details>
-- Fixed more issues with Merged HUD option<br>
-- Added D2RLaunch Error Logs Quick Access link to Side Menu
-</summary>
-<summary>
-<details>2.2.7</details>
-- Fixed another launching issue (typos suck, sorry)
-</summary>
-<summary>
-<details>2.2.6</details>
-- Fixed an issue which would cause mod unable to launch depending on user settings<br>
-- Disabled the -immunity reduction updating on monster stats display (to avoid confusion until I can better display its quirks)
-</summary>
-<summary>
-<details>2.2.5</details>
-- Added Monster HP Bar GIF Preview for Stats Display option<br>
-- Fixed an issue with standard hud display being corrupted after using merged hud display and while on controller mode
-</summary>
-<summary>
-<details>2.2.4</details>
-- Fixed an issue with color dye option being enabled for ReMoDDeD players
-</summary>
-<summary>
-<details>2.2.3</details>
-- Fixed an issue which would cause show item levels option not to hide levels after enabling
-</summary>
-<summary>
-<details>2.2.2</details>
-- Added Borderless Window Mode Controls<br>
-- Fixed an issue with monster health files not being swapped correctly when toggling options
-</summary>
-<summary>
-<details>2.2.1</details>
-- Resource File Updates and Minor Bug Fixes
-</summary>
-<summary>
-<details>2.2.0</details>
-- Added Monster HP Bar Display Options<br>
-- Merged Dynamic HP Bar option with Monster HP<br>
-- Merged Monster Stats option with Monster HP<br>
-- Updated Monster Stats Display to also show immunity reduction benefits
-</summary>
-<summary>
-<details>2.1.9</details>
-- Fixed an issue with Color Dye system which would not allow you to remove purple color dyes<br>
-- Fixed an issue with text displaying gold instead of red color on red dyed items<br>
-- Added Color Dye Preview Popup
-</summary>
-<summary>
-<details>2.1.8</details>
-- Fixed an issue with Expanded Storage Click Areas and Quest Border Panel image<br>
-- Fixed an issue which would cause Hireling Inventory panel border image to break if enabled then disabled
-</summary>
-<summary>
-<details>2.1.6 - 2.1.7</details>
-- Expanded Storage functions rebuilt to allow individualized side panel entries<br>
-- Updated Expanded function's needed files resource
-</summary>
-<summary>
-<details>2.1.5</details>
-- Fixed an issue with layout positioning when using the expanded stash feature<br>
-- Updated first-time use message for expanded features for further clarification
-</summary>
-<summary>
-<details>2.1.4</details>
-- Restored asynchronous behavior of Auto Backups and fixed backup intervals (proper)
-</summary>
-<summary>
-<details>2.1.3</details>
-- Fixed an issue that would cause Hardcore shared stash files not to be backed up<br>
-- Removed asynchronous behavior from AutoBackups; seemed to be causing irregular backup intervals
-</summary>
-<summary>
-<details>2.1.2</details>
-- Fixed an issue that would cause monster health bar to be desychronized after repeatedly switching between enabled/disabled status
-</summary>
-<summary>
-<details>2.1.1</details>
-- Fixed an issue that would cause decimals to be replaced by commas for some languages due to Windows Localization (breaks json file)
-</summary>
-<summary>
-<details>2.1.0</details>
-- Project DLL's embedded into app for user cleanup<br>
-- Fixed an issue which would cause Dynamic HP Bar's disabled option to break filename
-</summary>
-<summary>
-<details>2.0.9</details>
-- Dynamic Monster HP Bar feature added - Adds Warning and Critical HP thresholds to the bar, changing bar colors to indicate their life threshold<br>
+</details>
+<details>
+  <summary>2.5.1</summary>
+    - Removed D2RHUD.dll as a Project Resource<br>
+    - Launcher will now retrieve latest D2RHUD.dll file from Github when missing<br>
+    - Fixed an issue that would cause launcher version checking to fail if program crashed during task previously
+</details>
+<details>
+  <summary>2.5.0</summary>
+    - Source Code is now available via https://github.com/locbones/D2RLaunch-WPF<br>
+    - Code Cleanup performed to comment, organize and simplify functions<br>
+    - More logging info added to output logs to indicate options used, function chain status, etc<br>
+    - Fixed an issue where Customizations UI Display would not update correctly after reloading it<br>
+    - Improved the Auto Backup functionality and logging data<br>
+    - Shared Stash Backups will now appear in the Restoral dropdown box<br>
+    - Added the ability to restore shared stash files individually instead of grouped with character<br>
+    - Cold color has been lightened to make it more readable (when using the Advanced Monster Stats Display option)<br>
+    - An "Overlay Fix" option has been added for improved compatibility with MSI Afterburner<br>
+    - .NET Runtime package is now included with core package files<br>
+    - Core file package has been updated from 2.3.3 to 2.5.0
+</details>
+<details>
+  <summary>2.4.8 - 2.4.9</summary>
+    - Fixed an issue with retrieving save files location for "alternate" OS/User configs
+</details>
+<details>
+  <summary>2.4.7</summary>
+    - Improved/Reduced code for managing keybind and monster stat display QoL Options<br>
+    - Fixed an issue where Monster Stats wouldn't display if no QoL keybinds were set
+</details>
+<details>
+  <summary>2.4.6</summary>
+    - Fixed an issue where Item ilvls display option would revert to "Don't Modify" option after changing it<br>
+    - Fixed an issue that would prevent extra stash tabs from being unlocked for existing stash files
+</details>
+<details>
+  <summary>2.4.5</summary>
+    - Fixed an issue with blank app screen when no mods or user settings were detected
+</details>
+<details>
+  <summary>2.4.4</summary>
+    - Added Character Map Seed Reader/Editor
+</details>
+<details>
+  <summary>2.4.3</summary>
+    - Added "Don't Modify" option to Item iLvls<br>
+    - Added support for newline characters in News Display messages<br>
+    - Fixed an issue where author settings weren't refreshing with mod selection change
+</details>
+<details>
+  <summary>2.4.2</summary>
+    - Changed Download App Updates method to asynchronous operation for improved performance<br>
+    - Fixed an issue with vault update function
+</details>
+<details>
+  <summary>2.4.1</summary>
+    - Added Event Manager system to Side Menu (Author Controlled Special Events)<br>
+    - Fixed an issue which would cause restore function to open wrong folder on first usage<br>
+    - Fixed an issue which would cause restore function to parse timestamps incorrectly
+</details>
+<details>
+  <summary>2.4.0</summary>
+    - Fixed an issue that would cause subtitles to disappear partway through cinematic<br>
+    - Moved subtitle positioning down to letterbox area<br>
+    - Improved Subtitle replacement logic
+</details>
+<details>
+  <summary>2.3.9</summary>
+    - Fixed an issue that would result in main screen failing to load if user had no mods installed (again)<br>
+    - Added a new QoL Option to toggle Cinematic Subtitle Display Mode (SDH or Standard)
+</details>
+<details>
+  <summary>2.3.8</summary>
+    - Fixed an issue that would cause Launch Options box to not display arguments<br>
+    - Separated the Monster Stats and Keybind Plugin functions so they can be used independently
+</details>
+<details>
+  <summary>2.3.7</summary>
+    - Fixed an issue that would cause hotkey bindings to fail if multiple functions used the same hotkey<br>
+    - Added more keybinds to the recognized keys list<br>
+    - Added a function to Autosort Cube
+</details>
+<details>
+  <summary>2.3.6</summary>
+    - Fixed an issue that would result in main screen failing to load if user had no mods installed<br>
+    - Added preliminary support for custom keybind functions: Transmute, and Autosort
+</details>
+<details>
+  <summary>2.3.5</summary>
+    - Hotfix for game launch error (game.exe)
+</details>
+<details>
+  <summary>2.3.4</summary>
+    - Added Status indicator to CASC Extraction<br>
+    - Added an option not to modify UI Theme<br>
+    - Improved save folder discovery function<br>
+    - Fixed an issue that would cause mod files to extract incorrectly when downloading a mod
+</details>
+<details>
+  <summary>2.3.3</summary>
+    - Fixed an issue that caused app blank screen if user settings did not yet exist
+</details>
+<details>
+  <summary>2.3.2</summary>
+    - D2R Save Folder should now be dynamically found by GUID instead of default folder structure<br>
+    - CASC Extractor will now show status updates as it progresses<br>
+    - Fixed an issue that would cause window not to exit when CASC extraction completed<br>
+    - Fast Load Status will be updated automatically after extraction completes<br>
+    - Fixed an issue that would cause launch arguments not to update when respec option was toggled (display issue only)
+</details>
+<details>
+  <summary>2.3.1</summary>
+    - D2R Launch Arguments are now shown and customizable (for seeds and such)<br>
+    - DirectTxt Functionality has been altered for individual mods (to help avoid user error)<br>
+    - "Fast Load" status will be evaluated and displayed to user (requires CASC extraction)
+</details>
+<details>
+  <summary>2.3.0</summary>
+    - The Create-A-Mod option will now use it's own mod folder for saves and copy retail save files to it
+</details>
+<details>
+  <summary>2.2.9</summary>
+    - Advanced Monster Stats will now display for player summons and will be hidden for NPC's<br>
+    - Exocet font will now be provided by D2RLaunch and will be used for Stats Display<br>
+    - The "Fix Stash" option has been removed; it applies automatically (if needed)
+</details>
+<details>
+  <summary>2.2.8</summary>
+    - Fixed more issues with Merged HUD option<br>
+    - Added D2RLaunch Error Logs Quick Access link to Side Menu
+</details>
+<details>
+  <summary>2.2.7</summary>
+    - Fixed another launching issue (typos suck, sorry)
+</details>
+<details>
+  <summary>2.2.6</summary>
+    - Fixed an issue which would cause mod unable to launch depending on user settings<br>
+    - Disabled the -immunity reduction updating on monster stats display (to avoid confusion until I can better display its quirks)
+</details>
+<details>
+  <summary>2.2.5</summary>
+    - Added Monster HP Bar GIF Preview for Stats Display option<br>
+    - Fixed an issue with standard hud display being corrupted after using merged hud display and while on controller mode
+</details>
+<details>
+  <summary>2.2.4</summary>
+    - Fixed an issue with color dye option being enabled for ReMoDDeD players
+</details>
+<details>
+  <summary>2.2.3</summary>
+    - Fixed an issue which would cause show item levels option not to hide levels after enabling
+</details>
+<details>
+  <summary>2.2.2</summary>
+    - Added Borderless Window Mode Controls<br>
+    - Fixed an issue with monster health files not being swapped correctly when toggling options
+</details>
+<details>
+  <summary>2.2.1</summary>
+    - Resource File Updates and Minor Bug Fixes
+</details>
+<details>
+  <summary>2.2.0</summary>
+    - Added Monster HP Bar Display Options<br>
+    - Merged Dynamic HP Bar option with Monster HP<br>
+    - Merged Monster Stats option with Monster HP<br>
+    - Updated Monster Stats Display to also show immunity reduction benefits
+</details>
+<details>
+  <summary>2.1.9</summary>
+    - Fixed an issue with Color Dye system which would not allow you to remove purple color dyes<br>
+    - Fixed an issue with text displaying gold instead of red color on red dyed items<br>
+    - Added Color Dye Preview Popup
+</details>
+<details>
+  <summary>2.1.8</summary>
+    - Fixed an issue with Expanded Storage Click Areas and Quest Border Panel image<br>
+    - Fixed an issue which would cause Hireling Inventory panel border image to break if enabled then disabled
+</details>
+<details>
+  <summary>2.1.6 - 2.1.7</summary>
+    - Expanded Storage functions rebuilt to allow individualized side panel entries<br>
+    - Updated Expanded function's needed files resource
+</details>
+<details>
+  <summary>2.1.5</summary>
+    - Fixed an issue with layout positioning when using the expanded stash feature<br>
+    - Updated first-time use message for expanded features for further clarification
+</details>
+<details>
+  <summary>2.1.4</summary>
+    - Restored asynchronous behavior of Auto Backups and fixed backup intervals (proper)
+</details>
+<details>
+  <summary>2.1.3</summary>
+    - Fixed an issue that would cause Hardcore shared stash files not to be backed up<br>
+    - Removed asynchronous behavior from AutoBackups; seemed to be causing irregular backup intervals
+</details>
+<details>
+  <summary>2.1.2</summary>
+    - Fixed an issue that would cause monster health bar to be desychronized after repeatedly switching between enabled/disabled status
+</details>
+<details>
+  <summary>2.1.1</summary>
+    - Fixed an issue that would cause decimals to be replaced by commas for some languages due to Windows Localization (breaks json file)
+</details>
+<details>
+  <summary>2.1.0</summary>
+    - Project DLL's embedded into app for user cleanup<br>
+    - Fixed an issue which would cause Dynamic HP Bar's disabled option to break filename
+</details>
+<details>
+  <summary>2.0.9</summary>
+    - Dynamic Monster HP Bar feature added - Adds Warning and Critical HP thresholds to the bar, changing bar colors to indicate their life threshold<br>
 (At 67% to 100%, bar is green; At 34% to 66%, the bar is orange; At 33% or below, the bar is red.)<br>
-- Adjusted Main Menu layouts for left/right quick toggle buttons<br>
-- Improved error catching and processing for Monster Stats Display option
-</summary>
-<summary>
-<details>2.0.8</details>
-- Added support for Item Color Dyes in QoL Options- allows changing world view colors of items<br>
+    - Adjusted Main Menu layouts for left/right quick toggle buttons<br>
+    - Improved error catching and processing for Monster Stats Display option
+</details>
+<details>
+  <summary>2.0.8</summary>
+    - Added support for Item Color Dyes in QoL Options- allows changing world view colors of items<br>
 (Cube 3x perfect gems of desired color with item to color dye - Skulls are considered black, Antidotes remove dyes)<br>
-- Disabled permanently activated features for ReMoDDeD players (color dyes, expanded storage, etc)
-</summary>
-<summary>
-<details>2.0.7</details>
-- Added preliminary support for toggleable Expanded Storage Options (QoL Options)<br>
-- Fixed an issue which would cause an object reference error when attempting to make character backups which did not yet exist
-</summary>
-<summary>
-<details>2.0.6</details>
-- Improved window popups to center and adjust based on main form location<br>
-- Image Previews on QoL Options page improved and match form size<br>
-- Fixed an issue that would cause an "Object reference not set to an instance of an object" error when attempting to backup characters on any mod that used the retail save location
-</summary>
-<summary>
-<details>2.0.5</details>
-- Fixed an issue that would cause a blank screen/failure for main UI to load for mods whose authors have not added D2RLaunch support<br>
-- Improved the Character Restore function to allow easy restoral of timestamped save files
-</summary>
-<summary>
-<details>2.0.4</details>
-- Fixed an issue that would cause an error for _profilehd.json to appear when using the HDR Fix option<br>
-- Code Cleanup and Comments in prep for Public Source Code Release
-</summary>
-<summary>
-<details>2.0.3</details>
-- Fixed an issue which would cause item icons not to toggle correctly<br>
-- Customizations option now available for authorized mods<br>
-- Window UI adjusted to allow smaller element sizing<br>
-- Minor theme/palette updates
-</summary>
-<summary>
-<details>2.0.2</details>
-- Resolved many issues which would cause QoL options to write incorrectly or in the wrong location<br>
-- Resolved all known and reported crashing issues for various mods
-</summary>
-<summary>
-<details>2.0.1</details>
-- Temporary hotfix for mod crashing issues
-</summary>
-<summary>
-<details>1.7.3 - 2.0.0</details>
-- Initial Release of Re-Built Launcher (WinForms -> WPF), primarily spearheaded by [Ethan-Braddy](https://github.com/Ethan-Braddy)<br>
-- Dynamically scalable UI with increased responsiveness and efficiency<br>
-- Improved code execution, function loading, app stability and error reporting<br>
-- Better compatibility and integration with Windows<br>
-- Launcher no longer force updates on startup - can be deferred until user interaction<br>
-- If no D2R install path is found, it can now be manually specified by user<br>
-- Multiple/Infinite mod backups of previous versions may be made when updating<br>
-- Auto-Backups are now enabled by default and characters are saved into folder of their own name
-</summary>
-<summary>
-<details>1.7.3</details>
-- Mod version will now be read and applied to newly downloaded mods<br>
-- Fixed an issue that would cause mod version to update in a separate file when using the update method
-</summary>
-<summary>
-<details>1.7.2</details>
-- Updated Vault and Self-Updater links
-</summary>
-<summary>
-<details>1.7.1</details>
-- ReMoDDeD UI now forced for ReMoDDeD players (temporary)
-</summary>
-<summary>
-<details>1.7.0</details>
-- Adjusted target filesize for save warning to 7KB
-</summary>
-<summary>
-<details>1.6.9</details>
-- Fixed an issue which would cause density customizations to be un-revertable<br>
-- Added a save file size warning to the auto-backup feature<br>
-- Disabled item level and icons toggle for ReMoDDeD only (temporary)
-</summary>
-<summary>
-<details>1.6.7 - 1.6.8</details>
-- Backend fixes to deal with potential link unavailable issues<br>
-- Compatibility update for ReMoDDeD
-</summary>
-<summary>
-<details>1.6.6</details>
-- Fixed an issue that would cause mod to sometimes launch with incorrect arguments<br>
-- Fixed an issue that would cause customizations option to crash game if it wasn't able to find mod's needed files
-</summary>
-<summary>
-<details>1.6.5</details>
-- Fixed an issue which would cause some mods using .bins to not launch correctly if using buff icons<br>
-- Fixed an issue which would cause an error when attempting to read user settings when no mods are installed
-</summary>
-<summary>
-<details>1.6.3 - 1.6.4</details>
-- Added a backup server to avoid Error 429/500 some users were receiving during heavy traffic usage<br>
-- Fixed an issue that would cause an error when using the personalized stash tabs feature if the files already existed
-</summary>
-<summary>
-<details>1.6.2</details>
-- Added initial support for the "Buff Icon Manager" feature<br>
-- Integrated Assassin Charge Icons into the manager<br>
-- Improved the Download Mod feature to better handle various mod folder structures when extracting<br>
-- Fixed an issue where it would not create the MyUserSettings file in certain scenarios<br>
-- Fixed an issue that prevented ReMoDDeD players from using the -direct launch option
-</summary>
-<summary>
-<details>1.6.1</details>
-- Fixed a runtime error that would cause the CASC Storage functions to fail for many users
-</summary>
-<summary>
-<details>1.6.0</details>
-- CASC Storage is now supported<br>
-- Missing files that are required for QoL options will now be extracted from your CASC<br>
-- One-click setup of -direct -txt mode, including extracting files from CASC and overwriting with mod files<br>
-- Optional update option to skip CASC extraction and overwrite with mod files only<br>
-- Skill Icon Pack option added in QoL Options, currently supports default + 2 other icon pack choices
-</summary>
-<summary>
-<details>1.5.8 - 1.5.9</details>
-- Fixed an issue that caused icons not to apply to rejuvenation potions<br>
-- Fixed an issue that would sometimes cause an access denied error when running the vault<br>
-- Fixed an issue that would prevent correct item names from being displayed when switching back to no icons<br>
-- Fixed a sideloading issue for ReMoDDeD files/features
-</summary>
-<summary>
-<details>1.5.7</details>
-- Fixed an error that would popup due to item icon feature code changes<br>
-- Fixed an issue that would cause treasureclassex.txt to be incorrectly modified for existing edits
-</summary>
-<summary>
-<details>1.5.6</details>
-- Credentials update (house-keeping)
-</summary>
-<summary>
-<details>1.5.5</details>
-- Fixed an issue that prevented Runeword Sorting feature from functioning unless Standard UI theme was selected<br>
-- Fixed an issue which caused the item icons feature to not function for ReMoDDeD players specifically<br>
-- General code cleanup and comments
-</summary>
-<summary>
-<details>1.5.4</details>
-- Vault updates are now checked only if launching the Vault, instead of on app startup<br>
-- Vault and D2RLaunch User Data can be accessed in the My Files quick menu<br>
-- Fixed an issue which could cause an update loop to occur<br>
-- Fixed an issue that would sometimes stop UserSettings from being updated or read on app launch
-</summary>
-<summary>
-<details>1.5.2 - 1.5.3</details>
-- Hotfix for check mod updates feature not checking mod version correctly
-</summary>
-<summary>
-<details>1.5.1</details>
-- Changed how D2RLaunch chooses -bin or -txt launch settings to better deal with Vault compatibility<br>
-- Fixed an error when translating news for mods who have not added D2RLaunch support
-</summary>
-<summary>
-<details>1.5.0</details>
-- Re-enabled Vault's Quick Access from menu<br>
-- Fixed an issue which caused an error message with the Super Telekinesis feature<br>
-- Fixed an issue that would cause Personalized Stash tabs to reset after UI theme was applied<br>
-- Updater program now shows download progress
-</summary>
-<summary>
-<details>1.4.9</details>
-- Added a 3rd option for Assassin Charge Icons: Enabled (No Orbs)<br>
-- Added 2 new QoL Options, "Item Display" and "Super Telekinesis"<br>
-- Font Preview image is now hidden by default and user-toggleable<br>
-- Adjustments made to button coloring for active status<br>
-- Monster Customizations layout and display adjusted<br>
-- Removed old assets and compressed images to reduce launcher size<br>
-- D2RLaunch User Files can now be accessed in the My Files sub-menu
-</summary>
-<summary>
-<details>1.4.8</details>
-- Added Danish Language option by user request<br>
-- Standardized UI theme across the app and added mouseover effects to all buttons<br>
-- Improved junk character garbage collection for auto-translated news display text<br>
-- Extensive code cleanup for monster customizations feature and a few other loading functions<br>
-- Simplified the Download New Mod panel to make it easier to understand<br>
-- Fixed some English language display issues<br>
-- Fixed an error that would occur when cancelling during the rename character process
-</summary>
-<summary>
-<details>1.4.7</details>
-- Chinese (zh-CN) translations improved by @demo<br>
-- Many UI adjustments for main program screen and some layout bugs fixed<br>
-- Simplified Mod Update coding for increased reliability/stability<br>
-- Mod update progress will now neatly display download speed, file size and estimated time remaining<br>
-- Adjusted button mouseover effects on main program screen<br>
-- Fixed an issue which could sometimes cause a fatal error if no mods were installed
-</summary>
-<summary>
-<details>1.4.6</details>
-- D2RLaunch's Language can now be manually selected via dropdown<br>
-- Language translations are now performed in real-time instead of requiring app reload<br>
-- UI Theme adjustments to reduce brightness and adjust news panels<br>
-- Optimized approximately 500 lines of code for improved efficiency<br>
-- Small text adjustments for positioning, colors, etc<br>
-- Fixed an issue that would cause the map layouts feature to sometimes fail
-</summary>
-<summary>
-<details>1.4.5</details>
-- Languages not yet supported will now fallback to English<br>
-- Restructured the app loading process for improved efficiency and performance<br>
-- Fixed an issue which caused the Map Layouts option to appear blank on startup<br>
-- Fixed an issue that caused game install path to not be saved to user profile correctly<br>
-- Fixed an issue which caused an error on startup if no mods were installed (but used to be)
-</summary>
-<summary>
-<details>1.4.4</details>
-- Localization Support for the following 13 languages added:<br>
+    - Disabled permanently activated features for ReMoDDeD players (color dyes, expanded storage, etc)
+</details>
+<details>
+  <summary>2.0.7</summary>
+    - Added preliminary support for toggleable Expanded Storage Options (QoL Options)<br>
+    - Fixed an issue which would cause an object reference error when attempting to make character backups which did not yet exist
+</details>
+<details>
+  <summary>2.0.6</summary>
+    - Improved window popups to center and adjust based on main form location<br>
+    - Image Previews on QoL Options page improved and match form size<br>
+    - Fixed an issue that would cause an "Object reference not set to an instance of an object" error when attempting to backup characters on any mod that used the retail save location
+</details>
+<details>
+  <summary>2.0.5</summary>
+    - Fixed an issue that would cause a blank screen/failure for main UI to load for mods whose authors have not added D2RLaunch support<br>
+    - Improved the Character Restore function to allow easy restoral of timestamped save files
+</details>
+<details>
+  <summary>2.0.4</summary>
+    - Fixed an issue that would cause an error for _profilehd.json to appear when using the HDR Fix option<br>
+    - Code Cleanup and Comments in prep for Public Source Code Release
+</details>
+<details>
+  <summary>2.0.3</summary>
+    - Fixed an issue which would cause item icons not to toggle correctly<br>
+    - Customizations option now available for authorized mods<br>
+    - Window UI adjusted to allow smaller element sizing<br>
+    - Minor theme/palette updates
+</details>
+<details>
+  <summary>2.0.2</summary>
+    - Resolved many issues which would cause QoL options to write incorrectly or in the wrong location<br>
+    - Resolved all known and reported crashing issues for various mods
+</details>
+<details>
+  <summary>2.0.1</summary>
+    - Temporary hotfix for mod crashing issues
+</details>
+<details>
+  <summary>1.7.3 - 2.0.0</summary>
+    - Initial Release of Re-Built Launcher (WinForms -> WPF), primarily spearheaded by [Ethan-Braddy](https://github.com/Ethan-Braddy)<br>
+    - Dynamically scalable UI with increased responsiveness and efficiency<br>
+    - Improved code execution, function loading, app stability and error reporting<br>
+    - Better compatibility and integration with Windows<br>
+    - Launcher no longer force updates on startup - can be deferred until user interaction<br>
+    - If no D2R install path is found, it can now be manually specified by user<br>
+    - Multiple/Infinite mod backups of previous versions may be made when updating<br>
+    - Auto-Backups are now enabled by default and characters are saved into folder of their own name
+</details>
+<details>
+  <summary>1.7.3</summary>
+    - Mod version will now be read and applied to newly downloaded mods<br>
+    - Fixed an issue that would cause mod version to update in a separate file when using the update method
+</details>
+<details>
+  <summary>1.7.2</summary>
+    - Updated Vault and Self-Updater links
+</details>
+<details>
+  <summary>1.7.1</summary>
+    - ReMoDDeD UI now forced for ReMoDDeD players (temporary)
+</details>
+<details>
+  <summary>1.7.0</summary>
+    - Adjusted target filesize for save warning to 7KB
+</details>
+<details>
+  <summary>1.6.9</summary>
+    - Fixed an issue which would cause density customizations to be un-revertable<br>
+    - Added a save file size warning to the auto-backup feature<br>
+    - Disabled item level and icons toggle for ReMoDDeD only (temporary)
+</details>
+<details>
+  <summary>1.6.7 - 1.6.8</summary>
+    - Backend fixes to deal with potential link unavailable issues<br>
+    - Compatibility update for ReMoDDeD
+</details>
+<details>
+  <summary>1.6.6</summary>
+    - Fixed an issue that would cause mod to sometimes launch with incorrect arguments<br>
+    - Fixed an issue that would cause customizations option to crash game if it wasn't able to find mod's needed files
+</details>
+<details>
+  <summary>1.6.5</summary>
+    - Fixed an issue which would cause some mods using .bins to not launch correctly if using buff icons<br>
+    - Fixed an issue which would cause an error when attempting to read user settings when no mods are installed
+</details>
+<details>
+  <summary>1.6.3 - 1.6.4</summary>
+    - Added a backup server to avoid Error 429/500 some users were receiving during heavy traffic usage<br>
+    - Fixed an issue that would cause an error when using the personalized stash tabs feature if the files already existed
+</details>
+<details>
+  <summary>1.6.2</summary>
+    - Added initial support for the "Buff Icon Manager" feature<br>
+    - Integrated Assassin Charge Icons into the manager<br>
+    - Improved the Download Mod feature to better handle various mod folder structures when extracting<br>
+    - Fixed an issue where it would not create the MyUserSettings file in certain scenarios<br>
+    - Fixed an issue that prevented ReMoDDeD players from using the -direct launch option
+</details>
+<details>
+  <summary>1.6.1</summary>
+    - Fixed a runtime error that would cause the CASC Storage functions to fail for many users
+</details>
+<details>
+  <summary>1.6.0</summary>
+    - CASC Storage is now supported<br>
+    - Missing files that are required for QoL options will now be extracted from your CASC<br>
+    - One-click setup of -direct -txt mode, including extracting files from CASC and overwriting with mod files<br>
+    - Optional update option to skip CASC extraction and overwrite with mod files only<br>
+    - Skill Icon Pack option added in QoL Options, currently supports default + 2 other icon pack choices
+</details>
+<details>
+  <summary>1.5.8 - 1.5.9</summary>
+    - Fixed an issue that caused icons not to apply to rejuvenation potions<br>
+    - Fixed an issue that would sometimes cause an access denied error when running the vault<br>
+    - Fixed an issue that would prevent correct item names from being displayed when switching back to no icons<br>
+    - Fixed a sideloading issue for ReMoDDeD files/features
+</details>
+<details>
+  <summary>1.5.7</summary>
+    - Fixed an error that would popup due to item icon feature code changes<br>
+    - Fixed an issue that would cause treasureclassex.txt to be incorrectly modified for existing edits
+</details>
+<details>
+  <summary>1.5.6</summary>
+    - Credentials update (house-keeping)
+</details>
+<details>
+  <summary>1.5.5</summary>
+    - Fixed an issue that prevented Runeword Sorting feature from functioning unless Standard UI theme was selected<br>
+    - Fixed an issue which caused the item icons feature to not function for ReMoDDeD players specifically<br>
+    - General code cleanup and comments
+</details>
+<details>
+  <summary>1.5.4</summary>
+    - Vault updates are now checked only if launching the Vault, instead of on app startup<br>
+    - Vault and D2RLaunch User Data can be accessed in the My Files quick menu<br>
+    - Fixed an issue which could cause an update loop to occur<br>
+    - Fixed an issue that would sometimes stop UserSettings from being updated or read on app launch
+</details>
+<details>
+  <summary>1.5.2 - 1.5.3</summary>
+    - Hotfix for check mod updates feature not checking mod version correctly
+</details>
+<details>
+  <summary>1.5.1</summary>
+    - Changed how D2RLaunch chooses -bin or -txt launch settings to better deal with Vault compatibility<br>
+    - Fixed an error when translating news for mods who have not added D2RLaunch support
+</details>
+<details>
+  <summary>1.5.0</summary>
+    - Re-enabled Vault's Quick Access from menu<br>
+    - Fixed an issue which caused an error message with the Super Telekinesis feature<br>
+    - Fixed an issue that would cause Personalized Stash tabs to reset after UI theme was applied<br>
+    - Updater program now shows download progress
+</details>
+<details>
+  <summary>1.4.9</summary>
+    - Added a 3rd option for Assassin Charge Icons: Enabled (No Orbs)<br>
+    - Added 2 new QoL Options, "Item Display" and "Super Telekinesis"<br>
+    - Font Preview image is now hidden by default and user-toggleable<br>
+    - Adjustments made to button coloring for active status<br>
+    - Monster Customizations layout and display adjusted<br>
+    - Removed old assets and compressed images to reduce launcher size<br>
+    - D2RLaunch User Files can now be accessed in the My Files sub-menu
+</details>
+<details>
+  <summary>1.4.8</summary>
+    - Added Danish Language option by user request<br>
+    - Standardized UI theme across the app and added mouseover effects to all buttons<br>
+    - Improved junk character garbage collection for auto-translated news display text<br>
+    - Extensive code cleanup for monster customizations feature and a few other loading functions<br>
+    - Simplified the Download New Mod panel to make it easier to understand<br>
+    - Fixed some English language display issues<br>
+    - Fixed an error that would occur when cancelling during the rename character process
+</details>
+<details>
+  <summary>1.4.7</summary>
+    - Chinese (zh-CN) translations improved by @demo<br>
+    - Many UI adjustments for main program screen and some layout bugs fixed<br>
+    - Simplified Mod Update coding for increased reliability/stability<br>
+    - Mod update progress will now neatly display download speed, file size and estimated time remaining<br>
+    - Adjusted button mouseover effects on main program screen<br>
+    - Fixed an issue which could sometimes cause a fatal error if no mods were installed
+</details>
+<details>
+  <summary>1.4.6</summary>
+    - D2RLaunch's Language can now be manually selected via dropdown<br>
+    - Language translations are now performed in real-time instead of requiring app reload<br>
+    - UI Theme adjustments to reduce brightness and adjust news panels<br>
+    - Optimized approximately 500 lines of code for improved efficiency<br>
+    - Small text adjustments for positioning, colors, etc<br>
+    - Fixed an issue that would cause the map layouts feature to sometimes fail
+</details>
+<details>
+  <summary>1.4.5</summary>
+    - Languages not yet supported will now fallback to English<br>
+    - Restructured the app loading process for improved efficiency and performance<br>
+    - Fixed an issue which caused the Map Layouts option to appear blank on startup<br>
+    - Fixed an issue that caused game install path to not be saved to user profile correctly<br>
+    - Fixed an issue which caused an error on startup if no mods were installed (but used to be)
+</details>
+<details>
+  <summary>1.4.4</summary>
+    - Localization Support for the following 13 languages added:<br>
 German, English, Spanish (Spain), Spanish (Mexico), French, Italian, Japanese, Korean, Polish, Portugese (Brazil), Russian, Chinese (Simplified), Chinese (Taiwan)<br>
-- Adjusted various UI elements to better suit localization
-</summary>
-<summary>
-<details>1.4.3</details>
-- Added buttons next to QoL options to enable popup feature preview images and animated gifs
-</summary>
-<summary>
-<details>1.4.2</details>
-- Altered the Update mod files code for improved reliability and adjusted the progress labels during download<br>
-- When downloading a new mod, it will now read and apply the mod version during the install process<br>
-- The check for updates option will now search for the .mpq folder name to correctly rename github generated folders<br>
-- The Monster Stats Display option is now available to all mods and has been relocated in the options panel<br>
-- Fixed an issue which would cause updating mod files to fail if github failed to report content-length of the file<br>
-- Fixed an issue which caused the download mod option to fail if the same mod was currently selected and also had a custom logo applied
-</summary>
-<summary>
-<details>1.4.1</details>
-- Users can now view total play time (with launcher open) by clicking the mod logo<br>
-- Fixed an issue which caused the personal stash tabs option to fail after multiple edits
-</summary>
-<summary>
-<details>1.4.0</details>
-- More UI and font adjustments<br>
-- Code improvements and cleanup
-</summary>
-<summary>
-<details>1.3.9</details>
-- Discord, Wiki and Patreon links can now change with mod selection<br>
-- D2RModding links for Website, Discord, Youtube added as it's own section at bottom<br>
-- Font standardized across program and smaller UI tweaks for display scaling compatibility<br>
-- Time Estimate for Download Mod function improved and a status message added if content-length is empty<br>
-- Fixed an issue which caused a fatal error when renaming stash tabs with less than 8 enabled<br>
-- Resolved a conflict between UI theme and Personal Stash tabs that would cause an error
-</summary>
-<summary>
-<details>1.3.8</details>
-- Fixed an issue where the "Install Mod" button would disappear when using a windows display scale setting above 100%
-</summary>
-<summary>
-<details>1.3.7</details>
-- Added extra folder operations to handle github automatically generated folder names<br>
-- Fixed an issue which caused a fatal error when downloading mod files with an unreported size
-</summary>
-<summary>
-<details>1.3.6</details>
-- Added functionality for the 'D2RModding Mod Database', which allows quick installs for players with author-submitted mods
-</summary>
-<summary>
-<details>1.3.5</details>
-- Added the ability to install submitted mods via dropdown selector<br>
-- Adjusted the "Protected MPQ" warning message to be more detailed<br>
-- Fixed an issue that prevented program from closing completely if you also installed a new mod
-</summary>
-<summary>
-<details>1.3.4</details>
-- Adjusted mod update option to better work with the new download mod feature<br>
-- Fixed loading issues for mods using protected MPQ's<br>
-- Added more public code comments/documentation
-</summary>
-<summary>
-<details>1.3.3</details>
-- Fixed an issue that caused mod update button from functioning correctly<br>
-- Added support for monster customizations to personal mods<br>
-- Fixed an issue that prevented personalized stash tabs from functioning correctly with personal mods<br>
-- Updated mod download option to show progress info as it installs mod
-</summary>
-<summary>
-<details>1.3.2</details>
-- Additional improvements made to install detection for alternate Windows User configurations<br>
-- Added feature to create a "blank mod" and use all supported launcher features<br>
-- Added ability to download, extract and install mods through launcher
-</summary>
-<summary>
-<details>1.2.4 - 1.3.1</details>
-- Improvements to mod detection process and error handling for many reported bugs and issues<br>
-- Fixed error which caused many players to receive a "game install location not found" message<br>
-- Fixed error when opening the launcher caused by the HDR opacity fix<br>
-- Stash Fix and My Save Files buttons now load vanilla characters for mods configured as such<br>
-- Stash UI no longer overwrites other mods who aren't using expanded storage
-</summary>
-<summary>
-<details>1.2.3</details>
-- Fixed an issue when updating mod files (cleaning task interference)<br>
-- Added a new launcher option to fix HDR opacity<br>
-- Enabled new user settings controls for HDR opacity
-</summary>
-<summary>
-<details>1.2.2</details>
-- Fixed an issue which caused an error message to appear on first startup if no mods are installed
-</summary>
-<summary>
-<details>1.2.1</details>
-- Improved download operation and further minimized resources used<br>
-- Fixed an issue with personalized stash tabs resetting after launcher restart<br>
-- Fixed an issue which caused runeword sorting to revert to alphabetical after launcher restart<br>
-- Launcher now updates the version tracking for new installs<br>
-- A popup message is displayed informing you to do a scan/repair with blizzard launcher if no game install location is found
-</summary>
-<summary>
-<details>1.2.0</details>
-- Relocated web server to resolve the download quota limit caused from excessive updates (Sorry!)
-</summary>
-<summary>
-<details>1.1.9</details>
-- Attempt to resolve updater 403 errors with API use EDIT: unsuccessful
-</summary>
-<summary>
-<details>1.1.8</details>
-- Fixed an error when editing stash tabs for mods that did not edit the file yet<br>
-- Fixed an issue when editing only some of the tab names and leaving others default
-</summary>
-<summary>
-<details>1.1.7</details>
-- Fixed an error with game path in Personalized Stash Tabs option
-</summary>
-<summary>
-<details>1.1.6</details>
-- Added option for Personalized Stash Tabs<br>
-- User Settings re-structured (Please delete folder in C:/Users/Username/AppData/Local/D2RLaunch)
-</summary>
-<summary>
-<details>1.1.5</details>
-- Fixed an error when using the modified help menu option
-</summary>
-<summary>
-<details>1.1.4</details>
-- Added an option to toggle helmet display on characters in-game<br>
-- Fixed an error that occurred if the user's "Mods" folder didn't exist<br>
-- Update button now disabled while user is updating files
-</summary>
-<summary>
-<details>1.1.3</details>
-- Fixed an issue where mod files download wouldn't start when selecting "Yes" to backup option<br>
-- Fixed an issue with error message when trying to update mod version tracker
-</summary>
-<summary>
-<details>1.1.2</details>
-- ReMoDDed Beta prep
-</summary>
-<summary>
-<details>1.1.1</details>
-- Add support for mods that use retail folder location for save files
-</summary>
-<summary>
-<details>1.1.0</details>
-- Fixed an issue which caused folder cleaning to fail if a custom logo was applied
-</summary>
-<summary>
-<details>1.0.9</details>
-- Fixed an issue when updating mod and selecting "No" to the backup option<br>
-- Fixed an issue where user settings would be reset during a mod update
-</summary>
-<summary>
-<details>1.0.8</details>
-- Fixed mod downloader functions broken with 1.0.7 loading changes
-</summary>
-<summary>
-<details>1.0.7</details>
-- Fixed an issue when launching mods using protected MPQ's<br>
-- Correctly loads user settings for mods with protected MPQ's<br>
-- Automatic Mod Updates now disabled for mods with protected MPQ's<br>
-- Additional Options now inform you of disabled features when using a mod with a protected MPQ<br>
-- Fixed an error which caused Vanilla++ to launch with wrong arguments<br>
-- Code optimizations for mod and user settings loading
-</summary>
-<summary>
-<details>1.0.6</details>
-- Fixed an issue which caused monster stats display option to read incorrect files
-</summary>
-<summary>
-<details>1.0.5</details>
-- Fixed an issue which caused loot drop setting to not correctly apply edits (Customizations)
-</summary>
-<summary>
-<details>1.0.4</details>
-- Removed excessive popup messages from auto backups success (debug message)<br>
+    - Adjusted various UI elements to better suit localization
+</details>
+<details>
+  <summary>1.4.3</summary>
+    - Added buttons next to QoL options to enable popup feature preview images and animated gifs
+</details>
+<details>
+  <summary>1.4.2</summary>
+    - Altered the Update mod files code for improved reliability and adjusted the progress labels during download<br>
+    - When downloading a new mod, it will now read and apply the mod version during the install process<br>
+    - The check for updates option will now search for the .mpq folder name to correctly rename github generated folders<br>
+    - The Monster Stats Display option is now available to all mods and has been relocated in the options panel<br>
+    - Fixed an issue which would cause updating mod files to fail if github failed to report content-length of the file<br>
+    - Fixed an issue which caused the download mod option to fail if the same mod was currently selected and also had a custom logo applied
+</details>
+<details>
+  <summary>1.4.1</summary>
+    - Users can now view total play time (with launcher open) by clicking the mod logo<br>
+    - Fixed an issue which caused the personal stash tabs option to fail after multiple edits
+</details>
+<details>
+  <summary>1.4.0</summary>
+    - More UI and font adjustments<br>
+    - Code improvements and cleanup
+</details>
+<details>
+  <summary>1.3.9</summary>
+    - Discord, Wiki and Patreon links can now change with mod selection<br>
+    - D2RModding links for Website, Discord, Youtube added as it's own section at bottom<br>
+    - Font standardized across program and smaller UI tweaks for display scaling compatibility<br>
+    - Time Estimate for Download Mod function improved and a status message added if content-length is empty<br>
+    - Fixed an issue which caused a fatal error when renaming stash tabs with less than 8 enabled<br>
+    - Resolved a conflict between UI theme and Personal Stash tabs that would cause an error
+</details>
+<details>
+  <summary>1.3.8</summary>
+    - Fixed an issue where the "Install Mod" button would disappear when using a windows display scale setting above 100%
+</details>
+<details>
+  <summary>1.3.7</summary>
+    - Added extra folder operations to handle github automatically generated folder names<br>
+    - Fixed an issue which caused a fatal error when downloading mod files with an unreported size
+</details>
+<details>
+  <summary>1.3.6</summary>
+    - Added functionality for the 'D2RModding Mod Database', which allows quick installs for players with author-submitted mods
+</details>
+<details>
+  <summary>1.3.5</summary>
+    - Added the ability to install submitted mods via dropdown selector<br>
+    - Adjusted the "Protected MPQ" warning message to be more detailed<br>
+    - Fixed an issue that prevented program from closing completely if you also installed a new mod
+</details>
+<details>
+  <summary>1.3.4</summary>
+    - Adjusted mod update option to better work with the new download mod feature<br>
+    - Fixed loading issues for mods using protected MPQ's<br>
+    - Added more public code comments/documentation
+</details>
+<details>
+  <summary>1.3.3</summary>
+    - Fixed an issue that caused mod update button from functioning correctly<br>
+    - Added support for monster customizations to personal mods<br>
+    - Fixed an issue that prevented personalized stash tabs from functioning correctly with personal mods<br>
+    - Updated mod download option to show progress info as it installs mod
+</details>
+<details>
+  <summary>1.3.2</summary>
+    - Additional improvements made to install detection for alternate Windows User configurations<br>
+    - Added feature to create a "blank mod" and use all supported launcher features<br>
+    - Added ability to download, extract and install mods through launcher
+</details>
+<details>
+  <summary>1.2.4 - 1.3.1</summary>
+    - Improvements to mod detection process and error handling for many reported bugs and issues<br>
+    - Fixed error which caused many players to receive a "game install location not found" message<br>
+    - Fixed error when opening the launcher caused by the HDR opacity fix<br>
+    - Stash Fix and My Save Files buttons now load vanilla characters for mods configured as such<br>
+    - Stash UI no longer overwrites other mods who aren't using expanded storage
+</details>
+<details>
+  <summary>1.2.3</summary>
+    - Fixed an issue when updating mod files (cleaning task interference)<br>
+    - Added a new launcher option to fix HDR opacity<br>
+    - Enabled new user settings controls for HDR opacity
+</details>
+<details>
+  <summary>1.2.2</summary>
+    - Fixed an issue which caused an error message to appear on first startup if no mods are installed
+</details>
+<details>
+  <summary>1.2.1</summary>
+    - Improved download operation and further minimized resources used<br>
+    - Fixed an issue with personalized stash tabs resetting after launcher restart<br>
+    - Fixed an issue which caused runeword sorting to revert to alphabetical after launcher restart<br>
+    - Launcher now updates the version tracking for new installs<br>
+    - A popup message is displayed informing you to do a scan/repair with blizzard launcher if no game install location is found
+</details>
+<details>
+  <summary>1.2.0</summary>
+    - Relocated web server to resolve the download quota limit caused from excessive updates (Sorry!)
+</details>
+<details>
+  <summary>1.1.9</summary>
+    - Attempt to resolve updater 403 errors with API use EDIT: unsuccessful
+</details>
+<details>
+  <summary>1.1.8</summary>
+    - Fixed an error when editing stash tabs for mods that did not edit the file yet<br>
+    - Fixed an issue when editing only some of the tab names and leaving others default
+</details>
+<details>
+  <summary>1.1.7</summary>
+    - Fixed an error with game path in Personalized Stash Tabs option
+</details>
+<details>
+  <summary>1.1.6</summary>
+    - Added option for Personalized Stash Tabs<br>
+    - User Settings re-structured (Please delete folder in C:/Users/Username/AppData/Local/D2RLaunch)
+</details>
+<details>
+  <summary>1.1.5</summary>
+    - Fixed an error when using the modified help menu option
+</details>
+<details>
+  <summary>1.1.4</summary>
+    - Added an option to toggle helmet display on characters in-game<br>
+    - Fixed an error that occurred if the user's "Mods" folder didn't exist<br>
+    - Update button now disabled while user is updating files
+</details>
+<details>
+  <summary>1.1.3</summary>
+    - Fixed an issue where mod files download wouldn't start when selecting "Yes" to backup option<br>
+    - Fixed an issue with error message when trying to update mod version tracker
+</details>
+<details>
+  <summary>1.1.2</summary>
+    - ReMoDDed Beta prep
+</details>
+<details>
+  <summary>1.1.1</summary>
+    - Add support for mods that use retail folder location for save files
+</details>
+<details>
+  <summary>1.1.0</summary>
+    - Fixed an issue which caused folder cleaning to fail if a custom logo was applied
+</details>
+<details>
+  <summary>1.0.9</summary>
+    - Fixed an issue when updating mod and selecting "No" to the backup option<br>
+    - Fixed an issue where user settings would be reset during a mod update
+</details>
+<details>
+  <summary>1.0.8</summary>
+    - Fixed mod downloader functions broken with 1.0.7 loading changes
+</details>
+<details>
+  <summary>1.0.7</summary>
+    - Fixed an issue when launching mods using protected MPQ's<br>
+    - Correctly loads user settings for mods with protected MPQ's<br>
+    - Automatic Mod Updates now disabled for mods with protected MPQ's<br>
+    - Additional Options now inform you of disabled features when using a mod with a protected MPQ<br>
+    - Fixed an error which caused Vanilla++ to launch with wrong arguments<br>
+    - Code optimizations for mod and user settings loading
+</details>
+<details>
+  <summary>1.0.6</summary>
+    - Fixed an issue which caused monster stats display option to read incorrect files
+</details>
+<details>
+  <summary>1.0.5</summary>
+    - Fixed an issue which caused loot drop setting to not correctly apply edits (Customizations)
+</details>
+<details>
+  <summary>1.0.4</summary>
+    - Removed excessive popup messages from auto backups success (debug message)<br>
 Added ability for launcher to track your total playtime (Click logo to display, will move later)
-</summary>
-<summary>
-<details>1.0.3</details>
-- Fixed an issue which sometimes caused download to appear in the wrong folder
-</summary>
-<summary>
-<details>1.0.2</details>
-- Fixed an issue which caused show item levels to not save to user settings correctly<br>
-- Added 'Download Only' options for new players to ReMoDDeD/Vanilla++
-</summary>
-<summary>
-<details>1.0.1</details>
-- Fixed error when selecting rune display option multiple times<br>
-- Fixed error when selecting the no background option for monster stats display<br>
-- Fixed issue with playing mods with special characters in the modname
+</details>
+<details>
+  <summary>1.0.3</summary>
+    - Fixed an issue which sometimes caused download to appear in the wrong folder
+</details>
+<details>
+  <summary>1.0.2</summary>
+    - Fixed an issue which caused show item levels to not save to user settings correctly<br>
+    - Added 'Download Only' options for new players to ReMoDDeD/Vanilla++
+</details>
+<details>
+  <summary>1.0.1</summary>
+    - Fixed error when selecting rune display option multiple times<br>
+    - Fixed error when selecting the no background option for monster stats display<br>
+    - Fixed issue with playing mods with special characters in the modname
 </summary>

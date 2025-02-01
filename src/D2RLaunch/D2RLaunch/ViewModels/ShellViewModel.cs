@@ -1082,6 +1082,13 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                             Helper.CreateFileIfNotExists(Path.Combine(runePath, "jah_rune.json"), await Helper.GetResourceByteArray("Options.ItemIcons.jah_rune.json"));
                             Helper.CreateFileIfNotExists(Path.Combine(runePath, "cham_rune.json"), await Helper.GetResourceByteArray("Options.ItemIcons.cham_rune.json"));
                             Helper.CreateFileIfNotExists(Path.Combine(runePath, "zod_rune.json"), await Helper.GetResourceByteArray("Options.ItemIcons.zod_rune.json"));
+
+                            if (ModInfo.Name == "ReMoDDeD")
+                            {
+                                Helper.CreateFileIfNotExists(Path.Combine(runePath, "di_rune.json"), await Helper.GetResourceByteArray("Options.ItemIcons.zod_rune.json"));
+                                Helper.CreateFileIfNotExists(Path.Combine(runePath, "ab_rune.json"), await Helper.GetResourceByteArray("Options.ItemIcons.zod_rune.json"));
+                                Helper.CreateFileIfNotExists(Path.Combine(runePath, "er_rune.json"), await Helper.GetResourceByteArray("Options.ItemIcons.zod_rune.json"));
+                            }
                         }
 
                         if (File.Exists(filePath))
@@ -3333,6 +3340,11 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
                 File.Copy(mostRecentCharacterFile.FullName, Path.Combine(mostRecentCharacterBackupFolder, mostRecentCharacterFile.Name + DateTime.Now.ToString("_MM_dd--hh_mmtt") + ".d2s"), true);
                 _logger.Error($"Auto Backups: Backed up {mostRecentCharacterFile.Name} at {DateTime.Now.ToString("_MM_dd--hh_mmtt")} in {mostRecentCharacterBackupFolder}");
+
+                //Display Size Limit Warning (75% or more)
+                long fileSizeInBytes = new FileInfo(mostRecentCharacterFile.FullName).Length;
+                if (fileSizeInBytes >= 6000)
+                    MessageBox.Show("WARNING!\nYour current save file size is " + fileSizeInBytes + " / 8192 bytes.\n\nIf you exceed the max size, you will start losing items!\nIt is highly recommended that you place smaller items in your shared stash to avoid this.\n\nAll items in your personal stash, cube and inventory contribute to this size", "Attention!", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 // Backup Stash
                 string mostRecentStashFileSC = Path.Combine(actualSaveFilePath, "SharedStashSoftCoreV2.d2i");

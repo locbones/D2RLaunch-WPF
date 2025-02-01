@@ -248,7 +248,7 @@ This changelog list is mainly for reference use, as the project repo and codebas
 
 <details>
   <summary>Changelog Group (2.5.1 - 3.0.0)</summary>
-<details><br>
+<details>
   <summary>2.5.2</summary>
     - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>
     - Added "Ultra" rune support for RMD

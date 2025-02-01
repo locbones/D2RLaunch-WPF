@@ -249,12 +249,14 @@ Special thanks to the following people or groups for their help along this proje
 - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>
 - Added "Ultra" rune support for RMD
 </summary>
+
 <summary>
 <detail>2.5.1</detail>
 - Removed D2RHUD.dll as a Project Resource<br>
 - Launcher will now retrieve latest D2RHUD.dll file from Github when missing<br>
 - Fixed an issue that would cause launcher version checking to fail if program crashed during task previously
 </summary>
+
 <summary>
 <detail>2.5.0</detail>
 - Source Code is now available via https://github.com/locbones/D2RLaunch-WPF<br>
@@ -269,76 +271,91 @@ Special thanks to the following people or groups for their help along this proje
 - .NET Runtime package is now included with core package files<br>
 - Core file package has been updated from 2.3.3 to 2.5.0
 </summary>
+
 <summary>
 <detail>2.4.8 - 2.4.9</detail>
 - Fixed an issue with retrieving save files location for "alternate" OS/User configs
 </summary>
+
 <summary>
 <detail>2.4.7</detail>
 - Improved/Reduced code for managing keybind and monster stat display QoL Options<br>
 - Fixed an issue where Monster Stats wouldn't display if no QoL keybinds were set
 </summary>
+
 <summary>
 <detail>2.4.6</detail>
 - Fixed an issue where Item ilvls display option would revert to "Don't Modify" option after changing it<br>
 - Fixed an issue that would prevent extra stash tabs from being unlocked for existing stash files
 </summary>
+
 <summary>
 <detail>2.4.5</detail>
 - Fixed an issue with blank app screen when no mods or user settings were detected
 </summary>
+
 <summary>
 <detail>2.4.4</detail>
 - Added Character Map Seed Reader/Editor
 </summary>
+
 <summary>
 <detail>2.4.3</detail>
 - Added "Don't Modify" option to Item iLvls<br>
 - Added support for newline characters in News Display messages<br>
 - Fixed an issue where author settings weren't refreshing with mod selection change
 </summary>
+
 <summary>
 <detail>2.4.2</detail>
 - Changed Download App Updates method to asynchronous operation for improved performance<br>
 - Fixed an issue with vault update function
 </summary>
+
 <summary>
 <detail>2.4.1</detail>
 - Added Event Manager system to Side Menu (Author Controlled Special Events)<br>
 - Fixed an issue which would cause restore function to open wrong folder on first usage<br>
 - Fixed an issue which would cause restore function to parse timestamps incorrectly
 </summary>
+
 <summary>
 <detail>2.4.0</detail>
 - Fixed an issue that would cause subtitles to disappear partway through cinematic<br>
 - Moved subtitle positioning down to letterbox area<br>
 - Improved Subtitle replacement logic
 </summary>
+
 <summary>
 <detail>2.3.9</detail>
 - Fixed an issue that would result in main screen failing to load if user had no mods installed (again)<br>
 - Added a new QoL Option to toggle Cinematic Subtitle Display Mode (SDH or Standard)
 </summary>
+
 <summary>
 <detail>2.3.8</detail>
 - Fixed an issue that would cause Launch Options box to not display arguments<br>
 - Separated the Monster Stats and Keybind Plugin functions so they can be used independently
 </summary>
+
 <summary>
 <detail>2.3.7</detail>
 - Fixed an issue that would cause hotkey bindings to fail if multiple functions used the same hotkey<br>
 - Added more keybinds to the recognized keys list<br>
 - Added a function to Autosort Cube
 </summary>
+
 <summary>
 <detail>2.3.6</detail>
 - Fixed an issue that would result in main screen failing to load if user had no mods installed<br>
 - Added preliminary support for custom keybind functions: Transmute, and Autosort
 </summary>
+
 <summary>
 <detail>2.3.5</detail>
 - Hotfix for game launch error (game.exe)
 </summary>
+
 <summary>
 <detail>2.3.4</detail>
 - Added Status indicator to CASC Extraction<br>

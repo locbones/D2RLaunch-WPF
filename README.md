@@ -245,9 +245,9 @@ Special thanks to the following people or groups for their help along this proje
 
 # Changelogs
 <summary>
-<details>2.5.2</details>
-- Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>
-- Added "Ultra" rune support for RMD
+    <details>2.5.2</details>
+    - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>
+    - Added "Ultra" rune support for RMD
 </summary>
 <summary>
 <details>2.5.1</details>

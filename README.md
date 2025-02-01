@@ -247,7 +247,7 @@ Special thanks to the following people or groups for their help along this proje
 This changelog list is mainly for reference use, as the project repo and codebase has changed much over time<br>
 
 <details>
-  <summary>2.5.1+ Changelogs</summary>
+  <summary>Changelog Group(2.5.1 - 3.0.0)</summary>
 <details>
   <summary>2.5.2</summary>
     - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>
@@ -260,6 +260,8 @@ This changelog list is mainly for reference use, as the project repo and codebas
     - Fixed an issue that would cause launcher version checking to fail if program crashed during task previously
 </details>
 </details>
+<details>
+  <summary>Changelog Group(2.0.1 - 2.5.0)</summary>
 <details>
   <summary>2.5.0</summary>
     - Source Code is now available via https://github.com/locbones/D2RLaunch-WPF<br>
@@ -515,6 +517,9 @@ This changelog list is mainly for reference use, as the project repo and codebas
   <summary>2.0.1</summary>
     - Temporary hotfix for mod crashing issues
 </details>
+</details>
+<details>
+  <summary>Changelog Group(1.5.1 - 2.0.0)</summary>
 <details>
   <summary>1.7.3 - 2.0.0</summary>
     - Initial Release of Re-Built Launcher (WinForms -> WPF), primarily spearheaded by [Ethan-Braddy](https://github.com/Ethan-Braddy)<br>
@@ -627,6 +632,9 @@ This changelog list is mainly for reference use, as the project repo and codebas
     - Changed how D2RLaunch chooses -bin or -txt launch settings to better deal with Vault compatibility<br>
     - Fixed an error when translating news for mods who have not added D2RLaunch support
 </details>
+</details>
+<details>
+  <summary>Changelog Group(1.0.1 - 1.5.0)</summary>
 <details>
   <summary>1.5.0</summary>
     - Re-enabled Vault's Quick Access from menu<br>
@@ -880,4 +888,5 @@ Added ability for launcher to track your total playtime (Click logo to display, 
 <details>
   <summary>1.0.0</summary>
     - Initial Release
+</details>
 </details>

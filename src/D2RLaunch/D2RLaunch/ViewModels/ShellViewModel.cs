@@ -45,7 +45,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private IWindowManager _windowManager;
     private readonly IConfigurationRoot _configuration;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.5.2";
+    private string appVersion = "2.5.3";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -61,7 +61,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private bool _itemIconDisplayEnabled;
     private bool _launcherHasUpdate;
     private string _launcherUpdateString = "D2RLaunch Update Ready!";
-    private const string TAB_BYTE_CODE = "55AA55AA0000000061000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
+    private const string TAB_BYTE_CODE = "55AA55AA0100000063000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
     private bool _ColorDyesEnabled = true;
     private bool _ExpandedInventoryEnabled = true;
     private bool _ExpandedStashEnabled = true;

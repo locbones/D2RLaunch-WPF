@@ -38,7 +38,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 {
     #region ---Static Members---
 
-    private const string TAB_BYTE_CODE = "55AA55AA0000000061000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
+    private const string TAB_BYTE_CODE = "55AA55AA0100000063000000000000004400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D0000";
     private ILog _logger = LogManager.GetLogger(typeof(HomeDrawerViewModel));
     private IWindowManager _windowManager;
     private string _launcherDescription = "This application is used to download and configure mods for D2R.";
@@ -636,6 +636,8 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                 if (Regex.Matches(bitString, "4A4D").Count == 3)
                     await File.WriteAllBytesAsync(sharedStashSoftCorePath, Helper.StringToByteArray(bitString + hexString));
+
+                _logger.Error("Startup: Stash Tabs Unlocked - Softcore");
             }
 
             //Repeat for the hardcore stash
@@ -650,6 +652,8 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
                 if (Regex.Matches(bitString, "4A4D").Count == 3)
                     await File.WriteAllBytesAsync(sharedStashHardCorePath, Helper.StringToByteArray(bitString + hexString));
+
+                _logger.Error("Startup: Stash Tabs Unlocked - Hardcore");
             }
         }
 

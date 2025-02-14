@@ -45,7 +45,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private IWindowManager _windowManager;
     private readonly IConfigurationRoot _configuration;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.5.3";
+    private string appVersion = "2.5.4";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -1208,9 +1208,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         {
                             string[] columns = lines[i].Split('\t');
                             //check if entries match the dropdown index of 0 or 1
-                            if (columns.Length > showLevelIndex && columns[showLevelIndex] != UserSettings.ItemIlvls.ToString())
+                            if (columns.Length > showLevelIndex && columns[showLevelIndex] != (UserSettings.ItemIlvls - 1).ToString())
                             {
-                                columns[showLevelIndex] = UserSettings.ItemIlvls.ToString();
+
+                                columns[showLevelIndex] = (UserSettings.ItemIlvls - 1).ToString();
                                 lines[i] = string.Join("\t", columns); //replace the 0 or 1 values as dropdown indicates
                             }
                         }
@@ -1969,10 +1970,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         RemoveColorDyes(filePath, searchString, rowsToDelete);
                     }
 
-
                     try
                     {
-                        string stringPath = Path.Combine(Path.Combine(SelectedModDataFolder, "local/lng/strings/item-modifiers.json"));
+                        string stringPath = Path.Combine(SelectedModDataFolder, "local/lng/strings/item-modifiers.json");
 
                         if (!File.Exists(stringPath))
                         {
@@ -1988,9 +1988,9 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                             entries = (List<Entry>)serializer.Deserialize(file, typeof(List<Entry>));
                         }
 
-                        // Remove entries with specified IDs
+                        // Remove entries only if "key" contains "ModCD"
                         int[] idsToRemove = { 48000, 48001, 48002, 48003, 48004, 48005, 48006 };
-                        entries.RemoveAll(entry => idsToRemove.Contains(entry.id));
+                        entries.RemoveAll(entry => idsToRemove.Contains(entry.id) && entry.Key.Contains("ModCD"));
 
                         using (StreamWriter file = File.CreateText(stringPath))
                         {

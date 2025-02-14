@@ -635,9 +635,11 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
 
                 if (Regex.Matches(bitString, "4A4D").Count == 3)
+                {
                     await File.WriteAllBytesAsync(sharedStashSoftCorePath, Helper.StringToByteArray(bitString + hexString));
-
-                _logger.Error("Startup: Stash Tabs Unlocked - Softcore");
+                    _logger.Error("Startup: Stash Tabs Unlocked - Softcore");
+                }
+                    
             }
 
             //Repeat for the hardcore stash
@@ -651,9 +653,11 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 byte[] data = await File.ReadAllBytesAsync(sharedStashHardCorePath); //read file
                 string bitString = BitConverter.ToString(data).Replace("-", string.Empty);
                 if (Regex.Matches(bitString, "4A4D").Count == 3)
+                {
                     await File.WriteAllBytesAsync(sharedStashHardCorePath, Helper.StringToByteArray(bitString + hexString));
-
-                _logger.Error("Startup: Stash Tabs Unlocked - Hardcore");
+                    _logger.Error("Startup: Stash Tabs Unlocked - Hardcore");
+                }
+                    
             }
         }
 

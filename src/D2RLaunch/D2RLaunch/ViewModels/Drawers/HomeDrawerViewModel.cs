@@ -31,6 +31,7 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Net;
+using System.Text;
 
 namespace D2RLaunch.ViewModels.Drawers;
 
@@ -253,7 +254,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
 
                 if (ShellViewModel.ModInfo.Name == "ReMoDDeD")
                 {
-                    UiThemeEnabled = false;
+                    UiThemeEnabled = true;
                     ShellViewModel.WikiEnabled = true;
                     ShellViewModel.UserSettings.UiTheme = 2;
 
@@ -288,6 +289,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
 
                 GetD2RArgs();
+                DownloadD2RHUDZip();
                 //await ApplyUiTheme();
             }
         }
@@ -669,15 +671,14 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             await File.WriteAllBytesAsync(filePath, await Helper.GetResourceByteArray("Options.MonsterStats.D2RHUD_Config.txt"));
         }
 
+        
+
         //Load MonsterStats Setting
         switch (ShellViewModel.UserSettings.MonsterHP)
         {
             case 0:
             case 1:
                 {
-                    if (!File.Exists(dllPath))
-                        DownloadD2RHUDZip();
-
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 1")
                         displayValue[0] = displayValue[0].Replace("1", "0");
@@ -690,9 +691,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             case 2:
                 {
-                    if (!File.Exists(dllPath))
-                        DownloadD2RHUDZip();
-
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 1")
                         displayValue[0] = displayValue[0].Replace("1", "0");
@@ -705,9 +703,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             case 3:
                 {
-                    if (!File.Exists(dllPath))
-                        DownloadD2RHUDZip();
-
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 0")
                         displayValue[0] = displayValue[0].Replace("0", "1");
@@ -720,9 +715,6 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 }
             case 4:
                 {
-                    if (!File.Exists(dllPath))
-                        DownloadD2RHUDZip();
-
                     string[] displayValue = File.ReadAllLines(filePath);
                     if (displayValue[0] == "Monster Stats: 0")
                         displayValue[0] = displayValue[0].Replace("0", "1");
@@ -1330,12 +1322,117 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                             }
                             break;
                         }
-                    case eUiThemes.ReMoDDeD:
+                    case eUiThemes.ReMoDDeD1:
                         {
                             if (Directory.Exists(layoutPath))
                             {
                                 Directory.Delete(layoutPath, true);
                                 await Helper.CloneDirectory(layoutRemoddedPath, layoutPath);
+
+                                string[] searchStrings = { "_B\"", "_P\"", "_Y\"", "_G\"", "_D\"" };
+
+                                if (Directory.Exists(layoutPath))
+                                {
+                                    foreach (string file in Directory.GetFiles(layoutPath, "*.json*", SearchOption.AllDirectories))
+                                    {
+                                        ReplaceStringsInFile(file, searchStrings, "_R\"");
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case eUiThemes.ReMoDDeD2:
+                        {
+                            if (Directory.Exists(layoutPath))
+                            {
+                                Directory.Delete(layoutPath, true);
+                                await Helper.CloneDirectory(layoutRemoddedPath, layoutPath);
+
+                                string[] searchStrings = { "_R\"", "_P\"", "_Y\"", "_G\"", "_D\"" };
+
+                                if (Directory.Exists(layoutPath))
+                                {
+                                    foreach (string file in Directory.GetFiles(layoutPath, "*.json*", SearchOption.AllDirectories))
+                                    {
+                                        ReplaceStringsInFile(file, searchStrings, "_B\"");
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case eUiThemes.ReMoDDeD3:
+                        {
+                            if (Directory.Exists(layoutPath))
+                            {
+                                Directory.Delete(layoutPath, true);
+                                await Helper.CloneDirectory(layoutRemoddedPath, layoutPath);
+
+                                string[] searchStrings = { "_R\"", "_B\"", "_Y\"", "_G\"", "_D\"" };
+
+                                if (Directory.Exists(layoutPath))
+                                {
+                                    foreach (string file in Directory.GetFiles(layoutPath, "*.json*", SearchOption.AllDirectories))
+                                    {
+                                        ReplaceStringsInFile(file, searchStrings, "_P\"");
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case eUiThemes.ReMoDDeD4:
+                        {
+                            if (Directory.Exists(layoutPath))
+                            {
+                                Directory.Delete(layoutPath, true);
+                                await Helper.CloneDirectory(layoutRemoddedPath, layoutPath);
+
+                                string[] searchStrings = { "_R\"", "_B\"", "_P\"", "_G\"", "_D\"" };
+
+                                if (Directory.Exists(layoutPath))
+                                {
+                                    foreach (string file in Directory.GetFiles(layoutPath, "*.json*", SearchOption.AllDirectories))
+                                    {
+                                        ReplaceStringsInFile(file, searchStrings, "_Y\"");
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case eUiThemes.ReMoDDeD5:
+                        {
+                            if (Directory.Exists(layoutPath))
+                            {
+                                Directory.Delete(layoutPath, true);
+                                await Helper.CloneDirectory(layoutRemoddedPath, layoutPath);
+
+                                string[] searchStrings = { "_R\"", "_B\"", "_P\"", "_Y\"", "_D\"" };
+
+                                if (Directory.Exists(layoutPath))
+                                {
+                                    foreach (string file in Directory.GetFiles(layoutPath, "*.json*", SearchOption.AllDirectories))
+                                    {
+                                        ReplaceStringsInFile(file, searchStrings, "_G\"");
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case eUiThemes.ReMoDDeD6:
+                        {
+                            if (Directory.Exists(layoutPath))
+                            {
+                                Directory.Delete(layoutPath, true);
+                                await Helper.CloneDirectory(layoutRemoddedPath, layoutPath);
+
+                                string[] searchStrings = { "_R\"", "_B\"", "_P\"", "_Y\"", "_G\"" };
+
+                                if (Directory.Exists(layoutPath))
+                                {
+                                    foreach (string file in Directory.GetFiles(layoutPath, "*.json*", SearchOption.AllDirectories))
+                                    {
+                                        ReplaceStringsInFile(file, searchStrings, "_D\"");
+                                    }
+                                }
                             }
                             break;
                         }
@@ -1357,6 +1454,35 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             }
         }
     }
+
+    static void ReplaceStringsInFile(string filePath, string[] searchStrings, string replacementString)
+    {
+        try
+        {
+            string content = File.ReadAllText(filePath, Encoding.UTF8);
+            bool modified = false;
+
+            foreach (string searchString in searchStrings)
+            {
+                if (content.Contains(searchString))
+                {
+                    content = content.Replace(searchString, replacementString);
+                    modified = true;
+                }
+            }
+
+            if (modified)
+            {
+                File.WriteAllText(filePath, content, Encoding.UTF8);
+                Console.WriteLine($"Updated: {filePath}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error processing file {filePath}: {ex.Message}");
+        }
+    }
+
     [UsedImplicitly]
     public async void OnMapsHelp()
     {

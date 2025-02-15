@@ -594,7 +594,7 @@
     <comment>Text Language:</comment>
   </data>
   <data name="UI" xml:space="preserve">
-    <value>UI Theme</value>
+    <value>In-Game UI</value>
     <comment>UI Theme:</comment>
   </data>
   <data name="Update" xml:space="preserve">

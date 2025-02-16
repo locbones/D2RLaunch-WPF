@@ -74,6 +74,7 @@ Publicly ready download can be found at http://d2rmodding.com/d2rlaunch
 - **Character Renaming:** Rename your character (in-game name also)
 - **Character Map Seeds:** Edit your characters map seed directly from save file
 - **Cinematic Subtitles:** Improved subtitle text and no longer formatted for the deaf/hard-of-hearing
+- **Cinematic Skipper:** Ability to skip Act Cinematics automatically
 
 ### -Author Feature List-
 - **Code-less:** No code needed to add D2RLaunch support; control news, features, community links or appearance
@@ -249,6 +250,31 @@ This changelog list is mainly for reference use, as the project repo and codebas
 
 <details>
   <summary>Changelogs (2.5.1 - 3.0.0)</summary>
+<details>
+  <summary>2.5.6</summary>
+    - Added 'Skip Act Cinematics' Option<br>
+    - Fixed User Settings issue with UI Theme choice<br>
+    - Changed default RW Sorting method (RMD)
+</details>
+<details>
+  <summary>2.5.5</summary>
+    - Added In-Game UI Theme Switcher (RMD Only for now)<br>
+    - Adjusted D2RHUD for forced update (will come up with update system later)<br>
+    - Adjusted Stash Tab Renamer to not display @ symbols to avoid confusion<br>
+    - Small updates to Stash Tab Renamer UI for clarity
+</details>
+<details>
+  <summary>2.5.4</summary>
+    - Fixed the 'Show Item Levels' option<br>
+    - Fixed an issue which would potentially cause strings to be replaced unintentionally<br>
+    - Fixed Stash Tab Unlock Logging
+</details>
+<details>
+  <summary>2.5.3</summary>
+    - Updated Stash Tab Versioning Info<br>
+    - Added Log Output for Stash Unlocking<br>
+    - Updated Project Reference Files
+</details>
 <details>
   <summary>2.5.2</summary>
     - Re-Added Popup Warning for Save File Size (Patch 1.6.9, lost in Rebuild)<br>

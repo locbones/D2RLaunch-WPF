@@ -232,7 +232,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 ShellViewModel.CustomizationsEnabled = ShellViewModel.ModInfo.Customizations;
 
                 //Disable RW Sort+Merged HUD if author enabled without providing template files
-                if (!Directory.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Merged HUD")))
+                if (!Directory.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/HUD Design")))
                     ShellViewModel.ModInfo.HudDisplay = false;
 
                 if (!Directory.Exists(Path.Combine(ShellViewModel.SelectedModDataFolder, "D2RLaunch/Runeword Sort")))
@@ -1002,6 +1002,9 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
                 {
                     if (e.Error == null)
                     {
+                        if (Directory.Exists(extractPathTemp + "D2RHud-main"))
+                            Directory.Delete(extractPathTemp + "D2RHud-main", true);
+
                         ZipFile.ExtractToDirectory(savePath, extractPathTemp);
                         _logger.Error("Monster Stats: D2RHUD Downloaded and Extracted");
 

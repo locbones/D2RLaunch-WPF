@@ -11,7 +11,11 @@ namespace D2RLaunch.Models.Enums
     {
         [Display(Name = "Standard")]
         Standard,
+        [Display(Name = "ReMoDDeD")]
+        ReMoDDeD,
         [Display(Name = "Merged")]
         Merged,
+        [Display(Name = "Merged Mini")]
+        MergedMini,
     }
 }

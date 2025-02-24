@@ -1050,7 +1050,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
         string helpPandelHdJsonFilePath = Path.Combine(SelectedModDataFolder, "global/ui/layouts/helppanelhd.json");
 
-        if (ModInfo.Name != "ReMoDDeD" || ModInfo.Name != "Vanilla++")
+        if (ModInfo.Name != "ReMoDDeD" && ModInfo.Name != "Vanilla++")
             return;
 
         switch (runewordSorting)

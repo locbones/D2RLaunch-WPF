@@ -9,10 +9,10 @@ namespace D2RLaunch.Models.Enums
 {
     public enum eHudDesign
     {
-        [Display(Name = "Standard")]
-        Standard,
         [Display(Name = "ReMoDDeD")]
         ReMoDDeD,
+        [Display(Name = "Standard")]
+        Standard,
         [Display(Name = "Merged")]
         Merged,
         [Display(Name = "Merged Mini")]

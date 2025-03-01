@@ -2327,7 +2327,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         }
 
                         // Remove entries only if "key" contains "ModCD"
-                        int[] idsToRemove = { 48000, 48001, 48002, 48003, 48004, 48005, 48006 };
+                        int[] idsToRemove = { 48990, 48991, 48992, 48993, 48994, 48995, 48996 };
                         entries.RemoveAll(entry => idsToRemove.Contains(entry.id) && entry.Key.Contains("ModCD"));
 
                         using (StreamWriter file = File.CreateText(stringPath))

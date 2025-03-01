@@ -46,7 +46,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private IWindowManager _windowManager;
     private readonly IConfigurationRoot _configuration;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.5.8";
+    private string appVersion = "2.5.9";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -651,12 +651,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             {
                 case eHudDesign.Standard:
                     {
-                        if (File.Exists(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json")) || File.Exists(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/remodded/layouts/hudpanelhd.json")))
+                        if (File.Exists(Path.Combine(SelectedModDataFolder, "D2RLaunch/HUD Design/standard/hudpanelhd.json")))
                         {
-                            if ((eUiThemes)UserSettings.UiTheme == eUiThemes.Standard)
-                                File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/expanded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath, true);
-                            else
-                                File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/UI Theme/remodded/layouts/hudpanelhd.json"), hudPanelhdJsonFilePath, true);
+                            File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/HUD Design/standard/hudpanelhd.json"), hudPanelhdJsonFilePath, true);
+                            // File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/HUD Design/remodded/Controller/hudpanelhd-merged_controller.json"), controllerhudPanelhdJsonFilePath, true);
 
                             if (File.Exists(controllerhudPanelhdJsonFilePath))
                                 File.Delete(controllerhudPanelhdJsonFilePath);
@@ -671,9 +669,6 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                                 await File.WriteAllTextAsync(skillSelecthdJsonFilePath, skillSelect.Replace("\"centerMirrorGapWidth\": 846,", "\"centerMirrorGapWidth\": 146,"));
                             }
                         }
-                        else
-                            if (File.Exists(hudPanelhdJsonFilePath))
-                            File.Delete(hudPanelhdJsonFilePath);
 
                         string[] searchStrings = null;
                         if (Directory.Exists(layoutFolder))
@@ -2517,7 +2512,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             // Add new entries for color dye strings
             entries.Add(new Entry
             {
-                id = 48000,
+                id = 48990,
                 Key = "ModCDWhite",
                 deDE = "ÿc4Farbe gefärbt: ÿc0Weiß",
                 enUS = "ÿc4Color Dyed: ÿc0White",
@@ -2536,7 +2531,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             entries.Add(new Entry
             {
-                id = 48001,
+                id = 48991,
                 Key = "ModCDBlack",
                 deDE = "ÿc4Farbe gefärbt: ÿc5Schwarz",
                 enUS = "ÿc4Color Dyed: ÿc5Black",
@@ -2555,7 +2550,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             entries.Add(new Entry
             {
-                id = 48002,
+                id = 48992,
                 Key = "ModCDRed",
                 deDE = "ÿc4Farbe gefärbt: ÿc1Rot",
                 enUS = "ÿc4Color Dyed: ÿc1Red",
@@ -2574,7 +2569,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             entries.Add(new Entry
             {
-                id = 48003,
+                id = 48993,
                 Key = "ModCDGreen",
                 deDE = "ÿc4Farbe gefärbt: ÿc2Grün",
                 enUS = "ÿc4Color Dyed: ÿc2Green",
@@ -2593,7 +2588,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             entries.Add(new Entry
             {
-                id = 48004,
+                id = 48994,
                 Key = "ModCDBlue",
                 deDE = "ÿc4Farbe gefärbt: ÿc3Blau",
                 enUS = "ÿc4Color Dyed: ÿc3Blue",
@@ -2612,7 +2607,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             entries.Add(new Entry
             {
-                id = 48005,
+                id = 48995,
                 Key = "ModCDYellow",
                 deDE = "ÿc4Farbe gefärbt: ÿc9Gelb",
                 enUS = "ÿc4Color Dyed: ÿc9Yellow",
@@ -2631,7 +2626,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 
             entries.Add(new Entry
             {
-                id = 48006,
+                id = 48996,
                 Key = "ModCDPurple",
                 deDE = "ÿc4Farbe gefärbt: ÿc;Lila",
                 enUS = "ÿc4Color Dyed: ÿc;Purple",
@@ -2672,7 +2667,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         try
         {
             // Initialize column indices
-            int codeIndex = -1, enabledIndex = -1, funcIndex = -1, statIndex = -1;
+            int codeIndex = -1, enabledIndex = -1, funcIndex = -1, statIndex = -1, eolIndex = -1;
 
             // Read existing content and determine column indices
             List<string> lines = new List<string>();
@@ -2691,9 +2686,10 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                         enabledIndex = Array.IndexOf(columns, "*Enabled");
                         funcIndex = Array.IndexOf(columns, "func1");
                         statIndex = Array.IndexOf(columns, "stat1");
+                        eolIndex = Array.IndexOf(columns, "*eol");
 
                         // Verify if all indices are found
-                        if (codeIndex == -1 || enabledIndex == -1 || funcIndex == -1 || statIndex == -1)
+                        if (codeIndex == -1 || enabledIndex == -1 || funcIndex == -1 || statIndex == -1 || eolIndex == -1)
                         {
                             throw new Exception("One or more columns not found in the header row.");
                         }
@@ -2716,7 +2712,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             // Add 8 new empty rows
             for (int i = 0; i < 8; i++)
             {
-                string[] newRow = new string[Math.Max(codeIndex, Math.Max(enabledIndex, Math.Max(funcIndex, statIndex))) + 1];
+                string[] newRow = new string[Math.Max(codeIndex, Math.Max(enabledIndex, Math.Max(funcIndex, Math.Max(statIndex, eolIndex)))) + 1];
                 Array.Fill(newRow, "");
                 dataRows.Add(newRow);
             }
@@ -2730,6 +2726,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                 dataRows[i][enabledIndex] = "1";
                 dataRows[i][funcIndex] = "1";
                 dataRows[i][statIndex] = colorDyesStats[i];
+                dataRows[i][eolIndex] = "0";
             }
 
             // Write back to the file
@@ -3033,6 +3030,20 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
             int[] stateValue = null;
             int stateRValue = 0;
             string[] trackerValue = null;
+
+            // Adjust item codes for Reimagined players
+            if (ModInfo.Name == "Reimagined")
+            {
+                gems0 = new string[] { "gmd,qty=3", "gmk,qty=3", "gmr,qty=3", "gme,qty=3", "gms,qty=3", "gmt,qty=3", "gmm,qty=3" };
+                gems1 = new string[] { "gmk,qty=3", "gmr,qty=3", "gme,qty=3", "gms,qty=3", "gmt,qty=3", "gmm,qty=3", "yps,qty=3" };
+                gems2 = new string[] { "gmr,qty=3", "gme,qty=3", "gms,qty=3", "gmt,qty=3", "gmm,qty=3", "gmd,qty=3", "yps,qty=3" };
+                gems3 = new string[] { "gme,qty=3", "gms,qty=3", "gmt,qty=3", "gmm,qty=3", "gmd,qty=3", "gmk,qty=3", "yps,qty=3" };
+                gems4 = new string[] { "gmt,qty=3", "gmm,qty=3", "gmd,qty=3", "gmk,qty=3", "gmr,qty=3", "gme,qty=3", "yps,qty=3" };
+                gems5 = new string[] { "gmm,qty=3", "gmd,qty=3", "gmk,qty=3", "gmr,qty=3", "gme,qty=3", "gms,qty=3", "yps,qty=3" };
+                gems6 = new string[] { "gmm,qty=3", "gmd,qty=3", "gmk,qty=3", "gmr,qty=3", "gme,qty=3", "gms,qty=3", "yps,qty=3" };
+                gems7 = new string[] { "gmd,qty=3", "gmk,qty=3", "gmr,qty=3", "gme,qty=3", "gms,qty=3", "gmt,qty=3", "yps,qty=3" };
+            }
+
 
 
             // Add new rows for each item type

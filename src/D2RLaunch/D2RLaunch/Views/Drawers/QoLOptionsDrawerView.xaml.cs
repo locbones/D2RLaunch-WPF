@@ -280,7 +280,7 @@ namespace D2RLaunch.Views.Drawers
                                     break;
                             }
 
-                            currentValue = virtualKeyCode;
+                            currentValue = virtualKeyCode.ToString().ToUpper();
                             lines[i] = $"{key}: {currentValue}";
                             break;
                         }

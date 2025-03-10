@@ -46,7 +46,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private IWindowManager _windowManager;
     private readonly IConfigurationRoot _configuration;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.5.9";
+    private string appVersion = "2.6.0";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;
@@ -659,6 +659,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                             if (File.Exists(controllerhudPanelhdJsonFilePath))
                                 File.Delete(controllerhudPanelhdJsonFilePath);
 
+                            if (File.Exists(Path.Combine(layoutFolder, "chatpanelhd.json")))
+                                File.Delete(Path.Combine(layoutFolder, "chatpanelhd.json"));
+
+                            if (File.Exists(Path.Combine(layoutFolder, "hudmessagepanelhd.json")))
+                                File.Delete(Path.Combine(layoutFolder, "hudmessagepanelhd.json"));
+
+                            if (File.Exists(Path.Combine(layoutFolder, "messagelogpanel_640x480hd.json")))
+                                File.Delete(Path.Combine(layoutFolder, "messagelogpanel_640x480hd.json"));
+
                             if (File.Exists(Path.Combine(layoutFolder, "hireablespanelhd.json")))
                                 File.Delete(Path.Combine(layoutFolder, "hireablespanelhd.json"));
 
@@ -747,6 +756,15 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                             // File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/HUD Design/remodded/Controller/hudpanelhd-merged_controller.json"), controllerhudPanelhdJsonFilePath, true);
                         }
 
+                        if (File.Exists(Path.Combine(layoutFolder, "chatpanelhd.json")))
+                            File.Delete(Path.Combine(layoutFolder, "chatpanelhd.json"));
+
+                        if (File.Exists(Path.Combine(layoutFolder, "hudmessagepanelhd.json")))
+                            File.Delete(Path.Combine(layoutFolder, "hudmessagepanelhd.json"));
+
+                        if (File.Exists(Path.Combine(layoutFolder, "messagelogpanel_640x480hd.json")))
+                            File.Delete(Path.Combine(layoutFolder, "messagelogpanel_640x480hd.json"));
+
                         /*
                         // Update skillselecthd.json if it exists
                         if (!File.Exists(skillSelecthdJsonFilePath))
@@ -833,6 +851,16 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
                             File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/HUD Design/merged/hudpanelhd-merged.json"), hudPanelhdJsonFilePath, true);
                             File.Copy(Path.Combine(SelectedModDataFolder, "D2RLaunch/HUD Design/merged/Controller/hudpanelhd-merged_controller.json"), controllerhudPanelhdJsonFilePath, true);
                         }
+
+                        if (File.Exists(Path.Combine(layoutFolder, "chatpanelhd.json")))
+                            File.Delete(Path.Combine(layoutFolder, "chatpanelhd.json"));
+
+                        if (File.Exists(Path.Combine(layoutFolder, "hudmessagepanelhd.json")))
+                            File.Delete(Path.Combine(layoutFolder, "hudmessagepanelhd.json"));
+
+                        if (File.Exists(Path.Combine(layoutFolder, "messagelogpanel_640x480hd.json")))
+                            File.Delete(Path.Combine(layoutFolder, "messagelogpanel_640x480hd.json"));
+
                         if (File.Exists(Path.Combine(layoutFolder, "hireablespanelhd.json")))
                             File.Delete(Path.Combine(layoutFolder, "hireablespanelhd.json"));
 
@@ -3991,7 +4019,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
         {
             checksum = bytes[i] + (checksum * 2) + (checksum < 0 ? 1 : 0);
         }
-        MessageBox.Show(BitConverter.ToString(BitConverter.GetBytes(checksum)));
+        //MessageBox.Show(BitConverter.ToString(BitConverter.GetBytes(checksum)));
         BitConverter.GetBytes(checksum).CopyTo(bytes, 0xc);
     }
     #endregion

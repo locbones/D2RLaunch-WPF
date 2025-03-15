@@ -52,6 +52,7 @@ public class UserSettings : INotifyPropertyChanged
     private string _mapSeedLoc;
     private bool _MSIFix;
     private bool _skipCinematics;
+    private bool _piracySupporter;
 
     #endregion
 
@@ -604,6 +605,20 @@ public class UserSettings : INotifyPropertyChanged
                 return;
             }
             _skipCinematics = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool piracySupporter
+    {
+        get => _piracySupporter;
+        set
+        {
+            if (value == _piracySupporter)
+            {
+                return;
+            }
+            _piracySupporter = value;
             OnPropertyChanged();
         }
     }

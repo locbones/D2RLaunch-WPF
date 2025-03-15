@@ -602,6 +602,26 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             return;
         }
 
+        if (ShellViewModel.ModInfo.Name == "Reimagined" && ShellViewModel.UserSettings.piracySupporter == false)
+        {
+            if (MessageBox.Show($"The currently selected mod: 'Reimagined' exists in the Hall of Shame!\n\nThis mod was added to the Hall of Shame for the following reasons:\n- Providing known false information to D2R players\n- Ripping content from other mod authors without accreditation\n- Removal of players and messages debunking the provided info\n(For more info, visit D2RModding)\n\nDo you still want to play this mod?", "Warning!", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ShellViewModel.UserSettings.piracySupporter = true;
+                MessageBox.Show("Your settings have been saved for future reference.\nYou will no longer be warned of this mod's community status during startup.");
+            }
+            else
+            {
+                ShellViewModel.UserSettings.piracySupporter = false;
+                if (MessageBox.Show($"Do you want it removed from your mods folder?", "Cleanup Prompt", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    Directory.Delete(ShellViewModel.GamePath + "/Mods/Reimagined", true);
+                    MessageBox.Show("Mod Removed!\nPlease restart the app to update the mod listings.");
+                }
+                return;
+            }
+                
+        }
+
         await ApplyHdrFix();
         await ApplyCinematicSkip();
         await ShellViewModel.ApplyModSettings();

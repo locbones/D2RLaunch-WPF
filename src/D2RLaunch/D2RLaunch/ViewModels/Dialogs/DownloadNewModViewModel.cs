@@ -15,6 +15,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using JetBrains.Annotations;
+using SevenZip;
 using ILog = log4net.ILog;
 using LogManager = log4net.LogManager;
 
@@ -156,32 +157,27 @@ public class DownloadNewModViewModel : Screen
     {
         try
         {
-            // Create credentials
             ServiceAccountCredential serviceAccountCredential = new(new ServiceAccountCredential.Initializer(_serviceAccountEmail)
                                                                     {
                                                                         Scopes = new[] { SheetsService.Scope.Spreadsheets }
                                                                     }.FromPrivateKey(_privateKey));
 
-            // Create Google Sheets service
             SheetsService sheetsService = new SheetsService(new BaseClientService.Initializer
                                                             {
                                                                 HttpClientInitializer = serviceAccountCredential,
                                                                 ApplicationName = "D2RLaunch"
                                                             });
 
-            // Define spreadsheetId and ranges
             string spreadsheetId = "1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII";
             string columnDRange = "Sheet1!D10:D";
             string columnGRange = "Sheet1!G10:G";
 
-            // Fetch values from Google Sheets for column D
             SpreadsheetsResource.ValuesResource.GetRequest request =
                 sheetsService.Spreadsheets.Values.Get(spreadsheetId, columnDRange);
 
             ValueRange response = await request.ExecuteAsync();
             IList<IList<object>> dValues = response.Values;
 
-            // Fetch values from Google Sheets for column G
             SpreadsheetsResource.ValuesResource.GetRequest request2 =
                 sheetsService.Spreadsheets.Values.Get(spreadsheetId, columnGRange);
 
@@ -210,19 +206,14 @@ public class DownloadNewModViewModel : Screen
     [UsedImplicitly]
     public async void OnInstallMod()
     {
-        /*
-        if (SelectedMod.Key == null || SelectedMod.Value == null)
-        {
-            MessageBox.Show("Please select a mod to install.", "No Mod Selected!", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
-        }
-        */
-
         ModDownloadLink = ModDownloadLink.TrimEnd();
-
         string tempPath = Path.GetTempPath();
         string tempFile = Path.Combine(tempPath, "NewModDownload.zip");
         string tempExtractedModFolderPath = Path.Combine(tempPath, "NewModDownload");
+        SevenZipExtractor.SetLibraryPath("7z.dll");
+
+        if (tempFile.Contains(".zip"))
+            tempFile = "NewModDownload.7z";
 
         try
         {
@@ -246,18 +237,10 @@ public class DownloadNewModViewModel : Screen
                                                                           });
                                         };
 
-            // Seting up the http client used to download the data
             using HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
-            // Create a file stream to store the downloaded data.
-            // This really can be any type of writeable stream.
             await using FileStream file = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None);
-        
-            // Use the custom extension method below to download the data.
-            // The passed progress-instance will receive the download status updates.
             ProgressStatus = "Downloading mod...";
-            //TODO: Add cancellation token
 
             await Execute.OnUIThreadAsync(async () =>
                                           {
@@ -267,19 +250,24 @@ public class DownloadNewModViewModel : Screen
             file.Close();
             client.Dispose();
 
-            // Extract the downloaded ZIP file
             ProgressStatus = "Extracting mod...";
             DownloadProgressString = string.Empty;
             ProgressBarIsIndeterminate = true;
 
             if (Directory.Exists(tempExtractedModFolderPath))
-            {
                 Directory.Delete(tempExtractedModFolderPath, true);
-            }
 
             await Task.Run(() =>
                            {
-                               ZipFile.ExtractToDirectory(tempFile, tempExtractedModFolderPath, true);
+                               if (tempFile.Contains(".zip"))
+                                    ZipFile.ExtractToDirectory(tempFile, tempExtractedModFolderPath, true);
+                               else
+                               {
+                                   using (var extractor = new SevenZipExtractor(tempFile))
+                                   {
+                                       extractor.ExtractArchive(tempExtractedModFolderPath);
+                                   }
+                               }
                                return Task.CompletedTask;
                            });
 
@@ -300,7 +288,12 @@ public class DownloadNewModViewModel : Screen
 
             //Delete current Mod folder if it exists
             if (Directory.Exists(modInstallPath))
+            {
+                if (File.Exists(Path.Combine(modInstallPath, $@"{modName}.mpq\MyUserSettings.json")))
+                    File.Move(Path.Combine(modInstallPath, $@"{modName}.mpq\MyUserSettings.json"), Path.Combine(ShellViewModel.BaseModsFolder,"MyUserSettings.json"));
                 Directory.Delete(modInstallPath, true);
+            }
+                
 
             ProgressStatus = "Installing mod...";
 
@@ -327,6 +320,8 @@ public class DownloadNewModViewModel : Screen
                 File.Delete(tempFile);
             if (Directory.Exists(tempExtractedModFolderPath))
                 Directory.Delete(tempExtractedModFolderPath, true);
+            if (File.Exists(Path.Combine(ShellViewModel.BaseModsFolder, "MyUserSettings.json")))
+                File.Move(Path.Combine(ShellViewModel.BaseModsFolder, "MyUserSettings.json"), Path.Combine(modInstallPath, $@"{modName}.mpq\MyUserSettings.json"));
             ProgressStatus = "Installing Complete!";
 
             MessageBox.Show($"{modName} has been installed!", "Mod Installed!", MessageBoxButton.OK, MessageBoxImage.None);

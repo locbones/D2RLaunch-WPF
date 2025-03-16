@@ -46,7 +46,7 @@ public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
     private IWindowManager _windowManager;
     private readonly IConfigurationRoot _configuration;
     private string _title = "D2RLaunch";
-    private string appVersion = "2.6.1";
+    private string appVersion = "2.6.2";
     private string _gamePath;
     private bool _diabloInstallDetected;
     private bool _customizationsEnabled;

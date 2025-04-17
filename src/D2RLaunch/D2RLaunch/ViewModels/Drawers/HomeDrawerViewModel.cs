@@ -682,7 +682,7 @@ public class HomeDrawerViewModel : INotifyPropertyChanged
             }
         }
 
-        string filePath = System.IO.Path.Combine(ShellViewModel.GamePath, "D2RHUD_Config.txt");
+        string filePath = System.IO.Path.Combine(ShellViewModel.GamePath, "Keybind_Config.txt");
 
         if (!File.Exists(filePath))
         {

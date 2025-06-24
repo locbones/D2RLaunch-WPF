@@ -148,7 +148,7 @@ Patreon: https://MyPatreonLink.com
 ## Step 2: Setup Mod File Linking
 In order to provide downloading, updating and configuration changes to be made dynamically by the launcher, we need to setup proper links.
 For a proper link, it needs to be both **static** and **direct**.<br>
-    - **Static** - This means when the file has been updated/replaced, the link itself does not change
+- **Static** - This means when the file has been updated/replaced, the link itself does not change
 - **Direct** - This means that when the link is clicked, the file is downloaded directly, not a webpage button download
 
 To setup a link that satisfies both of these requirements, you can use services such as Google Drive, Dropbox, Github, Amazon S3, etc.

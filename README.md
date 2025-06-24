@@ -156,7 +156,7 @@ Provided below are instructions for some of them I have used previously or curre
 - **Github** - Click the green Code button, then right-click the Download Zip option and select Copy Link Address
 - **Google Drive** - Copy your google provided link into this [Online Generator](https://sites.google.com/site/gdocs2direct/) to convert it to a static-direct link.<br>
 When updating the file, you must use the **File Properties > File Information > Manage Versions** method<br>
-    - **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**
+- **Dropbox** - Replace the **&dl=0** at the end of your dropbox provided url with **&dl=1**
 
 The First time you upload modinfo.json, you will need to use a dummy config link, because you havnt uploaded it yet<br>
 I recommend adding your mod to the [Mod Database](https://docs.google.com/spreadsheets/d/1RMqexbqTzxOyjk7tWbLhRYJk9RkzPGJ9cKHSLtsuGII/edit#gid=0), which allows players to easily view and install your mod.<br>
@@ -191,7 +191,7 @@ The size of the logo can vary to your liking, but I recommend something around 2
 As previously mentioned, some folders will be created automatically by the launcher, mostly for file-safekeeping:
 - **Customizations:** Created to store unedited copies of the armor, misc, weapons, levels and treasureclass txt files.<br>
 This is needed for the Monster Customizations options to work correctly.<br>
-    - **Monster Stats:** Created to store edited copies of the monster hp bar layout files, for various option displays.<br>
+- **Monster Stats:** Created to store edited copies of the monster hp bar layout files, for various option displays.<br>
 This is needed for the Monster Stats option to work correctly.
 
 ## Step 4: Updating Mod, News, Features or Appearance
@@ -204,12 +204,12 @@ Keep in mind that you are *pushing* data to the web, and the launcher is automat
 # Program Requirements/Specifications
 In order to fully utilize this app, or receive staff support, some requirements must be met.
 - **.NET Desktop Runtime 7.0:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) website. It is needed to run the program itself.<br>
-    - **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website. It is needed to perform CASC Extraction of internal game storage.
+- **C++ Redistributable 2015-2022:** This program is included in the D2RLaunch download, but can also be found via the [Microsoft](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022) website. It is needed to perform CASC Extraction of internal game storage.
 - **Windows OS:** This is the only supported Operating System for the launcher, although emulation layers may also work for it (WINE, Lutris, etc)<br>
-    - **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!<br>
-    - **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues.<br>
-    - **D2RHUD.dll:** This file is used to enable hotkey controls and advanced monster stats display options [(Source)](https://github.com/locbones/D2RHud)<br>
-    - **CASCLib.NET.dll:** This file is used to enable file extraction from your internal game storage [(Source)](https://github.com/ladislav-zezula/CascLib)<br>
+- **Battle.Net Purchased:** This program is only intended for and actively tries to be restricted to, legally purchased D2R copies. If you want to support modding, then purchase the game!<br>
+- **Code Base:** This program was designed using C# and WPF. I am a novice coder, so expect inconsistencies, inefficiencies and general issues.<br>
+- **D2RHUD.dll:** This file is used to enable hotkey controls and advanced monster stats display options [(Source)](https://github.com/locbones/D2RHud)<br>
+- **CASCLib.NET.dll:** This file is used to enable file extraction from your internal game storage [(Source)](https://github.com/ladislav-zezula/CascLib)<br>
 
 # Developer Notes
 This app was made because I am passionate about helping everyone get the most out of their D2R experience.<br>
@@ -241,9 +241,9 @@ File should be named *appSettings.json* and placed in the *Resources* folder. An
 
 # Credits
 Special thanks to the following people or groups for their help along this project's journey so far:<br>
-    - [Ethan-Braddy](https://github.com/Ethan-Braddy) for helping convert this project from WinForms to WPF, improving stability/performance<br>
-    - [Dschu012](https://github.com/dschu012) for being there to answer my dumb questions and D2RHUD's base implementation<br>
-    - [D2RModding Community](https://www.discord.gg/pqUWcDcjWF) for being patient, supportive and assisting with bug-reports or improvements<br>
+- [Ethan-Braddy](https://github.com/Ethan-Braddy) for helping convert this project from WinForms to WPF, improving stability/performance<br>
+- [Dschu012](https://github.com/dschu012) for being there to answer my dumb questions and D2RHUD's base implementation<br>
+- [D2RModding Community](https://www.discord.gg/pqUWcDcjWF) for being patient, supportive and assisting with bug-reports or improvements<br>
 
 # Changelogs
 This changelog list is mainly for reference use, as the project repo and codebase has changed much over time<br>
